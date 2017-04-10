@@ -1,10 +1,10 @@
 <ion-nav-view>
-  <ion-nav-bar class="bar-balanced" align-title="center">
+  <ion-nav-bar class="bar-balanced" align-title="center" ng-controller="ctrlInicio">
     <ion-nav-back-button>
     </ion-nav-back-button>
     <ion-nav-buttons side="left">
-      <a href="/#/seleccion_campo">
-        <button class="button button-icon button-clear ion-chevron-left" menu-toggle="left">
+      <a>
+        <button class="button button-icon button-clear ion-chevron-left" menu-toggle="left" ng-click="paginas(3)">
 
         </button>
         <h1 class="title">Apuestas</h1>
@@ -34,8 +34,8 @@
 
         </ion-list>
       </div>
-      <div>
-        <a href="/#/juego"><button class="button button-full button-balanced boton-agrega-jugador" style="background-color: black; color: #28a54c;">Comenzar Juego</button></a>
+      <div ng-controller="ctrlInicio">
+        <a><button class="button button-full button-balanced boton-agrega-jugador" ng-click="paginas(6)" style="background-color: black; color: #28a54c;">Comenzar Juego</button></a>
       </div>
     </div>
   </ion-contet>

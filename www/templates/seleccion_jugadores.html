@@ -1,16 +1,16 @@
 <ion-nav-view>
-    <ion-nav-bar class="bar-balanced" align-title="center">
+    <ion-nav-bar class="bar-balanced" align-title="center" ng-controller="ctrlInicio">
       <ion-nav-buttons side="left">
-        <a href="#">
-          <button class="button button-icon button-clear ion-chevron-left" menu-toggle="left">
+        <a>
+          <button class="button button-icon button-clear ion-chevron-left" menu-toggle="left" ng-click="paginas(1)">
 
           </button>
           <h1 class="title">Jugadores</h1>
         </a>
       </ion-nav-buttons>
       <ion-nav-buttons side="right">
-        <a href="/#/seleccion_campo">
-          <button class="button button-icon icon-right button-clear ion-chevron-right" menu-toggle="right">
+        <a>
+          <button class="button button-icon icon-right button-clear ion-chevron-right" menu-toggle="right" ng-click="paginas(3)">
 
           </button>
         </a>
@@ -30,7 +30,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="skill in skills" class="{'fadeOut' : skill.done}">
+            <tr ng-repeat="skill in jugadores" class="{'fadeOut' : skill.done}">
               <td>{{skill.nombre}} </td>
               <td>{{skill.handicap}}</td>
               <td><button ng-click="deleteSkill($index)"class="button icon ion-trash-a eliminar-nuevo-jugador"></button></td>
@@ -40,7 +40,7 @@
           </table>
         </div>
         <div>
-         <button class="button button-full button-balanced boton-agrega-jugador" ng-click="addUser()">Nuevo Jugador</button>
+         <button class="button button-full button-balanced boton-agrega-jugador">Nuevo Jugador</button>
         </div>
       </div>
     </ion-contet>

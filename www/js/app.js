@@ -69,15 +69,27 @@ angular.module('starter', ['ionic','starter.seleccion-jugadores','starter.selecc
       switch (select){
 
         case 1:
-          $state.go('nuevo-juego');
+          $state.go('inicio');
           break;
 
         case 2:
-          $state.go('unirse-juego');
+          $state.go('seleccion_jugadores');
           break;
 
         case 3:
-          $state.go('nuevo-campo');
+          $state.go('seleccion_campo');
+          break;
+
+        case 4:
+          $state.go('seleccion_apuestas');
+          break
+
+        case 5:
+          $state.go('nuevo_campo');
+          break
+
+        case 6:
+          $state.go('juego');
           break
       }
     }

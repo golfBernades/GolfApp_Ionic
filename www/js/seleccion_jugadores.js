@@ -4,16 +4,11 @@
 angular.module('starter.seleccion-jugadores', ['ionic'])
 
   .controller('ctrlNJ', function ($scope, $ionicPopup) {
-    $scope.skills = [];
-
-    $scope.addSkill = function() {
-      $scope.skills.push({'title': $scope.newSkill, 'done':false})
-      $scope.newSkill = ''
-    }
+    $scope.jugadores = [];
 
     $scope.deleteSkill = function(index) {
 
-      var nombre = $scope.skills[index].nombre;
+      var nombre = $scope.jugadores[index].nombre;
         var confirmPopup = $ionicPopup.confirm({
           title: 'Eliminar Jugador "'+nombre+'"',
           template: 'Estas seguro del eliminar al jugador?',
@@ -25,7 +20,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
 
         confirmPopup.then(function(res) {
           if(res) {
-            $scope.skills.splice(index, 1);
+            $scope.jugadores.splice(index, 1);
           } else {
 
           }
@@ -57,8 +52,9 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
               var handicap = $scope.data.handicap;
 
               if(nombre && handicap){
-                $scope.skills.push({'nombre': nombre, 'handicap':handicap});
-                $scope.newSkill = '';
+                //$scope.jugadores.push({'nombre': nombre, 'handicap':handicap});
+                $scope.jugadores.push(new Jugador(0,nombre,"",handicap,"","","",""));
+
 
 
                 $scope.data.nombreJug ="";
@@ -88,10 +84,10 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
     $scope.editUser = function (index) {
       $scope.data = {};
 
-      $scope.data.nombreJugEd =($scope.skills[index].nombre);
-      $scope.data.handicapEd =($scope.skills[index].handicap);
+      $scope.data.nombreJugEd =($scope.jugadores[index].nombre);
+      $scope.data.handicapEd =($scope.jugadores[index].handicap);
 
-      var nombre = $scope.data.nombreJugEd =($scope.skills[index].nombre);
+      var nombre = $scope.data.nombreJugEd =($scope.jugadores[index].nombre);
 
       var myPopup = $ionicPopup.show({
         template:
@@ -122,8 +118,8 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
 
               if(nomb && nomb){
 
-                $scope.skills[index].nombre = nomb;
-                $scope.skills[index].handicap = handi;
+                $scope.jugadores[index].nombre = nomb;
+                $scope.jugadores[index].handicap = handi;
 
               }else{
                 if(!nomb && !nomb){
