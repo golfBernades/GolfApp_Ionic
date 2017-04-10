@@ -1,0 +1,42 @@
+<ion-nav-view>
+  <ion-nav-bar class="bar-balanced" align-title="center">
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+    <ion-nav-buttons side="left">
+      <a href="/#/seleccion_campo">
+        <button class="button button-icon button-clear ion-chevron-left" menu-toggle="left">
+
+        </button>
+        <h1 class="title">Apuestas</h1>
+      </a>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+
+  <ion-contet ng-controller="ctrlCampo">
+    <div class="contenedor">
+      <div class="lista-apuestas">
+        <ion-list style="overflow-y: scroll!important;">
+
+          <ion-checkbox ng-model="filter.a">Coneja</ion-checkbox>
+          <ion-checkbox ng-model="filter.b">Rayas</ion-checkbox>
+          <ion-checkbox ng-model="filter.c">Foursome</ion-checkbox>
+          <ion-checkbox ng-model="filter.d">Four ball</ion-checkbox>
+          <ion-checkbox ng-model="filter.e">Stableford</ion-checkbox>
+          <ion-checkbox ng-model="filter.f">Contra par</ion-checkbox>
+          <ion-checkbox ng-model="filter.g">Contra boguey</ion-checkbox>
+          <ion-checkbox ng-model="filter.h">Eclectic</ion-checkbox>
+          <ion-checkbox ng-model="filter.i">Match Play</ion-checkbox>
+          <ion-checkbox ng-model="filter.j">Skins</ion-checkbox>
+          <ion-checkbox ng-model="filter.s">Sindicato</ion-checkbox>
+          <ion-checkbox ng-model="filter.k">Handicap</ion-checkbox>
+          <ion-checkbox ng-model="filter.l">Mejor y peor</ion-checkbox>
+          <ion-checkbox ng-model="filter.o">Greensome-Chapman</ion-checkbox>
+
+        </ion-list>
+      </div>
+      <div>
+        <a href="/#/juego"><button class="button button-full button-balanced boton-agrega-jugador" style="background-color: black; color: #28a54c;">Comenzar Juego</button></a>
+      </div>
+    </div>
+  </ion-contet>
+</ion-nav-view>

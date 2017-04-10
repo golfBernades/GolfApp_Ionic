@@ -1,0 +1,27 @@
+.tabla-ncampo{
+  overflow: scroll;
+  height: 85%;
+}
+
+.boton-agrega-camponuevo{
+  border-radius: 20px;
+  position:fixed;
+  bottom:0;
+  right:0;
+}
+.tabla-ncampo-t{
+  overflow-y: scroll!important;
+}
+.tabla-ncampo-t >thead> tr > th{
+  text-align: center;
+}
+
+.tabla-ncampo-l > tr > td > p{
+  width: 20%;
+  text-align: center;
+}
+
+.tabla-ncampo-l > tr > td > input[type="number"]{
+  width: 100%;
+  text-align: center;
+}

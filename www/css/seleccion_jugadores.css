@@ -1,0 +1,23 @@
+
+
+.editar-nuevo-jugador{
+  color: white;
+  background-color: #0c60ee;
+}
+
+.eliminar-nuevo-jugador{
+  color: white;
+  background-color: red;
+}
+
+.boton-agrega-jugador{
+  border-radius: 20px;
+  position:fixed;
+  bottom:0;
+  right:0;
+}
+
+.tab-jug{
+  overflow: scroll;
+  height: 90%;
+}

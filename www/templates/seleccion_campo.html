@@ -1,0 +1,38 @@
+<ion-nav-view>
+  <ion-nav-bar class="bar-balanced" align-title="center">
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+    <ion-nav-buttons side="left">
+      <a href="/#/seleccion_jugadores">
+        <button class="button button-icon button-clear ion-chevron-left" menu-toggle="left">
+
+        </button>
+        <h1 class="title">Campos</h1>
+      </a>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+      <a href="/#/seleccion_apuestas">
+        <button class="button button-icon icon-right button-clear ion-chevron-right" menu-toggle="right">
+
+        </button>
+      </a>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+
+  <ion-contet ng-controller="ctrlCampo">
+    <div class="contenedor">
+      <div class="lista-campos">
+        <ion-list ng-repeat="campo in campos" style="overflow-y: scroll!important;">
+          <ion-radio ng-model="choice" ng-value="'A'">
+            <p style="font-weight: bold;">{{campo.nombre}}</p>
+            <p>{{campo.ubicacion}}</p>
+          </ion-radio>
+        </ion-list>
+      </div>
+      <div>
+        <a href="/#/nuevo_campo"><button class="button button-full button-balanced boton-agrega-jugador">Configura tu campo</button></a>
+      </div>
+    </div>
+  </ion-contet>
+</ion-nav-view>
+
