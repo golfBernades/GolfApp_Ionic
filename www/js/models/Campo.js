@@ -7,7 +7,7 @@
  *
  * @author Porfirio Ángel Díaz Sánchez
  */
-function Campo(pares, ventajas) {
+function Campo(nombre, pares, ventajas) {
   if (typeof(pares) == 'undefined')
     pares = [];
   if (typeof(ventajas) == 'undefined')
@@ -15,4 +15,5 @@ function Campo(pares, ventajas) {
 
   this.pares = pares;
   this.ventajas = ventajas;
+  this.nombre = nombre;
 }

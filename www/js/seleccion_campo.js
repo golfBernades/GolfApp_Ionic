@@ -4,22 +4,34 @@
 
 angular.module('starter.seleccion-campo', ['ionic'])
 
-.controller('ctrlCampo', function ($scope) {
+.controller('ctrlCampo', function ($scope, setCampo) {
 
-  var campos =[
-    {nombre:'El verdesillo', ubicacion: 'Jerez, Zac. C. Nopal #48'},
-    {nombre:'El jerezano', ubicacion: 'Jerez, Zac. C. Nopal #48'},
-    {nombre:'El zacatecano', ubicacion: 'Jerez, Zac. C. Nopal #48'},
-    {nombre:'El moriilo', ubicacion: 'Jerez, Zac. C. Nopal #48'},
-    {nombre:'El motorlo', ubicacion: 'Jerez, Zac. C. Nopal #48'},
-    {nombre:'El Nose me ocurre', ubicacion: 'Jerez, Zac. C. Nopal #48'},
-    {nombre:'El acostumbrao', ubicacion: 'Jerez, Zac. C. Nopal #48'},
-    {nombre:'El nopalero', ubicacion: 'Jerez, Zac. C. Nopal #48'},
-    {nombre:'El mexican', ubicacion: 'Jerez, Zac. C. Nopal #48'},
-    {nombre:'El vecino', ubicacion: 'Jerez, Zac. C. Nopal #48'}
+  $scope.campos =[
+    new Campo('El verdesillo','Jerez Zac. C. Nopal #48')
   ];
 
 
-  $scope.campos = campos;
+   var campo = setCampo.insertarCampo();
 
-});
+   if(campo!=null){
+     console.log("agregado "+campo.nombre)
+     $scope.campos.push(campo);
+   }
+
+
+
+})
+
+ .service('setCampo', function () {
+
+   var campoNuevo=null;
+
+     this.hola = function (campo) {
+     campoNuevo = campo;
+   }
+
+   this.insertarCampo= function(){
+     return campoNuevo;
+   }
+
+  });

@@ -14,6 +14,15 @@
 }
 .tabla-ncampo-t >thead> tr > th{
   text-align: center;
+  font-weight: bold;
+}
+
+.tabla-ncampo-t >tbody> tr > td{
+  padding: 0 !important;
+}
+.tabla-ncampo-t >tbody> tr > td > p{
+  width: 100%;
+  font-weight: bold;
 }
 
 .tabla-ncampo-l > tr > td > p{
