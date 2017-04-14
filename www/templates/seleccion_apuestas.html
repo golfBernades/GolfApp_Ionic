@@ -12,26 +12,11 @@
     </ion-nav-buttons>
   </ion-nav-bar>
 
-  <ion-contet ng-controller="ctrlCampo">
+  <ion-contet ng-controller="apuestasCtrl">
     <div class="contenedor">
       <div class="lista-apuestas">
-        <ion-list style="overflow-y: scroll!important;">
-
-          <ion-checkbox ng-model="filter.a">Coneja</ion-checkbox>
-          <ion-checkbox ng-model="filter.b">Rayas</ion-checkbox>
-          <ion-checkbox ng-model="filter.c">Foursome</ion-checkbox>
-          <ion-checkbox ng-model="filter.d">Four ball</ion-checkbox>
-          <ion-checkbox ng-model="filter.e">Stableford</ion-checkbox>
-          <ion-checkbox ng-model="filter.f">Contra par</ion-checkbox>
-          <ion-checkbox ng-model="filter.g">Contra boguey</ion-checkbox>
-          <ion-checkbox ng-model="filter.h">Eclectic</ion-checkbox>
-          <ion-checkbox ng-model="filter.i">Match Play</ion-checkbox>
-          <ion-checkbox ng-model="filter.j">Skins</ion-checkbox>
-          <ion-checkbox ng-model="filter.s">Sindicato</ion-checkbox>
-          <ion-checkbox ng-model="filter.k">Handicap</ion-checkbox>
-          <ion-checkbox ng-model="filter.l">Mejor y peor</ion-checkbox>
-          <ion-checkbox ng-model="filter.o">Greensome-Chapman</ion-checkbox>
-
+        <ion-list ng-repeat="apuesta in apuestas" style="overflow-y: scroll!important;">
+          <ion-checkbox ng-model="$index">{{apuesta.nombre}}</ion-checkbox>
         </ion-list>
       </div>
       <div ng-controller="ctrlInicio">

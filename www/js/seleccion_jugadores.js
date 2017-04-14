@@ -3,8 +3,23 @@
  */
 angular.module('starter.seleccion-jugadores', ['ionic'])
 
-  .controller('ctrlNJ', function ($scope, $ionicPopup) {
+  .controller('ctrlNJ', function ($scope, $ionicPopup, $cordovaSQLite) {
     $scope.jugadores = [];
+
+
+    function getJugadores() {
+      setTimeout(function () {
+        var query = "SELECT * FROM jugador";
+        $cordovaSQLite.execute(db, query).then(function(res) {
+          for(var i =0; i<res.rows.length; i++){
+            $scope.jugadores.push(new Jugador(res.rows.item(i).id ,res.rows.item(i).nombre,"",res.rows.item(i).handicap,"","","",""))
+            console.log(res.rows.item(i).id ,res.rows.item(i).nombre,"",res.rows.item(i).handicap,"","","","")
+          }
+        }, function (err) {
+          console.error(err);
+        });
+      },500)
+    }
 
     $scope.deleteSkill = function(index) {
 
@@ -20,6 +35,14 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
 
         confirmPopup.then(function(res) {
           if(res) {
+
+            console.log($scope.jugadores[index].id)
+            var query = 'DELETE FROM jugador  WHERE id = ?';
+            $cordovaSQLite.execute(db, query, [$scope.jugadores[index].id]).then(function(res) {
+              console.log("DELETE RES -> " + res);
+            }, function (err) {
+              console.error(err);
+            });
             $scope.jugadores.splice(index, 1);
           } else {
 
@@ -52,10 +75,22 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
               var handicap = $scope.data.handicap;
 
               if(nombre && handicap){
-                //$scope.jugadores.push({'nombre': nombre, 'handicap':handicap});
-                $scope.jugadores.push(new Jugador(0,nombre,"",handicap,"","","",""));
 
+                var query = "INSERT INTO jugador (nombre, handicap) VALUES (?,?)";
+                $cordovaSQLite.execute(db, query, [nombre, handicap]).then(function(res) {
+                  console.log("INSERT ID -> " + res.insertId);
+                  var query = "SELECT * FROM jugador";
+                  $cordovaSQLite.execute(db, query).then(function(res) {
 
+                    if(res.rows.length>0){
+                      console.log(res.rows.item(0).id);
+                      $scope.jugadores.push(new Jugador(res.rows.item(0).id,nombre,"",handicap,"","","",""));
+                    }
+                  });
+
+                }, function (err) {
+                  console.error(err);
+                });
 
                 $scope.data.nombreJug ="";
                 $scope.data.handicap ="";
@@ -82,6 +117,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
     }
 
     $scope.editUser = function (index) {
+
       $scope.data = {};
 
       $scope.data.nombreJugEd =($scope.jugadores[index].nombre);
@@ -118,8 +154,15 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
 
               if(nomb && nomb){
 
-                $scope.jugadores[index].nombre = nomb;
-                $scope.jugadores[index].handicap = handi;
+                var query = "UPDATE jugador SET nombre = ?, handicap = ? WHERE id = ?";
+                console.log($scope.jugadores[index].id)
+                $cordovaSQLite.execute(db, query, [nomb, handi, $scope.jugadores[index].id]).then(function(res) {
+                  console.log("UPDATE RES -> " + res);
+                  $scope.jugadores[index].nombre = nomb;
+                  $scope.jugadores[index].handicap = handi;
+                }, function (err) {
+                  console.error(err);
+                });
 
               }else{
                 if(!nomb && !nomb){
@@ -137,5 +180,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         ]
       });
     }
+
+    getJugadores();
 
   });
