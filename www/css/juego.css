@@ -1,71 +1,71 @@
-.tab-partido{
-  height: 90%;
+.tab-partido {
+    height: 90%;
 }
 
-.tab-jug-t > thead> tr> th{
-  text-align: center;
-  font-weight: bold;
+.tab-jug-t > thead > tr > th {
+    text-align: center;
+    font-weight: bold;
 }
 
-.tab-jug-t > tbody> tr> td{
-  text-align: center;
-  padding: 0;
+.tab-jug-t > tbody > tr > td {
+    text-align: center;
+    padding: 0;
 }
 
-.tab-nombres-jug{
-  font-weight: bold;
-  margin-top: 50%;
-  padding-left: 5px;
-  padding-right: 5px;
+.tab-nombres-jug {
+    font-weight: bold;
+    margin-top: 50%;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
-.tab-boton-jue{
-  width: 80px;
-  height: 80px;
-  padding: 0;
+.tab-boton-jue {
+    width: 80px;
+    height: 80px;
+    padding: 0;
 }
 
-.div-boton-juego{
-  height: 100%;
-  width: 100%;
+.div-boton-juego {
+    height: 100%;
+    width: 100%;
 }
 
-.golpes-jug-jueg{
-  height: 100%;
-  width: 50%;
-  float: left;
-  padding-top: 20%;
-  font-size: 30px;
-  font-weight: bold;
+.golpes-jug-jueg {
+    height: 100%;
+    width: 50%;
+    float: left;
+    padding-top: 20%;
+    font-size: 30px;
+    font-weight: bold;
 }
 
-.unidades-jug-jueg{
-  height: 50%;
-  width: 50%;
-  float: right;
+.unidades-jug-jueg {
+    height: 50%;
+    width: 50%;
+    float: right;
 }
 
-.rayas-jug-jueg{
-  height: 50%;
-  width: 50%;
-  float: right;
-  border-radius: 50%;
+.rayas-jug-jueg {
+    height: 50%;
+    width: 50%;
+    float: right;
+    border-radius: 50%;
 }
 
-.par-camp-jueg{
-  height: 40px;
-  padding-top: 15%;
+.par-camp-jueg {
+    height: 40px;
+    padding-top: 15%;
 }
 
-.titulos-neg{
-  font-weight: bold;
+.titulos-neg {
+    font-weight: bold;
 }
 
-.hola{
-  overflow: scroll;
-  height: 90%;
+.hola {
+    overflow: scroll;
+    height: 90%;
 }
 
 .tr-text-center th {
-  text-align: center !important;
+    text-align: center !important;
 }

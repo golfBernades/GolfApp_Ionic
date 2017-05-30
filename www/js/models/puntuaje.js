@@ -1,8 +1,7 @@
-/**
- * Created by Victor Hugo on 03/05/2017.
- */
-
-function Puntuaje(g_1, u_1, g_2, u_2, g_3, u_3, g_4, u_4, g_5,u_5, g_6, u_6, g_7, u_7, g_8, u_8, g_9, u_9, g_10 ,u_10,g_11 ,u_11 ,g_12 ,u_12 ,g_13 ,u_13 ,g_14 ,u_14 ,g_15,u_15,g_16,u_16,g_17,u_17,g_18,u_18) {
+function Puntuaje(g_1, u_1, g_2, u_2, g_3, u_3, g_4, u_4, g_5, u_5, g_6, u_6,
+                  g_7, u_7, g_8, u_8, g_9, u_9, g_10, u_10, g_11, u_11, g_12, 
+                  u_12, g_13, u_13, g_14, u_14, g_15, u_15, g_16, u_16, g_17, 
+                  u_17, g_18, u_18) {
     this.g_1 = g_1;
     this.u_1 = u_1;
     this.g_2 = g_2;

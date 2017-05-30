@@ -1,27 +1,40 @@
 <ion-nav-view>
-  <ion-nav-bar class="bar-balanced" align-title="center" ng-controller="apuestasCtrl">
-    <ion-nav-back-button>
-    </ion-nav-back-button>
-    <ion-nav-buttons side="left">
-      <a>
-        <button class="button button-icon button-clear ion-chevron-left" menu-toggle="left" ng-click="guardarPantallaApuestas(3)">
+    <ion-nav-bar class="bar-balanced" align-title="center"
+                 ng-controller="apuestasCtrl">
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+        <ion-nav-buttons side="left">
+            <a>
+                <button class="button button-icon button-clear ion-chevron-left"
+                        menu-toggle="left"
+                        ng-click="guardarPantallaApuestas(3)">
 
-        </button>
-        <h1 class="title">Apuestas</h1>
-      </a>
-    </ion-nav-buttons>
-  </ion-nav-bar>
+                </button>
+                <h1 class="title">Apuestas</h1>
+            </a>
+        </ion-nav-buttons>
+    </ion-nav-bar>
 
-  <ion-contet ng-controller="apuestasCtrl">
-    <div class="contenedor">
-      <div class="lista-apuestas">
-        <ion-list ng-repeat="apuesta in apuestas" ng-model="apuestas">
-          <ion-checkbox ng-model="apuesta.seleccionada"  ng-change="apuestaSeleccionada(apuesta)">{{apuesta.nombre}}</ion-checkbox>
-        </ion-list>
-      </div>
-      <div ng-controller="ctrlInicio">
-        <a><button class="button button-full button-balanced boton-agrega-jugador" ng-click="guardarPantallaApuestas(6)" style="background-color: black; color: #28a54c;">Comenzar Juego</button></a>
-      </div>
-    </div>
-  </ion-contet>
+    <ion-contet ng-controller="apuestasCtrl">
+        <div class="contenedor">
+            <div class="lista-apuestas">
+                <ion-list ng-repeat="apuesta in apuestas" ng-model="apuestas">
+                    <ion-checkbox ng-model="apuesta.seleccionada"
+                                  ng-change="apuestaSeleccionada(apuesta)">
+                        {{apuesta.nombre}}
+                    </ion-checkbox>
+                </ion-list>
+            </div>
+            <div ng-controller="ctrlInicio">
+                <a>
+                    <button
+                        class="button button-full button-balanced boton-agrega-jugador"
+                        ng-click="guardarPantallaApuestas(6)"
+                        style="background-color: black; color: #28a54c;">
+                        Comenzar Juego
+                    </button>
+                </a>
+            </div>
+        </div>
+    </ion-contet>
 </ion-nav-view>

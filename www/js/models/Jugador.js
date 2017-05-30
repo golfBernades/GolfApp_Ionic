@@ -10,7 +10,6 @@
  * @param password
  * @param email
  */
-
 function Jugador(id, nombre, apodo, handicap, sexo, url_foto, password, email) {
     this.id = id;
     this.nombre = nombre;

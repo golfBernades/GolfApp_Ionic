@@ -1,38 +1,51 @@
 <ion-nav-view cache-view="false">
-  <ion-nav-bar class="bar-balanced" align-title="center" ng-controller="ctrlCampo">
-    <ion-nav-back-button>
-    </ion-nav-back-button>
-    <ion-nav-buttons side="left">
-      <a>
-        <button class="button button-icon button-clear ion-chevron-left" menu-toggle="left" ng-click="guardarPantallaSeleccionCampo(2)">
+    <ion-nav-bar class="bar-balanced" align-title="center"
+                 ng-controller="ctrlCampo">
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+        <ion-nav-buttons side="left">
+            <a>
+                <button class="button button-icon button-clear ion-chevron-left"
+                        menu-toggle="left"
+                        ng-click="guardarPantallaSeleccionCampo(2)">
 
-        </button>
-        <h1 class="title">Campos</h1>
-      </a>
-    </ion-nav-buttons>
-    <ion-nav-buttons side="right">
-      <a>
-        <button class="button button-icon icon-right button-clear ion-chevron-right" menu-toggle="right" ng-click="guardarPantallaSeleccionCampo(4)">
+                </button>
+                <h1 class="title">Campos</h1>
+            </a>
+        </ion-nav-buttons>
+        <ion-nav-buttons side="right">
+            <a>
+                <button
+                    class="button button-icon icon-right button-clear ion-chevron-right"
+                    menu-toggle="right"
+                    ng-click="guardarPantallaSeleccionCampo(4)">
 
-        </button>
-      </a>
-    </ion-nav-buttons>
-  </ion-nav-bar>
+                </button>
+            </a>
+        </ion-nav-buttons>
+    </ion-nav-bar>
 
-  <ion-contet ng-controller="ctrlCampo">
-    <div class="contenedor">
-      <div class="lista-campos">
-          <ion-list ng-repeat="campo in campos" ng-model="campos">
-            <ion-radio ng-model="select" ng-value="campo.seleccionado"  ng-change="campoSeleccionado(campo)">
-              <p style="font-weight: bold;">{{campo.nombre}}</p>
-              <p>{{campo.id}}</p>
-            </ion-radio>
-          </ion-list>
-      </div>
-      <div ng-controller="ctrlInicio">
-        <a><button class="button button-full button-balanced boton-agrega-jugador" ng-click="guardarPantallaSeleccionCampo(5)">Configurar Campo</button></a>
-      </div>
-    </div>
-  </ion-contet>
+    <ion-contet ng-controller="ctrlCampo">
+        <div class="contenedor">
+            <div class="lista-campos">
+                <ion-list ng-repeat="campo in campos" ng-model="campos">
+                    <ion-radio ng-model="select" ng-value="campo.seleccionado"
+                               ng-change="campoSeleccionado(campo)">
+                        <p style="font-weight: bold;">{{campo.nombre}}</p>
+                        <p>{{campo.id}}</p>
+                    </ion-radio>
+                </ion-list>
+            </div>
+            <div ng-controller="ctrlInicio">
+                <a>
+                    <button
+                        class="button button-full button-balanced boton-agrega-jugador"
+                        ng-click="guardarPantallaSeleccionCampo(5)">Configurar
+                        Campo
+                    </button>
+                </a>
+            </div>
+        </div>
+    </ion-contet>
 </ion-nav-view>
 

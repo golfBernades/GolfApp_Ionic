@@ -1,36 +1,39 @@
-.tabla-ncampo{
-  overflow: scroll;
-  height: 80%;
+.tabla-ncampo {
+    overflow: scroll;
+    height: 80%;
 }
 
-.boton-agrega-camponuevo{
-  border-radius: 20px;
-  position:fixed;
-  bottom:0;
-  right:0;
-}
-.tabla-ncampo-t{
-  overflow-y: scroll!important;
-}
-.tabla-ncampo-t >thead> tr > th{
-  text-align: center;
-  font-weight: bold;
+.boton-agrega-camponuevo {
+    border-radius: 20px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
 }
 
-.tabla-ncampo-t >tbody> tr > td{
-  padding: 0 !important;
-}
-.tabla-ncampo-t >tbody> tr > td > p{
-  width: 100%;
-  font-weight: bold;
+.tabla-ncampo-t {
+    overflow-y: scroll !important;
 }
 
-.tabla-ncampo-l > tr > td > p{
-  width: 20%;
-  text-align: center;
+.tabla-ncampo-t > thead > tr > th {
+    text-align: center;
+    font-weight: bold;
 }
 
-.tabla-ncampo-l > tr > td > input[type="number"]{
-  width: 100%;
-  text-align: center;
+.tabla-ncampo-t > tbody > tr > td {
+    padding: 0 !important;
+}
+
+.tabla-ncampo-t > tbody > tr > td > p {
+    width: 100%;
+    font-weight: bold;
+}
+
+.tabla-ncampo-l > tr > td > p {
+    width: 20%;
+    text-align: center;
+}
+
+.tabla-ncampo-l > tr > td > input[type="number"] {
+    width: 100%;
+    text-align: center;
 }

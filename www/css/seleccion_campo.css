@@ -1,18 +1,18 @@
 
-.boton-agrega-campo{
-  border-radius: 20px;
-  position:fixed;
-  bottom:0;
-  right:0;
+.boton-agrega-campo {
+    border-radius: 20px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
 }
 
-.titulo-seleccion-campo{
-  width: 100%;
-  text-align: center;
-  font-weight: bold;
+.titulo-seleccion-campo {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
 }
 
-.lista-campos{
-  overflow: scroll;
-  height: 90%;
+.lista-campos {
+    overflow: scroll;
+    height: 90%;
 }
