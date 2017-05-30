@@ -3,23 +3,49 @@
  */
 angular.module('starter.seleccion-jugadores', ['ionic'])
 
-  .controller('ctrlNJ', function ($scope, $ionicPopup, $cordovaSQLite) {
+  .controller('ctrlNJ', function ($scope, $ionicPopup, $cordovaSQLite, $state, $ionicPlatform) {
     $scope.jugadores = [];
 
+    $scope.guardarPantallaJugadores= function (seleccion ) {
+      var pantalla="UPDATE pantalla SET pantalla = ? WHERE id = 1";
+      switch (seleccion){
+        case 1:
+          $cordovaSQLite.execute(db, pantalla,[1]);
+          $state.go('inicio');
+          break;
+
+        case 3:
+          var query = "SELECT id FROM jugador";
+          $cordovaSQLite.execute(db, query).then(function(res) {
+            if(res.rows.length >0){
+              $cordovaSQLite.execute(db, pantalla,[3]);
+              $state.go('seleccion_campo');
+            }else{
+              alertNoJugadores();
+            }
+          });
+          break;
+      }
+    };
+
+    function alertNoJugadores() {
+      var alertPopup = $ionicPopup.alert({
+        title: 'Jugadores no creados!',
+        template: 'No se tiene ningun jugador creado para poder avanzar a la siguiente página.'
+      });
+    };
 
     function getJugadores() {
-      setTimeout(function () {
         var query = "SELECT * FROM jugador";
         $cordovaSQLite.execute(db, query).then(function(res) {
-          for(var i =0; i<res.rows.length; i++){
-            $scope.jugadores.push(new Jugador(res.rows.item(i).id ,res.rows.item(i).nombre,"",res.rows.item(i).handicap,"","","",""))
-            console.log(res.rows.item(i).id ,res.rows.item(i).nombre,"",res.rows.item(i).handicap,"","","","")
+          if(res.rows.length >0){
+            for(var i =0; i<res.rows.length; i++){
+              $scope.jugadores.push(new Jugador(res.rows.item(i).id ,res.rows.item(i).nombre,"",res.rows.item(i).handicap,"","","",""));
+            }
           }
-        }, function (err) {
-          console.error(err);
+
         });
-      },500)
-    }
+    };
 
     $scope.deleteSkill = function(index) {
 
@@ -36,19 +62,14 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         confirmPopup.then(function(res) {
           if(res) {
 
-            console.log($scope.jugadores[index].id)
             var query = 'DELETE FROM jugador  WHERE id = ?';
-            $cordovaSQLite.execute(db, query, [$scope.jugadores[index].id]).then(function(res) {
-              console.log("DELETE RES -> " + res);
-            }, function (err) {
-              console.error(err);
-            });
+            $cordovaSQLite.execute(db, query, [$scope.jugadores[index].id]);
             $scope.jugadores.splice(index, 1);
           } else {
 
           }
         });
-    }
+    };
 
     $scope.addUser = function () {
       $scope.data = {};
@@ -74,31 +95,28 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
               var nombre= $scope.data.nombreJug;
               var handicap = $scope.data.handicap;
 
-              if(nombre && handicap){
+              var x = document.getElementById("handicap").value;
 
+              if(nombre && (x!='')){
                 var query = "INSERT INTO jugador (nombre, handicap) VALUES (?,?)";
                 $cordovaSQLite.execute(db, query, [nombre, handicap]).then(function(res) {
-                  console.log("INSERT ID -> " + res.insertId);
                   var query = "SELECT * FROM jugador";
                   $cordovaSQLite.execute(db, query).then(function(res) {
 
                     if(res.rows.length>0){
-                      console.log(res.rows.item(0).id);
                       $scope.jugadores.push(new Jugador(res.rows.item(0).id,nombre,"",handicap,"","","",""));
                     }
                   });
-
-                }, function (err) {
-                  console.error(err);
                 });
 
                 $scope.data.nombreJug ="";
                 $scope.data.handicap ="";
                 document.getElementById("nombreJug").style.backgroundColor = "#FAFAFA";
-                document.getElementById("handicap").style.backgroundColor = "#FAFAFA"
+                document.getElementById("handicap").style.backgroundColor = "#FAFAFA";
 
                 e.preventDefault();
               }else{
+
                 if(!nombre && !handicap){
                   document.getElementById("nombreJug").style.backgroundColor = "#F5A9A9";
                   document.getElementById("handicap").style.backgroundColor = "#F5A9A9"
@@ -114,7 +132,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
           }
         ]
       });
-    }
+    };
 
     $scope.editUser = function (index) {
 
@@ -155,13 +173,9 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
               if(nomb && nomb){
 
                 var query = "UPDATE jugador SET nombre = ?, handicap = ? WHERE id = ?";
-                console.log($scope.jugadores[index].id)
                 $cordovaSQLite.execute(db, query, [nomb, handi, $scope.jugadores[index].id]).then(function(res) {
-                  console.log("UPDATE RES -> " + res);
                   $scope.jugadores[index].nombre = nomb;
                   $scope.jugadores[index].handicap = handi;
-                }, function (err) {
-                  console.error(err);
                 });
 
               }else{
@@ -179,8 +193,10 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
           }
         ]
       });
-    }
+    };
 
-    getJugadores();
+    $ionicPlatform.ready(function () {
+      getJugadores();
+    });
 
   });

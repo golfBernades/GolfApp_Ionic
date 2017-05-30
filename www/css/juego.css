@@ -1,5 +1,4 @@
-.tab-juego{
-  overflow-x: scroll;
+.tab-partido{
   height: 90%;
 }
 
@@ -7,6 +6,7 @@
   text-align: center;
   font-weight: bold;
 }
+
 .tab-jug-t > tbody> tr> td{
   text-align: center;
   padding: 0;
@@ -35,6 +35,7 @@
   width: 50%;
   float: left;
   padding-top: 20%;
+  font-size: 30px;
   font-weight: bold;
 }
 
@@ -56,6 +57,15 @@
   padding-top: 15%;
 }
 
-#titulos-neg{
+.titulos-neg{
   font-weight: bold;
+}
+
+.hola{
+  overflow: scroll;
+  height: 90%;
+}
+
+.tr-text-center th {
+  text-align: center !important;
 }

@@ -4,47 +4,104 @@
 
 angular.module('starter.seleccion-campo', ['ionic'])
 
-.controller('ctrlCampo', function ($scope, $cordovaSQLite) {
+.controller('ctrlCampo', function ($scope, $cordovaSQLite, $state, $ionicPlatform, $ionicPopup) {
 
-  $scope.campos =[
-    new Campo('El verdesillo','Jerez Zac. C. Nopal #48')
-  ];
+  var campoSeleccionado = false;
+  $scope.campos =[];
+  $scope.select = true;
+  $scope.data = {
+    clientSide: 'ng'
+  };
+
+  $scope.guardarPantallaSeleccionCampo= function (seleccion) {
+
+    var pantalla="UPDATE pantalla SET pantalla = ? WHERE id = 1";
+    switch (seleccion){
+
+      case 2:
+        $cordovaSQLite.execute(db, pantalla,[2]);
+        $state.go('seleccion_jugadores');
+        break;
+
+      case 4:
+
+        var selAllCampos = "SELECT id FROM campo";
+        var selOneCampo = "SELECT id FROM campo WHERE seleccionado = 1";
+        $cordovaSQLite.execute(db, selAllCampos).then(function(res) {
+          if(res.rows.length > 0){
+
+            $cordovaSQLite.execute(db, selOneCampo).then(function(res) {
+              if(res.rows.length > 0){
+                $cordovaSQLite.execute(db, pantalla,[4]);
+                $state.go('seleccion_apuestas');
+              }else{
+                alertNoCampoSelec();
+              }
+            })
+
+          }else{
+            alertNoCampos();
+          }
+        });
+        break;
+
+      case 5:
+        $cordovaSQLite.execute(db, pantalla,[5]);
+        $state.go('nuevo_campo')
+        break;
+    }
+
+  };
+
+  $scope.campoSeleccionado = function(campo) {
+
+    var updateAll = "UPDATE campo SET seleccionado = 0";
+    $cordovaSQLite.execute(db, updateAll);
+
+    var actualizaCampoSel = "UPDATE campo SET seleccionado = 1 WHERE id = ?";
+    $cordovaSQLite.execute(db, actualizaCampoSel,[campo.id]);
+
+    campoSeleccionado = true;
+
+  };
+
+  function alertNoCampoSelec() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Campo no seleccionado!',
+      template: 'Para avanzar debes seleccionar un campo.'
+    });
+  };
+
+  function alertNoCampos() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Campo no seleccionado!',
+      template: 'Para avanzar debes crear y seleccionar un campo. '
+    });
+  };
 
   function getCampos() {
     var par =[];
     var ventaja=[];
 
-    setTimeout(function () {
-      var query = "SELECT * FROM campo";
+      var query = "SELECT id, nombre, seleccionado FROM campo";
       $cordovaSQLite.execute(db, query).then(function(res) {
 
         if(res.rows.length>0){
           for(var i =0; i<res.rows.length; i++){
-            par=[res.rows.item(i).par_hoyo_1, res.rows.item(i).par_hoyo_2, res.rows.item(i).par_hoyo_3, res.rows.item(i).par_hoyo_4, res.rows.item(i).par_hoyo_5, res.rows.item(i).par_hoyo_6, res.rows.item(i).par_hoyo_7,res.rows.item(i).par_hoyo_8, res.rows.item(i).par_hoyo_9, res.rows.item(i).par_hoyo_10, res.rows.item(i).par_hoyo_11, res.rows.item(i).par_hoyo_12, res.rows.item(i).par_hoyo_13, res.rows.item(i).par_hoyo_14, res.rows.item(i).par_hoyo_15,res.rows.item(i).par_hoyo_16, res.rows.item(i).par_hoyo_17, res.rows.item(i).par_hoyo_18];
-            ventaja=[res.rows.item(i).ventaja_hoyo_1, res.rows.item(i).ventaja_hoyo_2, res.rows.item(i).ventaja_hoyo_3, res.rows.item(i).ventaja_hoyo_4, res.rows.item(i).ventaja_hoyo_5, res.rows.item(i).ventaja_hoyo_6, res.rows.item(i).ventaja_hoyo_7,res.rows.item(i).ventaja_hoyo_8, res.rows.item(i).ventaja_hoyo_9, res.rows.item(i).ventaja_hoyo_10, res.rows.item(i).ventaja_hoyo_11, res.rows.item(i).ventaja_hoyo_12, res.rows.item(i).ventaja_hoyo_13, res.rows.item(i).ventaja_hoyo_14, res.rows.item(i).ventaja_hoyo_15,res.rows.item(i).ventaja_hoyo_16, res.rows.item(i).ventaja_hoyo_17, res.rows.item(i).ventaja_hoyo_18];
-            $scope.campos.push(new Campo(res.rows.item(i).nombre, par,ventaja));
+            if(res.rows.item(i).seleccionado == 0){
+              $scope.campos.push({id:res.rows.item(i).id, nombre:res.rows.item(i).nombre, seleccionado:false});
+            }else{
+              $scope.campos.push({id:res.rows.item(i).id, nombre:res.rows.item(i).nombre, seleccionado:true});
+              campoSeleccionado = true;
+            }
           }
         }
-      }, function (err) {
-        console.error(err);
       });
-    },500)
   }
 
-  getCampos();
-
-})
-
- .service('setCampo', function () {
-
-   var campoNuevo=null;
-
-     this.hola = function (campo) {
-     campoNuevo = campo;
-   }
-
-   this.insertarCampo= function(){
-     return campoNuevo;
-   }
-
+  $ionicPlatform.ready(function () {
+    getCampos();
   });
+
+
+});
