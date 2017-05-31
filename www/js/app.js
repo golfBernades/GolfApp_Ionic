@@ -4,7 +4,9 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 var db = null;
-angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores', 'starter.seleccion-campo', 'starter.juego', 'starter.nuevo-campo', 'starter.seleccion-apuestas', 'starter.inicio'])
+angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
+    'starter.seleccion-campo', 'starter.juego', 'starter.nuevo-campo',
+    'starter.seleccion-apuestas', 'starter.inicio'])
 
     .run(function ($ionicPlatform, $cordovaSQLite, $state) {
         $ionicPlatform.ready(function () {
@@ -13,7 +15,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores', 
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-
                 // Don't remove this line unless you know what you are doing. It stops the viewport
                 // from snapping when text inputs are focused. Ionic handles this internally for
                 // a much nicer keyboard experience.
@@ -29,7 +30,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores', 
 
             var pantalla = "CREATE TABLE IF NOT EXISTS pantalla" +
                 "(id integer PRIMARY KEY AUTOINCREMENT" +
-                ",pantalla integer)"
+                ",pantalla integer)";
             $cordovaSQLite.execute(db, pantalla);
 
             var jugador = "CREATE TABLE IF NOT EXISTS jugador" +
@@ -122,19 +123,31 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores', 
                 ",FOREIGN KEY (jugador_id) REFERENCES jugador (id))";
             $cordovaSQLite.execute(db, puntuacion);
 
-            var idx_partido_partido_jugador_id_fk = "CREATE INDEX IF NOT EXISTS idx_partido_partido_jugador_id_fk ON partido (jugador_id);";
+            var idx_partido_partido_jugador_id_fk = "CREATE INDEX " +
+                "IF NOT EXISTS idx_partido_partido_jugador_id_fk " +
+                "ON partido (jugador_id);";
             $cordovaSQLite.execute(db, idx_partido_partido_jugador_id_fk);
 
-            var idx_partido_partido_campo_id_fk = "CREATE INDEX IF NOT EXISTS idx_partido_partido_campo_id_fk ON partido (campo_id)";
+            var idx_partido_partido_campo_id_fk = "CREATE INDEX " +
+                "IF NOT EXISTS idx_partido_partido_campo_id_fk " +
+                "ON partido (campo_id)";
             $cordovaSQLite.execute(db, idx_partido_partido_campo_id_fk);
 
-            var idx_jugador_partido_jugador_partido_partido_id_fk = "CREATE INDEX IF NOT EXISTS idx_jugador_partido_jugador_partido_partido_id_fk ON jugador_partido (partido_id)";
+            var idx_jugador_partido_jugador_partido_partido_id_fk =
+                "CREATE INDEX IF NOT EXISTS " +
+                "idx_jugador_partido_jugador_partido_partido_id_fk " +
+                "ON jugador_partido (partido_id)";
             $cordovaSQLite.execute(db, idx_jugador_partido_jugador_partido_partido_id_fk);
 
-            var idx_apuesta_partido_apuesta_partido_apuesta_id_fk = "CREATE INDEX IF NOT EXISTS idx_apuesta_partido_apuesta_partido_apuesta_id_fk ON apuesta_partido (apuesta_id)";
+            var idx_apuesta_partido_apuesta_partido_apuesta_id_fk =
+                "CREATE INDEX IF NOT EXISTS " +
+                "idx_apuesta_partido_apuesta_partido_apuesta_id_fk " +
+                "ON apuesta_partido (apuesta_id)";
             $cordovaSQLite.execute(db, idx_apuesta_partido_apuesta_partido_apuesta_id_fk);
 
-            var idx_puntuaciones_puntuaciones_partido_id_fk = "CREATE INDEX IF NOT EXISTS idx_puntuaciones_puntuaciones_partido_id_fk ON puntuaciones (partido_id)";
+            var idx_puntuaciones_puntuaciones_partido_id_fk = "CREATE INDEX " +
+                "IF NOT EXISTS idx_puntuaciones_puntuaciones_partido_id_fk " +
+                "ON puntuaciones (partido_id)";
             $cordovaSQLite.execute(db, idx_puntuaciones_puntuaciones_partido_id_fk);
 
         });
@@ -200,15 +213,15 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores', 
 
                 case 4:
                     $state.go('seleccion_apuestas');
-                    break
+                    break;
 
                 case 5:
                     $state.go('nuevo_campo');
-                    break
+                    break;
 
                 case 6:
                     $state.go('juego');
-                    break
+                    break;
             }
         }
 

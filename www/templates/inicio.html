@@ -4,38 +4,23 @@
             <ion-side-menu-content>
                 <ion-nav-bar class="bar-balanced">
                     <ion-nav-buttons side="left">
-                        <button
-                            class="button button-icon button-clear ion-navicon"
-                            menu-toggle="left"></button>
+                        <button class="button button-icon button-clear ion-navicon"
+                                menu-toggle="left"></button>
                         <h1 class="title" style="text-align: center">Bienvenido
                             a GolfApp</h1>
                     </ion-nav-buttons>
                 </ion-nav-bar>
                 <ion-nav-view>
                     <ion-content class="contenedor" ng-controller="inicioCtrl">
-                        <div>
-                            <img src="img/img-prin.png" width="50%"
-                                 class="img-prin"/>
-                        </div>
-                        <a>
-                            <button
-                                class="button button-outline button-balanced btn-prin"
+                        <img src="img/golficon.png"
+                             class="image-logo"/>
+                        <button class="button button-balanced button-block btn-full"
                                 ng-click="guardarPantallaInicio(2)">
-                                Iniciar Juego
-                            </button>
-                        </a>
-                        <a>
-                            <button
-                                class="button button-outline button-balanced btn-prin">
-                                Unirse Juego
-                            </button>
-                        </a>
-                        <a>
-                            <button
-                                class="button button-outline button-balanced btn-prin">
-                                Campos
-                            </button>
-                        </a>
+                            Iniciar juego nuevo
+                        </button>
+                        <button class="button button-balanced button-block btn-full">
+                            Ver juego existente
+                        </button>
                     </ion-content>
                 </ion-nav-view>
             </ion-side-menu-content>
