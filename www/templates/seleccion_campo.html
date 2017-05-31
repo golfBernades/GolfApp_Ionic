@@ -1,31 +1,24 @@
-<ion-nav-view cache-view="false">
+<ion-nav-view>
     <ion-nav-bar class="bar-balanced" align-title="center"
                  ng-controller="ctrlCampo">
-        <ion-nav-back-button>
-        </ion-nav-back-button>
         <ion-nav-buttons side="left">
-            <a>
-                <button class="button button-icon button-clear ion-chevron-left"
-                        menu-toggle="left"
-                        ng-click="guardarPantallaSeleccionCampo(2)">
-
-                </button>
-                <h1 class="title">Campos</h1>
-            </a>
+            <button class="button button-icon button-clear ion-chevron-left"
+                    menu-toggle="left"
+                    ng-click="guardarPantallaSeleccionCampo(2)">
+            </button>
         </ion-nav-buttons>
+        <ion-nav-title>Campos</ion-nav-title>
         <ion-nav-buttons side="right">
-            <a>
-                <button
-                    class="button button-icon icon-right button-clear ion-chevron-right"
+            <button
+                    class="button button-icon button-clear ion-chevron-right"
                     menu-toggle="right"
                     ng-click="guardarPantallaSeleccionCampo(4)">
 
-                </button>
-            </a>
+            </button>
         </ion-nav-buttons>
     </ion-nav-bar>
 
-    <ion-contet ng-controller="ctrlCampo">
+    <ion-content ng-controller="ctrlCampo">
         <div class="contenedor">
             <div class="lista-campos">
                 <ion-list ng-repeat="campo in campos" ng-model="campos">
@@ -37,15 +30,13 @@
                 </ion-list>
             </div>
             <div ng-controller="ctrlInicio">
-                <a>
-                    <button
-                        class="button button-full button-balanced boton-agrega-jugador"
-                        ng-click="guardarPantallaSeleccionCampo(5)">Configurar
-                        Campo
-                    </button>
-                </a>
+                <button
+                        class="button button-balanced button-block btn-full
+                        btn-fixed-bottom"
+                        ng-click="guardarPantallaSeleccionCampo(5)">
+                    Nuevo campo
+                </button>
             </div>
         </div>
-    </ion-contet>
+    </ion-content>
 </ion-nav-view>
-

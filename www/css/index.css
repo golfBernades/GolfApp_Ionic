@@ -5,12 +5,7 @@
 .contenedor {
     width: 100%;
     height: 100%;
-    margin-top: 50px;
-    box-sizing: border-box !important;
-}
-
-.contenedor > .scroll {
-    height: auto !important;
+    padding-top: 50px;
 }
 
 .image-logo {
@@ -23,3 +18,12 @@
     width: 90% !important;
     margin: auto;
 }
+
+.my-btn-red {
+    background-color: #F53D3D !important;
+}
+
+.my-btn-red:hover{
+    background-color: #E01111 !important;
+}
+

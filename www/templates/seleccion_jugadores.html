@@ -2,27 +2,22 @@
     <ion-nav-bar class="bar-balanced" align-title="center"
                  ng-controller="ctrlNJ">
         <ion-nav-buttons side="left">
-            <a>
-                <button class="button button-icon button-clear ion-chevron-left"
-                        menu-toggle="left"
-                        ng-click="guardarPantallaJugadores(1)">
-
-                </button>
-                <h1 class="title">Jugadores</h1>
-            </a>
+            <button class="button button-icon button-clear ion-chevron-left"
+                    menu-toggle="left"
+                    ng-click="guardarPantallaJugadores(1)">
+            </button>
         </ion-nav-buttons>
+        <ion-nav-title>Jugadores</ion-nav-title>
         <ion-nav-buttons side="right">
-            <a>
-                <button
-                    class="button button-icon icon-right button-clear ion-chevron-right"
-                    menu-toggle="right" ng-click="guardarPantallaJugadores(3)">
-
-                </button>
-            </a>
+            <button
+                    class="button button-icon icon-right button-clear
+                    ion-chevron-right" menu-toggle="right"
+                    ng-click="guardarPantallaJugadores(3)">
+            </button>
         </ion-nav-buttons>
     </ion-nav-bar>
 
-    <ion-contet ng-controller="ctrlNJ">
+    <ion-content ng-controller="ctrlNJ">
         <div class="contenedor">
             <div class="tab-jug">
                 <table class="table table-striped"
@@ -41,23 +36,23 @@
                         <td>{{skill.nombre}}</td>
                         <td>{{skill.handicap}}</td>
                         <td>
-                            <button ng-click="deleteSkill($index)"
-                                    class="button icon ion-trash-a eliminar-nuevo-jugador"></button>
+                            <button ng-click="deleteSkill($index)" class="button
+                            icon ion-trash-a eliminar-nuevo-jugador"></button>
                         </td>
                         <td>
-                            <button ng-click="editUser($index)"
-                                    class="button icon ion-edit editar-nuevo-jugador"></button>
+                            <button ng-click="editUser($index)" class="button
+                            icon ion-edit editar-nuevo-jugador"></button>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
             <div>
-                <button
-                    class="button button-full button-balanced boton-agrega-jugador"
-                    ng-click="addUser()">Nuevo Jugador
+                <button class="button button-balanced button-block btn-full
+                btn-fixed-bottom"
+                        ng-click="addUser()">Nuevo jugador
                 </button>
             </div>
         </div>
-    </ion-contet>
+    </ion-content>
 </ion-nav-view>

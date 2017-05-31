@@ -9,14 +9,28 @@
     background-color: red;
 }
 
-.boton-agrega-jugador {
-    border-radius: 20px;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-}
+/*.tab-jug {*/
+/*height: 50% !important;*/
+/*overflow: scroll;*/
+/*border: solid red;*/
+/*}*/
+
+/*.tab-jug {*/
+/*overflow: scroll;*/
+/*height: 100%;*/
+/*!*height: auto !important;*!*/
+/*padding-bottom: 50px !important;*/
+/*}*/
 
 .tab-jug {
     overflow: scroll;
-    height: 90%;
+    height: 100%;
+    padding-bottom: 50px;
+}
+
+.btn-fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
 }
