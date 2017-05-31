@@ -1,10 +1,8 @@
-/**
- * Created by Victor Hugo on 23/03/2017.
- */
-
 angular.module('starter.juego', ['ionic'])
 
-    .controller('ctrlJuego', function ($scope, $ionicPopup, $cordovaSQLite, $state, $ionicLoading, $timeout, $ionicPlatform) {
+    .controller('ctrlJuego', function ($scope, $ionicPopup, $cordovaSQLite,
+                                       $state, $ionicLoading, $timeout,
+                                       $ionicPlatform) {
 
         //----------------------------------------------------------------------
         $scope.actualizarJuego = function () {
@@ -75,14 +73,15 @@ angular.module('starter.juego', ['ionic'])
             var myPopup = $ionicPopup.show({
                 template: '<p>' +
                 '<label>Golpes Realizados:</label>' +
-                '<input type="number" ng-model="juego.golpesRealizados" name="juego.golpesRealizados" id="golpesRealizados" value="0">' +
+                '<input type="number" ng-model="juego.golpesRealizados" ' +
+                'name="juego.golpesRealizados" id="golpesRealizados" value="0">' +
                 '</p>' +
                 '<p>' +
-                '<label>Puntos Extras:</label>' +
-                '<input type="number" ng-model="juego.puntosExtras" name="juego.puntosExtras" id="puntosExtras" value="0">' +
+                '<label>Unidades:</label>' +
+                '<input type="number" ng-model="juego.puntosExtras" ' +
+                'name="juego.puntosExtras" id="puntosExtras" value="0">' +
                 '</p>',
                 title: 'Jugador:' + nombre,
-                subTitle: 'Ingresa número de Golpes y Unidades',
                 scope: $scope,
                 buttons: [
                     {
@@ -106,7 +105,7 @@ angular.module('starter.juego', ['ionic'])
 
                                 for (var i = 0; i < jugadores.length; i++) {
                                     for (var j = 1; j < 19; j++) {
-                                        console.log(id_jugador + "idejugador")
+                                        console.log(id_jugador + "idejugador");
                                         document.getElementById("golpes" + i + "" + j).innerHTML = partido.scoreBoard[i].golpes[j - 1];
                                         document.getElementById("unidades" + i + "" + j).innerHTML = partido.scoreBoard[i].unidades[j - 1];
                                         document.getElementById("rayas" + i + "" + j).innerHTML = partido.apuestas[0].scoreRayas[i].puntos[j - 1];
@@ -134,7 +133,7 @@ angular.module('starter.juego', ['ionic'])
 
         function agregaPuntos(id, hoyo, golpes) {
 
-            console.log(par[hoyo - 1] - golpes)
+            console.log(par[hoyo - 1] - golpes);
             switch (par[hoyo - 1] - golpes) {
 
                 case 1:

@@ -27,3 +27,15 @@
     background-color: #E01111 !important;
 }
 
+.table td > *, table th > *{
+    width: 100%;
+}
+
+th {
+    font-weight: bold;
+}
+
+.table-text-vertical-centered td, .table-text-vertical-centered th{
+    line-height: 100% !important;
+    vertical-align: middle !important;
+}

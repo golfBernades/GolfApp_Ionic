@@ -84,7 +84,7 @@ angular.module('starter.nuevo-campo', ['ionic'])
 
                 $timeout(function () {
                     $state.go('seleccion_campo', {}, {reload: true});
-                }, 1000)
+                }, 1000);
                 vaciarCampos();
             }
 

@@ -1,403 +1,431 @@
-<ion-nav-view cache-view="false">
+<ion-nav-view>
     <ion-nav-bar class="bar-balanced" align-title="center"
                  ng-controller="ctrlJuego">
-        <ion-nav-back-button>
-        </ion-nav-back-button>
         <ion-nav-buttons side="left">
-            <a>
-                <button class="button button-icon button-clear ion-ios-home"
-                        menu-toggle="left" ng-click="guardarPantallaJuego(1)">
-
-                </button>
-                <h1 class="title">Juego en Curso</h1>
-            </a>
+            <button class="button button-icon button-clear ion-ios-home"
+                    menu-toggle="left" ng-click="guardarPantallaJuego(1)">
+            </button>
         </ion-nav-buttons>
+        <ion-nav-title>Juego en Curso</ion-nav-title>
     </ion-nav-bar>
 
     <ion-content ng-controller="ctrlJuego">
         <div class="contenedor">
-            <div class="hola">
-
-                <div style="height: 100%">
-                    <table id="fixed_hdr1" class="table tab-jug-t">
-                        <thead>
-                        <tr class="tr-text-center">
-                            <th>HOYO</th>
-                            <th>1</th>
-                            <th>2</th>
-                            <th>3</th>
-                            <th>4</th>
-                            <th>5</th>
-                            <th>6</th>
-                            <th>7</th>
-                            <th>8</th>
-                            <th>9</th>
-                            <th>10</th>
-                            <th>11</th>
-                            <th>12</th>
-                            <th>13</th>
-                            <th>14</th>
-                            <th>15</th>
-                            <th>16</th>
-                            <th>17</th>
-                            <th>18</th>
-                        </tr>
-                        <tr class="tr-text-center">
-                            <th>PAR</th>
-                            <th>{{pares.h1}}</th>
-                            <th>{{pares.h2}}</th>
-                            <th>{{pares.h3}}</th>
-                            <th>{{pares.h4}}</th>
-                            <th>{{pares.h5}}</th>
-                            <th>{{pares.h6}}</th>
-                            <th>{{pares.h7}}</th>
-                            <th>{{pares.h8}}</th>
-                            <th>{{pares.h9}}</th>
-                            <th>{{pares.h10}}</th>
-                            <th>{{pares.h11}}</th>
-                            <th>{{pares.h12}}</th>
-                            <th>{{pares.h13}}</th>
-                            <th>{{pares.h14}}</th>
-                            <th>{{pares.h15}}</th>
-                            <th>{{pares.h16}}</th>
-                            <th>{{pares.h17}}</th>
-                            <th>{{pares.h18}}</th>
-                        </tr>
-                        <tr class="tr-text-center">
-                            <th>VENTAJA</th>
-                            <th>{{ventajas.h1}}</th>
-                            <th>{{ventajas.h2}}</th>
-                            <th>{{ventajas.h3}}</th>
-                            <th>{{ventajas.h4}}</th>
-                            <th>{{ventajas.h5}}</th>
-                            <th>{{ventajas.h6}}</th>
-                            <th>{{ventajas.h7}}</th>
-                            <th>{{ventajas.h8}}</th>
-                            <th>{{ventajas.h9}}</th>
-                            <th>{{ventajas.h10}}</th>
-                            <th>{{ventajas.h11}}</th>
-                            <th>{{ventajas.h12}}</th>
-                            <th>{{ventajas.h13}}</th>
-                            <th>{{ventajas.h14}}</th>
-                            <th>{{ventajas.h15}}</th>
-                            <th>{{ventajas.h16}}</th>
-                            <th>{{ventajas.h17}}</th>
-                            <th>{{ventajas.h18}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="jugador in jugadoresConf">
-                            <td>
-                                <div class="tab-nombres-jug">
-                                    <div>{{jugador.nombre}}</div>
-                                    <div>{{jugador.handicap}}</div>
+            <div class="tab-jug div-table-scoreboard">
+                <table id="fixed_hdr1">
+                    <thead>
+                    <tr>
+                        <th>HOYO</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                        <th>9</th>
+                        <th>10</th>
+                        <th>11</th>
+                        <th>12</th>
+                        <th>13</th>
+                        <th>14</th>
+                        <th>15</th>
+                        <th>16</th>
+                        <th>17</th>
+                        <th>18</th>
+                        <th>Totales</th>
+                    </tr>
+                    <tr>
+                        <th>PAR</th>
+                        <th>{{pares.h1}}</th>
+                        <th>{{pares.h2}}</th>
+                        <th>{{pares.h3}}</th>
+                        <th>{{pares.h4}}</th>
+                        <th>{{pares.h5}}</th>
+                        <th>{{pares.h6}}</th>
+                        <th>{{pares.h7}}</th>
+                        <th>{{pares.h8}}</th>
+                        <th>{{pares.h9}}</th>
+                        <th>{{pares.h10}}</th>
+                        <th>{{pares.h11}}</th>
+                        <th>{{pares.h12}}</th>
+                        <th>{{pares.h13}}</th>
+                        <th>{{pares.h14}}</th>
+                        <th>{{pares.h15}}</th>
+                        <th>{{pares.h16}}</th>
+                        <th>{{pares.h17}}</th>
+                        <th>{{pares.h18}}</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>VENTAJA</th>
+                        <th>{{ventajas.h1}}</th>
+                        <th>{{ventajas.h2}}</th>
+                        <th>{{ventajas.h3}}</th>
+                        <th>{{ventajas.h4}}</th>
+                        <th>{{ventajas.h5}}</th>
+                        <th>{{ventajas.h6}}</th>
+                        <th>{{ventajas.h7}}</th>
+                        <th>{{ventajas.h8}}</th>
+                        <th>{{ventajas.h9}}</th>
+                        <th>{{ventajas.h10}}</th>
+                        <th>{{ventajas.h11}}</th>
+                        <th>{{ventajas.h12}}</th>
+                        <th>{{ventajas.h13}}</th>
+                        <th>{{ventajas.h14}}</th>
+                        <th>{{ventajas.h15}}</th>
+                        <th>{{ventajas.h16}}</th>
+                        <th>{{ventajas.h17}}</th>
+                        <th>{{ventajas.h18}}</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="jugador in jugadoresConf">
+                        <td>
+                            <div>
+                                <div>{{jugador.nombre}}</div>
+                                <div>{{jugador.handicap}}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <button
+                                    class="button btn-celda-juego"
+                                    ng-click="score($index, 1, jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}1">0
+                                    </div>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}1">0
+                                    </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}1">0
+                                    </div>
                                 </div>
-                            </td>
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index, 1, {{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}1">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}1">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}1">0
-                                        </div>
-                                    </div>
-                                </button>
-                            </td>
+                            </button>
+                        </td>
 
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index,2,{{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}2">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}2">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}2">0
-                                        </div>
+                        <td>
+                            <button class="button btn-celda-juego"
+                                    ng-click="score($index,2,jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}2">0
                                     </div>
-                                </button>
-                            </td>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}2">0
+                                    </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}2">0
+                                    </div>
+                                </div>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="button btn-celda-juego"
+                                    ng-click="score($index,3,jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}3">0
+                                    </div>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}3">0
+                                    </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}3">0
+                                    </div>
+                                </div>
+                            </button>
+                        </td>
 
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index,3,{{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}3">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}3">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}3">0
-                                        </div>
+                        <td>
+                            <button class="button btn-celda-juego"
+                                    ng-click="score($index,4,jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}4">0
                                     </div>
-                                </button>
-                            </td>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}4">0
+                                    </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}4">0
+                                    </div>
+                                </div>
+                            </button>
+                        </td>
 
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index,4,{{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}4">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}4">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}4">0
-                                        </div>
+                        <td>
+                            <button class="button btn-celda-juego"
+                                    ng-click="score($index,5,jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}5">0
                                     </div>
-                                </button>
-                            </td>
-
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index,5,{{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}5">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}5">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}5">0
-                                        </div>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}5">0
                                     </div>
-                                </button>
-                            </td>
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index,6,{{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}6">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}6">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}6">0
-                                        </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}5">0
                                     </div>
-                                </button>
-                            </td>
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index,7,{{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}7">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}7">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}7">0
-                                        </div>
+                                </div>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="button btn-celda-juego"
+                                    ng-click="score($index,6,jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}6">0
                                     </div>
-                                </button>
-                            </td>
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index,8,{{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}8">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}8">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}8">0
-                                        </div>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}6">0
                                     </div>
-                                </button>
-                            </td>
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index,9,{{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}9">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}9">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}9">0
-                                        </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}6">0
                                     </div>
-                                </button>
-                            </td>
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index,10,{{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}10">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}10">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}10">0
-                                        </div>
+                                </div>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="button btn-celda-juego"
+                                    ng-click="score($index,7,jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}7">0
                                     </div>
-                                </button>
-                            </td>
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index,11,{{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}11">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}11">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}11">0
-                                        </div>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}7">0
                                     </div>
-                                </button>
-                            </td>
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index,12,{{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}12">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}12">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}12">0
-                                        </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}7">0
                                     </div>
-                                </button>
-                            </td>
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index,13,{{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}13">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}13">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}13">0
-                                        </div>
+                                </div>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="button btn-celda-juego"
+                                    ng-click="score($index,8,jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}8">0
                                     </div>
-                                </button>
-                            </td>
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index,14,{{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}14">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}14">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}14">0
-                                        </div>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}8">0
                                     </div>
-                                </button>
-                            </td>
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index,15,{{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}15">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}15">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}15">0
-                                        </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}8">0
                                     </div>
-                                </button>
-                            </td>
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index,16,{{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}16">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}16">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}16">0
-                                        </div>
+                                </div>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="button btn-celda-juego"
+                                    ng-click="score($index,9,jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}9">0
                                     </div>
-                                </button>
-                            </td>
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index,17,{{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}17">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}17">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}17">0
-                                        </div>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}9">0
                                     </div>
-                                </button>
-                            </td>
-                            <td>
-                                <button class="button tab-boton-jue"
-                                        ng-click="score($index,18,{{jugador.id}})">
-                                    <div class="div-boton-juego">
-                                        <div class="golpes-jug-jueg"
-                                             id="golpes{{$index}}18">0
-                                        </div>
-                                        <div class="rayas-jug-jueg"
-                                             id="rayas{{$index}}18">0
-                                        </div>
-                                        <div class="unidades-jug-jueg"
-                                             id="unidades{{$index}}18">0
-                                        </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}9">0
                                     </div>
-                                </button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                                </div>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="button btn-celda-juego"
+                                    ng-click="score($index,10,jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}10">0
+                                    </div>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}10">0
+                                    </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}10">0
+                                    </div>
+                                </div>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="button btn-celda-juego"
+                                    ng-click="score($index,11,jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}11">0
+                                    </div>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}11">0
+                                    </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}11">0
+                                    </div>
+                                </div>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="button btn-celda-juego"
+                                    ng-click="score($index,12,jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}12">0
+                                    </div>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}12">0
+                                    </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}12">0
+                                    </div>
+                                </div>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="button btn-celda-juego"
+                                    ng-click="score($index,13,jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}13">0
+                                    </div>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}13">0
+                                    </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}13">0
+                                    </div>
+                                </div>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="button btn-celda-juego"
+                                    ng-click="score($index,14,jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}14">0
+                                    </div>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}14">0
+                                    </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}14">0
+                                    </div>
+                                </div>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="button btn-celda-juego"
+                                    ng-click="score($index,15,jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}15">0
+                                    </div>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}15">0
+                                    </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}15">0
+                                    </div>
+                                </div>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="button btn-celda-juego"
+                                    ng-click="score($index,16,jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}16">0
+                                    </div>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}16">0
+                                    </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}16">0
+                                    </div>
+                                </div>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="button btn-celda-juego"
+                                    ng-click="score($index,17,jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}17">0
+                                    </div>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}17">0
+                                    </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}17">0
+                                    </div>
+                                </div>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="button btn-celda-juego"
+                                    ng-click="score($index,18,jugador.id)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno"
+                                         id="golpes{{$index}}18">0
+                                    </div>
+                                    <div class="rayas-turno"
+                                         id="rayas{{$index}}18">0
+                                    </div>
+                                    <div class="unidades-turno"
+                                         id="unidades{{$index}}18">0
+                                    </div>
+                                </div>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
             <div>
-                <button
-                    id="btnActualizar"
-                    class="button button-full button-balanced boton-agrega-jugador"
-                    ng-click="actualizarJuego()">
-                    Actualizar Juego.
+                <button class="button button-balanced button-block btn-full
+                btn-fixed-bottom" ng-click="actualizarJuego()">
+                    Actualizar juego
                 </button>
             </div>
         </div>
     </ion-content>
 </ion-nav-view>
+
+
+<!--<ion-nav-view cache-view="false">-->
+<!--<ion-nav-bar class="bar-balanced" align-title="center"-->
+<!--ng-controller="ctrlJuego">-->
+<!--<ion-nav-back-button>-->
+<!--</ion-nav-back-button>-->
+<!--<ion-nav-buttons side="left">-->
+<!--<a>-->
+<!--<button class="button button-icon button-clear ion-ios-home"-->
+<!--menu-toggle="left" ng-click="guardarPantallaJuego(1)">-->
+<!--</button>-->
+<!--<h1 class="title">Juego en Curso</h1>-->
+<!--</a>-->
+<!--</ion-nav-buttons>-->
+<!--</ion-nav-bar>-->
+
+<!--<ion-content ng-controller="ctrlJuego">-->
+<!--<div class="contenedor">-->
+<!--<div class="hola">-->
+<!--<div style="height: 100%">-->
+
+<!--</div>-->
+<!--</div>-->
+<!--<div>-->
+<!--<button-->
+<!--id="btnActualizar"-->
+<!--class="button button-full button-balanced boton-agrega-jugador"-->
+<!--ng-click="actualizarJuego()">-->
+<!--Actualizar Juego-->
+<!--</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</ion-content>-->
+<!--</ion-nav-view>-->

@@ -33,23 +33,18 @@ angular.module('starter.inicio', ['ionic'])
 
         function direccionPagina(pagina) {
             switch (pagina) {
-
                 case 2:
                     $state.go('seleccion_jugadores');
                     break;
-
                 case 3:
                     $state.go('seleccion_campo');
                     break;
-
                 case 4:
                     $state.go('seleccion_apuestas');
                     break;
-
                 case 5:
                     $state.go('nuevo_campo');
                     break;
-
                 case 6:
                     $state.go('juego');
                     break;

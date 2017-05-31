@@ -9,19 +9,6 @@
     background-color: red;
 }
 
-/*.tab-jug {*/
-/*height: 50% !important;*/
-/*overflow: scroll;*/
-/*border: solid red;*/
-/*}*/
-
-/*.tab-jug {*/
-/*overflow: scroll;*/
-/*height: 100%;*/
-/*!*height: auto !important;*!*/
-/*padding-bottom: 50px !important;*/
-/*}*/
-
 .tab-jug {
     overflow: scroll;
     height: 100%;

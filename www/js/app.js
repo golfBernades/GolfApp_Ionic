@@ -10,7 +10,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
 
     .run(function ($ionicPlatform, $cordovaSQLite, $state) {
         $ionicPlatform.ready(function () {
-
             if (window.cordova && window.cordova.plugins.Keyboard) {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
@@ -20,9 +19,11 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 // a much nicer keyboard experience.
                 cordova.plugins.Keyboard.disableScroll(true);
             }
+
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
+
             db = $cordovaSQLite.openDB({
                 name: "Lj9bgooou89.db",
                 iosDatabaseLocation: 'default'
@@ -31,6 +32,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             var pantalla = "CREATE TABLE IF NOT EXISTS pantalla" +
                 "(id integer PRIMARY KEY AUTOINCREMENT" +
                 ",pantalla integer)";
+
             $cordovaSQLite.execute(db, pantalla);
 
             var jugador = "CREATE TABLE IF NOT EXISTS jugador" +
@@ -42,6 +44,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 "password text," +
                 "email text," +
                 "CONSTRAINT email_unique UNIQUE (email))";
+
             $cordovaSQLite.execute(db, jugador);
 
             var campo = "CREATE TABLE IF NOT EXISTS campo (" +
@@ -85,14 +88,15 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 ",ventaja_hoyo_17 integer DEFAULT NULL" +
                 ",ventaja_hoyo_18 integer DEFAULT NULL" +
                 ",seleccionado integer(1) NOT NULL)";
-            $cordovaSQLite.execute(db, campo);
 
+            $cordovaSQLite.execute(db, campo);
 
             var apuesta = "CREATE TABLE IF NOT EXISTS apuesta (" +
                 "id integer NOT NULL PRIMARY KEY AUTOINCREMENT" +
                 ",nombre varchar(50) NOT NULL" +
                 ",seleccionada integer(1) NOT NULL" +
                 ",CONSTRAINT nombre_ap_unique UNIQUE (nombre))";
+
             $cordovaSQLite.execute(db, apuesta);
 
             var partido = "CREATE TABLE IF NOT EXISTS partido (" +
@@ -103,6 +107,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 ",fin datetime DEFAULT NULL" +
                 ",campo_id integer NOT NULL" +
                 ",FOREIGN KEY (campo_id) REFERENCES campo (id))";
+
             $cordovaSQLite.execute(db, partido);
 
             var apuesta_partido = "CREATE TABLE IF NOT EXISTS apuesta_partido (" +
@@ -112,6 +117,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 ",CONSTRAINT unique_id_apue UNIQUE (partido_id, apuesta_id)" +
                 ",FOREIGN KEY (apuesta_id) REFERENCES apuesta (id)" +
                 ",FOREIGN KEY (partido_id) REFERENCES partido (id))";
+
             $cordovaSQLite.execute(db, apuesta_partido);
 
             var puntuacion = "CREATE TABLE IF NOT EXISTS puntuaciones (" +
@@ -121,71 +127,82 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 ",unidades integer NOT NULL" +
                 ",jugador_id integer NOT NULL" +
                 ",FOREIGN KEY (jugador_id) REFERENCES jugador (id))";
+
             $cordovaSQLite.execute(db, puntuacion);
 
             var idx_partido_partido_jugador_id_fk = "CREATE INDEX " +
                 "IF NOT EXISTS idx_partido_partido_jugador_id_fk " +
                 "ON partido (jugador_id);";
+
             $cordovaSQLite.execute(db, idx_partido_partido_jugador_id_fk);
 
             var idx_partido_partido_campo_id_fk = "CREATE INDEX " +
                 "IF NOT EXISTS idx_partido_partido_campo_id_fk " +
                 "ON partido (campo_id)";
+
             $cordovaSQLite.execute(db, idx_partido_partido_campo_id_fk);
 
             var idx_jugador_partido_jugador_partido_partido_id_fk =
                 "CREATE INDEX IF NOT EXISTS " +
                 "idx_jugador_partido_jugador_partido_partido_id_fk " +
                 "ON jugador_partido (partido_id)";
+
             $cordovaSQLite.execute(db, idx_jugador_partido_jugador_partido_partido_id_fk);
 
             var idx_apuesta_partido_apuesta_partido_apuesta_id_fk =
                 "CREATE INDEX IF NOT EXISTS " +
                 "idx_apuesta_partido_apuesta_partido_apuesta_id_fk " +
                 "ON apuesta_partido (apuesta_id)";
+
             $cordovaSQLite.execute(db, idx_apuesta_partido_apuesta_partido_apuesta_id_fk);
 
             var idx_puntuaciones_puntuaciones_partido_id_fk = "CREATE INDEX " +
                 "IF NOT EXISTS idx_puntuaciones_puntuaciones_partido_id_fk " +
                 "ON puntuaciones (partido_id)";
-            $cordovaSQLite.execute(db, idx_puntuaciones_puntuaciones_partido_id_fk);
 
+            $cordovaSQLite.execute(db, idx_puntuaciones_puntuaciones_partido_id_fk);
         });
     })
 
     .config(function ($stateProvider, $urlRouterProvider) {
-
         $stateProvider
             .state('inicio', {
+                cache: false,
                 url: '/inicio',
                 templateUrl: 'templates/inicio.html'
             });
+
         $stateProvider
             .state('seleccion_jugadores', {
+                cache: false,
                 url: '/seleccion_jugadores',
                 templateUrl: 'templates/seleccion_jugadores.html'
             });
 
         $stateProvider
             .state('seleccion_campo', {
+                cache: false,
                 url: '/seleccion_campo',
                 templateUrl: 'templates/seleccion_campo.html'
             });
 
         $stateProvider
             .state('seleccion_apuestas', {
+                cache: false,
                 url: '/seleccion_apuestas',
                 templateUrl: 'templates/seleccion_apuestas.html'
             });
 
         $stateProvider
             .state('nuevo_campo', {
+                cache: false,
                 url: '/nuevo_campo',
                 templateUrl: 'templates/nuevo_campo.html'
             });
 
         $stateProvider
             .state('juego', {
+                cache: false,
                 url: '/juego',
                 templateUrl: 'templates/juego.html'
             });
@@ -194,35 +211,26 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
     })
 
     .controller('ctrlInicio', function ($scope, $state, $cordovaSQLite) {
-
         $scope.paginas = function (select) {
-
             switch (select) {
-
                 case 1:
                     $state.go('inicio');
                     break;
-
                 case 2:
                     $state.go('seleccion_jugadores');
                     break;
-
                 case 3:
                     $state.go('seleccion_campo');
                     break;
-
                 case 4:
                     $state.go('seleccion_apuestas');
                     break;
-
                 case 5:
                     $state.go('nuevo_campo');
                     break;
-
                 case 6:
                     $state.go('juego');
                     break;
             }
         }
-
     });
