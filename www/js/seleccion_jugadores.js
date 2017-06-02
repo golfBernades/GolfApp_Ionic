@@ -79,17 +79,6 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
             $scope.data = {};
             var myPopup = $ionicPopup.show({
                 templateUrl: '../templates/add_user_popup.html',
-                // template: '<p>' +
-                // '<label>Nombre Jugador:</label>' +
-                // '<input type="text" ng-model="data.nombreJug" name="data.nombreJug" id="nombreJug">' +
-                // '</p>' +
-                // '<p>' +
-                // '<label>Handicap:</label>' +
-                // '<input type="number" ng-model="data.handicap" name="data.handicap" id="handicap">' +
-                // '</p>' +
-                // '<script>' +
-                // '$("#nombreJug").focus();' +
-                // '</script>',
                 title: 'Agregar jugadores',
                 scope: $scope,
                 buttons: [

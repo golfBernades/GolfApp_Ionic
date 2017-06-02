@@ -4,6 +4,10 @@ angular.module('starter.juego', ['ionic'])
                                        $state, $ionicLoading, $timeout,
                                        $ionicPlatform) {
 
+        $ionicPlatform.ready(function () {
+            console.log('GolfApp>>', 'juego.$ionicPlatform.ready');
+        });
+
         //----------------------------------------------------------------------
         $scope.actualizarJuego = function () {
             console.log('btnActualizar.click()');
@@ -41,33 +45,24 @@ angular.module('starter.juego', ['ionic'])
         var jugadores = [];
         var campo;
         var partido;
-
         var ventajas = [];
         var par = [];
-
         var ventajasPantalla = [];
         var parPantalla = [];
-
         var puntuaciones = [];
 
         $scope.guardarPantallaJuego = function (seleccion) {
-
             var pantalla = "UPDATE pantalla SET pantalla = ? WHERE id = 1";
-            console.log(seleccion);
             switch (seleccion) {
-
                 case 1:
                     $cordovaSQLite.execute(db, pantalla, [1]);
-                    $state.go('inicio')
+                    $state.go('inicio');
                     break;
             }
-
         };
 
         $scope.score = function (id, hoyo, id_jugador) {
-
             var nombre = jugadores[id].nombre;
-
             $scope.juego = {};
 
             var myPopup = $ionicPopup.show({
@@ -88,26 +83,37 @@ angular.module('starter.juego', ['ionic'])
                             var puntos;
 
                             if (golpesRealizaos) {
-
                                 puntosExtras = puntosExtras ? puntosExtras : 0;
-
-                                partido.registrarGolpes(id, (hoyo - 1), golpesRealizaos, puntosExtras);
-                                guardarScore(id_jugador, hoyo, golpesRealizaos, puntosExtras);
+                                partido.registrarGolpes(id, (hoyo - 1),
+                                    golpesRealizaos, puntosExtras);
+                                guardarScore(id_jugador, hoyo, golpesRealizaos,
+                                    puntosExtras);
 
                                 for (var i = 0; i < jugadores.length; i++) {
                                     for (var j = 1; j < 19; j++) {
                                         console.log(id_jugador + "idejugador");
-                                        document.getElementById("golpes" + i + "" + j).innerHTML = partido.scoreBoard[i].golpes[j - 1];
-                                        document.getElementById("unidades" + i + "" + j).innerHTML = partido.scoreBoard[i].unidades[j - 1];
-                                        document.getElementById("rayas" + i + "" + j).innerHTML = partido.apuestas[0].scoreRayas[i].puntos[j - 1];
+                                        var golpesij = partido.scoreBoard[i]
+                                            .golpes[j - 1];
+                                        var unidadesij = partido.scoreBoard[i]
+                                            .unidades[j - 1];
+                                        var rayasij = partido.apuestas[0]
+                                            .scoreRayas[i].puntos[j - 1];
+                                        $('#golpes' + i + '' + j)
+                                            .text(golpesij);
+                                        $('#unidades' + i + '' + j)
+                                            .text(unidadesij);
+                                        $('#rayas' + i + '' + j)
+                                            .text(rayasij);
 
-                                        puntos = partido.apuestas[0].scoreRayas[i].puntos[j - 1];
-                                        if (puntos < 0) {
-                                            document.getElementById("rayas" + i + "" + j).style.color = "#FF0000";
-                                        } else if (puntos > 0) {
-                                            document.getElementById("rayas" + i + "" + j).style.color = "#28a54c";
+                                        if (rayasij < 0) {
+                                            $('#rayas' + i + '' + j)
+                                                .css('color', '#FF0000');
+                                        } else if (rayasij > 0) {
+                                            $('#rayas' + i + '' + j)
+                                                .css('color', '#28a54c');
                                         } else {
-                                            document.getElementById("rayas" + i + "" + j).style.color = "#000000";
+                                            $('#rayas' + i + '' + j)
+                                                .css('color', '#000000');
                                         }
 
                                     }
@@ -123,12 +129,9 @@ angular.module('starter.juego', ['ionic'])
         };
 
         function agregaPuntos(id, hoyo, golpes) {
-
             console.log(par[hoyo - 1] - golpes);
             switch (par[hoyo - 1] - golpes) {
-
                 case 1:
-
                     document.getElementById("golpes" + id + "" + hoyo).innerHTML =
                         "<div>" +
                         "<div style='border: 2px; background-color: blue; border-radius: 50%; width: 10px; height: 10px;'>" +
@@ -136,7 +139,6 @@ angular.module('starter.juego', ['ionic'])
                         "</div>" +
                         "</div>";
                     break;
-
                 case 2:
                     document.getElementById("golpes" + id + "" + hoyo).innerHTML =
                         "<div>" +
@@ -223,13 +225,12 @@ angular.module('starter.juego', ['ionic'])
                         h17: res.rows.item(0).ventaja_hoyo_17,
                         h18: res.rows.item(0).ventaja_hoyo_18
                     };
-                    //
+
                     $scope.ventajas = ventajasPantalla;
-
-                    campo = new Campo(res.rows.item(0).id, res.rows.item(0).nombre, par, ventajas);
+                    campo = new Campo(res.rows.item(0).id,
+                        res.rows.item(0).nombre, par, ventajas);
                     partido = new Partido(jugadores, campo);
-                    partido.agregarApuesta(new ApuestaRayas(partido))
-
+                    partido.agregarApuesta(new ApuestaRayas(partido));
                 }
             });
         }
@@ -300,8 +301,6 @@ angular.module('starter.juego', ['ionic'])
         $ionicPlatform.ready(function () {
             getJugadores();
             getCampo();
-
-
         });
 
     });
