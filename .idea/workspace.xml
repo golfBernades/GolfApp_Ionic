@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bd1abd7a-46f6-41a9-8a7d-ecb66e461838" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/juego.js" afterPath="$PROJECT_DIR$/www/js/juego.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/seleccion_jugadores.js" afterPath="$PROJECT_DIR$/www/js/seleccion_jugadores.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/registro_puntos_popup.html" afterPath="$PROJECT_DIR$/www/templates/registro_puntos_popup.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/juego.html" afterPath="$PROJECT_DIR$/www/templates/juego.html" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -32,44 +30,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="seleccion_jugadores.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/seleccion_jugadores.js">
+      <file leaf-file-name="juego.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/www/templates/juego.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="584">
-              <caret line="186" column="8" lean-forward="false" selection-start-line="186" selection-start-column="8" selection-end-line="188" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="juego.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/www/js/juego.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="332">
-              <caret line="303" column="5" lean-forward="false" selection-start-line="303" selection-start-column="5" selection-end-line="303" selection-end-column="5" />
+            <state relative-caret-position="-308">
+              <caret line="91" column="36" lean-forward="false" selection-start-line="91" selection-start-column="36" selection-end-line="91" selection-end-column="36" />
               <folding>
-                <marker date="1496423404566" expanded="true" signature="5968:6051" ph="..." />
+                <element signature="n#thead#0;n#table#0;n#div#0;n#div#0;n#ion-content#0;n#ion-nav-view#0;n#!!top" expanded="false" />
+                <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#0;n#ion-content#0;n#ion-nav-view#0;n#!!top" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="registro_puntos_popup.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/templates/registro_puntos_popup.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="9" column="42" lean-forward="false" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="nuevo_campo.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/nuevo_campo.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="28">
-              <caret line="77" column="49" lean-forward="false" selection-start-line="77" selection-start-column="48" selection-end-line="77" selection-end-column="49" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -169,7 +138,6 @@
         <option value="$PROJECT_DIR$/www/css/nuevo_campo.css" />
         <option value="$PROJECT_DIR$/www/css/seleccion_campo.css" />
         <option value="$PROJECT_DIR$/www/css/juego.css" />
-        <option value="$PROJECT_DIR$/www/templates/juego.html" />
         <option value="$PROJECT_DIR$/www/js/add_jugador_popup_controller.js" />
         <option value="$PROJECT_DIR$/www/js/add_jugador_controller.js" />
         <option value="$PROJECT_DIR$/www/js/app.js" />
@@ -181,6 +149,7 @@
         <option value="$PROJECT_DIR$/www/js/seleccion_jugadores.js" />
         <option value="$PROJECT_DIR$/www/templates/registro_puntos_popup.html" />
         <option value="$PROJECT_DIR$/www/js/juego.js" />
+        <option value="$PROJECT_DIR$/www/templates/juego.html" />
       </list>
     </option>
   </component>
@@ -481,7 +450,7 @@
       <workItem from="1496186089688" duration="803000" />
       <workItem from="1496238692695" duration="5061000" />
       <workItem from="1496246689663" duration="19508000" />
-      <workItem from="1496356909252" duration="8243000" />
+      <workItem from="1496356909252" duration="8682000" />
     </task>
     <task id="LOCAL-00001" summary="Se actualizaron las pantallas">
       <created>1491842685299</created>
@@ -553,11 +522,18 @@
       <option name="project" value="LOCAL" />
       <updated>1496421836266</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Se cambiaron unos selectores de javascript puro a selectores de jquery">
+      <created>1496423436994</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1496423436994</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="302282000" />
+    <option name="totallyTimeSpent" value="302721000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -575,7 +551,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26903024" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26022914" sideWeight="0.5121029" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -656,7 +632,8 @@
     <MESSAGE value="Se ajustó un poco el css en todas las pantallas a excepción de la del tablero" />
     <MESSAGE value="Se ajustó el css de la pantalla del tablero" />
     <MESSAGE value="Se implementó el autofocus en los textbox iniciales de algunos popups" />
-    <option name="LAST_COMMIT_MESSAGE" value="Se implementó el autofocus en los textbox iniciales de algunos popups" />
+    <MESSAGE value="Se cambiaron unos selectores de javascript puro a selectores de jquery" />
+    <option name="LAST_COMMIT_MESSAGE" value="Se cambiaron unos selectores de javascript puro a selectores de jquery" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -950,16 +927,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/templates/juego.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="369" column="49" lean-forward="false" selection-start-line="369" selection-start-column="49" selection-end-line="369" selection-end-column="49" />
-          <folding>
-            <element signature="n#thead#0;n#table#0;n#div#0;n#div#0;n#ion-content#0;n#ion-nav-view#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/seleccion_apuestas.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1284">
@@ -1056,6 +1023,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/juego.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="332">
+          <caret line="303" column="5" lean-forward="false" selection-start-line="303" selection-start-column="5" selection-end-line="303" selection-end-column="5" />
+          <folding>
+            <marker date="1496423404566" expanded="true" signature="5968:6051" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/www/templates/registro_puntos_popup.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
@@ -1064,12 +1041,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/juego.js">
+    <entry file="file://$PROJECT_DIR$/www/templates/juego.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="303" column="5" lean-forward="false" selection-start-line="303" selection-start-column="5" selection-end-line="303" selection-end-column="5" />
+        <state relative-caret-position="-308">
+          <caret line="91" column="36" lean-forward="false" selection-start-line="91" selection-start-column="36" selection-end-line="91" selection-end-column="36" />
           <folding>
-            <marker date="1496423404566" expanded="true" signature="5968:6051" ph="..." />
+            <element signature="n#thead#0;n#table#0;n#div#0;n#div#0;n#ion-content#0;n#ion-nav-view#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#0;n#ion-content#0;n#ion-nav-view#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>

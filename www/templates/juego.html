@@ -83,15 +83,13 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="jugador in jugadoresConf">
-                        <td>
-                            <div>
-                                <div>{{jugador.nombre}}</div>
-                                <div>{{jugador.handicap}}</div>
-                            </div>
+                        <td style="vertical-align: middle; !important;">
+                            {{jugador.nombre}}
+                            <br>
+                            {{jugador.handicap}}
                         </td>
                         <td>
-                            <button
-                                    class="button btn-celda-juego"
+                            <button class="button btn-celda-juego"
                                     ng-click="score($index, 1, jugador.id)">
                                 <div class="div-boton-juego">
                                     <div class="golpes-turno"
