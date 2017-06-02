@@ -6,6 +6,10 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
     .controller('ctrlNJ', function ($scope, $ionicPopup, $cordovaSQLite, $state, $ionicPlatform) {
         $scope.jugadores = [];
 
+        // angular.element(document).ready(function () {
+        //     console.log('GolfApp>>', 'Document loaded');
+        // });
+
         $scope.guardarPantallaJugadores = function (seleccion) {
             var pantalla = "UPDATE pantalla SET pantalla = ? WHERE id = 1";
             switch (seleccion) {
@@ -74,16 +78,19 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         $scope.addUser = function () {
             $scope.data = {};
             var myPopup = $ionicPopup.show({
-                template: '<p>' +
-                '<label>Nombre Jugador:</label>' +
-                '<input type="text" ng-model="data.nombreJug" name="data.nombreJug" id="nombreJug">' +
-                '</p>' +
-                '<p>' +
-                '<label>Handicap:</label>' +
-                '<input type="number" ng-model="data.handicap" name="data.handicap" id="handicap">' +
-                '</p>',
+                templateUrl: '../templates/add_user_popup.html',
+                // template: '<p>' +
+                // '<label>Nombre Jugador:</label>' +
+                // '<input type="text" ng-model="data.nombreJug" name="data.nombreJug" id="nombreJug">' +
+                // '</p>' +
+                // '<p>' +
+                // '<label>Handicap:</label>' +
+                // '<input type="number" ng-model="data.handicap" name="data.handicap" id="handicap">' +
+                // '</p>' +
+                // '<script>' +
+                // '$("#nombreJug").focus();' +
+                // '</script>',
                 title: 'Agregar jugadores',
-                subTitle: 'Ingresa su Nombre y Handicap',
                 scope: $scope,
                 buttons: [
                     {
@@ -146,19 +153,10 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
             var nombre = $scope.data.nombreJugEd = ($scope.jugadores[index].nombre);
 
             var myPopup = $ionicPopup.show({
-                template: '<p>' +
-                '<label>Nombre Jugador:</label>' +
-                '<input type="text" ng-model="data.nombreJugEd" name="data.nombreJugEd" id="nombreJugEd">' +
-                '</p>' +
-                '<p>' +
-                '<label>Handicap:</label>' +
-                '<input type="number" ng-model="data.handicapEd" name="data.handicapEd" id="handicapEd">' +
-                '</p>' +
-                '<script>',
+                templateUrl: '../templates/edit_user_popup.html',
                 title: 'Actualizar Jugador',
                 subTitle: 'Actualiza el jugador: ' + nombre,
                 scope: $scope,
-
                 buttons: [
                     {
                         text: 'Cancelar',

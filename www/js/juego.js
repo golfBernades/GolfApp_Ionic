@@ -62,7 +62,7 @@ angular.module('starter.juego', ['ionic'])
                     break;
             }
 
-        }
+        };
 
         $scope.score = function (id, hoyo, id_jugador) {
 
@@ -71,16 +71,7 @@ angular.module('starter.juego', ['ionic'])
             $scope.juego = {};
 
             var myPopup = $ionicPopup.show({
-                template: '<p>' +
-                '<label>Golpes Realizados:</label>' +
-                '<input type="number" ng-model="juego.golpesRealizados" ' +
-                'name="juego.golpesRealizados" id="golpesRealizados" value="0">' +
-                '</p>' +
-                '<p>' +
-                '<label>Unidades:</label>' +
-                '<input type="number" ng-model="juego.puntosExtras" ' +
-                'name="juego.puntosExtras" id="puntosExtras" value="0">' +
-                '</p>',
+                templateUrl: '../templates/registro_puntos_popup.html',
                 title: 'Jugador:' + nombre,
                 scope: $scope,
                 buttons: [
