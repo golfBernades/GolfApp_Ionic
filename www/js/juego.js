@@ -4,8 +4,11 @@ angular.module('starter.juego', ['ionic'])
                                        $state, $ionicLoading, $timeout,
                                        $ionicPlatform) {
 
+        $scope.variableTest = 'HolaValorDefault';
+
         $ionicPlatform.ready(function () {
             console.log('GolfApp>>', 'juego.$ionicPlatform.ready');
+            // $scope.variableTest = 'dsa';
         });
 
         //----------------------------------------------------------------------
@@ -115,10 +118,8 @@ angular.module('starter.juego', ['ionic'])
                                             $('#rayas' + i + '' + j)
                                                 .css('color', '#000000');
                                         }
-
                                     }
                                 }
-
                             } else {
                                 e.preventDefault();
                             }
@@ -147,10 +148,8 @@ angular.module('starter.juego', ['ionic'])
                         "</div>" +
                         "</div>";
                     break;
-
                 case 3:
                     break;
-
                 case 4:
                     break
             }
@@ -160,8 +159,10 @@ angular.module('starter.juego', ['ionic'])
             var query = "SELECT * FROM jugador";
             $cordovaSQLite.execute(db, query).then(function (res) {
                 for (var i = 0; i < res.rows.length; i++) {
-                    console.log(res.rows.item(i).id + " res.rows.item(i).id")
-                    jugadores.push(new Jugador(res.rows.item(i).id, res.rows.item(i).nombre, "", res.rows.item(i).handicap, "", "", "", ""))
+                    console.log(res.rows.item(i).id + " res.rows.item(i).id");
+                    jugadores.push(new Jugador(res.rows.item(i).id,
+                        res.rows.item(i).nombre, "", res.rows.item(i).handicap,
+                        "", "", "", ""))
                 }
                 $scope.jugadoresConf = jugadores;
             });
@@ -172,10 +173,26 @@ angular.module('starter.juego', ['ionic'])
             $cordovaSQLite.execute(db, query).then(function (res) {
 
                 if (res.rows.length > 0) {
-                    par = [res.rows.item(0).par_hoyo_1, res.rows.item(0).par_hoyo_2, res.rows.item(0).par_hoyo_3, res.rows.item(0).par_hoyo_4, res.rows.item(0).par_hoyo_5,
-                        res.rows.item(0).par_hoyo_6, res.rows.item(0).par_hoyo_7, res.rows.item(0).par_hoyo_8, res.rows.item(0).par_hoyo_9, res.rows.item(0).par_hoyo_10,
-                        res.rows.item(0).par_hoyo_11, res.rows.item(0).par_hoyo_12, res.rows.item(0).par_hoyo_13, res.rows.item(0).par_hoyo_14, res.rows.item(0).par_hoyo_15,
-                        res.rows.item(0).par_hoyo_16, res.rows.item(0).par_hoyo_17, res.rows.item(0).par_hoyo_18];
+                    par = [
+                        res.rows.item(0).par_hoyo_1,
+                        res.rows.item(0).par_hoyo_2,
+                        res.rows.item(0).par_hoyo_3,
+                        res.rows.item(0).par_hoyo_4,
+                        res.rows.item(0).par_hoyo_5,
+                        res.rows.item(0).par_hoyo_6,
+                        res.rows.item(0).par_hoyo_7,
+                        res.rows.item(0).par_hoyo_8,
+                        res.rows.item(0).par_hoyo_9,
+                        res.rows.item(0).par_hoyo_10,
+                        res.rows.item(0).par_hoyo_11,
+                        res.rows.item(0).par_hoyo_12,
+                        res.rows.item(0).par_hoyo_13,
+                        res.rows.item(0).par_hoyo_14,
+                        res.rows.item(0).par_hoyo_15,
+                        res.rows.item(0).par_hoyo_16,
+                        res.rows.item(0).par_hoyo_17,
+                        res.rows.item(0).par_hoyo_18
+                    ];
 
                     parPantalla = {
                         h1: res.rows.item(0).par_hoyo_1,
@@ -200,10 +217,26 @@ angular.module('starter.juego', ['ionic'])
 
                     $scope.pares = parPantalla;
 
-                    ventajas = [res.rows.item(0).ventaja_hoyo_1, res.rows.item(0).ventaja_hoyo_2, res.rows.item(0).ventaja_hoyo_3, res.rows.item(0).ventaja_hoyo_4, res.rows.item(0).ventaja_hoyo_5,
-                        res.rows.item(0).ventaja_hoyo_6, res.rows.item(0).ventaja_hoyo_7, res.rows.item(0).ventaja_hoyo_8, res.rows.item(0).ventaja_hoyo_9, res.rows.item(0).ventaja_hoyo_10,
-                        res.rows.item(0).ventaja_hoyo_11, res.rows.item(0).ventaja_hoyo_12, res.rows.item(0).ventaja_hoyo_13, res.rows.item(0).ventaja_hoyo_14, res.rows.item(0).ventaja_hoyo_15,
-                        res.rows.item(0).ventaja_hoyo_16, res.rows.item(0).ventaja_hoyo_17, res.rows.item(0).ventaja_hoyo_18];
+                    ventajas = [
+                        res.rows.item(0).ventaja_hoyo_1,
+                        res.rows.item(0).ventaja_hoyo_2,
+                        res.rows.item(0).ventaja_hoyo_3,
+                        res.rows.item(0).ventaja_hoyo_4,
+                        res.rows.item(0).ventaja_hoyo_5,
+                        res.rows.item(0).ventaja_hoyo_6,
+                        res.rows.item(0).ventaja_hoyo_7,
+                        res.rows.item(0).ventaja_hoyo_8,
+                        res.rows.item(0).ventaja_hoyo_9,
+                        res.rows.item(0).ventaja_hoyo_10,
+                        res.rows.item(0).ventaja_hoyo_11,
+                        res.rows.item(0).ventaja_hoyo_12,
+                        res.rows.item(0).ventaja_hoyo_13,
+                        res.rows.item(0).ventaja_hoyo_14,
+                        res.rows.item(0).ventaja_hoyo_15,
+                        res.rows.item(0).ventaja_hoyo_16,
+                        res.rows.item(0).ventaja_hoyo_17,
+                        res.rows.item(0).ventaja_hoyo_18
+                    ];
 
                     ventajasPantalla = {
                         h1: res.rows.item(0).ventaja_hoyo_1,
@@ -237,7 +270,8 @@ angular.module('starter.juego', ['ionic'])
 
         function getPuntuacion() {
             var getJugadores = "SELECT * FROM jugador";
-            var getPuntuaciones = "SELECT * FROM puntuaciones WHERE jugador_id = (?) AND hoyo = (?)";
+            var getPuntuaciones = "SELECT * FROM puntuaciones " +
+                "WHERE jugador_id = (?) AND hoyo = (?)";
 
             $cordovaSQLite.execute(db, getJugadores).then(function (res1) {
 
@@ -246,7 +280,8 @@ angular.module('starter.juego', ['ionic'])
                 for (i = 0; i < res1.rows.length; i++) {
                     for (j = 1; j < 19; j++) {
                         //console.log("fuera consulta [" + i + "," + j + "]");
-                        $cordovaSQLite.execute(db, getPuntuaciones, [res1.rows.item(i).id, j]).then(function (res2) {
+                        $cordovaSQLite.execute(db, getPuntuaciones,
+                            [res1.rows.item(i).id, j]).then(function (res2) {
                             //console.log("dentro consulta [" + i + "," + j + "]");
                             if (res2.rows.length > 0) {
 
@@ -269,33 +304,37 @@ angular.module('starter.juego', ['ionic'])
         function guardarScore(id_jugador, hoyo, golpes, unidades) {
 
             console.log("ID JUGADOR: " + id_jugador + " HOYO: " + hoyo);
-            var selectJugador = "SELECT id FROM puntuaciones WHERE jugador_id = (?) AND hoyo = (?)";
-            var insertDatos = "INSERT INTO puntuaciones (hoyo, golpes, unidades, jugador_id) VALUES (?,?,?,?)";
-            var updateDatos = "UPDATE puntuaciones SET golpes=?, unidades=? WHERE jugador_id = (?) AND hoyo = (?)";
+            var selectJugador = "SELECT id FROM puntuaciones " +
+                "WHERE jugador_id = (?) AND hoyo = (?)";
+            var insertDatos = "INSERT INTO puntuaciones " +
+                "(hoyo, golpes, unidades, jugador_id) VALUES (?,?,?,?)";
+            var updateDatos = "UPDATE puntuaciones SET golpes=?, unidades=? " +
+                "WHERE jugador_id = (?) AND hoyo = (?)";
 
-            $cordovaSQLite.execute(db, selectJugador, [id_jugador, hoyo]).then(function (res) {
+            $cordovaSQLite.execute(db, selectJugador, [id_jugador, hoyo])
+                .then(function (res) {
+                    if (res.rows.length > 0) {
+                        $cordovaSQLite.execute(db, updateDatos, [golpes, unidades,
+                            id_jugador, hoyo])
+                            .then(function (res) {
+                                console.log("UPDATE ID -> " + res.insertId);
 
-                if (res.rows.length > 0) {
-                    $cordovaSQLite.execute(db, updateDatos, [golpes, unidades, id_jugador, hoyo])
-                        .then(function (res) {
-                            console.log("UPDATE ID -> " + res.insertId);
+                            }, function (err) {
+                                console.error(err);
+                            });
+                    } else {
+                        $cordovaSQLite.execute(db, insertDatos, [hoyo, golpes,
+                            unidades, id_jugador])
+                            .then(function (res) {
+                                console.log("INSERT ID -> " + res.insertId);
 
-                        }, function (err) {
-                            console.error(err);
-                        });
-                } else {
-                    $cordovaSQLite.execute(db, insertDatos, [hoyo, golpes, unidades, id_jugador])
-                        .then(function (res) {
-                            console.log("INSERT ID -> " + res.insertId);
-
-                        }, function (err) {
-                            console.error(err);
-                        });
-                }
-            }, function (err) {
-                console.error(err);
-            });
-
+                            }, function (err) {
+                                console.error(err);
+                            });
+                    }
+                }, function (err) {
+                    console.error(err);
+                });
         }
 
         $ionicPlatform.ready(function () {
