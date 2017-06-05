@@ -6,10 +6,6 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
     .controller('ctrlNJ', function ($scope, $ionicPopup, $cordovaSQLite, $state, $ionicPlatform) {
         $scope.jugadores = [];
 
-        // angular.element(document).ready(function () {
-        //     console.log('GolfApp>>', 'Document loaded');
-        // });
-
         $scope.guardarPantallaJugadores = function (seleccion) {
             var pantalla = "UPDATE pantalla SET pantalla = ? WHERE id = 1";
             switch (seleccion) {
@@ -25,17 +21,19 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                             $cordovaSQLite.execute(db, pantalla, [3]);
                             $state.go('seleccion_campo');
                         } else {
-                            alertNoJugadores();
+                            var title = "Jugadores no creados!";
+                            var template = "No se tiene ningun jugador creado para poder avanzar a la siguiente página.";
+                            popup(title, template)
                         }
                     });
                     break;
             }
         };
 
-        function alertNoJugadores() {
+        function popup(title, template) {
             var alertPopup = $ionicPopup.alert({
-                title: 'Jugadores no creados!',
-                template: 'No se tiene ningun jugador creado para poder avanzar a la siguiente página.'
+                title: title,
+                template: template
             });
         };
 
@@ -78,7 +76,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         $scope.addUser = function () {
             $scope.data = {};
             var myPopup = $ionicPopup.show({
-                templateUrl: '../templates/add_user_popup.html',
+                templateUrl: 'templates/add_user_popup.html',
                 title: 'Agregar jugadores',
                 scope: $scope,
                 buttons: [
@@ -96,16 +94,31 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                             var x = document.getElementById("handicap").value;
 
                             if (nombre && (x != '')) {
-                                var query = "INSERT INTO jugador (nombre, handicap) VALUES (?,?)";
-                                $cordovaSQLite.execute(db, query, [nombre, handicap]).then(function (res) {
-                                    var query = "SELECT * FROM jugador";
-                                    $cordovaSQLite.execute(db, query).then(function (res) {
 
-                                        if (res.rows.length > 0) {
-                                            $scope.jugadores.push(new Jugador(res.rows.item(0).id, nombre, "", handicap, "", "", "", ""));
-                                        }
+                                var control = true;
+
+                                for (var i = 0; i < $scope.jugadores.length; i++) {
+                                    if (nombre.toLowerCase() == $scope.jugadores[i].nombre.toLowerCase()) {
+                                        control = false;
+                                        break;
+                                    }
+                                }
+
+                                if (control) {
+                                    var query = "INSERT INTO jugador (nombre, handicap) VALUES (?,?)";
+                                    $cordovaSQLite.execute(db, query, [nombre, handicap]).then(function (res) {
+                                        var query = "SELECT * FROM jugador";
+                                        $cordovaSQLite.execute(db, query).then(function (res) {
+                                            if (res.rows.length > 0) {
+                                                $scope.jugadores.push(new Jugador(res.rows.item(0).id, nombre, "", handicap, "", "", "", ""));
+                                            }
+                                        });
                                     });
-                                });
+                                } else {
+                                    var title = "Jugadores repetido!";
+                                    var template = "Nombre de jugador repetido. Escribir otro nombre.";
+                                    popup(title, template)
+                                }
 
                                 $scope.data.nombreJug = "";
                                 $scope.data.handicap = "";
@@ -142,7 +155,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
             var nombre = $scope.data.nombreJugEd = ($scope.jugadores[index].nombre);
 
             var myPopup = $ionicPopup.show({
-                templateUrl: '../templates/edit_user_popup.html',
+                templateUrl: 'templates/edit_user_popup.html',
                 title: 'Actualizar Jugador',
                 subTitle: 'Actualiza el jugador: ' + nombre,
                 scope: $scope,
@@ -160,12 +173,27 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
 
 
                             if (nomb && nomb) {
+                                var control = true;
 
-                                var query = "UPDATE jugador SET nombre = ?, handicap = ? WHERE id = ?";
-                                $cordovaSQLite.execute(db, query, [nomb, handi, $scope.jugadores[index].id]).then(function (res) {
-                                    $scope.jugadores[index].nombre = nomb;
-                                    $scope.jugadores[index].handicap = handi;
-                                });
+                                for (var i = 0; i < $scope.jugadores.length; i++) {
+                                    if (nomb.toLowerCase() == $scope.jugadores[i].nombre.toLowerCase()) {
+                                        control = false;
+                                        break;
+                                    }
+                                }
+
+                                if (control) {
+                                    var query = "UPDATE jugador SET nombre = ?, handicap = ? WHERE id = ?";
+                                    $cordovaSQLite.execute(db, query, [nomb, handi, $scope.jugadores[index].id]).then(function (res) {
+                                        $scope.jugadores[index].nombre = nomb;
+                                        $scope.jugadores[index].handicap = handi;
+                                    });
+                                } else {
+                                    var title = "Jugadores repetido!";
+                                    var template = "Nombre de jugador repetido. Escribir otro nombre.";
+                                    popup(title, template)
+                                    e.preventDefault();
+                                }
 
                             } else {
                                 if (!nomb && !nomb) {

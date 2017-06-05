@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="bd1abd7a-46f6-41a9-8a7d-ecb66e461838" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/Apuestas/ApuestasRayas.js" afterPath="$PROJECT_DIR$/www/js/Apuestas/ApuestasRayas.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/juego.js" afterPath="$PROJECT_DIR$/www/js/juego.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/models/Partido.js" afterPath="$PROJECT_DIR$/www/js/models/Partido.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/juego.html" afterPath="$PROJECT_DIR$/www/templates/juego.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/nuevo_campo.js" afterPath="$PROJECT_DIR$/www/js/nuevo_campo.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/seleccion_jugadores.js" afterPath="$PROJECT_DIR$/www/js/seleccion_jugadores.js" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,11 +31,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="seleccion_jugadores.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="seleccion_jugadores.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/seleccion_jugadores.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5236">
-              <caret line="187" column="16" lean-forward="false" selection-start-line="187" selection-start-column="16" selection-end-line="187" selection-end-column="16" />
+            <state relative-caret-position="6132">
+              <caret line="219" column="0" lean-forward="true" selection-start-line="219" selection-start-column="0" selection-end-line="219" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -53,11 +51,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="juego.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="juego.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/juego.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="453">
               <caret line="264" column="76" lean-forward="false" selection-start-line="264" selection-start-column="76" selection-end-line="264" selection-end-column="76" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="nuevo_campo.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/js/nuevo_campo.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="850">
+              <caret line="146" column="0" lean-forward="true" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -204,7 +212,6 @@
         <option value="$PROJECT_DIR$/www/templates/seleccion_apuestas.html" />
         <option value="$PROJECT_DIR$/www/js/inicio.js" />
         <option value="$PROJECT_DIR$/www/templates/seleccion_campo.html" />
-        <option value="$PROJECT_DIR$/www/js/nuevo_campo.js" />
         <option value="$PROJECT_DIR$/www/templates/seleccion_jugadores.html" />
         <option value="$PROJECT_DIR$/www/css/seleccion_jugadores.css" />
         <option value="$PROJECT_DIR$/www/css/index.css" />
@@ -219,12 +226,13 @@
         <option value="$PROJECT_DIR$/www/templates/registro_puntos_popup_template.html" />
         <option value="$PROJECT_DIR$/www/templates/edit_user_popup.html" />
         <option value="$PROJECT_DIR$/www/templates/nuevo_campo.html" />
-        <option value="$PROJECT_DIR$/www/js/seleccion_jugadores.js" />
         <option value="$PROJECT_DIR$/www/templates/registro_puntos_popup.html" />
         <option value="$PROJECT_DIR$/www/templates/juego.html" />
         <option value="$PROJECT_DIR$/www/js/models/Partido.js" />
         <option value="$PROJECT_DIR$/www/js/Apuestas/ApuestasRayas.js" />
         <option value="$PROJECT_DIR$/www/js/juego.js" />
+        <option value="$PROJECT_DIR$/www/js/nuevo_campo.js" />
+        <option value="$PROJECT_DIR$/www/js/seleccion_jugadores.js" />
       </list>
     </option>
   </component>
@@ -529,7 +537,7 @@
       <workItem from="1496503587404" duration="8572000" />
       <workItem from="1496514516033" duration="10720000" />
       <workItem from="1496587324009" duration="8079000" />
-      <workItem from="1496610397825" duration="13767000" />
+      <workItem from="1496610397825" duration="14260000" />
     </task>
     <task id="LOCAL-00001" summary="Se actualizaron las pantallas">
       <created>1491842685299</created>
@@ -636,11 +644,18 @@
       <option name="project" value="LOCAL" />
       <updated>1496624939511</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Ya se actualiza el tablero sin importar la casilla de golpes que sea ingresada">
+      <created>1496637884710</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1496637884710</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="356226000" />
+    <option name="totallyTimeSpent" value="356719000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -744,7 +759,8 @@
     <MESSAGE value="Commit antes de experimentar con el tablero" />
     <MESSAGE value="Ya se ven reflejados los cambios en el tablero mientras se agregan puntos o cuando se reestablece esa pantalla" />
     <MESSAGE value="Corrección de error al recalcular las rayas, que se sumaban los valores anteriores" />
-    <option name="LAST_COMMIT_MESSAGE" value="Corrección de error al recalcular las rayas, que se sumaban los valores anteriores" />
+    <MESSAGE value="Ya se actualiza el tablero sin importar la casilla de golpes que sea ingresada" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ya se actualiza el tablero sin importar la casilla de golpes que sea ingresada" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1061,25 +1077,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/nuevo_campo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="28">
-          <caret line="77" column="49" lean-forward="false" selection-start-line="77" selection-start-column="48" selection-end-line="77" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/templates/add_user_popup.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
           <caret line="3" column="28" lean-forward="false" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/seleccion_jugadores.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5236">
-          <caret line="187" column="16" lean-forward="false" selection-start-line="187" selection-start-column="16" selection-end-line="187" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1140,6 +1141,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="453">
           <caret line="264" column="76" lean-forward="false" selection-start-line="264" selection-start-column="76" selection-end-line="264" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/nuevo_campo.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="850">
+          <caret line="146" column="0" lean-forward="true" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/seleccion_jugadores.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6132">
+          <caret line="219" column="0" lean-forward="true" selection-start-line="219" selection-start-column="0" selection-end-line="219" selection-end-column="0" />
           <folding />
         </state>
       </provider>
