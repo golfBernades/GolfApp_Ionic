@@ -53,8 +53,8 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
 
             var nombre = $scope.jugadores[index].nombre;
             var confirmPopup = $ionicPopup.confirm({
-                title: 'Eliminar Jugador "' + nombre + '"',
-                template: 'Estas seguro del eliminar al jugador?',
+                title: 'Eliminar jugador',
+                template: '¿Estás seguro que deseas eliminar a ' + nombre + '?',
                 cancelText: 'Cancelar',
                 cancelType: 'button-assertive',
                 okText: 'Eliminar'
@@ -63,7 +63,6 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
 
             confirmPopup.then(function (res) {
                 if (res) {
-
                     var query = 'DELETE FROM jugador  WHERE id = ?';
                     $cordovaSQLite.execute(db, query, [$scope.jugadores[index].id]);
                     $scope.jugadores.splice(index, 1);
@@ -77,15 +76,15 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
             $scope.data = {};
             var myPopup = $ionicPopup.show({
                 templateUrl: 'templates/add_user_popup.html',
-                title: 'Agregar jugadores',
+                title: 'Nuevo jugador',
                 scope: $scope,
                 buttons: [
                     {
-                        text: 'Cancel',
+                        text: 'Cancelar',
                         type: 'button-assertive'
                     },
                     {
-                        text: '<b>Guardar</b>',
+                        text: 'Agregar',
                         type: 'button-balanced',
                         onTap: function (e) {
                             var nombre = $scope.data.nombreJug;
@@ -156,8 +155,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
 
             var myPopup = $ionicPopup.show({
                 templateUrl: 'templates/edit_user_popup.html',
-                title: 'Actualizar Jugador',
-                subTitle: 'Actualiza el jugador: ' + nombre,
+                title: 'Editar jugador',
                 scope: $scope,
                 buttons: [
                     {
@@ -165,7 +163,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                         type: 'button-assertive'
                     },
                     {
-                        text: '<b>Actualizar</b>',
+                        text: 'Actualizar',
                         type: 'button-balanced',
                         onTap: function (e) {
                             var nomb = $scope.data.nombreJugEd;

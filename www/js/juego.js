@@ -28,7 +28,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 modulePromises.push(loadPuntos());
 
                 $q.all(modulePromises).then(function () {
-                    actualizarScoreRayas();
+                    actualizarScoreUi();
                     fixRowsAndColumns();
 
                     setTimeout(function () {
@@ -36,13 +36,12 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     }, 3000)
                 });
 
-
             });
 
             function showLoading() {
                 $ionicLoading.show({
                     template: '<ion-spinner></ion-spinner>' +
-                    '<p>Loading</p>',
+                    '<p>Cargando</p>',
                     animation: 'fade-in'
                 }).then(function () {
                     // console.log("The loading indicator is now displayed");
@@ -244,7 +243,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 $scope.juego = {};
 
                 $ionicPopup.show({
-                    templateUrl: '../templates/registro_puntos_popup.html',
+                    templateUrl: 'templates/registro_puntos_popup.html',
                     title: 'Registro de puntos',
                     scope: $scope,
                     buttons: [
@@ -275,7 +274,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                                     $q.all(promises).then(function () {
                                         // console.log('GolfApp', 'AllPromisesExecuted');
-                                        actualizarScoreRayas();
+                                        actualizarScoreUi();
                                     });
                                 } else {
                                     $scope.juego.style_golpes = 'background-color: red';
@@ -287,7 +286,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 });
             };
 
-            function actualizarScoreRayas() {
+            function actualizarScoreUi() {
                 // console.log('GolfApp', 'juego.actualizarScoreRayas' +
                 //     ' [scoreRayas: '
                 //     + JSON.stringify($scope.partido.apuestas[0].scoreRayas)
