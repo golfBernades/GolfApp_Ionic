@@ -18,7 +18,7 @@ function ApuestaRayas(partido) {
 
     // this.actualizar = function (jugadorIndex, hoyoIndex) {
     this.actualizar = function (jugadorIndex, hoyoIndex) {
-        console.log('GolfApp', 'ApuestaRayas.actualizar');
+        // console.log('GolfApp', 'ApuestaRayas.actualizar');
 
         var playersNumber = this.partido.scoreBoard.length;
 
@@ -33,8 +33,8 @@ function ApuestaRayas(partido) {
                 }
             }
             if (turnoTerminado) {
-                console.log('GolfApp', 'ApuestaRayas.actualizar [hoyo '
-                    + hIndex + ']');
+                // console.log('GolfApp', 'ApuestaRayas.actualizar [hoyo '
+                //     + hIndex + ']');
                 this.actualizarHoyo(hIndex);
             }
         }
@@ -54,9 +54,11 @@ function ApuestaRayas(partido) {
                     var unidadesJ = this.partido.scoreBoard[j].unidades[hIndex];
                     var handicapI = this.partido.jugadores[i].handicap;
                     var handicapJ = this.partido.jugadores[j].handicap;
-                    var ventajaHoyo = this.partido.campo.ventajas[hIndex];
+                    var ventajaHoyo = this.partido.campo.ventajas[hIndex].value;
                     var diferenciaIJ = (handicapI - handicapJ);
                     var diferenciaJI = (handicapJ - handicapI);
+
+                    console.log('ventajaHoyo[' + hIndex + '] = ' + JSON.stringify(ventajaHoyo));
 
                     // Si se cumple, el Jugador I le dará ventaja al J
                     if (diferenciaIJ >= ventajaHoyo) {
@@ -132,7 +134,7 @@ function ApuestaRayas(partido) {
                 this.scoreRayas[i].puntos.push(0);
             }
         }
-        console.log('GolfApp', 'ApuestaRayas.createScoreboard');
+        // console.log('GolfApp', 'ApuestaRayas.createScoreboard');
     };
 
     this.createScoreboard();

@@ -65,9 +65,9 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 selectJugadoresPromise = $cordovaSQLite
                     .execute(db, queryJugadores).then(function (resJug) {
                         for (var i = 0; i < resJug.rows.length; i++) {
-                            console.log('GolfApp>>', 'Jug_' + i + ': ['
-                                + resJug.rows.item(i).id + '] -> '
-                                + resJug.rows.item(i).nombre);
+                            // console.log('GolfApp>>', 'Jug_' + i + ': ['
+                            //     + resJug.rows.item(i).id + '] -> '
+                            //     + resJug.rows.item(i).nombre);
 
                             $scope.jugadores.push(resJug.rows.item(i));
 
@@ -116,8 +116,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                     break;
                                 }
                             }
-                            console.log('GolfApp>>', 'res[' + i + '] -> '
-                                + JSON.stringify(resPunt.rows.item(i)));
+                            // console.log('GolfApp>>', 'res[' + i + '] -> '
+                            //     + JSON.stringify(resPunt.rows.item(i)));
                         }
                     });
 
@@ -197,9 +197,9 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             }
 
             $scope.guardarPuntos = function (jugador_idx, jugador_id, hoyo) {
-                console.log('GolfApp>>', 'Se guardarán puntos para el jugador '
-                    + ' en el índice ' + jugador_idx + ' cuyo id es '
-                    + jugador_id + ' en el hoyo ' + hoyo);
+                // console.log('GolfApp>>', 'Se guardarán puntos para el jugador '
+                //     + ' en el índice ' + jugador_idx + ' cuyo id es '
+                //     + jugador_id + ' en el hoyo ' + hoyo);
 
                 $scope.juego = {};
 
@@ -234,7 +234,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                             unidades));
 
                                     $q.all(promises).then(function () {
-                                        console.log('GolfApp', 'AllPromisesExecuted');
+                                        // console.log('GolfApp', 'AllPromisesExecuted');
                                         actualizarScoreRayas();
                                     });
                                 } else {
@@ -248,10 +248,10 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             };
 
             function actualizarScoreRayas() {
-                console.log('GolfApp', 'juego.actualizarScoreRayas' +
-                    ' [scoreRayas: '
-                    + JSON.stringify($scope.partido.apuestas[0].scoreRayas)
-                    + ']');
+                // console.log('GolfApp', 'juego.actualizarScoreRayas' +
+                //     ' [scoreRayas: '
+                //     + JSON.stringify($scope.partido.apuestas[0].scoreRayas)
+                //     + ']');
                 var numJugadores = $scope.partido.apuestas[0].scoreRayas.length;
                 for (var i = 0; i < numJugadores; i++) {
                     for (var j = 0; j < 18; j++) {
@@ -272,7 +272,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             $scope.variableTest = 'HolaValorDefault';
 
             $scope.actualizarJuego = function () {
-                console.log('btnActualizar.click()');
+                // console.log('btnActualizar.click()');
 
                 var deleteQuery = 'DELETE FROM puntuaciones';
 
@@ -293,10 +293,10 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             };
 
             function guardarPuntosDb(id_jugador, hoyo, golpes, unidades) {
-                console.log('GolfApp', 'Se guardará la siguiente información en'
-                    + ' la tabla "puntuaciones": jugador_id->' + id_jugador
-                    + ', hoyo->' + hoyo + ', golpes->' + golpes + ', unidades->'
-                    + unidades);
+                // console.log('GolfApp', 'Se guardará la siguiente información en'
+                //     + ' la tabla "puntuaciones": jugador_id->' + id_jugador
+                //     + ', hoyo->' + hoyo + ', golpes->' + golpes + ', unidades->'
+                //     + unidades);
 
                 var selectJugador = "SELECT id FROM puntuaciones " +
                     "WHERE jugador_id = (?) AND hoyo = (?)";

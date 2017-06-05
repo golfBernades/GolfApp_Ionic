@@ -3,8 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="bd1abd7a-46f6-41a9-8a7d-ecb66e461838" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/nuevo_campo.js" afterPath="$PROJECT_DIR$/www/js/nuevo_campo.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/seleccion_jugadores.js" afterPath="$PROJECT_DIR$/www/js/seleccion_jugadores.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/Apuestas/ApuestasRayas.js" afterPath="$PROJECT_DIR$/www/js/Apuestas/ApuestasRayas.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/inicio.js" afterPath="$PROJECT_DIR$/www/js/inicio.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/juego.js" afterPath="$PROJECT_DIR$/www/js/juego.js" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,7 +32,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="seleccion_jugadores.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="seleccion_jugadores.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/seleccion_jugadores.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="6132">
@@ -54,8 +55,8 @@
       <file leaf-file-name="juego.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/juego.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="453">
-              <caret line="264" column="76" lean-forward="false" selection-start-line="264" selection-start-column="76" selection-end-line="264" selection-end-column="76" />
+            <state relative-caret-position="188">
+              <caret line="313" column="36" lean-forward="false" selection-start-line="313" selection-start-column="36" selection-end-line="313" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -64,8 +65,8 @@
       <file leaf-file-name="nuevo_campo.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/nuevo_campo.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="850">
-              <caret line="146" column="0" lean-forward="true" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
+            <state relative-caret-position="199">
+              <caret line="87" column="28" lean-forward="false" selection-start-line="87" selection-start-column="28" selection-end-line="87" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -91,11 +92,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ApuestasRayas.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ApuestasRayas.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/Apuestas/ApuestasRayas.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-158">
-              <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+            <state relative-caret-position="168">
+              <caret line="53" column="62" lean-forward="false" selection-start-line="53" selection-start-column="62" selection-end-line="53" selection-end-column="62" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="inicio.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/js/inicio.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="339">
+              <caret line="25" column="17" lean-forward="false" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -159,7 +170,6 @@
       <find>numJugadores</find>
       <find>true</find>
       <find>num</find>
-      <find>console</find>
       <find>agregaPuntos</find>
       <find>jugadores</find>
       <find>guardarScore</find>
@@ -167,6 +177,7 @@
       <find>scope.p</find>
       <find>alert</find>
       <find>&gt;</find>
+      <find>console</find>
       <find>partido</find>
     </findStrings>
     <replaceStrings>
@@ -176,6 +187,9 @@
       <replace>jugadores</replace>
       <replace>{{$index}}</replace>
     </replaceStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/www/js</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -210,7 +224,6 @@
         <option value="$PROJECT_DIR$/www/css/seleccion_apuestas.css" />
         <option value="$PROJECT_DIR$/www/templates/inicio.html" />
         <option value="$PROJECT_DIR$/www/templates/seleccion_apuestas.html" />
-        <option value="$PROJECT_DIR$/www/js/inicio.js" />
         <option value="$PROJECT_DIR$/www/templates/seleccion_campo.html" />
         <option value="$PROJECT_DIR$/www/templates/seleccion_jugadores.html" />
         <option value="$PROJECT_DIR$/www/css/seleccion_jugadores.css" />
@@ -229,10 +242,11 @@
         <option value="$PROJECT_DIR$/www/templates/registro_puntos_popup.html" />
         <option value="$PROJECT_DIR$/www/templates/juego.html" />
         <option value="$PROJECT_DIR$/www/js/models/Partido.js" />
-        <option value="$PROJECT_DIR$/www/js/Apuestas/ApuestasRayas.js" />
-        <option value="$PROJECT_DIR$/www/js/juego.js" />
         <option value="$PROJECT_DIR$/www/js/nuevo_campo.js" />
         <option value="$PROJECT_DIR$/www/js/seleccion_jugadores.js" />
+        <option value="$PROJECT_DIR$/www/js/inicio.js" />
+        <option value="$PROJECT_DIR$/www/js/juego.js" />
+        <option value="$PROJECT_DIR$/www/js/Apuestas/ApuestasRayas.js" />
       </list>
     </option>
   </component>
@@ -537,7 +551,7 @@
       <workItem from="1496503587404" duration="8572000" />
       <workItem from="1496514516033" duration="10720000" />
       <workItem from="1496587324009" duration="8079000" />
-      <workItem from="1496610397825" duration="14260000" />
+      <workItem from="1496610397825" duration="15318000" />
     </task>
     <task id="LOCAL-00001" summary="Se actualizaron las pantallas">
       <created>1491842685299</created>
@@ -651,11 +665,18 @@
       <option name="project" value="LOCAL" />
       <updated>1496637884710</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Se valida que no haya jugadores ni campos con nombres repetidos">
+      <created>1496638364293</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1496638364293</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="356719000" />
+    <option name="totallyTimeSpent" value="357777000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -674,6 +695,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26022914" sideWeight="0.5121029" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942432" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -697,7 +719,6 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -760,7 +781,8 @@
     <MESSAGE value="Ya se ven reflejados los cambios en el tablero mientras se agregan puntos o cuando se reestablece esa pantalla" />
     <MESSAGE value="Corrección de error al recalcular las rayas, que se sumaban los valores anteriores" />
     <MESSAGE value="Ya se actualiza el tablero sin importar la casilla de golpes que sea ingresada" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ya se actualiza el tablero sin importar la casilla de golpes que sea ingresada" />
+    <MESSAGE value="Se valida que no haya jugadores ni campos con nombres repetidos" />
+    <option name="LAST_COMMIT_MESSAGE" value="Se valida que no haya jugadores ni campos con nombres repetidos" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1034,13 +1056,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/inicio.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="700">
-          <caret line="52" column="19" lean-forward="false" selection-start-line="52" selection-start-column="19" selection-end-line="52" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/templates/seleccion_apuestas.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="700">
@@ -1129,34 +1144,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/Apuestas/ApuestasRayas.js">
+    <entry file="file://$PROJECT_DIR$/www/js/seleccion_jugadores.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-158">
-          <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+        <state relative-caret-position="6132">
+          <caret line="219" column="0" lean-forward="true" selection-start-line="219" selection-start-column="0" selection-end-line="219" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/juego.js">
+    <entry file="file://$PROJECT_DIR$/www/js/inicio.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="453">
-          <caret line="264" column="76" lean-forward="false" selection-start-line="264" selection-start-column="76" selection-end-line="264" selection-end-column="76" />
+        <state relative-caret-position="339">
+          <caret line="25" column="17" lean-forward="false" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/nuevo_campo.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="850">
-          <caret line="146" column="0" lean-forward="true" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
+        <state relative-caret-position="199">
+          <caret line="87" column="28" lean-forward="false" selection-start-line="87" selection-start-column="28" selection-end-line="87" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/seleccion_jugadores.js">
+    <entry file="file://$PROJECT_DIR$/www/js/juego.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6132">
-          <caret line="219" column="0" lean-forward="true" selection-start-line="219" selection-start-column="0" selection-end-line="219" selection-end-column="0" />
+        <state relative-caret-position="188">
+          <caret line="313" column="36" lean-forward="false" selection-start-line="313" selection-start-column="36" selection-end-line="313" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/Apuestas/ApuestasRayas.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="53" column="62" lean-forward="false" selection-start-line="53" selection-start-column="62" selection-end-line="53" selection-end-column="62" />
           <folding />
         </state>
       </provider>
