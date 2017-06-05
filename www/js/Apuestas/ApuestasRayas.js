@@ -32,6 +32,7 @@ function ApuestaRayas(partido) {
         // hoyo en curso
         if (terminaronTurno) {
             console.log('Todos terminaron el hoyo ' + (hoyoIndex + 1));
+            this.createScoreboard();
             // Se recorren los jugadores para obtener las Puntuaciones de
             // todos contra todos
             playersNumber = this.partido.scoreBoard.length;
@@ -120,6 +121,7 @@ function ApuestaRayas(partido) {
     this.createScoreboard = function () {
         var numJugadores = this.partido.scoreBoard.length;
         var numHoyos = this.partido.scoreBoard[0].golpes.length;
+        this.scoreRayas = [];
         for (var i = 0; i < numJugadores; i++) {
             this.scoreRayas.push({puntos: []});
             for (var j = 0; j < numHoyos; j++) {

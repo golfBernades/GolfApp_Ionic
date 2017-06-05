@@ -3,12 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bd1abd7a-46f6-41a9-8a7d-ecb66e461838" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.xml" afterPath="$PROJECT_DIR$/config.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/Apuestas/ApuestasRayas.js" afterPath="$PROJECT_DIR$/www/js/Apuestas/ApuestasRayas.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/juego.js" afterPath="$PROJECT_DIR$/www/js/juego.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/models/Partido.js" afterPath="$PROJECT_DIR$/www/js/models/Partido.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/juego.html" afterPath="$PROJECT_DIR$/www/templates/juego.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/registro_puntos_popup.html" afterPath="$PROJECT_DIR$/www/templates/registro_puntos_popup.html" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -85,20 +80,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ApuestasRayas.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ApuestasRayas.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/Apuestas/ApuestasRayas.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1922">
-              <caret line="38" column="34" lean-forward="false" selection-start-line="38" selection-start-column="34" selection-end-line="38" selection-end-column="34" />
+            <state relative-caret-position="206">
+              <caret line="34" column="36" lean-forward="false" selection-start-line="34" selection-start-column="36" selection-end-line="34" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="juego.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="juego.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/templates/juego.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="644">
+            <state relative-caret-position="365">
               <caret line="68" column="45" lean-forward="false" selection-start-line="68" selection-start-column="45" selection-end-line="68" selection-end-column="45" />
               <folding>
                 <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#0;n#ion-content#0;n#ion-nav-view#0;n#!!top" expanded="true" />
@@ -223,9 +218,9 @@
         <option value="$PROJECT_DIR$/www/js/seleccion_jugadores.js" />
         <option value="$PROJECT_DIR$/www/templates/registro_puntos_popup.html" />
         <option value="$PROJECT_DIR$/www/js/models/Partido.js" />
-        <option value="$PROJECT_DIR$/www/js/Apuestas/ApuestasRayas.js" />
         <option value="$PROJECT_DIR$/www/js/juego.js" />
         <option value="$PROJECT_DIR$/www/templates/juego.html" />
+        <option value="$PROJECT_DIR$/www/js/Apuestas/ApuestasRayas.js" />
       </list>
     </option>
   </component>
@@ -530,7 +525,7 @@
       <workItem from="1496503587404" duration="8572000" />
       <workItem from="1496514516033" duration="10720000" />
       <workItem from="1496587324009" duration="8079000" />
-      <workItem from="1496610397825" duration="7356000" />
+      <workItem from="1496610397825" duration="8359000" />
     </task>
     <task id="LOCAL-00001" summary="Se actualizaron las pantallas">
       <created>1491842685299</created>
@@ -623,11 +618,18 @@
       <option name="project" value="LOCAL" />
       <updated>1496425017197</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Ya se ven reflejados los cambios en el tablero mientras se agregan puntos o cuando se reestablece esa pantalla">
+      <created>1496623935662</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1496623935662</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="349815000" />
+    <option name="totallyTimeSpent" value="350818000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -645,7 +647,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26903024" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26022914" sideWeight="0.5121029" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32942432" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942432" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19759825" sideWeight="0.48789713" order="8" side_tool="false" content_ui="tabs" />
@@ -729,7 +731,8 @@
     <MESSAGE value="Se cambiaron unos selectores de javascript puro a selectores de jquery" />
     <MESSAGE value="Se centran verticalmente el nombre y handicap del jugador en el tablero" />
     <MESSAGE value="Commit antes de experimentar con el tablero" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit antes de experimentar con el tablero" />
+    <MESSAGE value="Ya se ven reflejados los cambios en el tablero mientras se agregan puntos o cuando se reestablece esa pantalla" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ya se ven reflejados los cambios en el tablero mientras se agregan puntos o cuando se reestablece esa pantalla" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1084,14 +1087,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/Apuestas/ApuestasRayas.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1922">
-          <caret line="38" column="34" lean-forward="false" selection-start-line="38" selection-start-column="34" selection-end-line="38" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/models/Partido.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="626">
@@ -1120,11 +1115,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/templates/juego.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="644">
+        <state relative-caret-position="365">
           <caret line="68" column="45" lean-forward="false" selection-start-line="68" selection-start-column="45" selection-end-line="68" selection-end-column="45" />
           <folding>
             <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#0;n#ion-content#0;n#ion-nav-view#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/Apuestas/ApuestasRayas.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="34" column="36" lean-forward="false" selection-start-line="34" selection-start-column="36" selection-end-line="34" selection-end-column="36" />
+          <folding />
         </state>
       </provider>
     </entry>
