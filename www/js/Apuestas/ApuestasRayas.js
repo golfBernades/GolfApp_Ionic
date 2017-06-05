@@ -58,45 +58,45 @@ function ApuestaRayas(partido) {
                     var diferenciaIJ = (handicapI - handicapJ);
                     var diferenciaJI = (handicapJ - handicapI);
 
-                    console.log('ventajaHoyo[' + hIndex + '] = ' + JSON.stringify(ventajaHoyo));
+                    // console.log('ventajaHoyo[' + hIndex + '] = ' + JSON.stringify(ventajaHoyo));
 
                     // Si se cumple, el Jugador I le dará ventaja al J
                     if (diferenciaIJ >= ventajaHoyo) {
-                        console.log('jugadores', 'i: ' + (i + 1) + ', j: ' + (j + 1));
+                        // console.log('jugadores', 'i: ' + (i + 1) + ', j: ' + (j + 1));
                         // Si se cumple, aplicará más de una ventaja
                         if (diferenciaIJ > 18) {
-                            console.log('diferenciaIJ', diferenciaIJ);
+                            // console.log('diferenciaIJ', diferenciaIJ);
                             vents = 1;
                             while (diferenciaIJ - 18 >= ventajaHoyo) {
                                 vents++;
                                 diferenciaIJ -= 18;
                             }
-                            console.log('ventajasIJ', vents);
+                            // console.log('ventajasIJ', vents);
                             golpesI -= vents;
                         }
                         // Aplica la ventaja normal (restar un golpe)
                         else {
-                            console.log('ventajasIJ', 1);
+                            // console.log('ventajasIJ', 1);
                             golpesI--;
                         }
                     }
                     // Si se cumple, el Jugador J le dará ventaja al I
                     else if (diferenciaJI >= ventajaHoyo) {
-                        console.log('jugadores', 'i: ' + (i + 1) + ', j: ' + (j + 1));
+                        // console.log('jugadores', 'i: ' + (i + 1) + ', j: ' + (j + 1));
                         // Si se cumple, aplicará más de una ventaja
                         if (diferenciaJI > 18) {
-                            console.log('diferenciaJI', diferenciaJI);
+                            // console.log('diferenciaJI', diferenciaJI);
                             vents = 1;
                             while (diferenciaJI - 18 >= ventajaHoyo) {
                                 vents++;
                                 diferenciaJI -= 18;
                             }
-                            console.log('ventajasJI', vents);
+                            // console.log('ventajasJI', vents);
                             golpesJ -= vents;
                         }
                         // Aplica la ventaja normal (restar un golpe)
                         else {
-                            console.log('ventajasJI', 1);
+                            // console.log('ventajasJI', 1);
                             golpesJ--;
                         }
                     }

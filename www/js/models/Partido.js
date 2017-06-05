@@ -19,9 +19,9 @@ function Partido(jugadores, campo) {
     this.registrarGolpes = function (jugadorIndex, hoyoIndex, golpes, unidades) {
         this.scoreBoard[jugadorIndex].golpes[hoyoIndex] = golpes;
         this.scoreBoard[jugadorIndex].unidades[hoyoIndex] = unidades;
-        console.log('GolfApp', 'Partido.registrarGolpes: [jugadorIndex: '
-            + jugadorIndex + ', hoyoIndex: ' + hoyoIndex + ', golpes: ' + golpes
-            + ', unidades: ' + unidades + ']');
+        // console.log('GolfApp', 'Partido.registrarGolpes: [jugadorIndex: '
+        //     + jugadorIndex + ', hoyoIndex: ' + hoyoIndex + ', golpes: ' + golpes
+        //     + ', unidades: ' + unidades + ']');
         this.apuestas.forEach(function (apuesta) {
             apuesta.actualizar(jugadorIndex, hoyoIndex);
         });

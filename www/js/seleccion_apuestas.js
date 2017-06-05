@@ -8,7 +8,7 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
         $scope.guardarPantallaApuestas = function (seleccion) {
 
             var pantalla = "UPDATE pantalla SET pantalla = ? WHERE id = 1";
-            console.log(seleccion)
+            // console.log(seleccion)
             switch (seleccion) {
                 case 3:
                     $cordovaSQLite.execute(db, pantalla, [3]);
@@ -77,7 +77,7 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
 
             var inicioJuego = fecha.getFullYear() + "-" + (fecha.getMonth() + 1) + "-" + fecha.getDate() + " " + fecha.getHours() + ":" + fecha.getMinutes() + ":" + fecha.getSeconds();
 
-            console.log(inicioJuego + " " + " " + campo_id + ".............");
+            // console.log(inicioJuego + " " + " " + campo_id + ".............");
             var guardarPartido = "INSERT INTO partido (clave_consulta, clave_edicion, inicio, campo_id) VALUES (?,?,?,?)";
 
             $cordovaSQLite.execute(db, guardarPartido, ["9999", "9999", inicioJuego, campo_id])
@@ -85,7 +85,6 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
 
                 }, function (err) {
                     console.log(err);
-                    console.log("error");
                 });
 
 

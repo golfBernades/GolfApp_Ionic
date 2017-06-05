@@ -18,6 +18,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             $ionicPlatform.ready(function () {
                 console.log('GolfApp>>', 'juego.$ionicPlatform.ready');
 
+                showLoading();
+
                 modulePromises.push(loadJugadores());
                 modulePromises.push(loadCampo());
                 modulePromises.push(loadPuntos());
@@ -25,9 +27,25 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 $q.all(modulePromises).then(function () {
                     actualizarScoreRayas();
                     fixRowsAndColumns();
+                    
+                    setTimeout(function () {
+                        $ionicLoading.hide()
+                    }, 3000)
                 });
 
+
+
             });
+
+            function showLoading() {
+                $ionicLoading.show({
+                    template: '<ion-spinner></ion-spinner>' +
+                    '<p>Loading</p>',
+                    animation: 'fade-in'
+                }).then(function () {
+                    // console.log("The loading indicator is now displayed");
+                });
+            };
 
             function fixRowsAndColumns() {
                 $('#fixed_hdr1').fxdHdrCol({
