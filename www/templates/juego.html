@@ -43,7 +43,8 @@
                     </tr>
                     <tr>
                         <th>VENTAJA</th>
-                        <th ng-repeat="ventaja in ventajas">{{ventaja.value}}</th>
+                        <th ng-repeat="ventaja in ventajas">{{ventaja.value}}
+                        </th>
                         <th></th>
                     </tr>
                     </thead>
@@ -60,7 +61,15 @@
                                     puntuacion.jugador_id, hoyo)">
                                 <div class="div-boton-juego">
                                     <div class="golpes-turno">
-                                        {{puntuacion.golpes[hoyo - 1]}}
+                                        <div class="{{puntuacion.circulos[hoyo - 1][0]}}">
+                                            <div class="{{puntuacion.circulos[hoyo - 1][1]}}">
+                                                <div class="{{puntuacion.circulos[hoyo - 1][2]}}">
+                                                    <div class="{{puntuacion.circulos[hoyo - 1][3]}}">
+                                                        {{puntuacion.golpes[hoyo - 1]}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="rayas-turno"
                                          style="{{puntuacion.style_rayas[hoyo

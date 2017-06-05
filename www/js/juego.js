@@ -13,6 +13,9 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             $scope.campo = {};
             $scope.partido = {};
 
+            var sCirc = 'div-circular';
+            var nCirc = 'circular-hidden';
+
             var modulePromises = [];
 
             $ionicPlatform.ready(function () {
@@ -27,12 +30,11 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 $q.all(modulePromises).then(function () {
                     actualizarScoreRayas();
                     fixRowsAndColumns();
-                    
+
                     setTimeout(function () {
                         $ionicLoading.hide()
                     }, 3000)
                 });
-
 
 
             });
@@ -100,7 +102,27 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                     0, 0, 0, 0, 0, 0],
                                 rayas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                     0, 0, 0, 0, 0],
-                                style_rayas: []
+                                style_rayas: [],
+                                circulos: [
+                                    [nCirc, nCirc, nCirc, nCirc],
+                                    [nCirc, nCirc, nCirc, nCirc],
+                                    [nCirc, nCirc, nCirc, nCirc],
+                                    [nCirc, nCirc, nCirc, nCirc],
+                                    [nCirc, nCirc, nCirc, nCirc],
+                                    [nCirc, nCirc, nCirc, nCirc],
+                                    [nCirc, nCirc, nCirc, nCirc],
+                                    [nCirc, nCirc, nCirc, nCirc],
+                                    [nCirc, nCirc, nCirc, nCirc],
+                                    [nCirc, nCirc, nCirc, nCirc],
+                                    [nCirc, nCirc, nCirc, nCirc],
+                                    [nCirc, nCirc, nCirc, nCirc],
+                                    [nCirc, nCirc, nCirc, nCirc],
+                                    [nCirc, nCirc, nCirc, nCirc],
+                                    [nCirc, nCirc, nCirc, nCirc],
+                                    [nCirc, nCirc, nCirc, nCirc],
+                                    [nCirc, nCirc, nCirc, nCirc],
+                                    [nCirc, nCirc, nCirc, nCirc]
+                                ]
                             });
                         }
                     });
@@ -271,6 +293,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 //     + JSON.stringify($scope.partido.apuestas[0].scoreRayas)
                 //     + ']');
                 var numJugadores = $scope.partido.apuestas[0].scoreRayas.length;
+
                 for (var i = 0; i < numJugadores; i++) {
                     for (var j = 0; j < 18; j++) {
                         var rayas = $scope.partido.apuestas[0].scoreRayas[i].puntos[j];
@@ -283,6 +306,14 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             $scope.tablero[i].style_rayas[j] = 'color: green';
                         else
                             $scope.tablero[i].style_rayas[j] = 'color: black';
+
+                        if($scope.tablero[i].golpes[j] != 0) {
+                            var circulos = $scope.pares[j].value - $scope.tablero[i].golpes[j];
+
+                            for(var m = 0; m < circulos && m < 4; m++) {
+                                $scope.tablero[i].circulos[j][m] = sCirc;
+                            }
+                        }
                     }
                 }
             }
