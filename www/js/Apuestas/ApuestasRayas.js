@@ -17,6 +17,7 @@ function ApuestaRayas(partido) {
     this.scoreRayas = [];
 
     this.actualizar = function (jugadorIndex, hoyoIndex) {
+        console.log('GolfApp', 'ApuestaRayas.actualizar');
         // Verificar si ya terminaron todos los jugadores en ese hoyo
         var terminaronTurno = true;
         var playersNumber = this.partido.scoreBoard.length;
@@ -33,7 +34,9 @@ function ApuestaRayas(partido) {
             console.log('Todos terminaron el hoyo ' + (hoyoIndex + 1));
             // Se recorren los jugadores para obtener las Puntuaciones de
             // todos contra todos
-            var playersNumber = this.partido.scoreBoard.length;
+            playersNumber = this.partido.scoreBoard.length;
+            console.log('GolfApp', 'ApuestaRayas.actualizar [playerNumber:'
+                + playersNumber + ']');
             for (var i = 0; i < playersNumber; i++) {
                 for (var j = 0; j < playersNumber; j++) {
                     // Validación para que un Jugador solo se compare con
@@ -48,8 +51,6 @@ function ApuestaRayas(partido) {
                         var ventajaHoyo = this.partido.campo.ventajas[hoyoIndex];
                         var diferenciaIJ = (handicapI - handicapJ);
                         var diferenciaJI = (handicapJ - handicapI);
-
-                        console.log('hoyo', hoyoIndex + 1);
 
                         // Si se cumple, el Jugador I le dará ventaja al J
                         if (diferenciaIJ >= ventajaHoyo) {
@@ -125,6 +126,7 @@ function ApuestaRayas(partido) {
                 this.scoreRayas[i].puntos.push(0);
             }
         }
+        console.log('GolfApp', 'ApuestaRayas.createScoreboard');
     };
 
     this.createScoreboard();

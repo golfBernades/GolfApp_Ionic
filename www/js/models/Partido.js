@@ -19,11 +19,14 @@ function Partido(jugadores, campo) {
     this.registrarGolpes = function (jugadorIndex, hoyoIndex, golpes, unidades) {
         this.scoreBoard[jugadorIndex].golpes[hoyoIndex] = golpes;
         this.scoreBoard[jugadorIndex].unidades[hoyoIndex] = unidades;
-        if (jugadorIndex == this.scoreBoard.length - 1) {
+        console.log('GolfApp', 'Partido.registrarGolpes: [jugadorIndex: '
+            + jugadorIndex + ', hoyoIndex: ' + hoyoIndex + ', golpes: ' + golpes
+            +', unidades: ' + unidades + ']');
+        // if (jugadorIndex == this.scoreBoard.length - 1) {
             this.apuestas.forEach(function (apuesta) {
                 apuesta.actualizar(jugadorIndex, hoyoIndex);
             });
-        }
+        // }
     };
 
     this.createScoreboard = function () {

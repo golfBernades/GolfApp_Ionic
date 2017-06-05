@@ -3,7 +3,8 @@
         <label for="golpesRealizados">Golpes:</label>
         <input type="number" ng-model="juego.golpesRealizados"
                name="juego.golpesRealizados" id="golpesRealizados" value="0"
-               autofocus>
+               autofocus style="{{juego.style_golpes}}"
+               ng-focus="juego.style_golpes = 'background-color: white'">
     </div>
     <br>
     <div>
