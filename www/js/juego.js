@@ -13,7 +13,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             $scope.campo = {};
             $scope.partido = {};
 
-            //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             var modulePromises = [];
 
             $ionicPlatform.ready(function () {
@@ -24,11 +23,41 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 modulePromises.push(loadPuntos());
 
                 $q.all(modulePromises).then(function () {
-                    actualizarScoreRayas()
+                    actualizarScoreRayas();
+                    fixRowsAndColumns();
                 });
 
             });
 
+            function fixRowsAndColumns() {
+                $('#fixed_hdr1').fxdHdrCol({
+                    fixedCols: 1,
+                    width: '100%',
+                    height: '100%',
+                    colModal: [
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'}
+                    ]
+                });
+            }
 
             function loadJugadores() {
                 var queryJugadores = "SELECT * FROM jugador";
@@ -148,7 +177,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             };
 
                             var crearPartido = function () {
-                                $scope.partido = new Partido($scope.jugadores, $scope.campo);
+                                $scope.partido = new Partido($scope.jugadores,
+                                    $scope.campo);
                             };
 
                             campoPromises.push(crearCampo());
@@ -156,7 +186,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             $q.all(campoPromises).then(function () {
                                 campoPromises.push(crearPartido());
                                 $q.all(campoPromises).then(function () {
-                                    $scope.partido.agregarApuesta(new ApuestaRayas($scope.partido));
+                                    $scope.partido.agregarApuesta(
+                                        new ApuestaRayas($scope.partido));
                                 });
                             });
                         }
@@ -164,9 +195,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                 modulePromises.push(selectCampoPromise);
             }
-
-
-            //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
             $scope.guardarPuntos = function (jugador_idx, jugador_id, hoyo) {
                 console.log('GolfApp>>', 'Se guardarán puntos para el jugador '
@@ -200,9 +228,10 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                                     promises.push(guardarPuntosDb(jugador_id, hoyo,
                                         golpesRealizaos, unidades));
-                                    promises.push($scope.partido.registrarGolpes(
-                                        jugador_idx, (hoyo - 1), golpesRealizaos,
-                                        unidades));
+                                    promises.push($scope.partido
+                                        .registrarGolpes(jugador_idx,
+                                            (hoyo - 1), golpesRealizaos,
+                                            unidades));
 
                                     $q.all(promises).then(function () {
                                         console.log('GolfApp', 'AllPromisesExecuted');
@@ -233,7 +262,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         if (rayas < 0)
                             $scope.tablero[i].style_rayas[j] = 'color: red;';
                         else if (rayas > 0)
-                            $scope.tablero[i].style_rayas[j] = 'color: blue';
+                            $scope.tablero[i].style_rayas[j] = 'color: green';
                         else
                             $scope.tablero[i].style_rayas[j] = 'color: black';
                     }
@@ -242,23 +271,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
             $scope.variableTest = 'HolaValorDefault';
 
-            // $ionicPlatform.ready(function () {
-            //     console.log('GolfApp>>', 'juego.$ionicPlatform.ready');
-            //
-            //     var promises = [];
-            //
-            //     promises.push(getTablero());
-            //
-            //     $q.all(promises).then(function () {
-            //         console.log('GolfApp', 'PromiseGetTablero');
-            //         console.log('GolfApp', 'scoreRayas after: '
-            //             + JSON.stringify(partido.apuestas[0].scoreRayas));
-            //     });
-            //
-            //
-            // });
-
-            //----------------------------------------------------------------------
             $scope.actualizarJuego = function () {
                 console.log('btnActualizar.click()');
 
@@ -268,45 +280,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     .then(function (resDelete) {
                         console.log('GolfApp>>', 'ResDelete: ' + JSON.stringify(resDelete));
                     });
-
-                // $('#fixed_hdr1').fxdHdrCol({
-                //     fixedCols: 1,
-                //     width: '100%',
-                //     height: '100%',
-                //     colModal: [
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'},
-                //         {width: 100, align: 'center'}
-                //     ]
-                // });
             };
-            //----------------------------------------------------------------------
-
-            var jugadores = [];
-            // var campo;
-            // var partido;
-            // var ventajas = [];
-            // var par = [];
-            var ventajasPantalla = [];
-            var parPantalla = [];
-            var puntuaciones = [];
 
             $scope.guardarPantallaJuego = function (seleccion) {
                 var pantalla = "UPDATE pantalla SET pantalla = ? WHERE id = 1";
