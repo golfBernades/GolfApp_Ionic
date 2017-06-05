@@ -2,7 +2,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
     .controller('ctrlJuego', function ($scope, $ionicPopup, $cordovaSQLite,
                                        $state, $ionicLoading, $timeout,
-                                       $ionicPlatform, $q) {
+                                       $ionicPlatform, $q, $http) {
 
             $scope.hoyos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
                 17, 18];
@@ -36,7 +36,50 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     }, 3000)
                 });
 
+                crearCampoServer(1);
             });
+
+            function crearCampoServer(intento) {
+                console.log('INTENTO', intento);
+                var httpRequest = {
+                    method: 'POST',
+                    url: 'http://192.168.1.74:8000/partido_insert',
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                    data: {inicio: '2017-04-10 00:00:00', campo_id: 1},
+                    dataType: "json",
+                    timeout: 3000
+                };
+
+                $http(httpRequest)
+                    .then(function successCallback(response) {
+                        if (typeof(response) == "undefined") {
+                            console.log("response undefined");
+                            popup("UNDEFINED", JSON.stringify(response));
+                            $ionicLoading.hide();
+                        } else {
+                            console.log("response no undefined");
+                            popup("GREAT", JSON.stringify(response));
+                            $ionicLoading.hide()
+                        }
+                    }, function errorCallback(response) {
+                        if (intento < 3) {
+                            crearCampoServer(intento + 1);
+                        } else {
+                            popup("Error", JSON.stringify(response) + "<br>"
+                                + " intentos: " + intento);
+                            $ionicLoading.hide();
+                        }
+                    });
+            }
+
+            function popup(title, template) {
+                var pop = $ionicPopup.alert({
+                    title: title,
+                    template: template
+                });
+            }
 
             function showLoading() {
                 $ionicLoading.show({
@@ -306,10 +349,10 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         else
                             $scope.tablero[i].style_rayas[j] = 'color: black';
 
-                        if($scope.tablero[i].golpes[j] != 0) {
+                        if ($scope.tablero[i].golpes[j] != 0) {
                             var circulos = $scope.pares[j].value - $scope.tablero[i].golpes[j];
 
-                            for(var m = 0; m < circulos && m < 4; m++) {
+                            for (var m = 0; m < circulos && m < 4; m++) {
                                 $scope.tablero[i].circulos[j][m] = sCirc;
                             }
                         }
@@ -378,4 +421,5 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             }
 
         }
-    );
+    )
+;
