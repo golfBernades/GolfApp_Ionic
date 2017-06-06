@@ -37,6 +37,12 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 });
 
                 crearCampoServer(1);
+
+                screen.orientation.addEventListener('change', function(){
+                    console.log(screen.orientation.type); // e.g. portrait
+                    // $state.go('juego');
+                    $state.reload();
+                });
             });
 
             function crearCampoServer(intento) {
@@ -354,6 +360,10 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                             for (var m = 0; m < circulos && m < 4; m++) {
                                 $scope.tablero[i].circulos[j][m] = sCirc;
+                            }
+
+                            for(m = circulos; m < 4; m++) {
+                                $scope.tablero[i].circulos[j][m] = nCirc;
                             }
                         }
                     }

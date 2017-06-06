@@ -3,19 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="bd1abd7a-46f6-41a9-8a7d-ecb66e461838" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/app.js" afterPath="$PROJECT_DIR$/www/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/inicio.js" afterPath="$PROJECT_DIR$/www/js/inicio.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/readme.md" afterPath="$PROJECT_DIR$/readme.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/juego.js" afterPath="$PROJECT_DIR$/www/js/juego.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/nuevo_campo.js" afterPath="$PROJECT_DIR$/www/js/nuevo_campo.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/seleccion_apuestas.js" afterPath="$PROJECT_DIR$/www/js/seleccion_apuestas.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/seleccion_campo.js" afterPath="$PROJECT_DIR$/www/js/seleccion_campo.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/seleccion_jugadores.js" afterPath="$PROJECT_DIR$/www/js/seleccion_jugadores.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/inicio.html" afterPath="$PROJECT_DIR$/www/templates/inicio.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/juego.html" afterPath="$PROJECT_DIR$/www/templates/juego.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/nuevo_campo.html" afterPath="$PROJECT_DIR$/www/templates/nuevo_campo.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/seleccion_apuestas.html" afterPath="$PROJECT_DIR$/www/templates/seleccion_apuestas.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/seleccion_campo.html" afterPath="$PROJECT_DIR$/www/templates/seleccion_campo.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/seleccion_jugadores.html" afterPath="$PROJECT_DIR$/www/templates/seleccion_jugadores.html" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -42,7 +31,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-956">
@@ -92,22 +81,38 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="inicio.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/inicio.js">
+      <file leaf-file-name="readme.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/readme.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="278">
+                <caret line="23" column="49" lean-forward="false" selection-start-line="23" selection-start-column="49" selection-end-line="23" selection-end-column="49" />
+                <folding />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="juego.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/www/js/juego.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="122">
-              <caret line="9" column="69" lean-forward="false" selection-start-line="9" selection-start-column="69" selection-end-line="9" selection-end-column="69" />
+            <state relative-caret-position="395">
+              <caret line="365" column="72" lean-forward="false" selection-start-line="365" selection-start-column="72" selection-end-line="365" selection-end-column="72" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="juego.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/juego.js">
+      <file leaf-file-name="juego.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/templates/juego.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
-              <caret line="20" column="46" lean-forward="true" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="46" />
-              <folding />
+            <state relative-caret-position="140">
+              <caret line="5" column="55" lean-forward="true" selection-start-line="5" selection-start-column="55" selection-end-line="5" selection-end-column="55" />
+              <folding>
+                <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#0;n#ion-content#0;n#ion-nav-view#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#button#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#0;n#ion-content#0;n#ion-nav-view#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -116,27 +121,7 @@
         <entry file="file://$PROJECT_DIR$/www/templates/inicio.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="169">
-              <caret line="10" column="36" lean-forward="true" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="seleccion_campo.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/seleccion_campo.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="15" column="8" lean-forward="false" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="seleccion_jugadores.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/seleccion_jugadores.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5964">
-              <caret line="213" column="56" lean-forward="false" selection-start-line="213" selection-start-column="56" selection-end-line="213" selection-end-column="56" />
+              <caret line="10" column="36" lean-forward="false" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -225,7 +210,6 @@
         <option value="$PROJECT_DIR$/gulpfile.js" />
         <option value="$PROJECT_DIR$/ionic.config.json" />
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/readme.md" />
         <option value="$PROJECT_DIR$/www/css/seleccion_apuestas.css" />
         <option value="$PROJECT_DIR$/www/css/seleccion_jugadores.css" />
         <option value="$PROJECT_DIR$/www/css/index.css" />
@@ -244,7 +228,6 @@
         <option value="$PROJECT_DIR$/www/css/juego.css" />
         <option value="$PROJECT_DIR$/www/templates/add_user_popup.html" />
         <option value="$PROJECT_DIR$/www/templates/edit_user_popup.html" />
-        <option value="$PROJECT_DIR$/www/js/juego.js" />
         <option value="$PROJECT_DIR$/www/templates/juego.html" />
         <option value="$PROJECT_DIR$/www/js/seleccion_jugadores.js" />
         <option value="$PROJECT_DIR$/www/templates/seleccion_jugadores.html" />
@@ -254,6 +237,8 @@
         <option value="$PROJECT_DIR$/www/templates/seleccion_apuestas.html" />
         <option value="$PROJECT_DIR$/www/js/inicio.js" />
         <option value="$PROJECT_DIR$/www/js/app.js" />
+        <option value="$PROJECT_DIR$/readme.md" />
+        <option value="$PROJECT_DIR$/www/js/juego.js" />
       </list>
     </option>
   </component>
@@ -604,7 +589,7 @@
       <workItem from="1496587324009" duration="8079000" />
       <workItem from="1496610397825" duration="15480000" />
       <workItem from="1496672340989" duration="8737000" />
-      <workItem from="1496699946503" duration="3331000" />
+      <workItem from="1496699946503" duration="7098000" />
     </task>
     <task id="LOCAL-00001" summary="Se actualizaron las pantallas">
       <created>1491842685299</created>
@@ -760,11 +745,18 @@
       <option name="project" value="LOCAL" />
       <updated>1496687752061</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Se ajustaron los controllers directamente en el app.js">
+      <created>1496762718848</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1496762718848</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="370007000" />
+    <option name="totallyTimeSpent" value="373774000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -850,7 +842,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Se actualizaron las pantallas" />
     <MESSAGE value="Se copiaron los modelos" />
     <MESSAGE value="Se arreglo el direccionamiento de paginas" />
     <MESSAGE value="Se agregan campos a la lista" />
@@ -875,7 +866,8 @@
     <MESSAGE value="Ya se encierran los golpes en tantos círculos como menor sea el número de golpes al par del hoyo actual" />
     <MESSAGE value="Se actualizaron algunos mensajes de la aplicación" />
     <MESSAGE value="Se solucionó el error del popup llamado dos veces en la pantalla del tablero" />
-    <option name="LAST_COMMIT_MESSAGE" value="Se solucionó el error del popup llamado dos veces en la pantalla del tablero" />
+    <MESSAGE value="Se ajustaron los controllers directamente en el app.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="Se ajustaron los controllers directamente en el app.js" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1012,21 +1004,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gulpfile.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1148">
@@ -1052,16 +1029,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/readme.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="418">
-            <caret line="17" column="1" lean-forward="false" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
-          </first_editor>
-          <second_editor />
         </state>
       </provider>
     </entry>
@@ -1150,17 +1117,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/templates/juego.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="3" column="22" lean-forward="false" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="22" />
-          <folding>
-            <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#0;n#ion-content#0;n#ion-nav-view#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#button#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#0;n#ion-content#0;n#ion-nav-view#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/templates/seleccion_campo.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="477">
@@ -1220,23 +1176,7 @@
     <entry file="file://$PROJECT_DIR$/www/templates/inicio.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="169">
-          <caret line="10" column="36" lean-forward="true" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/juego.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="20" column="46" lean-forward="true" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/inicio.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="9" column="69" lean-forward="false" selection-start-line="9" selection-start-column="69" selection-end-line="9" selection-end-column="69" />
+          <caret line="10" column="36" lean-forward="false" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
           <folding />
         </state>
       </provider>
@@ -1273,10 +1213,64 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="5" column="8" lean-forward="false" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/readme.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="278">
+            <caret line="23" column="49" lean-forward="false" selection-start-line="23" selection-start-column="49" selection-end-line="23" selection-end-column="49" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/inicio.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-466">
+          <caret line="9" column="69" lean-forward="false" selection-start-line="9" selection-start-column="69" selection-end-line="9" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/templates/juego.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="5" column="55" lean-forward="true" selection-start-line="5" selection-start-column="55" selection-end-line="5" selection-end-column="55" />
+          <folding>
+            <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#0;n#ion-content#0;n#ion-nav-view#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#button#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#0;n#ion-content#0;n#ion-nav-view#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-956">
           <caret line="166" column="10" lean-forward="false" selection-start-line="166" selection-start-column="10" selection-end-line="166" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/juego.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="395">
+          <caret line="365" column="72" lean-forward="false" selection-start-line="365" selection-start-column="72" selection-end-line="365" selection-end-column="72" />
           <folding />
         </state>
       </provider>
