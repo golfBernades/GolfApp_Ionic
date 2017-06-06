@@ -1,6 +1,6 @@
 angular.module('starter.seleccion-apuestas', ['ionic'])
 
-    .controller('apuestasCtrl', function ($scope, $cordovaSQLite, $state, $ionicPlatform, $ionicPopup) {
+    .controller('apuestasController', function ($scope, $cordovaSQLite, $state, $ionicPlatform, $ionicPopup) {
         var valor;
 
         $scope.apuestas = [];

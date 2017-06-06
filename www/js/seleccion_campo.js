@@ -4,7 +4,7 @@
 
 angular.module('starter.seleccion-campo', ['ionic'])
 
-    .controller('ctrlCampo', function ($scope, $cordovaSQLite, $state, $ionicPlatform, $ionicPopup) {
+    .controller('camposController', function ($scope, $cordovaSQLite, $state, $ionicPlatform, $ionicPopup) {
 
         var campoSeleccionado = false;
         $scope.campos = [];

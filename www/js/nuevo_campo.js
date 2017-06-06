@@ -4,7 +4,7 @@
 
 angular.module('starter.nuevo-campo', ['ionic'])
 
-    .controller('campoCtrl', function ($scope, $ionicPopup, $state, $cordovaSQLite, $timeout, $ionicPlatform) {
+    .controller('nuevoCampoController', function ($scope, $ionicPopup, $state, $cordovaSQLite, $timeout, $ionicPlatform) {
 
         var campo = null;
         var par = [];

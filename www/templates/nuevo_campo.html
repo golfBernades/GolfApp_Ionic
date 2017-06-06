@@ -1,6 +1,5 @@
 <ion-nav-view>
-    <ion-nav-bar class="bar-balanced" align-title="center"
-                 ng-controller="campoCtrl">
+    <ion-nav-bar class="bar-balanced" align-title="center">
         <ion-nav-buttons side="left">
             <button class="button button-icon button-clear ion-chevron-left"
                     menu-toggle="left"
@@ -10,7 +9,7 @@
         <ion-nav-title>Nuevo Campo</ion-nav-title>
     </ion-nav-bar>
 
-    <ion-content ng-controller="campoCtrl">
+    <ion-content>
         <div class="contenedor">
             <div class="tab-jug">
                 <label class="item item-input inp-nc">
@@ -157,9 +156,10 @@
                     </tbody>
                 </table>
             </div>
-            <div ng-controller="campoCtrl">
+            <div>
                 <button class="button button-balanced button-block btn-full
-                btn-fixed-bottom" ng-click="guardarCampo()">Crear campo
+                btn-fixed-bottom" ng-click="guardarCampo()">
+                    Crear campo
                 </button>
             </div>
         </div>

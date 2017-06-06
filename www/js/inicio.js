@@ -1,7 +1,13 @@
 angular.module('starter.inicio', ['ionic'])
 
-    .controller('inicioCtrl', function ($scope, $cordovaSQLite, $state) {
+    .controller('inicioController', function ($scope, $cordovaSQLite, $state, $ionicPlatform) {
+
+        $ionicPlatform.ready(function () {
+            console.log('inicioController', 'Ready');
+        });
+
         $scope.guardarPantallaInicio = function (seleccion) {
+            console.log('inicioController', 'guardarPantallaInicio');
             var pantalla = "UPDATE pantalla SET pantalla = ? WHERE id = 1";
             // console.log(seleccion);
             switch (seleccion) {

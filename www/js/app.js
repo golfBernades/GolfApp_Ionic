@@ -169,42 +169,48 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             .state('inicio', {
                 cache: false,
                 url: '/inicio',
-                templateUrl: 'templates/inicio.html'
+                templateUrl: 'templates/inicio.html',
+                controller: 'inicioController'
             });
 
         $stateProvider
             .state('seleccion_jugadores', {
                 cache: false,
                 url: '/seleccion_jugadores',
-                templateUrl: 'templates/seleccion_jugadores.html'
+                templateUrl: 'templates/seleccion_jugadores.html',
+                controller: 'jugadoresController'
             });
 
         $stateProvider
             .state('seleccion_campo', {
                 cache: false,
                 url: '/seleccion_campo',
-                templateUrl: 'templates/seleccion_campo.html'
+                templateUrl: 'templates/seleccion_campo.html',
+                controller: 'camposController'
             });
 
         $stateProvider
             .state('seleccion_apuestas', {
                 cache: false,
                 url: '/seleccion_apuestas',
-                templateUrl: 'templates/seleccion_apuestas.html'
+                templateUrl: 'templates/seleccion_apuestas.html',
+                controller: 'apuestasController'
             });
 
         $stateProvider
             .state('nuevo_campo', {
                 cache: false,
                 url: '/nuevo_campo',
-                templateUrl: 'templates/nuevo_campo.html'
+                templateUrl: 'templates/nuevo_campo.html',
+                controller: 'nuevoCampoController'
             });
 
         $stateProvider
             .state('juego', {
                 cache: false,
                 url: '/juego',
-                templateUrl: 'templates/juego.html'
+                templateUrl: 'templates/juego.html',
+                controller: 'juegoController'
             });
 
         $urlRouterProvider.otherwise('/inicio');

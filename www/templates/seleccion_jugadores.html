@@ -1,6 +1,5 @@
 <ion-nav-view>
-    <ion-nav-bar class="bar-balanced" align-title="center"
-                 ng-controller="ctrlNJ">
+    <ion-nav-bar class="bar-balanced" align-title="center">
         <ion-nav-buttons side="left">
             <button class="button button-icon button-clear ion-chevron-left"
                     menu-toggle="left"
@@ -9,15 +8,13 @@
         </ion-nav-buttons>
         <ion-nav-title>Jugadores</ion-nav-title>
         <ion-nav-buttons side="right">
-            <button
-                    class="button button-icon icon-right button-clear
-                    ion-chevron-right" menu-toggle="right"
-                    ng-click="guardarPantallaJugadores(3)">
+            <button class="button button-icon icon-right button-clear ion-chevron-right"
+                    menu-toggle="right" ng-click="guardarPantallaJugadores(3)">
             </button>
         </ion-nav-buttons>
     </ion-nav-bar>
 
-    <ion-content ng-controller="ctrlNJ">
+    <ion-content>
         <div class="contenedor">
             <div class="tab-jug">
                 <table class="table table-striped table-text-vertical-centered"

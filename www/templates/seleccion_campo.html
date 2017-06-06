@@ -1,6 +1,5 @@
 <ion-nav-view>
-    <ion-nav-bar class="bar-balanced" align-title="center"
-                 ng-controller="ctrlCampo">
+    <ion-nav-bar class="bar-balanced" align-title="center">
         <ion-nav-buttons side="left">
             <button class="button button-icon button-clear ion-chevron-left"
                     menu-toggle="left"
@@ -17,7 +16,7 @@
         </ion-nav-buttons>
     </ion-nav-bar>
 
-    <ion-content ng-controller="ctrlCampo">
+    <ion-content>
         <div class="contenedor">
             <div class="lista-campos">
                 <ion-list ng-repeat="campo in campos" ng-model="campos">
@@ -28,10 +27,8 @@
                     </ion-radio>
                 </ion-list>
             </div>
-            <div ng-controller="ctrlInicio">
-                <button
-                        class="button button-balanced button-block btn-full
-                        btn-fixed-bottom"
+            <div>
+                <button class="button button-balanced button-block btn-full btn-fixed-bottom"
                         ng-click="guardarPantallaSeleccionCampo(5)">
                     Nuevo campo
                 </button>

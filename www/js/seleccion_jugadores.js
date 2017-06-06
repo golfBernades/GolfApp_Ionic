@@ -3,7 +3,7 @@
  */
 angular.module('starter.seleccion-jugadores', ['ionic'])
 
-    .controller('ctrlNJ', function ($scope, $ionicPopup, $cordovaSQLite, $state, $ionicPlatform) {
+    .controller('jugadoresController', function ($scope, $ionicPopup, $cordovaSQLite, $state, $ionicPlatform) {
         $scope.jugadores = [];
 
         $scope.guardarPantallaJugadores = function (seleccion) {
@@ -211,6 +211,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         };
 
         $ionicPlatform.ready(function () {
+            console.log('jugadoresController', 'Ready');
             getJugadores();
         });
 
