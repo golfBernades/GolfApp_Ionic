@@ -9,23 +9,15 @@
         <ion-nav-title>Campos</ion-nav-title>
         <ion-nav-buttons side="right">
             <button
-                    class="button button-icon button-clear ion-chevron-right"
-                    menu-toggle="right"
-                    ng-click="guardarPantallaSeleccionCampo(4)">
+                class="button button-icon button-clear ion-chevron-right"
+                menu-toggle="right"
+                ng-click="guardarPantallaSeleccionCampo(4)">
             </button>
         </ion-nav-buttons>
     </ion-nav-bar>
-
     <ion-content>
         <div class="contenedor">
             <div class="lista-campos">
-                <ion-list ng-repeat="campo in campos" ng-model="campos">
-                    <ion-radio ng-model="select" ng-value="campo.seleccionado"
-                               ng-change="campoSeleccionado(campo)">
-                        <p style="font-weight: bold;">{{campo.nombre}}</p>
-                        <p>{{campo.id}}</p>
-                    </ion-radio>
-                </ion-list>
             </div>
             <div>
                 <button class="button button-balanced button-block btn-full btn-fixed-bottom"

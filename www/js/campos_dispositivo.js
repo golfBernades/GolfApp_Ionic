@@ -2,9 +2,9 @@
  * Created by Victor Hugo on 22/03/2017.
  */
 
-angular.module('starter.seleccion-campo', ['ionic'])
+angular.module('starter.campos-dispositivo', ['ionic'])
 
-    .controller('camposController', function ($scope, $cordovaSQLite, $state, $ionicPlatform, $ionicPopup) {
+    .controller('camposDispController', function ($scope, $cordovaSQLite, $state, $ionicPlatform, $ionicPopup) {
 
         var campoSeleccionado = false;
         $scope.campos = [];
@@ -35,12 +35,12 @@ angular.module('starter.seleccion-campo', ['ionic'])
                                     $cordovaSQLite.execute(db, pantalla, [4]);
                                     $state.go('seleccion_apuestas');
                                 } else {
-                                    alertNoCampoSelec();
+                                    popuAlert('Campo no seleccionado!','Para avanzar debes seleccionar un campo.')
                                 }
                             })
 
                         } else {
-                            alertNoCampos();
+                            popuAlert('Campo no seleccionado!','Para avanzar debes crear y seleccionar un campo. ')
                         }
                     });
                     break;
@@ -65,17 +65,44 @@ angular.module('starter.seleccion-campo', ['ionic'])
 
         };
 
-        function alertNoCampoSelec() {
+        function popuAlert(title, template) {
             var alertPopup = $ionicPopup.alert({
-                title: 'Campo no seleccionado!',
-                template: 'Para avanzar debes seleccionar un campo.'
+                title: title,
+                template: template
             });
         };
 
-        function alertNoCampos() {
-            var alertPopup = $ionicPopup.alert({
-                title: 'Campo no seleccionado!',
-                template: 'Para avanzar debes crear y seleccionar un campo. '
+        $scope.deleteCampo = function() {
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Eliminar campo',
+                template: 'Estas seguro de elimnar el campo '+$scope.nombreCampo+'?'
+            });
+
+            confirmPopup.then(function(res) {
+                if(res) {
+                    var query = "DELETE FROM campo WHERE id = (?)";
+                    $cordovaSQLite.execute(db, query, [$scope.idCampo]).then(function (res) {
+                        alertPopupOpcionesCampo.close()
+                        $scope.campos.splice($scope.index, 1);
+                    });
+                } else {
+                    console.log('You are not sure');
+                }
+            });
+        };
+
+        var alertPopupOpcionesCampo = null;
+        $scope.popupOpcionesCampo= function(idCampo,nombreCampo,index) {
+
+            $scope.idCampo = idCampo;
+            $scope.nombreCampo = nombreCampo;
+            $scope.index = index;
+            alertPopupOpcionesCampo = $ionicPopup.alert({
+                templateUrl: 'templates/edit_delete_campo.html',
+                title: 'Campo: '+nombreCampo,
+                scope: $scope,
+                okText:'Cancelar',
+                okType:'button-balanced'
             });
         };
 
@@ -110,6 +137,8 @@ angular.module('starter.seleccion-campo', ['ionic'])
         $ionicPlatform.ready(function () {
             getCampos();
         });
+
+
 
 
     });

@@ -19,7 +19,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                     $cordovaSQLite.execute(db, query).then(function (res) {
                         if (res.rows.length > 0) {
                             $cordovaSQLite.execute(db, pantalla, [3]);
-                            $state.go('seleccion_campo');
+                            $state.go('tabs.camp-cue');
                         } else {
                             var title = "Jugadores no creados!";
                             var template = "No se tiene ningun jugador creado para poder avanzar a la siguiente página.";
@@ -173,10 +173,12 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                             if (nomb && nomb) {
                                 var control = true;
 
-                                for (var i = 0; i < $scope.jugadores.length; i++) {
-                                    if (nomb.toLowerCase() == $scope.jugadores[i].nombre.toLowerCase()) {
-                                        control = false;
-                                        break;
+                                if(nomb.toLowerCase() != $scope.jugadores[index].nombre.toLowerCase()){
+                                    for (var i = 0; i < $scope.jugadores.length; i++) {
+                                        if (nomb.toLowerCase() == $scope.jugadores[i].nombre.toLowerCase()) {
+                                            control = false;
+                                            break;
+                                        }
                                     }
                                 }
 

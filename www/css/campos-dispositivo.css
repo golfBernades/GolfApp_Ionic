@@ -12,6 +12,7 @@
 }
 
 .lista-campos {
+    margin-top: -50px;
     overflow: scroll;
-    height: 90%;
+    height: 95%;
 }

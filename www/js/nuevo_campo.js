@@ -18,7 +18,7 @@ angular.module('starter.nuevo-campo', ['ionic'])
                 case 3:
                     vaciarCampos();
                     $cordovaSQLite.execute(db, pantalla, [3]);
-                    $state.go('seleccion_campo')
+                    $state.go('tabs.camp-dis')
                     break;
             }
         };
@@ -93,7 +93,7 @@ angular.module('starter.nuevo-campo', ['ionic'])
 
                     $timeout(function () {
                         vaciarCampos();
-                        $state.go('seleccion_campo', {}, {reload: true});
+                        $state.go('tabs.camp-dis', {}, {reload: true});
                     }, 1000);
 
                 } else {
