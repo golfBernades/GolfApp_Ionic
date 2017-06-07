@@ -9,7 +9,7 @@ angular.module('starter.inicio', ['ionic'])
         $scope.guardarPantallaInicio = function (seleccion) {
             console.log('inicioController', 'guardarPantallaInicio');
             var pantalla = "UPDATE pantalla SET pantalla = ? WHERE id = 1";
-            // console.log(seleccion);
+
             switch (seleccion) {
                 case 2:
                     $cordovaSQLite.execute(db, pantalla, [2]);
@@ -39,7 +39,7 @@ angular.module('starter.inicio', ['ionic'])
                     $state.go('seleccion_jugadores');
                     break;
                 case 3:
-                    $state.go('seleccion_campo');
+                    $state.go('tabs.camp-dis');
                     break;
                 case 4:
                     $state.go('seleccion_apuestas');
@@ -49,6 +49,9 @@ angular.module('starter.inicio', ['ionic'])
                     break;
                 case 6:
                     $state.go('juego');
+                    break;
+                case 7:
+                    $state.go('tabs.camp-cue');
                     break;
             }
         }

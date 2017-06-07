@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 var db = null;
 angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
-    'starter.seleccion-campo', 'starter.juego', 'starter.nuevo-campo',
+    'starter.campos-dispositivo', 'starter.juego', 'starter.nuevo-campo',
     'starter.seleccion-apuestas', 'starter.inicio'])
 
     .run(function ($ionicPlatform, $cordovaSQLite, $state) {
@@ -25,7 +25,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             }
 
             db = $cordovaSQLite.openDB({
-                name: "Lj9bgooou89.db",
+                name: "Lj9bgoo000ou89.db",
                 iosDatabaseLocation: 'default'
             });
 
@@ -164,48 +164,70 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
         });
     })
 
-    .config(function ($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $urlRouterProvider,  $ionicConfigProvider) {
+        $ionicConfigProvider.views.swipeBackEnabled(false);
+
         $stateProvider
             .state('inicio', {
                 cache: false,
                 url: '/inicio',
                 templateUrl: 'templates/inicio.html',
                 controller: 'inicioController'
-            });
+            })
 
-        $stateProvider
             .state('seleccion_jugadores', {
                 cache: false,
                 url: '/seleccion_jugadores',
                 templateUrl: 'templates/seleccion_jugadores.html',
                 controller: 'jugadoresController'
-            });
+            })
 
-        $stateProvider
+            .state('tabs', {
+                url: "/tab",
+                abstract: true,
+                templateUrl: "templates/tabCampos.html"
+            })
+
+            .state('tabs.camp-dis', {
+                url: '/camp-dis',
+                views: {
+                    'camp-dis': {
+                        templateUrl: 'templates/campos_dispositivo.html',
+                        controller: 'camposDispController'
+                    }
+                }
+            })
+
+            .state('tabs.camp-cue', {
+                url: "/camp-cue",
+                views: {
+                    'camp-cue': {
+                        templateUrl:'templates/campos_cuenta.html'
+                    }
+                }
+            })
+
             .state('seleccion_campo', {
                 cache: false,
                 url: '/seleccion_campo',
                 templateUrl: 'templates/seleccion_campo.html',
                 controller: 'camposController'
-            });
+            })
 
-        $stateProvider
             .state('seleccion_apuestas', {
                 cache: false,
                 url: '/seleccion_apuestas',
                 templateUrl: 'templates/seleccion_apuestas.html',
                 controller: 'apuestasController'
-            });
+            })
 
-        $stateProvider
             .state('nuevo_campo', {
                 cache: false,
                 url: '/nuevo_campo',
                 templateUrl: 'templates/nuevo_campo.html',
                 controller: 'nuevoCampoController'
-            });
+            })
 
-        $stateProvider
             .state('juego', {
                 cache: false,
                 url: '/juego',
@@ -240,3 +262,4 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             }
         }
     });
+//
