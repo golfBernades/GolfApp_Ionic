@@ -1,0 +1,28 @@
+<ion-nav-view>
+    <ion-nav-bar class="bar-balanced" align-title="center">
+        <ion-nav-title>Iniciar Sesion</ion-nav-title>
+    </ion-nav-bar>
+    <ion-content>
+        <div class="contenedor">
+            <div>
+                <label class="item" style="text-align: center">
+                    <i class="glyphicon glyphicon-log-in" style="font-size: 150px; color: #d8d8d8"></i>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Correo Electronico</span>
+                    <input type="text" placeholder="victor@hotmail.com">
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Contraseña</span>
+                    <input type="password" placeholder="Suhr">
+                </label>
+                <label class="item" style="text-align: center">
+                    <input type="button" class="button button-block button-balanced" value="Iniciar Sesion" ng-click="goInicio()">
+                </label>
+                <label class="item" style="text-align: center">
+                    <input type="button" class="button button-clear button-positive" value="O Crea Tu Cuenta Aqui" ng-click="goRegistro()">
+                </label>
+            </div>
+        </div>
+    </ion-content>
+</ion-nav-view>

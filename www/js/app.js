@@ -6,7 +6,7 @@
 var db = null;
 angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
     'starter.campos-dispositivo', 'starter.juego', 'starter.nuevo-campo',
-    'starter.seleccion-apuestas', 'starter.inicio'])
+    'starter.seleccion-apuestas', 'starter.inicio','starter.login','starter.registro'])
 
     .run(function ($ionicPlatform, $cordovaSQLite, $state) {
         $ionicPlatform.ready(function () {
@@ -25,7 +25,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             }
 
             db = $cordovaSQLite.openDB({
-                name: "Lj9bgoo000ou89.db",
+                name: "Lj9bgzzpu89.db",
                 iosDatabaseLocation: 'default'
             });
 
@@ -164,10 +164,24 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
         });
     })
 
-    .config(function ($stateProvider, $urlRouterProvider,  $ionicConfigProvider) {
-        $ionicConfigProvider.views.swipeBackEnabled(false);
+    .config(function ($stateProvider, $urlRouterProvider) {
 
         $stateProvider
+
+            .state('login', {
+                cache:false,
+                url: '/login',
+                templateUrl: 'templates/login.html',
+                controller: 'loginController'
+            })
+
+            .state('registro', {
+                cache:false,
+                url: '/registro',
+                templateUrl: 'templates/registro.html',
+                controller: 'registroController'
+            })
+
             .state('inicio', {
                 cache: false,
                 url: '/inicio',

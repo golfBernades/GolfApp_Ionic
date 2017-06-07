@@ -1,0 +1,38 @@
+<ion-nav-view>
+    <ion-nav-bar class="bar-balanced" align-title="center">
+        <ion-nav-buttons side="left">
+            <button class="button button-icon button-clear ion-chevron-left"
+                    menu-toggle="left"
+                    ng-click="goInicio()">
+            </button>
+        </ion-nav-buttons>
+        <ion-nav-title>Registro Usuario</ion-nav-title>
+    </ion-nav-bar>
+    <ion-content>
+        <div class="contenedor">
+            <div>
+                <label class="item" style="text-align: center">
+                    <i class="glyphicon glyphicon-user" style="font-size: 150px; color: #d8d8d8"></i>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Correo Electronico</span>
+                    <input type="email" ng-model="registro.correo" placeholder="victor@hotmail.com">
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Contraseña</span>
+                    <input type="password" ng-model="registro.password" placeholder="Suhr">
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Confirmar Contraseña</span>
+                    <input type="password" ng-model="registro.passwordConf" placeholder="Suhr">
+                </label>
+                <label class="item" style="text-align: center">
+                    <input type="button" class="button button-block button-balanced" value="Registro" ng-click="registro(registro.correo,registro.password, registro.passwordConf)">
+                </label>
+                <label class="item" style="text-align: center">
+                    <input type="button" class="button button-clear button-positive" value="Inicia Sesión Aqui" ng-click="goLogin()">
+                </label>
+            </div>
+        </div>
+    </ion-content>
+</ion-nav-view>

@@ -18,6 +18,10 @@ angular.module('starter.inicio', ['ionic'])
             }
         };
 
+        $scope.goLogin = function () {
+            $state.go('login');
+        };
+
         function cargarPantalla() {
             setTimeout(function () {
                 var pant = "SELECT * FROM pantalla";
