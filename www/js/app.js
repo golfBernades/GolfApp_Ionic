@@ -283,4 +283,3 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             }
         }
     });
-//

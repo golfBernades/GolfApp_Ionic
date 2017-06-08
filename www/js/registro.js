@@ -91,7 +91,7 @@ angular.module('starter.registro', ['ionic'])
 
         function consultarCorreo(intento) {
             var httpRequest = createPostHttpRequest(
-                'http://192.168.43.230:8000/usuario_exists',
+                'http://192.168.0.11:8000/usuario_exists',
                 {email: $scope.registroData.correo}
             );
 
@@ -125,7 +125,7 @@ angular.module('starter.registro', ['ionic'])
 
         function insertarUsuario(intento) {
             var httpRequest = createPostHttpRequest(
-                'http://192.168.43.230:8000/usuario_insert',
+                'http://192.168.0.11:8000/usuario_insert',
                 {
                     email: $scope.registroData.correo,
                     password: $scope.registroData.password
