@@ -6,31 +6,37 @@
                     ng-click="goInicio()">
             </button>
         </ion-nav-buttons>
-        <ion-nav-title>Registro Usuario</ion-nav-title>
+        <ion-nav-title>Crear Nueva Cuenta</ion-nav-title>
     </ion-nav-bar>
     <ion-content>
         <div class="contenedor">
             <div>
                 <label class="item" style="text-align: center">
-                    <i class="glyphicon glyphicon-user" style="font-size: 150px; color: #d8d8d8"></i>
+                    <i class="glyphicon glyphicon-user"
+                       style="font-size: 150px; color: #d8d8d8"></i>
                 </label>
                 <label class="item item-input item-stacked-label">
-                    <span class="input-label">Correo Electronico</span>
-                    <input type="email" ng-model="registro.correo" placeholder="victor@hotmail.com">
+                    <span class="input-label">Correo electrónico:</span>
+                    <input type="email" ng-model="registroData.correo">
                 </label>
                 <label class="item item-input item-stacked-label">
-                    <span class="input-label">Contraseña</span>
-                    <input type="password" ng-model="registro.password" placeholder="Suhr">
+                    <span class="input-label">Contraseña:</span>
+                    <input type="password" ng-model="registroData.password">
                 </label>
                 <label class="item item-input item-stacked-label">
-                    <span class="input-label">Confirmar Contraseña</span>
-                    <input type="password" ng-model="registro.passwordConf" placeholder="Suhr">
+                    <span class="input-label">Confirmar contraseña:</span>
+                    <input type="password" ng-model="registroData.passwordConf">
                 </label>
                 <label class="item" style="text-align: center">
-                    <input type="button" class="button button-block button-balanced" value="Registro" ng-click="registro(registro.correo,registro.password, registro.passwordConf)">
+                    <input type="button"
+                           class="button button-block button-balanced"
+                           value="Registro"
+                           ng-click="registrarCuenta()">
                 </label>
                 <label class="item" style="text-align: center">
-                    <input type="button" class="button button-clear button-positive" value="Inicia Sesión Aqui" ng-click="goLogin()">
+                    <input type="button"
+                           class="button button-clear button-positive"
+                           value="Inicia Sesión Aquí" ng-click="goLogin()">
                 </label>
             </div>
         </div>
