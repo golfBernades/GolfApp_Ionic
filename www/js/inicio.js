@@ -1,10 +1,10 @@
 angular.module('starter.inicio', ['ionic'])
 
-    .controller('inicioController', function ($scope, $cordovaSQLite, $state, $ionicPlatform) {
+    .controller('inicioController', function ($scope, $cordovaSQLite, $state, $ionicPlatform, $ionicPopup) {
 
-        $ionicPlatform.ready(function () {
-            console.log('inicioController', 'Ready');
-        });
+        $scope.funcionUser = "";
+        $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
+        var sesion;
 
         $scope.guardarPantallaInicio = function (seleccion) {
             console.log('inicioController', 'guardarPantallaInicio');
@@ -12,14 +12,29 @@ angular.module('starter.inicio', ['ionic'])
 
             switch (seleccion) {
                 case 2:
-                    $cordovaSQLite.execute(db, pantalla, [2]);
-                    $state.go('seleccion_jugadores');
+                    if(sesion){
+                        $cordovaSQLite.execute(db, pantalla, [2]);
+                        $state.go('seleccion_jugadores');
+                    }else{
+                        confirmSesion()
+                    }
                     break;
             }
         };
 
-        $scope.goLogin = function () {
-            $state.go('login');
+        function confirmSesion () {
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Iniciar Sesión',
+                template: 'Para poder avanzar deves iniciar sesión',
+                okText:'Iniciar Sesión',
+                cancelText: 'Cancelar'
+            });
+
+            confirmPopup.then(function(res) {
+                if(res) {
+                    logIn()
+                }
+            });
         };
 
         function cargarPantalla() {
@@ -59,5 +74,60 @@ angular.module('starter.inicio', ['ionic'])
                     break;
             }
         }
-        cargarPantalla();
+
+        function logIn () {
+            $state.go('login');
+        };
+
+        function logOut () {
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Cerrar Sesión',
+                template: 'Estas seguro de cerrar sesión?'
+            });
+
+            confirmPopup.then(function(res) {
+                if(res) {
+                    deleteUser()
+                    sesion=false;
+                    $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
+                } else {
+
+                }
+            });
+        };
+
+        function deleteUser() {
+            var query = 'DELETE FROM usuario';
+            $cordovaSQLite.execute(db, query);
+        }
+
+        function isUser() {
+            var query = "SELECT id FROM usuario";
+            setTimeout(function () {
+                $cordovaSQLite.execute(db, query).then(function (res) {
+                    console.log(JSON.stringify(res)+" hola")
+                    if(res.rows.length>0){
+                        sesion = true;
+                        $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-out";
+                        cargarPantalla();
+                    }else{
+                        sesion = false;
+                        $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
+                    }
+                });
+            },500)
+        }
+
+        $scope.log = function () {
+            if(sesion){
+                logOut();
+            }else{
+                logIn();
+            }
+        }
+
+        $ionicPlatform.ready(function () {
+            isUser()
+        });
+
     });

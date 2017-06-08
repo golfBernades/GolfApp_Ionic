@@ -3,8 +3,8 @@
         </ion-nav-buttons>
         <ion-nav-title>Bienvenido a GolfApp</ion-nav-title>
         <ion-nav-buttons side="right">
-            <button class="button button-icon icon-right button-clear glyphicon glyphicon-log-in"
-                    menu-toggle="right" ng-click="goLogin()">
+            <button class="{{iconStatus}}"
+                    menu-toggle="right" ng-click="log()">
             </button>
 
         </ion-nav-buttons>
@@ -20,9 +20,6 @@
             </button>
             <button class="button button-balanced button-block btn-full">
                 Ver juego existente
-            </button>
-            <button class="button button-balanced button-block btn-full">
-               Ingresar
             </button>
         </div>
     </ion-content>

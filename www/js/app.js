@@ -35,6 +35,13 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
 
             $cordovaSQLite.execute(db, pantalla);
 
+            var usuario = "CREATE TABLE IF NOT EXISTS usuario" +
+                "(id integer PRIMARY KEY" +
+                ",email text" +
+                ",password text)";
+
+            $cordovaSQLite.execute(db, usuario);
+
             var jugador = "CREATE TABLE IF NOT EXISTS jugador" +
                 "(id integer PRIMARY KEY AUTOINCREMENT, " +
                 "nombre text, " +

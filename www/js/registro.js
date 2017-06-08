@@ -4,7 +4,7 @@
 
 angular.module('starter.registro', ['ionic'])
 
-.controller('registroController',function ($scope, $state,$ionicPopup, $http, $ionicLoading) {
+.controller('registroController',function ($scope, $state,$ionicPopup, $http, $ionicLoading, $cordovaSQLite, $ionicPlatform) {
 
     $scope.registro="hola"
 
@@ -47,7 +47,7 @@ angular.module('starter.registro', ['ionic'])
 
         var httpRequest = {
             method: 'POST',
-            url: 'http://192.168.1.101:8000/usuario_exists',
+            url: 'http://192.168.1.74:8000/usuario_exists',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             transformRequest: function(obj) {
                 var str = [];
@@ -83,7 +83,7 @@ angular.module('starter.registro', ['ionic'])
 
         var httpRequest = {
             method: 'POST',
-            url: 'http://192.168.1.101:8000/usuario_insert',
+            url: 'http://192.168.1.74:8000/usuario_insert',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             transformRequest: function(obj) {
                 var str = [];
@@ -101,7 +101,7 @@ angular.module('starter.registro', ['ionic'])
 
 
                 if(response.data.code == 200){
-                    popup("Usuario Insertado","insertado "+ response.data.code)
+                    guardarUsuarioPhone()//popup("Usuario Insertado","insertado "+ response.data.code + " "+response.data.email +" "+response.data.password)
                 }else{
                     popup("Usuario NO Insertado"," NO insertado "+ response.data.code)
                 }
@@ -116,6 +116,18 @@ angular.module('starter.registro', ['ionic'])
                 }
             });
     }
+
+    function guardarUsuarioPhone() {
+        var query = "INSERT INTO usuario (id, email, password) VALUES (?,?,?)";
+        $cordovaSQLite.execute(db, query, [1, $scope.registro.correo, $scope.registro.password])
+            .then(function (res) {
+                popup("Bienvenido a GolfApp","Ahora ya eres un miembro de GolfApp, Crea partidos y disfruta de privilegios.")
+                $state.go('inicio')
+        }, function (err) {
+                popup("Usuario error"," erroe")
+                console.error(err);
+            });
+    };
 
     function popup(title, template) {
         var alertPopup = $ionicPopup.alert({
@@ -133,4 +145,9 @@ angular.module('starter.registro', ['ionic'])
             // console.log("The loading indicator is now displayed");
         });
     };
+
+
+    $ionicPlatform.ready(function () {
+        console.log('jugadoresController', 'Ready');;
+    });
 });
