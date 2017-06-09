@@ -19,7 +19,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                     $cordovaSQLite.execute(db, query).then(function (res) {
                         if (res.rows.length > 0) {
                             $cordovaSQLite.execute(db, pantalla, [3]);
-                            $state.go('tabs.camp-cue');
+                            $state.go('tabs.camp-dis');
                         } else {
                             var title = "Jugadores no creados!";
                             var template = "No se tiene ningun jugador creado para poder avanzar a la siguiente página.";

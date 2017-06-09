@@ -25,7 +25,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             }
 
             db = $cordovaSQLite.openDB({
-                name: "Lj9bgzzpu89.db",
+                name: "Lj9bgzzpuqmm89.db",
                 iosDatabaseLocation: 'default'
             });
 
@@ -269,7 +269,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                     $state.go('seleccion_jugadores');
                     break;
                 case 3:
-                    $state.go('seleccion_campo');
+                    $state.go('tabs.camp-dis');
                     break;
                 case 4:
                     $state.go('seleccion_apuestas');

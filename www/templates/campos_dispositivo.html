@@ -27,21 +27,19 @@
                         <p>{{campo.id}} {{$index}}</p>
                     </ion-radio>
                     -->
-                    <a class="item item-avatar" ng-model="select" ng-value="campo.seleccionado"
-                       on-hold="popupOpcionesCampo(campo.id, campo.nombre, $index)"
-                       ng-change="campoSeleccionado(campo)">
-                        <img src="img/ionic.png">
-                        <h2>{{campo.nombre}}</h2>
-                        <p>{{campo.id}} {{$index}}</p>
-                    </a>
+                    <ion-radio class="item item-avatar" ng-model="select" ng-value="campo.seleccionado"
+                               on-hold="popupOpcionesCampo(campo.id, campo.nombre, $index)"
+                               ng-change="campoSeleccionado(campo)">
+                            <img src="img/ionic.png">
+                            <h2>{{campo.nombre}}</h2>
+                            <p>{{campo.id}} {{$index}}</p>
+                    </ion-radio>
+
                 </ion-list>
             </div>
-            <div>
                 <button class="button button-balanced button-block btn-full btn-fixed-bottom"
-                        ng-click="guardarPantallaSeleccionCampo(5)">
-                    Nuevo campo
+                        ng-click="guardarPantallaSeleccionCampo(5)">Nuevo campo
                 </button>
-            </div>
         </div>
     </ion-content>
 </ion-nav-view>

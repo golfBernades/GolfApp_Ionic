@@ -36,7 +36,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     }, 3000)
                 });
 
-                crearCampoServer(1);
+                //crearCampoServer(1);
 
                 screen.orientation.addEventListener('change', function(){
                     console.log(screen.orientation.type); // e.g. portrait
@@ -128,7 +128,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             }
 
             function loadJugadores() {
-                var queryJugadores = "SELECT * FROM jugador";
+                var queryJugadores = "SELECT * FROM jugador ORDER BY handicap, nombre ASC";
 
                 selectJugadoresPromise = $cordovaSQLite
                     .execute(db, queryJugadores).then(function (resJug) {
@@ -293,7 +293,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                 $ionicPopup.show({
                     templateUrl: 'templates/registro_puntos_popup.html',
-                    title: 'Registro de puntos',
+                    title: 'Registro de puntos.',
+                    subTitle: 'Jugador: '+ $scope.jugadores[jugador_idx].nombre+'.  Hoyo: '+hoyo+'.',
                     scope: $scope,
                     buttons: [
                         {
@@ -306,6 +307,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             onTap: function (e) {
                                 var golpesRealizaos = $scope.juego.golpesRealizados;
                                 var unidades = $scope.juego.puntosExtras;
+
                                 unidades = unidades ? unidades : 0;
 
                                 $scope.tablero[jugador_idx].golpes[hoyo - 1] = golpesRealizaos;

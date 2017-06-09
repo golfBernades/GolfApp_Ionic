@@ -4,7 +4,7 @@
 
 angular.module('starter.campos-dispositivo', ['ionic'])
 
-    .controller('camposDispController', function ($scope, $cordovaSQLite, $state, $ionicPlatform, $ionicPopup) {
+    .controller('camposDispController', function ($scope, $cordovaSQLite, $state, $ionicPlatform, $ionicPopup, $rootScope) {
 
         var campoSeleccionado = false;
         $scope.campos = [];
@@ -12,6 +12,42 @@ angular.module('starter.campos-dispositivo', ['ionic'])
         $scope.data = {
             clientSide: 'ng'
         };
+        var alertPopupOpcionesCampo = null;
+
+        function popuAlert(title, template) {
+            var alertPopup = $ionicPopup.alert({
+                title: title,
+                template: template
+            });
+        };
+
+        function getCampos() {
+            var par = [];
+            var ventaja = [];
+
+            var query = "SELECT id, nombre, seleccionado FROM campo";
+            $cordovaSQLite.execute(db, query).then(function (res) {
+
+                if (res.rows.length > 0) {
+                    for (var i = 0; i < res.rows.length; i++) {
+                        if (res.rows.item(i).seleccionado == 0) {
+                            $scope.campos.push({
+                                id: res.rows.item(i).id,
+                                nombre: res.rows.item(i).nombre,
+                                seleccionado: false
+                            });
+                        } else {
+                            $scope.campos.push({
+                                id: res.rows.item(i).id,
+                                nombre: res.rows.item(i).nombre,
+                                seleccionado: true
+                            });
+                            campoSeleccionado = true;
+                        }
+                    }
+                }
+            });
+        }
 
         $scope.guardarPantallaSeleccionCampo = function (seleccion) {
 
@@ -47,6 +83,7 @@ angular.module('starter.campos-dispositivo', ['ionic'])
 
                 case 5:
                     $cordovaSQLite.execute(db, pantalla, [5]);
+                    $rootScope.idCampoAct = null;
                     $state.go('nuevo_campo')
                     break;
             }
@@ -65,13 +102,6 @@ angular.module('starter.campos-dispositivo', ['ionic'])
 
         };
 
-        function popuAlert(title, template) {
-            var alertPopup = $ionicPopup.alert({
-                title: title,
-                template: template
-            });
-        };
-
         $scope.deleteCampo = function() {
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Eliminar campo',
@@ -81,7 +111,7 @@ angular.module('starter.campos-dispositivo', ['ionic'])
             confirmPopup.then(function(res) {
                 if(res) {
                     var query = "DELETE FROM campo WHERE id = (?)";
-                    $cordovaSQLite.execute(db, query, [$scope.idCampo]).then(function (res) {
+                    $cordovaSQLite.execute(db, query, [$rootScope.idCampoAct]).then(function (res) {
                         alertPopupOpcionesCampo.close()
                         $scope.campos.splice($scope.index, 1);
                     });
@@ -91,10 +121,16 @@ angular.module('starter.campos-dispositivo', ['ionic'])
             });
         };
 
-        var alertPopupOpcionesCampo = null;
+        $scope.actualizarCampo = function () {
+            alertPopupOpcionesCampo.close();
+            $state.go('nuevo_campo')
+        };
+
+        $rootScope.idCampoAct = null;
+
         $scope.popupOpcionesCampo= function(idCampo,nombreCampo,index) {
 
-            $scope.idCampo = idCampo;
+            $rootScope.idCampoAct = idCampo;
             $scope.nombreCampo = nombreCampo;
             $scope.index = index;
             alertPopupOpcionesCampo = $ionicPopup.alert({
@@ -105,34 +141,6 @@ angular.module('starter.campos-dispositivo', ['ionic'])
                 okType:'button-balanced'
             });
         };
-
-        function getCampos() {
-            var par = [];
-            var ventaja = [];
-
-            var query = "SELECT id, nombre, seleccionado FROM campo";
-            $cordovaSQLite.execute(db, query).then(function (res) {
-
-                if (res.rows.length > 0) {
-                    for (var i = 0; i < res.rows.length; i++) {
-                        if (res.rows.item(i).seleccionado == 0) {
-                            $scope.campos.push({
-                                id: res.rows.item(i).id,
-                                nombre: res.rows.item(i).nombre,
-                                seleccionado: false
-                            });
-                        } else {
-                            $scope.campos.push({
-                                id: res.rows.item(i).id,
-                                nombre: res.rows.item(i).nombre,
-                                seleccionado: true
-                            });
-                            campoSeleccionado = true;
-                        }
-                    }
-                }
-            });
-        }
 
         $ionicPlatform.ready(function () {
             getCampos();

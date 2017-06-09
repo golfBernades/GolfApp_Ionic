@@ -12,7 +12,7 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
             switch (seleccion) {
                 case 3:
                     $cordovaSQLite.execute(db, pantalla, [3]);
-                    $state.go('seleccion_campo');
+                    $state.go('tabs.camp-dis');
                     break;
 
                 case 6:

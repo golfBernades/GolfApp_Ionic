@@ -12,6 +12,7 @@ angular.module('starter.inicio', ['ionic'])
 
             switch (seleccion) {
                 case 2:
+                    sesion= true;
                     if(sesion){
                         $cordovaSQLite.execute(db, pantalla, [2]);
                         $state.go('seleccion_jugadores');
