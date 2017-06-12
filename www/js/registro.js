@@ -13,12 +13,6 @@ angular.module('starter.registro', ['ionic'])
         var correoDisponible = false;
         var registroCorrecto = false;
 
-        // $scope.registroData = {
-        //     correo: '',
-        //     password: '',
-        //     passwordConf: ''
-        // };
-
         $scope.registroData = {
             correo: 'porfirioads@gmail.com',
             password: 'holamundo',
@@ -62,7 +56,9 @@ angular.module('starter.registro', ['ionic'])
                         insertarUsuario(1);
                         $q.all(modulePromises).then(function () {
                             if (registroCorrecto) {
-                                popup('Ok', 'Me registré, ahora puedo usar GolfApp');
+                                guardarUsuarioPhone();
+                                popup('Bienvenido a GolfApp', 'Disfruta todos los privilegios como usuario del sistema.');
+                                $state.go('inicio');
                             }
                         });
                     }
@@ -91,16 +87,20 @@ angular.module('starter.registro', ['ionic'])
 
         function consultarCorreo(intento) {
             var httpRequest = createPostHttpRequest(
-                'http://192.168.0.11:8000/usuario_exists',
+                dir+'usuario_exists',
                 {email: $scope.registroData.correo}
             );
 
             var correoRequest = $http(httpRequest)
                 .then(function successCallback(response) {
-                    if (response.data.existe) {
-                        $ionicLoading.hide();
-                        popup('Error', 'El email ya está siendo utilizado');
-                        correoDisponible = false;
+                    if (response.data.ok) {
+                        if(response.data.existe){
+                            $ionicLoading.hide();
+                            popup('Error', 'El email ya está siendo utilizado');
+                            correoDisponible = false;
+                        }else{
+                            correoDisponible = true;
+                        }
                     } else {
                         correoDisponible = true;
                     }
@@ -125,7 +125,7 @@ angular.module('starter.registro', ['ionic'])
 
         function insertarUsuario(intento) {
             var httpRequest = createPostHttpRequest(
-                'http://192.168.0.11:8000/usuario_insert',
+                dir+'usuario_insert',
                 {
                     email: $scope.registroData.correo,
                     password: $scope.registroData.password
@@ -135,26 +135,22 @@ angular.module('starter.registro', ['ionic'])
             var insertarRequest = $http(httpRequest)
                 .then(function successCallback(response) {
                     $ionicLoading.hide();
-                    if (response.data.insertado) {
-                        popup('Registro', 'La cuenta fue creada correctamente');
-                        popup('Registro', 'usuario_id: '
-                            + response.data.usuario_id);
+                    if (response.data.ok) {
                         registroCorrecto = true;
                     } else {
-                        popup('Error de registro', response.data.error_message);
+                        popup('Error de registro', 'Intentar mas tarde');
                         registroCorrecto = false;
                     }
                 }, function errorCallback(response) {
                     if (response.status == 400) {
-                        popup('Error response', response.data.error_message);
+                        //popup('Error response', response.data.error_message);
                         registroCorrecto = false;
                     } else {
                         if (intento < 3) {
                             insertarUsuario(intento + 1);
                         } else {
                             $ionicLoading.hide();
-                            popup('Error response', 'status: '
-                                + response.status);
+                            popup('Error de conexion', 'Intentar mas tarde el registro.');
                             registroCorrecto = false;
                         }
                     }
@@ -165,14 +161,7 @@ angular.module('starter.registro', ['ionic'])
 
         function guardarUsuarioPhone() {
             var query = "INSERT INTO usuario (id, email, password) VALUES (?,?,?)";
-            $cordovaSQLite.execute(db, query, [1, $scope.registro.correo, $scope.registro.password])
-                .then(function (res) {
-                    popup("Bienvenido a GolfApp", "Ahora ya eres un miembro de GolfApp, Crea partidos y disfruta de privilegios.")
-                    $state.go('inicio')
-                }, function (err) {
-                    popup("Usuario error", " erroe")
-                    console.error(err);
-                });
+            $cordovaSQLite.execute(db, query, [1, $scope.registroData.correo, $scope.registroData.password]);
         }
 
         function popup(title, template) {
@@ -191,7 +180,6 @@ angular.module('starter.registro', ['ionic'])
                 // console.log("The loading indicator is now displayed");
             });
         };
-
 
         $ionicPlatform.ready(function () {
             console.log('jugadoresController', 'Ready');

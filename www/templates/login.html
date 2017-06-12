@@ -16,14 +16,14 @@
                 </label>
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Correo Electronico</span>
-                    <input type="text" placeholder="victor@hotmail.com">
+                    <input type="text" ng-model="loginData.correo" placeholder="victor@hotmail.com">
                 </label>
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Contraseña</span>
-                    <input type="password" placeholder="Suhr">
+                    <input type="password" ng-model="loginData.password" placeholder="Suhr">
                 </label>
                 <label class="item" style="text-align: center">
-                    <input type="button" class="button button-block button-balanced" value="Iniciar Sesion" ng-click="goInicio()">
+                    <input type="button" class="button button-block button-balanced" value="Iniciar Sesion" ng-click="goLogin()">
                 </label>
                 <label class="item" style="text-align: center">
                     <input type="button" class="button button-clear button-positive" value="O Crea Tu Cuenta Aqui" ng-click="goRegistro()">

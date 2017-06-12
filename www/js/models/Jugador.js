@@ -10,11 +10,12 @@
  * @param password
  * @param email
  */
-function Jugador(id, nombre, apodo, handicap, sexo, url_foto, password, email) {
+function Jugador(id, nombre, apodo, handicap, jugar, sexo, url_foto, password, email) {
     this.id = id;
     this.nombre = nombre;
     this.apodo = apodo;
     this.handicap = handicap;
+    this.jugar = jugar;
     this.sexo = sexo;
     this.url_foto = url_foto;
     this.password = password;

@@ -24,6 +24,7 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Handicap</th>
+                        <th>Jugar</th>
                         <th>Eliminar</th>
                         <th>Editar</th>
                     </tr>
@@ -33,6 +34,14 @@
                         class="{'fadeOut' : skill.done}">
                         <td>{{skill.nombre}}</td>
                         <td>{{skill.handicap}}</td>
+                        <td>
+                        <label class="toggle">
+                            <input id="cb-{{$index}}" ng-click="isJugador(skill.id, $index)" type="checkbox">
+                            <div class="track">
+                                <div class="handle"></div>
+                            </div>
+                        </label>
+                        </td>
                         <td>
                             <button ng-click="deleteSkill($index)" class="button
                             icon ion-trash-a eliminar-nuevo-jugador"></button>

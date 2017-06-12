@@ -4,6 +4,8 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 var db = null;
+var dir = 'http://192.168.1.74:8000/';
+
 angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
     'starter.campos-dispositivo', 'starter.juego', 'starter.nuevo-campo',
     'starter.seleccion-apuestas', 'starter.inicio','starter.login','starter.registro'])
@@ -25,7 +27,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             }
 
             db = $cordovaSQLite.openDB({
-                name: "Lj9bgzzpuqmm89.db",
+                name: "La199q7mj0m898.db",
                 iosDatabaseLocation: 'default'
             });
 
@@ -46,6 +48,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 "(id integer PRIMARY KEY AUTOINCREMENT, " +
                 "nombre text, " +
                 "handicap integer," +
+                "jugar integer,"+
                 "sexo integer," +
                 "url_foto text," +
                 "password text," +
@@ -55,7 +58,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             $cordovaSQLite.execute(db, jugador);
 
             var campo = "CREATE TABLE IF NOT EXISTS campo (" +
-                "id integer NOT NULL PRIMARY KEY AUTOINCREMENT" +
+                "id text NOT NULL PRIMARY KEY" +
                 ",nombre text(100) NOT NULL" +
                 ",ciudad text(100) DEFAULT NULL" +
                 ",par_hoyo_1 integer DEFAULT NULL" +

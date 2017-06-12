@@ -128,7 +128,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             }
 
             function loadJugadores() {
-                var queryJugadores = "SELECT * FROM jugador ORDER BY handicap, nombre ASC";
+                var queryJugadores = "SELECT * FROM jugador WHERE jugar = 1 ORDER BY handicap, nombre ASC";
 
                 selectJugadoresPromise = $cordovaSQLite
                     .execute(db, queryJugadores).then(function (resJug) {
