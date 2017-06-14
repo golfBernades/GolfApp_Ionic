@@ -47,3 +47,11 @@
     margin: 0 !important;
     padding: 0 !important;
 }
+
+.vertical-centered-cell {
+    vertical-align: middle !important;
+}
+
+.big-text-cell {
+    font-size: 50px;
+}

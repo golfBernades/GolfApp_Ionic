@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 var db = null;
-var dir = 'http://192.168.1.74:8000/';
+var dir = 'http://148.233.65.228:8080/';
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
     'starter.campos-dispositivo', 'starter.juego', 'starter.nuevo-campo',
@@ -259,7 +259,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 controller: 'juegoController'
             });
 
-        $urlRouterProvider.otherwise('/inicio');
+        $urlRouterProvider.otherwise('/juego');
     })
 
     .controller('ctrlInicio', function ($scope, $state, $cordovaSQLite) {

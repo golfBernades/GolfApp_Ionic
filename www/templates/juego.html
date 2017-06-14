@@ -25,6 +25,9 @@
                         <th>7</th>
                         <th>8</th>
                         <th>9</th>
+                        <th rowspan="3" class="vertical-centered-cell">
+                            1er. vuelta
+                        </th>
                         <th>10</th>
                         <th>11</th>
                         <th>12</th>
@@ -34,28 +37,32 @@
                         <th>16</th>
                         <th>17</th>
                         <th>18</th>
-                        <th>Totales</th>
+                        <th rowspan="3" class="vertical-centered-cell">
+                            2da. vuelta
+                        </th>
+                        <th rowspan="3" class="vertical-centered-cell">
+                            Total
+                        </th>
                     </tr>
                     <tr>
                         <th>PAR</th>
-                        <th ng-repeat="par in pares">{{par.value}}</th>
-                        <th></th>
+                        <th ng-repeat="par in pares1a9">{{par.value}}</th>
+                        <th ng-repeat="par in pares10a18">{{par.value}}</th>
                     </tr>
                     <tr>
                         <th>VENTAJA</th>
-                        <th ng-repeat="ventaja in ventajas">{{ventaja.value}}
-                        </th>
-                        <th></th>
+                        <th ng-repeat="ventaja in ventajas1a9">{{ventaja.value}}</th>
+                        <th ng-repeat="ventaja in ventajas10a18">{{ventaja.value}}</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="puntuacion in tablero">
-                        <td style="vertical-align: middle; !important;">
+                        <td class="vertical-centered-cell">
                             {{puntuacion.nombre}}
                             <br>
                             {{puntuacion.handicap}}
                         </td>
-                        <td ng-repeat="hoyo in hoyos">
+                        <td ng-repeat="hoyo in hoyos1a9">
                             <button class="button btn-celda-juego"
                                     ng-click="guardarPuntos(puntuacion.index,
                                     puntuacion.jugador_id, hoyo)">
@@ -81,6 +88,42 @@
                                     </div>
                                 </div>
                             </button>
+                        </td>
+                        <td class="vertical-centered-cell big-text-cell">
+                            {{puntuacion.totales_golpes[0]}}
+                        </td>
+                        <td ng-repeat="hoyo in hoyos10a18">
+                            <button class="button btn-celda-juego"
+                                    ng-click="guardarPuntos(puntuacion.index,
+                                    puntuacion.jugador_id, hoyo)">
+                                <div class="div-boton-juego">
+                                    <div class="golpes-turno">
+                                        <div class="{{puntuacion.circulos[hoyo - 1][0]}}">
+                                            <div class="{{puntuacion.circulos[hoyo - 1][1]}}">
+                                                <div class="{{puntuacion.circulos[hoyo - 1][2]}}">
+                                                    <div class="{{puntuacion.circulos[hoyo - 1][3]}}">
+                                                        {{puntuacion.golpes[hoyo - 1]}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="rayas-turno"
+                                         style="{{puntuacion.style_rayas[hoyo
+                                          - 1]}}">
+                                        {{puntuacion.rayas[hoyo - 1]}}
+                                    </div>
+                                    <div class="unidades-turno">
+                                        {{puntuacion.unidades[hoyo - 1]}}
+                                    </div>
+                                </div>
+                            </button>
+                        </td>
+                        <td class="vertical-centered-cell big-text-cell">
+                            {{puntuacion.totales_golpes[1]}}
+                        </td>
+                        <td class="vertical-centered-cell big-text-cell">
+                            {{puntuacion.totales_golpes[2]}}
                         </td>
                     </tr>
                     </tbody>

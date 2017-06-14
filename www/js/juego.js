@@ -3,6 +3,13 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
     .controller('juegoController', function ($scope, $ionicPopup, $cordovaSQLite,
                                              $state, $ionicLoading, $timeout,
                                              $ionicPlatform, $q, $http) {
+            $scope.hoyos1a9 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+            $scope.hoyos10a18 = [10, 11, 12, 13, 14, 15, 16, 17, 18];
+            $scope.pares1a9 = [];
+            $scope.pares10a18 = [];
+            $scope.ventajas1a9 = [];
+            $scope.ventajas10a18 = [];
+
 
             $scope.hoyos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
                 17, 18];
@@ -19,7 +26,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             var modulePromises = [];
 
             $ionicPlatform.ready(function () {
-                console.log('GolfApp>>', 'juego.$ionicPlatform.ready');
+                console.log('GolfApp>> juego.$ionicPlatform.ready');
 
                 showLoading();
 
@@ -38,47 +45,12 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                 //crearCampoServer(1);
 
-                screen.orientation.addEventListener('change', function(){
+                screen.orientation.addEventListener('change', function () {
                     console.log(screen.orientation.type); // e.g. portrait
                     // $state.go('juego');
                     $state.reload();
                 });
             });
-
-            function crearCampoServer(intento) {
-                console.log('INTENTO', intento);
-                var httpRequest = {
-                    method: 'POST',
-                    url: 'http://192.168.1.74:8000/partido_insert',
-                    headers: {
-                        'Content-Type': undefined
-                    },
-                    data: {inicio: '2017-04-10 00:00:00', campo_id: 1},
-                    dataType: "json",
-                    timeout: 3000
-                };
-
-                $http(httpRequest)
-                    .then(function successCallback(response) {
-                        if (typeof(response) == "undefined") {
-                            console.log("response undefined");
-                            popup("UNDEFINED", JSON.stringify(response));
-                            $ionicLoading.hide();
-                        } else {
-                            console.log("response no undefined");
-                            popup("GREAT", JSON.stringify(response));
-                            $ionicLoading.hide()
-                        }
-                    }, function errorCallback(response) {
-                        if (intento < 3) {
-                            crearCampoServer(intento + 1);
-                        } else {
-                            popup("Error", JSON.stringify(response) + "<br>"
-                                + " intentos: " + intento);
-                            $ionicLoading.hide();
-                        }
-                    });
-            }
 
             function popup(title, template) {
                 var pop = $ionicPopup.alert({
@@ -122,6 +94,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         {width: 100, align: 'center'},
                         {width: 100, align: 'center'},
                         {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
                         {width: 100, align: 'center'}
                     ]
                 });
@@ -146,6 +120,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                 jugador_id: resJug.rows.item(i).id,
                                 golpes: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                     0, 0, 0, 0, 0],
+                                totales_golpes: [0, 0, 0],
                                 unidades: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                     0, 0, 0, 0, 0, 0],
                                 rayas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -237,6 +212,25 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             $scope.pares.push({value: res.rows.item(0).par_hoyo_17});
                             $scope.pares.push({value: res.rows.item(0).par_hoyo_18});
 
+                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_1});
+                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_2});
+                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_3});
+                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_4});
+                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_5});
+                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_6});
+                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_7});
+                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_8});
+                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_9});
+                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_10});
+                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_11});
+                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_12});
+                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_13});
+                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_14});
+                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_15});
+                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_16});
+                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_17});
+                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_18});
+
                             $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_1});
                             $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_2});
                             $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_3});
@@ -255,6 +249,25 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_16});
                             $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_17});
                             $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_18});
+
+                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_1});
+                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_2});
+                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_3});
+                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_4});
+                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_5});
+                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_6});
+                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_7});
+                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_8});
+                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_9});
+                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_10});
+                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_11});
+                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_12});
+                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_13});
+                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_14});
+                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_15});
+                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_16});
+                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_17});
+                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_18});
 
                             var campoPromises = [];
 
@@ -285,16 +298,12 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             }
 
             $scope.guardarPuntos = function (jugador_idx, jugador_id, hoyo) {
-                // console.log('GolfApp>>', 'Se guardarán puntos para el jugador '
-                //     + ' en el índice ' + jugador_idx + ' cuyo id es '
-                //     + jugador_id + ' en el hoyo ' + hoyo);
-
                 $scope.juego = {};
 
                 $ionicPopup.show({
                     templateUrl: 'templates/registro_puntos_popup.html',
                     title: 'Registro de puntos.',
-                    subTitle: 'Jugador: '+ $scope.jugadores[jugador_idx].nombre+'.  Hoyo: '+hoyo+'.',
+                    subTitle: 'Jugador: ' + $scope.jugadores[jugador_idx].nombre + '.  Hoyo: ' + hoyo + '.',
                     scope: $scope,
                     buttons: [
                         {
@@ -338,17 +347,23 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             };
 
             function actualizarScoreUi() {
-                // console.log('GolfApp', 'juego.actualizarScoreRayas' +
-                //     ' [scoreRayas: '
-                //     + JSON.stringify($scope.partido.apuestas[0].scoreRayas)
-                //     + ']');
                 var numJugadores = $scope.partido.apuestas[0].scoreRayas.length;
 
                 for (var i = 0; i < numJugadores; i++) {
+                    var golpesTotales1a9 = 0;
+                    var golpesTotales10a18 = 0;
+                    var golpesTotalesTotal = 0;
+
                     for (var j = 0; j < 18; j++) {
                         var rayas = $scope.partido.apuestas[0].scoreRayas[i].puntos[j];
                         rayas = rayas ? rayas : 0;
                         $scope.tablero[i].rayas[j] = rayas;
+
+                        if(j < 9) {
+                            golpesTotales1a9 += $scope.tablero[i].golpes[j];
+                        }  else {
+                            golpesTotales10a18 += $scope.tablero[i].golpes[j];
+                        }
 
                         if (rayas < 0)
                             $scope.tablero[i].style_rayas[j] = 'color: red;';
@@ -364,11 +379,17 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                 $scope.tablero[i].circulos[j][m] = sCirc;
                             }
 
-                            for(m = circulos; m < 4; m++) {
+                            for (m = circulos; m < 4; m++) {
                                 $scope.tablero[i].circulos[j][m] = nCirc;
                             }
                         }
                     }
+
+                    golpesTotalesTotal = golpesTotales1a9 + golpesTotales10a18
+                     - $scope.tablero[i].handicap;
+                    $scope.tablero[i].totales_golpes[0] = golpesTotales1a9;
+                    $scope.tablero[i].totales_golpes[1] = golpesTotales10a18;
+                    $scope.tablero[i].totales_golpes[2] = golpesTotalesTotal;
                 }
             }
 
