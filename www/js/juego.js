@@ -9,14 +9,17 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             $scope.pares10a18 = [];
             $scope.ventajas1a9 = [];
             $scope.ventajas10a18 = [];
+            $scope.nombreCampo = '';
 
+            $scope.rayasSeleccionada = false;
+            $scope.conejaSeleccionada = false;
 
-            $scope.hoyos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-                17, 18];
+            $scope.hoyos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                16, 17, 18];
             $scope.jugadores = [];
-            $scope.pares = [];
-            $scope.tablero = [];
-            $scope.ventajas = [];
+            // $scope.pares = [];
+            $scope.tablero = {};
+            // $scope.ventajas = [];
             $scope.campo = {};
             $scope.partido = {};
 
@@ -30,24 +33,24 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                 showLoading();
 
-                modulePromises.push(loadJugadores());
                 modulePromises.push(loadCampo());
-                modulePromises.push(loadPuntos());
+                modulePromises.push(loadJugadores());
 
                 $q.all(modulePromises).then(function () {
-                    actualizarScoreUi();
-                    fixRowsAndColumns();
+                    modulePromises.push(crearPartido());
+                    modulePromises.push(loadPuntos());
 
-                    setTimeout(function () {
-                        $ionicLoading.hide()
-                    }, 3000)
+                    $q.all(modulePromises).then(function () {
+                        actualizarScoreUi();
+                        fixRowsAndColumns();
+
+                        setTimeout(function () {
+                            $ionicLoading.hide()
+                        }, 3000)
+                    });
                 });
 
-                //crearCampoServer(1);
-
                 screen.orientation.addEventListener('change', function () {
-                    console.log(screen.orientation.type); // e.g. portrait
-                    // $state.go('juego');
                     $state.reload();
                 });
             });
@@ -106,14 +109,12 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                 selectJugadoresPromise = $cordovaSQLite
                     .execute(db, queryJugadores).then(function (resJug) {
-                        for (var i = 0; i < resJug.rows.length; i++) {
-                            // console.log('GolfApp>>', 'Jug_' + i + ': ['
-                            //     + resJug.rows.item(i).id + '] -> '
-                            //     + resJug.rows.item(i).nombre);
+                        $scope.tablero.datos_juego = [];
 
+                        for (var i = 0; i < resJug.rows.length; i++) {
                             $scope.jugadores.push(resJug.rows.item(i));
 
-                            $scope.tablero.push({
+                            $scope.tablero.datos_juego.push({
                                 index: i,
                                 nombre: resJug.rows.item(i).nombre,
                                 handicap: resJug.rows.item(i).handicap,
@@ -121,11 +122,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                 golpes: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                     0, 0, 0, 0, 0],
                                 totales_golpes: [0, 0, 0],
-                                unidades: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                    0, 0, 0, 0, 0, 0],
-                                rayas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                    0, 0, 0, 0, 0],
-                                style_rayas: [],
                                 circulos: [
                                     [nCirc, nCirc, nCirc, nCirc],
                                     [nCirc, nCirc, nCirc, nCirc],
@@ -166,12 +162,17 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                 // bd, con el actual de la lista de jugadores
                                 if ($scope.jugadores[j].id
                                     == resPunt.rows.item(i).jugador_id) {
-                                    $scope.tablero[j]
+                                    $scope.tablero.datos_juego[j]
                                         .golpes[resPunt.rows.item(i).hoyo - 1]
                                         = resPunt.rows.item(i).golpes;
-                                    $scope.tablero[j]
-                                        .unidades[resPunt.rows.item(i).hoyo - 1]
-                                        = resPunt.rows.item(i).unidades;
+
+                                    if ($scope.rayasSeleccionada) {
+                                        $scope.tablero.datos_juego[j]
+                                            .apuestaRayas.unidades[
+                                        resPunt.rows.item(i).hoyo - 1]
+                                            = resPunt.rows.item(i).unidades;
+                                    }
+
                                     $scope.partido.registrarGolpes(j,
                                         resPunt.rows.item(i).hoyo - 1,
                                         resPunt.rows.item(i).golpes,
@@ -179,8 +180,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                     break;
                                 }
                             }
-                            // console.log('GolfApp>>', 'res[' + i + '] -> '
-                            //     + JSON.stringify(resPunt.rows.item(i)));
                         }
                     });
 
@@ -193,108 +192,125 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 var selectCampoPromise = $cordovaSQLite.execute(db, queryCampo)
                     .then(function (res) {
                         if (res.rows.length > 0) {
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_1});
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_2});
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_3});
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_4});
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_5});
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_6});
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_7});
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_8});
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_9});
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_10});
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_11});
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_12});
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_13});
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_14});
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_15});
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_16});
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_17});
-                            $scope.pares.push({value: res.rows.item(0).par_hoyo_18});
+                            $scope.tablero.campo = {
+                                nombre: res.rows.item(0).nombre,
+                                pares1a9: [
+                                    {value: res.rows.item(0).par_hoyo_1},
+                                    {value: res.rows.item(0).par_hoyo_2},
+                                    {value: res.rows.item(0).par_hoyo_3},
+                                    {value: res.rows.item(0).par_hoyo_4},
+                                    {value: res.rows.item(0).par_hoyo_5},
+                                    {value: res.rows.item(0).par_hoyo_6},
+                                    {value: res.rows.item(0).par_hoyo_7},
+                                    {value: res.rows.item(0).par_hoyo_8},
+                                    {value: res.rows.item(0).par_hoyo_9}
+                                ],
+                                pares10a18: [
+                                    {value: res.rows.item(0).par_hoyo_10},
+                                    {value: res.rows.item(0).par_hoyo_11},
+                                    {value: res.rows.item(0).par_hoyo_12},
+                                    {value: res.rows.item(0).par_hoyo_13},
+                                    {value: res.rows.item(0).par_hoyo_14},
+                                    {value: res.rows.item(0).par_hoyo_15},
+                                    {value: res.rows.item(0).par_hoyo_16},
+                                    {value: res.rows.item(0).par_hoyo_17},
+                                    {value: res.rows.item(0).par_hoyo_18}
+                                ],
+                                pares: [],
+                                ventajas1a9: [
+                                    {value: res.rows.item(0).ventaja_hoyo_1},
+                                    {value: res.rows.item(0).ventaja_hoyo_2},
+                                    {value: res.rows.item(0).ventaja_hoyo_3},
+                                    {value: res.rows.item(0).ventaja_hoyo_4},
+                                    {value: res.rows.item(0).ventaja_hoyo_5},
+                                    {value: res.rows.item(0).ventaja_hoyo_6},
+                                    {value: res.rows.item(0).ventaja_hoyo_7},
+                                    {value: res.rows.item(0).ventaja_hoyo_8},
+                                    {value: res.rows.item(0).ventaja_hoyo_9}
+                                ],
+                                ventajas10a18: [
+                                    {value: res.rows.item(0).ventaja_hoyo_10},
+                                    {value: res.rows.item(0).ventaja_hoyo_11},
+                                    {value: res.rows.item(0).ventaja_hoyo_12},
+                                    {value: res.rows.item(0).ventaja_hoyo_13},
+                                    {value: res.rows.item(0).ventaja_hoyo_14},
+                                    {value: res.rows.item(0).ventaja_hoyo_15},
+                                    {value: res.rows.item(0).ventaja_hoyo_16},
+                                    {value: res.rows.item(0).ventaja_hoyo_17},
+                                    {value: res.rows.item(0).ventaja_hoyo_18}
+                                ],
+                                ventajas: []
+                            };
 
-                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_1});
-                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_2});
-                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_3});
-                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_4});
-                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_5});
-                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_6});
-                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_7});
-                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_8});
-                            $scope.pares1a9.push({value: res.rows.item(0).par_hoyo_9});
-                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_10});
-                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_11});
-                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_12});
-                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_13});
-                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_14});
-                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_15});
-                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_16});
-                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_17});
-                            $scope.pares10a18.push({value: res.rows.item(0).par_hoyo_18});
+                            $scope.tablero.campo.pares =
+                                $scope.tablero.campo.pares1a9
+                                    .concat($scope.tablero.campo.pares10a18);
 
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_1});
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_2});
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_3});
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_4});
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_5});
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_6});
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_7});
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_8});
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_9});
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_10});
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_11});
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_12});
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_13});
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_14});
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_15});
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_16});
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_17});
-                            $scope.ventajas.push({value: res.rows.item(0).ventaja_hoyo_18});
-
-                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_1});
-                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_2});
-                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_3});
-                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_4});
-                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_5});
-                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_6});
-                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_7});
-                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_8});
-                            $scope.ventajas1a9.push({value: res.rows.item(0).ventaja_hoyo_9});
-                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_10});
-                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_11});
-                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_12});
-                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_13});
-                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_14});
-                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_15});
-                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_16});
-                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_17});
-                            $scope.ventajas10a18.push({value: res.rows.item(0).ventaja_hoyo_18});
-
-                            var campoPromises = [];
+                            $scope.tablero.campo.ventajas =
+                                $scope.tablero.campo.ventajas1a9
+                                    .concat($scope.tablero.campo.ventajas10a18);
 
                             var crearCampo = function () {
                                 $scope.campo = new Campo(res.rows.item(0).id,
-                                    res.rows.item(0).nombre, $scope.pares,
-                                    $scope.ventajas);
+                                    $scope.tablero.campo.nombre,
+                                    $scope.tablero.campo.pares,
+                                    $scope.tablero.campo.ventajas);
                             };
 
-                            var crearPartido = function () {
-                                $scope.partido = new Partido($scope.jugadores,
-                                    $scope.campo);
-                            };
-
-                            campoPromises.push(crearCampo());
-
-                            $q.all(campoPromises).then(function () {
-                                campoPromises.push(crearPartido());
-                                $q.all(campoPromises).then(function () {
-                                    $scope.partido.agregarApuesta(
-                                        new ApuestaRayas($scope.partido));
-                                });
-                            });
+                            modulePromises.push(crearCampo());
                         }
                     });
 
                 modulePromises.push(selectCampoPromise);
+            }
+
+            function crearPartido() {
+                var crearPartido = function () {
+                    $scope.partido = new Partido($scope.jugadores, $scope.campo);
+                };
+
+                var promises = [];
+                promises.push(crearPartido());
+
+                ////////////////////////////////
+                var queryApuestas = "SELECT id, nombre FROM apuesta WHERE" +
+                    " seleccionada = 1";
+
+                var getApuestasPromise = $cordovaSQLite.execute(db,
+                    queryApuestas).then(function (res) {
+                    for (var i = 0; i < res.rows.length; i++) {
+                        if (res.rows.item(i).nombre == 'rayas') {
+                            $scope.rayasSeleccionada = true;
+                        } else if (res.rows.item(i) == 'coneja') {
+                            $scope.conejaSeleccionada = true;
+                        }
+                    }
+                });
+
+                promises.push(getApuestasPromise);
+
+                $q.all(promises).then(function () {
+                    if ($scope.rayasSeleccionada) agregarApuestaRayas();
+
+                });
+            }
+
+            function agregarApuestaRayas() {
+                $scope.partido.agregarApuesta(new ApuestaRayas($scope.partido));
+
+                $.each($scope.tablero.datos_juego, function (index, dato) {
+                    dato.apuestaRayas = {
+                        unidades: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0],
+                        rayas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0],
+                        style_rayas: []
+                    }
+                });
+            }
+
+            function agregarApuestaConeja() {
+
             }
 
             $scope.guardarPuntos = function (jugador_idx, jugador_id, hoyo) {
@@ -319,14 +335,20 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                                 unidades = unidades ? unidades : 0;
 
-                                $scope.tablero[jugador_idx].golpes[hoyo - 1] = golpesRealizaos;
-                                $scope.tablero[jugador_idx].unidades[hoyo - 1] = unidades;
+                                $scope.tablero.datos_juego[jugador_idx]
+                                    .golpes[hoyo - 1] = golpesRealizaos;
+
+                                if ($scope.rayasSeleccionada) {
+                                    $scope.tablero.datos_juego[jugador_idx]
+                                        .apuestaRayas.unidades[hoyo - 1]
+                                        = unidades;
+                                }
 
                                 if (golpesRealizaos) {
                                     var promises = [];
 
-                                    promises.push(guardarPuntosDb(jugador_id, hoyo,
-                                        golpesRealizaos, unidades));
+                                    promises.push(guardarPuntosDb(jugador_id,
+                                        hoyo, golpesRealizaos, unidades));
                                     promises.push($scope.partido
                                         .registrarGolpes(jugador_idx,
                                             (hoyo - 1), golpesRealizaos,
@@ -335,6 +357,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                     $q.all(promises).then(function () {
                                         // console.log('GolfApp', 'AllPromisesExecuted');
                                         actualizarScoreUi();
+                                        compartirScoreboard();
                                     });
                                 } else {
                                     $scope.juego.style_golpes = 'background-color: red';
@@ -346,6 +369,10 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 });
             };
 
+            function compartirScoreboard() {
+                // popup('test', JSON.stringify($scope.tablero));
+            }
+
             function actualizarScoreUi() {
                 var numJugadores = $scope.partido.apuestas[0].scoreRayas.length;
 
@@ -355,55 +382,63 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     var golpesTotalesTotal = 0;
 
                     for (var j = 0; j < 18; j++) {
-                        var rayas = $scope.partido.apuestas[0].scoreRayas[i].puntos[j];
-                        rayas = rayas ? rayas : 0;
-                        $scope.tablero[i].rayas[j] = rayas;
+                        if ($scope.rayasSeleccionada) {
+                            var rayas = $scope.partido.apuestas[0].scoreRayas[i]
+                                .puntos[j];
+                            rayas = rayas ? rayas : 0;
+                            $scope.tablero.datos_juego[i].apuestaRayas.rayas[j]
+                                = rayas;
 
-                        if(j < 9) {
-                            golpesTotales1a9 += $scope.tablero[i].golpes[j];
-                        }  else {
-                            golpesTotales10a18 += $scope.tablero[i].golpes[j];
+                            if (rayas < 0)
+                                $scope.tablero.datos_juego[i].apuestaRayas
+                                    .style_rayas[j] = 'color: red;';
+                            else if (rayas > 0)
+                                $scope.tablero.datos_juego[i].apuestaRayas
+                                    .style_rayas[j] = 'color: green';
+                            else
+                                $scope.tablero.datos_juego[i].apuestaRayas
+                                    .style_rayas[j] = 'color: black';
                         }
 
-                        if (rayas < 0)
-                            $scope.tablero[i].style_rayas[j] = 'color: red;';
-                        else if (rayas > 0)
-                            $scope.tablero[i].style_rayas[j] = 'color: green';
-                        else
-                            $scope.tablero[i].style_rayas[j] = 'color: black';
+                        if (j < 9) {
+                            golpesTotales1a9 += $scope.tablero.datos_juego[i].golpes[j];
+                        } else {
+                            golpesTotales10a18 += $scope.tablero.datos_juego[i].golpes[j];
+                        }
 
-                        if ($scope.tablero[i].golpes[j] != 0) {
-                            var circulos = $scope.pares[j].value - $scope.tablero[i].golpes[j];
+
+                        if ($scope.tablero.datos_juego[i].golpes[j] != 0) {
+                            var circulos = $scope.tablero.campo.pares[j].value
+                                - $scope.tablero.datos_juego[i].golpes[j];
 
                             for (var m = 0; m < circulos && m < 4; m++) {
-                                $scope.tablero[i].circulos[j][m] = sCirc;
+                                $scope.tablero.datos_juego[i].circulos[j][m] = sCirc;
                             }
 
                             for (m = circulos; m < 4; m++) {
-                                $scope.tablero[i].circulos[j][m] = nCirc;
+                                $scope.tablero.datos_juego[i].circulos[j][m] = nCirc;
                             }
                         }
                     }
 
                     golpesTotalesTotal = golpesTotales1a9 + golpesTotales10a18
-                     - $scope.tablero[i].handicap;
-                    $scope.tablero[i].totales_golpes[0] = golpesTotales1a9;
-                    $scope.tablero[i].totales_golpes[1] = golpesTotales10a18;
-                    $scope.tablero[i].totales_golpes[2] = golpesTotalesTotal;
+                        - $scope.tablero.datos_juego[i].handicap;
+                    $scope.tablero.datos_juego[i].totales_golpes[0] = golpesTotales1a9;
+                    $scope.tablero.datos_juego[i].totales_golpes[1] = golpesTotales10a18;
+                    $scope.tablero.datos_juego[i].totales_golpes[2] = golpesTotalesTotal;
                 }
             }
 
-            $scope.variableTest = 'HolaValorDefault';
-
             $scope.actualizarJuego = function () {
+                compartirScoreboard();
                 // console.log('btnActualizar.click()');
 
-                var deleteQuery = 'DELETE FROM puntuaciones';
-
-                $cordovaSQLite.execute(db, deleteQuery)
-                    .then(function (resDelete) {
-                        console.log('GolfApp>>', 'ResDelete: ' + JSON.stringify(resDelete));
-                    });
+                // var deleteQuery = 'DELETE FROM puntuaciones';
+                //
+                // $cordovaSQLite.execute(db, deleteQuery)
+                //     .then(function (resDelete) {
+                //         console.log('GolfApp>>', 'ResDelete: ' + JSON.stringify(resDelete));
+                //     });
             };
 
             $scope.guardarPantallaJuego = function (seleccion) {

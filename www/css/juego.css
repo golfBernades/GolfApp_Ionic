@@ -24,17 +24,24 @@
     font-weight: bold;
 }
 
-.unidades-turno {
-    height: 50%;
+.apuesta-tablero-principal {
+    /*border: solid 1px;*/
+    /*box-sizing: border-box;*/
+    height: 50% !important;
+    line-height: 180%;
     width: 50%;
     float: right;
 }
 
-.rayas-turno {
-    height: 50%;
-    width: 50%;
-    float: right;
-}
+/*.unidades-turno {*/
+
+/*}*/
+
+/*.rayas-turno {*/
+    /*height: 50%;*/
+    /*width: 50%;*/
+    /*float: right;*/
+/*}*/
 
 .div-circular {
     border: 1px solid black;
@@ -53,5 +60,5 @@
 }
 
 .big-text-cell {
-    font-size: 50px;
+    font-size: 40px;
 }

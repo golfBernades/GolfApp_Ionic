@@ -259,7 +259,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 controller: 'juegoController'
             });
 
-        $urlRouterProvider.otherwise('/juego');
+        $urlRouterProvider.otherwise('/inicio');
     })
 
     .controller('ctrlInicio', function ($scope, $state, $cordovaSQLite) {
