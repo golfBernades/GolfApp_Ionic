@@ -282,7 +282,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     for (var i = 0; i < res.rows.length; i++) {
                         if (res.rows.item(i).nombre == 'rayas') {
                             $scope.rayasSeleccionada = true;
-                        } else if (res.rows.item(i) == 'coneja') {
+                        } else if (res.rows.item(i).nombre == 'coneja') {
                             $scope.conejaSeleccionada = true;
                         }
                     }
@@ -405,7 +405,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             }
 
             function actualizarScoreUi() {
-                var numJugadores = $scope.partido.apuestas[0].scoreRayas.length;
+                var numJugadores = $scope.tablero.datos_juego.length;
 
                 for (var i = 0; i < numJugadores; i++) {
                     var golpesTotales1a9 = 0;
