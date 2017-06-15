@@ -2,7 +2,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
     .controller('juegoController', function ($scope, $ionicPopup, $cordovaSQLite,
                                              $state, $ionicLoading, $timeout,
-                                             $ionicPlatform, $q, $http) {
+                                             $ionicPlatform, $q, $http,
+                                             serviceHttpRequest) {
             $scope.hoyos1a9 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
             $scope.hoyos10a18 = [10, 11, 12, 13, 14, 15, 16, 17, 18];
             $scope.pares1a9 = [];
@@ -370,7 +371,37 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             };
 
             function compartirScoreboard() {
-                // popup('test', JSON.stringify($scope.tablero));
+                showLoading();
+
+                var httpRequest = serviceHttpRequest.createPostHttpRequest(
+                    dir + 'partido_tablero_write',
+                    {
+                        partido_id: 7,
+                        clave_edicion: 'abcdefgh',
+                        tablero_json: JSON.stringify($scope.tablero)
+                    }
+                );
+
+                $http(httpRequest)
+                    .then(function successCallback(response) {
+                        if (response.data.ok) {
+                            popup('Partido', 'Marcador enviado al servidor');
+                        } else {
+                            popup('Partido', 'Error al subir marcador');
+                        }
+                        $ionicLoading.hide();
+                    }, function errorCallback(response) {
+                        if (response.status == -1) {
+                            if (intento < 3) {
+                            } else {
+                                $ionicLoading.hide();
+                                popup('Partido', 'Error de Conexión');
+                            }
+                        } else {
+                            $ionicLoading.hide();
+                            popup('Partido', 'Error de Parámetros');
+                        }
+                    });
             }
 
             function actualizarScoreUi() {
