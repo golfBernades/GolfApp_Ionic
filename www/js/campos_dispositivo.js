@@ -155,7 +155,7 @@ angular.module('starter.campos-dispositivo', ['ionic'])
         function getCampos() {
 
             var img="";
-            var query = "SELECT id, nombre, seleccionado, cuenta FROM campo WHERE cuenta = 0  AND jugador_id = (?) ORDER BY nombre ASC";
+            var query = "SELECT id, nombre, seleccionado, cuenta FROM campo WHERE cuenta = 0  AND usuario_id = (?) ORDER BY nombre ASC";
             $cordovaSQLite.execute(db, query,[id_user_app]).then(function (res) {
 
                 if (res.rows.length > 0) {

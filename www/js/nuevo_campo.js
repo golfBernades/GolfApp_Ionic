@@ -135,7 +135,7 @@ angular.module('starter.nuevo-campo', ['ionic'])
 
 
             var query2 = "INSERT INTO campo (id, nombre, par_hoyo_1, par_hoyo_2, par_hoyo_3,par_hoyo_4, par_hoyo_5, par_hoyo_6, par_hoyo_7, par_hoyo_8, par_hoyo_9, par_hoyo_10, par_hoyo_11, par_hoyo_12, par_hoyo_13, par_hoyo_14, par_hoyo_15, par_hoyo_16, par_hoyo_17, par_hoyo_18," +
-                "ventaja_hoyo_1, ventaja_hoyo_2, ventaja_hoyo_3, ventaja_hoyo_4, ventaja_hoyo_5, ventaja_hoyo_6, ventaja_hoyo_7, ventaja_hoyo_8, ventaja_hoyo_9, ventaja_hoyo_10, ventaja_hoyo_11, ventaja_hoyo_12, ventaja_hoyo_13, ventaja_hoyo_14, ventaja_hoyo_15, ventaja_hoyo_16, ventaja_hoyo_17, ventaja_hoyo_18, cuenta, seleccionado, jugador_id)" +
+                "ventaja_hoyo_1, ventaja_hoyo_2, ventaja_hoyo_3, ventaja_hoyo_4, ventaja_hoyo_5, ventaja_hoyo_6, ventaja_hoyo_7, ventaja_hoyo_8, ventaja_hoyo_9, ventaja_hoyo_10, ventaja_hoyo_11, ventaja_hoyo_12, ventaja_hoyo_13, ventaja_hoyo_14, ventaja_hoyo_15, ventaja_hoyo_16, ventaja_hoyo_17, ventaja_hoyo_18, cuenta, seleccionado, usuario_id)" +
                 "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
             $cordovaSQLite.execute(db, query2, [idCampo, nombreCampo, par[0], par[1], par[2], par[3], par[4], par[5], par[6], par[7], par[8], par[9], par[10], par[11], par[12], par[13], par[14], par[15], par[16], par[17],

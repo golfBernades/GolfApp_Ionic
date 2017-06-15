@@ -31,7 +31,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             }
 
             db = $cordovaSQLite.openDB({
-                name: "espitia.db",
+                name: "espi8tiia99990j956.db",
                 iosDatabaseLocation: 'default'
             });
 
@@ -57,7 +57,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 "url_foto text," +
                 "password text," +
                 "email text," +
-                "CONSTRAINT email_unique UNIQUE (email))";
+                "usuario_id integer NOT NULL," +
+                "CONSTRAINT email_unique UNIQUE (email),"+
+                "FOREIGN KEY (usuario_id) REFERENCES usuario (id))";
 
             $cordovaSQLite.execute(db, jugador);
 
@@ -103,8 +105,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 ",ventaja_hoyo_18 integer DEFAULT NULL" +
                 ",cuenta integer (1) NOT NULL"+
                 ",seleccionado integer(1) NOT NULL" +
-                ",jugador_id integer NOT NULL" +
-                ",FOREIGN KEY (jugador_id) REFERENCES jugador (id))";
+                ",usuario_id integer NOT NULL" +
+                ",FOREIGN KEY (usuario_id) REFERENCES usuario (id))";
 
             $cordovaSQLite.execute(db, campo);
 

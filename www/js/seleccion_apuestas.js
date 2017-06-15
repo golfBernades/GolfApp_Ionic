@@ -27,7 +27,7 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
                             $state.go('juego');
 
                         } else {
-                            alertNoApuestaSelec();
+                            noSeleccionApuesta();
                         }
                     });
 
@@ -51,13 +51,6 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
 
             });
         };
-
-        function alertNoApuestaSelec() {
-            var alertPopup = $ionicPopup.alert({
-                title: 'Apuesta no seleccionada!',
-                template: 'Para avanzar debes seleccionar una o mas apuestas.'
-            });
-        }
 
         function getCampoSeleccionado() {
             var idCampo = "";
@@ -129,6 +122,20 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
             }, 500)
 
         }
+
+        function noSeleccionApuesta() {
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Apuesta no seleccionada',
+                template: 'No has seleccionado niguna apuesta. Deseas avanzar?'
+            });
+
+            confirmPopup.then(function(res) {
+                if(res) {
+                    getCampoSeleccionado();
+                    $state.go('juego');
+                }
+            });
+        };
 
         $ionicPlatform.ready(function () {
             servicePantallas.savePantalla(6);

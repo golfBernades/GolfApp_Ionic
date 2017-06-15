@@ -164,7 +164,7 @@ angular.module('starter.campos-cuenta', ['ionic'])
         var ventaja = [];
 
 
-        var query = "SELECT id, nombre, seleccionado FROM campo WHERE cuenta = 1 AND jugador_id = (?) ORDER BY nombre ASC";
+        var query = "SELECT id, nombre, seleccionado FROM campo WHERE cuenta = 1 AND usuario_id = (?) ORDER BY nombre ASC";
         $cordovaSQLite.execute(db, query,[id_user_app]).then(function (res) {
 
             if (res.rows.length > 0) {
