@@ -6,26 +6,25 @@ angular.module('starter.nuevo-campo', ['ionic'])
 
     .controller('nuevoCampoController', function ($scope, $ionicPopup, $state,
                                                   $cordovaSQLite, $timeout, $ionicPlatform,
-                                                  $rootScope, $ionicLoading) {
+                                                  $rootScope, $ionicLoading, $http, servicePantallas,
+                                                  serviceHttpRequest) {
 
         var campo = null;
         var par = [];
         var ventaja = [];
         var nombresCampos = [];
-        var isUpdateCampo=false;
+        var isUpdateCampo = false;
         var nomCampo;
+        var cuenta;
 
-        $scope.statusCampo="";
+        $scope.statusCampo = "";
 
-        $scope.guardarPantallaNuevoCampo = function (seleccion) {
+        $scope.guardarPantallaNuevoCampo = function () {
 
-            var pantalla = "UPDATE pantalla SET pantalla = ? WHERE id = 1";
-            switch (seleccion) {
-                case 3:
-                    vaciarCampos();
-                    $cordovaSQLite.execute(db, pantalla, [3]);
-                    $state.go('tabs.camp-dis')
-                    break;
+            if($rootScope.campos == 1){
+                $state.go('tabs.camp-dis')
+            }else{
+                $state.go('tabs.camp-cue')
             }
         };
 
@@ -56,12 +55,12 @@ angular.module('starter.nuevo-campo', ['ionic'])
             var control = true;
             var ok = true;
 
-            console.log(ok +" OK-1 "+ nombreCampo)
+            console.log(ok + " OK-1 " + nombreCampo)
 
             if (nombreCampo == "") {
                 document.getElementById("nombreCampoNuevo").style.backgroundColor = "#F5A9A9";
                 ok = false;
-                console.log(ok +" OK-2");
+                console.log(ok + " OK-2");
 
                 par = [];
                 ventaja = [];
@@ -71,12 +70,12 @@ angular.module('starter.nuevo-campo', ['ionic'])
 
                 par = [];
                 ventaja = [];
-                console.log(ok +" OK-3")
+                console.log(ok + " OK-3")
             }
 
-            console.log(ok +" OK-4")
+            console.log(ok + " OK-4")
             if (!ok) {
-                console.log(ok +" OK-5")
+                console.log(ok + " OK-5")
                 var alertPopup = $ionicPopup.alert({
                     title: 'Datos incompletos!',
                     template: 'No puedes dejar campos vacios.',
@@ -84,18 +83,18 @@ angular.module('starter.nuevo-campo', ['ionic'])
                 });
             } else {
 
-                if($rootScope.idCampoAct!=null){
-                    if(nomCampo.toLowerCase() != nombreCampo.toLowerCase()){
+                if ($rootScope.idCampoAct != null) {
+                    if (nomCampo.toLowerCase() != nombreCampo.toLowerCase()) {
                         for (var j = 0; j < nombresCampos.length; j++) {
                             if (nombreCampo.toLowerCase() == nombresCampos[j].toLowerCase()) {
                                 control = false;
                                 break;
                             }
                         }
-                    }else{
+                    } else {
                         control = true;
                     }
-                }else{
+                } else {
                     for (var j = 0; j < nombresCampos.length; j++) {
                         if (nombreCampo.toLowerCase() == nombresCampos[j].toLowerCase()) {
                             control = false;
@@ -106,9 +105,13 @@ angular.module('starter.nuevo-campo', ['ionic'])
 
                 if (control) {
                     showLoading();
-                    if(isUpdateCampo){
-                        update(nombreCampo);
-                    }else{
+                    if (isUpdateCampo) {
+                        if (cuenta == 0) {
+                            update(nombreCampo,0);
+                        } else {
+                            updateCampoServer(0, nombreCampo)
+                        }
+                    } else {
                         insert(nombreCampo);
                     }
 
@@ -127,45 +130,51 @@ angular.module('starter.nuevo-campo', ['ionic'])
         };
 
         function insert(nombreCampo) {
+            var fecha = new Date();
+            var idCampo = fecha.getFullYear() + "-" + (fecha.getMonth() + 1) + "-" + fecha.getDate() + " " + fecha.getHours() + ":" + fecha.getMinutes() + ":" + fecha.getSeconds();
 
-            var query = "SELECT id FROM campo;";
-            $cordovaSQLite.execute(db, query).then(function (res) {
 
-                var query2 = "INSERT INTO campo (id, nombre, par_hoyo_1, par_hoyo_2, par_hoyo_3,par_hoyo_4, par_hoyo_5, par_hoyo_6, par_hoyo_7, par_hoyo_8, par_hoyo_9, par_hoyo_10, par_hoyo_11, par_hoyo_12, par_hoyo_13, par_hoyo_14, par_hoyo_15, par_hoyo_16, par_hoyo_17, par_hoyo_18," +
-                    "ventaja_hoyo_1, ventaja_hoyo_2, ventaja_hoyo_3, ventaja_hoyo_4, ventaja_hoyo_5, ventaja_hoyo_6, ventaja_hoyo_7, ventaja_hoyo_8, ventaja_hoyo_9, ventaja_hoyo_10, ventaja_hoyo_11, ventaja_hoyo_12, ventaja_hoyo_13, ventaja_hoyo_14, ventaja_hoyo_15, ventaja_hoyo_16, ventaja_hoyo_17, ventaja_hoyo_18, seleccionado)" +
-                    "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                var id= 1+"_"+(res.rows.length+1);
-                $cordovaSQLite.execute(db, query2, [id,nombreCampo, par[0], par[1], par[2], par[3], par[4], par[5], par[6], par[7], par[8], par[9], par[10], par[11], par[12], par[13], par[14], par[15], par[16], par[17],
-                    ventaja[0], ventaja[1], ventaja[2], ventaja[3], ventaja[4], ventaja[5], ventaja[6], ventaja[7], ventaja[8], ventaja[9], ventaja[10], ventaja[11], ventaja[12], ventaja[13], ventaja[14], ventaja[15], ventaja[16], ventaja[17], 0])
-                    .then(function (res) {
-                        console.log("INSERT ID -> " + res.insertId);
-                        vaciarCampos();
-                        $ionicLoading.hide();
-                        $state.go('tabs.camp-dis', {}, {reload: true});
+            var query2 = "INSERT INTO campo (id, nombre, par_hoyo_1, par_hoyo_2, par_hoyo_3,par_hoyo_4, par_hoyo_5, par_hoyo_6, par_hoyo_7, par_hoyo_8, par_hoyo_9, par_hoyo_10, par_hoyo_11, par_hoyo_12, par_hoyo_13, par_hoyo_14, par_hoyo_15, par_hoyo_16, par_hoyo_17, par_hoyo_18," +
+                "ventaja_hoyo_1, ventaja_hoyo_2, ventaja_hoyo_3, ventaja_hoyo_4, ventaja_hoyo_5, ventaja_hoyo_6, ventaja_hoyo_7, ventaja_hoyo_8, ventaja_hoyo_9, ventaja_hoyo_10, ventaja_hoyo_11, ventaja_hoyo_12, ventaja_hoyo_13, ventaja_hoyo_14, ventaja_hoyo_15, ventaja_hoyo_16, ventaja_hoyo_17, ventaja_hoyo_18, cuenta, seleccionado, jugador_id)" +
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-                    }, function (err) {
-                        console.error(err);
-                    });
+            $cordovaSQLite.execute(db, query2, [idCampo, nombreCampo, par[0], par[1], par[2], par[3], par[4], par[5], par[6], par[7], par[8], par[9], par[10], par[11], par[12], par[13], par[14], par[15], par[16], par[17],
+                ventaja[0], ventaja[1], ventaja[2], ventaja[3], ventaja[4], ventaja[5], ventaja[6], ventaja[7], ventaja[8], ventaja[9], ventaja[10], ventaja[11], ventaja[12], ventaja[13], ventaja[14], ventaja[15], ventaja[16], ventaja[17], 0, 0, id_user_app])
+                .then(function (res) {
+                    vaciarCampos();
 
-            }, function (err) {
-                console.error(JSON.stringify(err));
-            });
+                    $ionicLoading.hide();
+                    popup("Campo Guardado", "Campo Guardado Correctamente.");
+
+                    $state.go('tabs.camp-dis');
+                }, function (err) {
+                    $ionicLoading.hide();
+                    popup("Campo No Guardado", "Campo NO Guardado. Volver a intentar más tarde.");
+                });
 
         }
 
-        function update(nombreCampo) {
+        function update(nombreCampo, cuenta) {
             var query = "UPDATE campo SET nombre = ?, par_hoyo_1 = ?, par_hoyo_2 = ?, par_hoyo_3 = ?, par_hoyo_4 = ?, par_hoyo_5 = ?, par_hoyo_6 = ?, par_hoyo_7 = ?, par_hoyo_8 = ?, par_hoyo_9 = ?, par_hoyo_10 = ?, par_hoyo_11 = ?, par_hoyo_12 = ?, par_hoyo_13 = ?, par_hoyo_14 = ?, par_hoyo_15 = ?, par_hoyo_16 = ?, par_hoyo_17 = ?, par_hoyo_18= ?, " +
-                "ventaja_hoyo_1 = ?, ventaja_hoyo_2 = ?, ventaja_hoyo_3 = ?, ventaja_hoyo_4 = ?, ventaja_hoyo_5 = ?, ventaja_hoyo_6 = ?, ventaja_hoyo_7 = ?, ventaja_hoyo_8 = ?, ventaja_hoyo_9 = ?, ventaja_hoyo_10 = ?, ventaja_hoyo_11 = ?, ventaja_hoyo_12 = ?, ventaja_hoyo_13 = ?, ventaja_hoyo_14 = ?, ventaja_hoyo_15 = ?, ventaja_hoyo_16 = ?, ventaja_hoyo_17 = ?, ventaja_hoyo_18 = ?, seleccionado = ? WHERE id = ?";
+                "ventaja_hoyo_1 = ?, ventaja_hoyo_2 = ?, ventaja_hoyo_3 = ?, ventaja_hoyo_4 = ?, ventaja_hoyo_5 = ?, ventaja_hoyo_6 = ?, ventaja_hoyo_7 = ?, ventaja_hoyo_8 = ?, ventaja_hoyo_9 = ?, ventaja_hoyo_10 = ?, ventaja_hoyo_11 = ?, ventaja_hoyo_12 = ?, ventaja_hoyo_13 = ?, ventaja_hoyo_14 = ?, ventaja_hoyo_15 = ?, ventaja_hoyo_16 = ?, ventaja_hoyo_17 = ?, ventaja_hoyo_18 = ?, cuenta = ?, seleccionado = ? WHERE id = ?";
             $cordovaSQLite.execute(db, query, [nombreCampo, par[0], par[1], par[2], par[3], par[4], par[5], par[6], par[7], par[8], par[9], par[10], par[11], par[12], par[13], par[14], par[15], par[16], par[17],
-                ventaja[0], ventaja[1], ventaja[2], ventaja[3], ventaja[4], ventaja[5], ventaja[6], ventaja[7], ventaja[8], ventaja[9], ventaja[10], ventaja[11], ventaja[12], ventaja[13], ventaja[14], ventaja[15], ventaja[16], ventaja[17],0, $rootScope.idCampoAct])
+                ventaja[0], ventaja[1], ventaja[2], ventaja[3], ventaja[4], ventaja[5], ventaja[6], ventaja[7], ventaja[8], ventaja[9], ventaja[10], ventaja[11], ventaja[12], ventaja[13], ventaja[14], ventaja[15], ventaja[16], ventaja[17], cuenta, 0, $rootScope.idCampoAct])
                 .then(function (res) {
-                    console.log("INSERT ID -> " + res.insertId);
                     vaciarCampos();
+
                     $ionicLoading.hide();
-                    $state.go('tabs.camp-dis', {}, {reload: true});
+                    popup("Campo Actualizado", "Campo Actualizado Correctamente.");
+
+                    if($rootScope.campos == 1){
+                        $state.go('tabs.camp-dis')
+                    }else{
+                        $state.go('tabs.camp-cue')
+                    }
 
                 }, function (err) {
-                    console.error(err);
+
+                    $ionicLoading.hide();
+                    popup("Campo No Actualizado", "Campo NO Actualizado. Volver a intentar más tarde.");
                 });
         }
 
@@ -200,13 +209,13 @@ angular.module('starter.nuevo-campo', ['ionic'])
         };
 
         function isUpadate() {
-            if($rootScope.idCampoAct != null){
+            if ($rootScope.idCampoAct != null) {
                 isUpdateCampo = true;
                 showLoading();
                 getCampo();
-                $scope.statusCampo="Actualizar Campo";
-            }else{
-                $scope.statusCampo="Crear Campo";
+                $scope.statusCampo = "Actualizar Campo";
+            } else {
+                $scope.statusCampo = "Crear Campo";
             }
         }
 
@@ -218,6 +227,7 @@ angular.module('starter.nuevo-campo', ['ionic'])
                     if (res.rows.length > 0) {
 
                         nomCampo = res.rows.item(0).nombre;
+                        cuenta = res.rows.item(0).cuenta;
 
                         document.getElementById("nombreCampoNuevo").value = res.rows.item(0).nombre;
 
@@ -260,9 +270,9 @@ angular.module('starter.nuevo-campo', ['ionic'])
                         document.getElementById("ven18").value = res.rows.item(0).ventaja_hoyo_18;
 
                         $ionicLoading.hide();
-                    }else{
+                    } else {
                         $ionicLoading.hide();
-                        console.log("error")
+                        popup("Error de Campo", "Error al obtener el Campo. Volver a intentar más tarde.");
                     }
                 });
         }
@@ -277,7 +287,79 @@ angular.module('starter.nuevo-campo', ['ionic'])
             });
         };
 
+        function updateCampoServer(intento, nombreCampo) {
+            var httpRequest = serviceHttpRequest.createPutHttpRequest(
+                dir + 'campo_update',
+                {
+                    campo_id: $rootScope.idCampoAct,
+                    nombre: nombreCampo,
+                    par_hoyo_1: par[0],
+                    par_hoyo_2: par[1],
+                    par_hoyo_3: par[2],
+                    par_hoyo_4: par[3],
+                    par_hoyo_5: par[4],
+                    par_hoyo_6: par[5],
+                    par_hoyo_7: par[6],
+                    par_hoyo_8: par[7],
+                    par_hoyo_9: par[8],
+                    par_hoyo_10: par[9],
+                    par_hoyo_11: par[10],
+                    par_hoyo_12: par[11],
+                    par_hoyo_13: par[12],
+                    par_hoyo_14: par[13],
+                    par_hoyo_15: par[14],
+                    par_hoyo_16: par[15],
+                    par_hoyo_17: par[16],
+                    par_hoyo_18: par[17],
+                    ventaja_hoyo_1: ventaja[0],
+                    ventaja_hoyo_2: ventaja[1],
+                    ventaja_hoyo_3: ventaja[2],
+                    ventaja_hoyo_4: ventaja[3],
+                    ventaja_hoyo_5: ventaja[4],
+                    ventaja_hoyo_6: ventaja[5],
+                    ventaja_hoyo_7: ventaja[6],
+                    ventaja_hoyo_8: ventaja[7],
+                    ventaja_hoyo_9: ventaja[8],
+                    ventaja_hoyo_10: ventaja[9],
+                    ventaja_hoyo_11: ventaja[10],
+                    ventaja_hoyo_12: ventaja[11],
+                    ventaja_hoyo_13: ventaja[12],
+                    ventaja_hoyo_14: ventaja[13],
+                    ventaja_hoyo_15: ventaja[14],
+                    ventaja_hoyo_16: ventaja[15],
+                    ventaja_hoyo_17: ventaja[16],
+                    ventaja_hoyo_18: ventaja[17],
+                    email: user_app,
+                    password: password_app
+                }
+            );
+
+            $http(httpRequest)
+                .then(function successCallback(response) {
+                    if (response.data.ok) {
+                        update(nombreCampo,1);
+                    } else {
+                        $ionicLoading.hide();
+                        popup("Campo No Actualizado", "Campo NO Actualizado. Volver a intentar más tarde.");
+                    }
+                }, function errorCallback(response) {
+
+                    if (response.status == -1) {
+                        if (intento < 3) {
+                            updateCampoServer(intento + 1, nombreCampo);
+                        } else {
+                            $ionicLoading.hide();
+                            popup('Error de Conexión', 'Error de Conexión. Volver a intentar más tarde.');
+                        }
+                    } else {
+                        $ionicLoading.hide();
+                        popup('Error de Parámetros', 'Error de Parámetros Incorrectos. Volver a intentar más tarde.');
+                    }
+                });
+        }
+
         $ionicPlatform.ready(function () {
+            servicePantallas.savePantalla(5);
             getCampos();
             isUpadate();
         });

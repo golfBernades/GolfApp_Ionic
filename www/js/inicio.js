@@ -1,6 +1,7 @@
 angular.module('starter.inicio', ['ionic'])
 
-    .controller('inicioController', function ($scope, $cordovaSQLite, $state, $ionicPlatform, $ionicPopup) {
+    .controller('inicioController', function ($scope, $cordovaSQLite, $state,
+                                              $ionicPlatform, $ionicPopup, servicePantallas) {
 
         $scope.funcionUser = "";
         $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
@@ -13,7 +14,7 @@ angular.module('starter.inicio', ['ionic'])
             switch (seleccion) {
                 case 2:
                     if(sesion){
-                        $cordovaSQLite.execute(db, pantalla, [2]);
+                        servicePantallas.savePantalla(2);
                         $state.go('seleccion_jugadores');
                     }else{
                         confirmSesion()
@@ -61,16 +62,16 @@ angular.module('starter.inicio', ['ionic'])
                     $state.go('tabs.camp-dis');
                     break;
                 case 4:
-                    $state.go('seleccion_apuestas');
+                    $state.go('tabs.camp-cue');
                     break;
                 case 5:
                     $state.go('nuevo_campo');
                     break;
                 case 6:
-                    $state.go('juego');
+                    $state.go('seleccion_apuestas');
                     break;
                 case 7:
-                    $state.go('tabs.camp-cue');
+                    $state.go('juego');
                     break;
             }
         }
@@ -102,11 +103,18 @@ angular.module('starter.inicio', ['ionic'])
         }
 
         function isUser() {
-            var query = "SELECT id FROM usuario";
+            var query = "SELECT * FROM usuario";
             setTimeout(function () {
                 $cordovaSQLite.execute(db, query).then(function (res) {
                     console.log(JSON.stringify(res)+" hola")
                     if(res.rows.length>0){
+
+                        id_user_app = res.rows.item(0).id;
+                        user_app = res.rows.item(0).email;
+                        password_app = res.rows.item(0).password;
+
+                        console.log(id_user_app, user_app, password_app);
+
                         sesion = true;
                         $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-out";
                         cargarPantalla();

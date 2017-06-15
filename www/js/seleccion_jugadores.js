@@ -3,14 +3,16 @@
  */
 angular.module('starter.seleccion-jugadores', ['ionic'])
 
-    .controller('jugadoresController', function ($scope, $ionicPopup, $cordovaSQLite, $state, $ionicPlatform, $ionicLoading) {
+    .controller('jugadoresController', function ($scope, $ionicPopup, $cordovaSQLite,
+                                                 $state, $ionicPlatform, $ionicLoading,
+                                                 servicePantallas) {
         $scope.jugadores = [];
 
         $scope.guardarPantallaJugadores = function (seleccion) {
             var pantalla = "UPDATE pantalla SET pantalla = ? WHERE id = 1";
             switch (seleccion) {
                 case 1:
-                    $cordovaSQLite.execute(db, pantalla, [1]);
+                    servicePantallas.savePantalla(1);
                     $state.go('inicio');
                     break;
 
@@ -18,7 +20,6 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                     var query = "SELECT * FROM jugador";
                     $cordovaSQLite.execute(db, query).then(function (res) {
                         if(res.rows.length > 0){
-                            $cordovaSQLite.execute(db, pantalla, [3]);
 
                             var control = false;
                             for(var i=0; i<$scope.jugadores.length; i++){
@@ -129,6 +130,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                     var query = 'DELETE FROM jugador  WHERE id = ?';
                     $cordovaSQLite.execute(db, query, [$scope.jugadores[index].id]);
                     $scope.jugadores.splice(index, 1);
+
                 } else {
 
                 }
@@ -276,7 +278,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         };
 
         $ionicPlatform.ready(function () {
-            console.log('jugadoresController', 'Ready');
+            servicePantallas.savePantalla(2);
             getJugadores();
         });
 

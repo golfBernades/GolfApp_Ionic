@@ -19,20 +19,11 @@
         <div class="contenedor">
             <div class="lista-campos">
                 <ion-list ng-repeat="campo in campos" ng-model="campos">
-                    <!--
-                    <ion-radio ng-model="select" ng-value="campo.seleccionado"
-                               on-hold="popupOpcionesCampo(campo.id, campo.nombre, $index)"
-                               ng-change="campoSeleccionado(campo)">
-                        <p style="font-weight: bold;">{{campo.nombre}}</p>
-                        <p>{{campo.id}} {{$index}}</p>
-                    </ion-radio>
-                    -->
                     <ion-radio class="item item-avatar" ng-model="select" ng-value="campo.seleccionado"
                                on-hold="popupOpcionesCampo(campo.id, campo.nombre, $index)"
                                ng-change="campoSeleccionado(campo)">
                             <img src="img/ionic.png">
-                            <h2>{{campo.nombre}}</h2>
-                            <p>{{campo.id}} {{$index}}</p>
+                            <h2 style="padding-top: 10px">{{campo.nombre}}</h2>
                     </ion-radio>
 
                 </ion-list>

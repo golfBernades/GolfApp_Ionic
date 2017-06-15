@@ -16,3 +16,9 @@
     overflow: scroll;
     height: 95%;
 }
+
+.lista-campos-cuenta {
+    margin-top: -50px;
+    overflow: scroll;
+    height: 120%;
+}

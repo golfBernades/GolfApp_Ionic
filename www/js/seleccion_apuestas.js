@@ -1,18 +1,21 @@
 angular.module('starter.seleccion-apuestas', ['ionic'])
 
-    .controller('apuestasController', function ($scope, $cordovaSQLite, $state, $ionicPlatform, $ionicPopup) {
+    .controller('apuestasController', function ($scope, $cordovaSQLite, $state,
+                                                $ionicPlatform, $ionicPopup, $rootScope, servicePantallas) {
         var valor;
 
         $scope.apuestas = [];
 
         $scope.guardarPantallaApuestas = function (seleccion) {
 
-            var pantalla = "UPDATE pantalla SET pantalla = ? WHERE id = 1";
-            // console.log(seleccion)
             switch (seleccion) {
                 case 3:
-                    $cordovaSQLite.execute(db, pantalla, [3]);
-                    $state.go('tabs.camp-dis');
+                    if($rootScope.campos == 1){
+                        $state.go('tabs.camp-dis')
+                    }else{
+                        $state.go('tabs.camp-cue')
+                    }
+
                     break;
 
                 case 6:
@@ -21,7 +24,6 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
                     $cordovaSQLite.execute(db, selOneCampo).then(function (res) {
                         if (res.rows.length > 0) {
                             getCampoSeleccionado();
-                            $cordovaSQLite.execute(db, pantalla, [6]);
                             $state.go('juego');
 
                         } else {
@@ -128,6 +130,7 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
         }
 
         $ionicPlatform.ready(function () {
+            servicePantallas.savePantalla(6);
             getApuestas();
         });
 

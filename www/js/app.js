@@ -4,11 +4,15 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 var db = null;
-var dir = 'http://148.233.65.228:8080/';
+var dir = 'http://192.168.1.74:8000/';
+var id_user_app ="";
+var user_app= "";
+var password_app ="";
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
     'starter.campos-dispositivo', 'starter.juego', 'starter.nuevo-campo',
-    'starter.seleccion-apuestas', 'starter.inicio','starter.login','starter.registro'])
+    'starter.seleccion-apuestas', 'starter.inicio','starter.login','starter.registro',
+    'starter.campos-cuenta'])
 
     .run(function ($ionicPlatform, $cordovaSQLite, $state) {
         $ionicPlatform.ready(function () {
@@ -27,7 +31,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             }
 
             db = $cordovaSQLite.openDB({
-                name: "La199q7mj0m898.db",
+                name: "espitia.db",
                 iosDatabaseLocation: 'default'
             });
 
@@ -97,7 +101,10 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 ",ventaja_hoyo_16 integer DEFAULT NULL" +
                 ",ventaja_hoyo_17 integer DEFAULT NULL" +
                 ",ventaja_hoyo_18 integer DEFAULT NULL" +
-                ",seleccionado integer(1) NOT NULL)";
+                ",cuenta integer (1) NOT NULL"+
+                ",seleccionado integer(1) NOT NULL" +
+                ",jugador_id integer NOT NULL" +
+                ",FOREIGN KEY (jugador_id) REFERENCES jugador (id))";
 
             $cordovaSQLite.execute(db, campo);
 
@@ -226,7 +233,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 url: "/camp-cue",
                 views: {
                     'camp-cue': {
-                        templateUrl:'templates/campos_cuenta.html'
+                        templateUrl:'templates/campos_cuenta.html',
+                        controller: 'camposCuenController'
                     }
                 }
             })
@@ -285,4 +293,75 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                     break;
             }
         }
+    })
+
+    .service('serviceHttpRequest',function () {
+
+        this.createPostHttpRequest = function (url, data) {
+            var httpRequest = {
+                method: 'POST',
+                url: url,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj)
+                        str.push(encodeURIComponent(p) + "="
+                            + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: data,
+                timeout: 3000
+            };
+
+            return httpRequest;
+        }
+
+        this.createPutHttpRequest = function (url, data) {
+            var httpRequest = {
+                method: 'PUT',
+                url: url,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj)
+                        str.push(encodeURIComponent(p) + "="
+                            + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: data,
+                timeout: 3000
+            };
+
+            return httpRequest;
+        }
+
+        this.createDelHttpRequest = function (url, data) {
+            var httpRequest = {
+                method: 'DELETE',
+                url: url,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj)
+                        str.push(encodeURIComponent(p) + "="
+                            + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: data,
+                timeout: 3000
+            };
+
+            return httpRequest;
+        }
+    })
+
+    .service('servicePantallas',function ($cordovaSQLite) {
+
+        this.savePantalla = function (numPantalla) {
+
+            var pantalla = "UPDATE pantalla SET pantalla = ? WHERE id = 1";
+            $cordovaSQLite.execute(db, pantalla, [numPantalla]);
+
+        };
+
     });
