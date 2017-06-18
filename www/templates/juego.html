@@ -7,6 +7,11 @@
             </button>
         </ion-nav-buttons>
         <ion-nav-title>Juego en Curso</ion-nav-title>
+        <ion-nav-buttons side="right">
+            <button class="button button-icon button-clear ion-navicon-round"
+                    menu-toggle="left" ng-click="showOpcionesPartido($event)">
+            </button>
+        </ion-nav-buttons>
     </ion-nav-bar>
 
     <ion-content>
@@ -90,26 +95,26 @@
                                     <div class="apuesta-tablero-principal"
                                          style="{{puntuacion.apuestaRayas.style_rayas[hoyo -
                                          1]}}"
-                                         ng-if="rayasSeleccionada">
+                                         ng-if="tablero.rayasSeleccionada">
                                         {{puntuacion.apuestaRayas.rayas[hoyo -
                                         1]}}
                                     </div>
                                     <div class="apuesta-tablero-principal"
-                                         ng-if="!rayasSeleccionada">-</div>
+                                         ng-if="!tablero.rayasSeleccionada">-</div>
                                     <div class="apuesta-tablero-principal"
-                                         ng-if="rayasSeleccionada">
+                                         ng-if="tablero.rayasSeleccionada">
                                         {{puntuacion.apuestaRayas.unidades[hoyo
                                         - 1]}}
                                     </div>
                                     <div class="apuesta-tablero-principal"
-                                         ng-if="!rayasSeleccionada">-</div>
+                                         ng-if="!tablero.rayasSeleccionada">-</div>
                                     <div class="apuesta-tablero-principal"
-                                         ng-if="conejaSeleccionada"
+                                         ng-if="tablero.conejaSeleccionada"
                                          style="color: blue">
                                         C
                                     </div>
                                     <div class="apuesta-tablero-principal"
-                                         ng-if="!conejaSeleccionada">-</div>
+                                         ng-if="!tablero.conejaSeleccionada">-</div>
                                 </div>
                             </button>
                         </td>
@@ -136,26 +141,26 @@
                                     <div class="apuesta-tablero-principal"
                                          style="{{puntuacion.apuestaRayas.style_rayas[hoyo -
                                          1]}}"
-                                         ng-if="rayasSeleccionada">
+                                         ng-if="tablero.rayasSeleccionada">
                                         {{puntuacion.apuestaRayas.rayas[hoyo -
                                         1]}}
                                     </div>
                                     <div class="apuesta-tablero-principal"
-                                         ng-if="!rayasSeleccionada">-</div>
+                                         ng-if="!tablero.rayasSeleccionada">-</div>
                                     <div class="apuesta-tablero-principal"
-                                         ng-if="rayasSeleccionada">
+                                         ng-if="tablero.rayasSeleccionada">
                                         {{puntuacion.apuestaRayas.unidades[hoyo
                                         - 1]}}
                                     </div>
                                     <div class="apuesta-tablero-principal"
-                                         ng-if="!rayasSeleccionada">-</div>
+                                         ng-if="!tablero.rayasSeleccionada">-</div>
                                     <div class="apuesta-tablero-principal"
-                                         ng-if="conejaSeleccionada"
+                                         ng-if="tablero.conejaSeleccionada"
                                          style="color: blue">
                                         C
                                     </div>
                                     <div class="apuesta-tablero-principal"
-                                         ng-if="!conejaSeleccionada">-</div>
+                                         ng-if="!tablero.conejaSeleccionada">-</div>
                                 </div>
                             </button>
                         </td>

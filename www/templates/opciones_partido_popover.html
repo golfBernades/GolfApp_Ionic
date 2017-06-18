@@ -1,0 +1,20 @@
+<ion-popover-view class="fit">
+    <ion-header-bar>
+        <h1 class="title">Opciones</h1>
+    </ion-header-bar>
+    <ion-content>
+        <ul class="list no-spacing-list">
+            <li class="item">
+                <button class="button button-full button-stable">
+                    <strong>Clave: </strong> {{claveConsulta}}
+                </button>
+            </li>
+            <li class="item">
+                <button class="button button-full button-positive"
+                ng-click="finalizarPartido()">
+                    Finalizar
+                </button>
+            </li>
+        </ul>
+    </ion-content>
+</ion-popover-view>

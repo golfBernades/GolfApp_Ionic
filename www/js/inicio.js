@@ -13,26 +13,30 @@ angular.module('starter.inicio', ['ionic'])
 
             switch (seleccion) {
                 case 2:
-                    if(sesion){
+                    if (sesion) {
                         servicePantallas.savePantalla(2);
                         $state.go('seleccion_jugadores');
-                    }else{
+                    } else {
                         confirmSesion()
                     }
+                    break;
+                case 7:
+                    servicePantallas.savePantalla(7);
+                    $state.go('juego_consulta');
                     break;
             }
         };
 
-        function confirmSesion () {
+        function confirmSesion() {
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Iniciar Sesión',
                 template: 'Para poder avanzar deves iniciar sesión',
-                okText:'Iniciar Sesión',
+                okText: 'Iniciar Sesión',
                 cancelText: 'Cancelar'
             });
 
-            confirmPopup.then(function(res) {
-                if(res) {
+            confirmPopup.then(function (res) {
+                if (res) {
                     logIn()
                 }
             });
@@ -54,42 +58,44 @@ angular.module('starter.inicio', ['ionic'])
         }
 
         function direccionPagina(pagina) {
-            switch (pagina) {
-                case 2:
-                    $state.go('seleccion_jugadores');
-                    break;
-                case 3:
-                    $state.go('tabs.camp-dis');
-                    break;
-                case 4:
-                    $state.go('tabs.camp-cue');
-                    break;
-                case 5:
-                    $state.go('nuevo_campo');
-                    break;
-                case 6:
-                    $state.go('seleccion_apuestas');
-                    break;
-                case 7:
-                    $state.go('juego');
-                    break;
-            }
+            // switch (pagina) {
+            //     case 2:
+            //         $state.go('seleccion_jugadores');
+            //         break;
+            //     case 3:
+            //         $state.go('tabs.camp-dis');
+            //         break;
+            //     case 4:
+            //         $state.go('tabs.camp-cue');
+            //         break;
+            //     case 5:
+            //         $state.go('nuevo_campo');
+            //         break;
+            //     case 6:
+            //         $state.go('seleccion_apuestas');
+            //         break;
+            //     case 7:
+            //         $state.go('juego');
+            //         break;
+            // }
+
+            $state.go('inicio');
         }
 
-        function logIn () {
+        function logIn() {
             $state.go('login');
         };
 
-        function logOut () {
+        function logOut() {
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Cerrar Sesión',
                 template: 'Estas seguro de cerrar sesión?'
             });
 
-            confirmPopup.then(function(res) {
-                if(res) {
+            confirmPopup.then(function (res) {
+                if (res) {
                     deleteUser()
-                    sesion=false;
+                    sesion = false;
                     $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
                 } else {
 
@@ -106,8 +112,8 @@ angular.module('starter.inicio', ['ionic'])
             var query = "SELECT * FROM usuario";
             setTimeout(function () {
                 $cordovaSQLite.execute(db, query).then(function (res) {
-                    console.log(JSON.stringify(res)+" hola")
-                    if(res.rows.length>0){
+                    console.log(JSON.stringify(res) + " hola")
+                    if (res.rows.length > 0) {
 
                         id_user_app = res.rows.item(0).id;
                         user_app = res.rows.item(0).email;
@@ -118,18 +124,18 @@ angular.module('starter.inicio', ['ionic'])
                         sesion = true;
                         $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-out";
                         cargarPantalla();
-                    }else{
+                    } else {
                         sesion = false;
                         $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
                     }
                 });
-            },500)
+            }, 500)
         }
 
         $scope.log = function () {
-            if(sesion){
+            if (sesion) {
                 logOut();
-            }else{
+            } else {
                 logIn();
             }
         }

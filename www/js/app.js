@@ -5,14 +5,15 @@
 // the 2nd parameter is an array of 'requires'
 var db = null;
 var dir = 'http://148.233.65.228:8080/';
-var id_user_app ="";
-var user_app= "";
-var password_app ="";
+// var dir = 'http://192.168.0.15:8000/';
+var id_user_app = "";
+var user_app = "";
+var password_app = "";
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
     'starter.campos-dispositivo', 'starter.juego', 'starter.nuevo-campo',
-    'starter.seleccion-apuestas', 'starter.inicio','starter.login','starter.registro',
-    'starter.campos-cuenta'])
+    'starter.seleccion-apuestas', 'starter.inicio', 'starter.login', 'starter.registro',
+    'starter.campos-cuenta', 'starter.juego_consulta'])
 
     .run(function ($ionicPlatform, $cordovaSQLite, $state) {
         $ionicPlatform.ready(function () {
@@ -52,13 +53,13 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 "(id integer PRIMARY KEY AUTOINCREMENT, " +
                 "nombre text, " +
                 "handicap integer," +
-                "jugar integer,"+
+                "jugar integer," +
                 "sexo integer," +
                 "url_foto text," +
                 "password text," +
                 "email text," +
                 "usuario_id integer NOT NULL," +
-                "CONSTRAINT email_unique UNIQUE (email),"+
+                "CONSTRAINT email_unique UNIQUE (email)," +
                 "FOREIGN KEY (usuario_id) REFERENCES usuario (id))";
 
             $cordovaSQLite.execute(db, jugador);
@@ -103,7 +104,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 ",ventaja_hoyo_16 integer DEFAULT NULL" +
                 ",ventaja_hoyo_17 integer DEFAULT NULL" +
                 ",ventaja_hoyo_18 integer DEFAULT NULL" +
-                ",cuenta integer (1) NOT NULL"+
+                ",cuenta integer (1) NOT NULL" +
                 ",seleccionado integer(1) NOT NULL" +
                 ",usuario_id integer NOT NULL" +
                 ",FOREIGN KEY (usuario_id) REFERENCES usuario (id))";
@@ -123,9 +124,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 ",clave_consulta char(8) NOT NULL UNIQUE" +
                 ",clave_edicion char(8) NOT NULL UNIQUE" +
                 ",inicio datetime NOT NULL" +
-                ",fin datetime DEFAULT NULL" +
-                ",campo_id integer NOT NULL" +
-                ",FOREIGN KEY (campo_id) REFERENCES campo (id))";
+                ",fin datetime DEFAULT NULL)";
 
             $cordovaSQLite.execute(db, partido);
 
@@ -188,14 +187,14 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
         $stateProvider
 
             .state('login', {
-                cache:false,
+                cache: false,
                 url: '/login',
                 templateUrl: 'templates/login.html',
                 controller: 'loginController'
             })
 
             .state('registro', {
-                cache:false,
+                cache: false,
                 url: '/registro',
                 templateUrl: 'templates/registro.html',
                 controller: 'registroController'
@@ -235,17 +234,10 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 url: "/camp-cue",
                 views: {
                     'camp-cue': {
-                        templateUrl:'templates/campos_cuenta.html',
+                        templateUrl: 'templates/campos_cuenta.html',
                         controller: 'camposCuenController'
                     }
                 }
-            })
-
-            .state('seleccion_campo', {
-                cache: false,
-                url: '/seleccion_campo',
-                templateUrl: 'templates/seleccion_campo.html',
-                controller: 'camposController'
             })
 
             .state('seleccion_apuestas', {
@@ -267,37 +259,44 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 url: '/juego',
                 templateUrl: 'templates/juego.html',
                 controller: 'juegoController'
+            })
+
+            .state('juego_consulta', {
+                cache: false,
+                url: '/juego_consulta',
+                templateUrl: 'templates/juego_consulta.html',
+                controller: 'juegoConsultaController'
             });
 
         $urlRouterProvider.otherwise('/inicio');
     })
 
-    .controller('ctrlInicio', function ($scope, $state, $cordovaSQLite) {
-        $scope.paginas = function (select) {
-            switch (select) {
-                case 1:
-                    $state.go('inicio');
-                    break;
-                case 2:
-                    $state.go('seleccion_jugadores');
-                    break;
-                case 3:
-                    $state.go('tabs.camp-dis');
-                    break;
-                case 4:
-                    $state.go('seleccion_apuestas');
-                    break;
-                case 5:
-                    $state.go('nuevo_campo');
-                    break;
-                case 6:
-                    $state.go('juego');
-                    break;
-            }
-        }
-    })
+    // .controller('ctrlInicio', function ($scope, $state, $cordovaSQLite) {
+    //     $scope.paginas = function (select) {
+    //         switch (select) {
+    //             case 1:
+    //                 $state.go('inicio');
+    //                 break;
+    //             case 2:
+    //                 $state.go('seleccion_jugadores');
+    //                 break;
+    //             case 3:
+    //                 $state.go('tabs.camp-dis');
+    //                 break;
+    //             case 4:
+    //                 $state.go('seleccion_apuestas');
+    //                 break;
+    //             case 5:
+    //                 $state.go('nuevo_campo');
+    //                 break;
+    //             case 6:
+    //                 $state.go('juego');
+    //                 break;
+    //         }
+    //     }
+    // })
 
-    .service('serviceHttpRequest',function () {
+    .service('serviceHttpRequest', function () {
 
         this.createPostHttpRequest = function (url, data) {
             var httpRequest = {
@@ -316,9 +315,19 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             };
 
             return httpRequest;
-        }
+        };
 
         this.createPutHttpRequest = function (url, data) {
+            // // $rootScope.request.data = {"name": "John", "surname":"Doe"}
+            // // var uri = //some REST API
+            // var httpRequest = {
+            //     method: 'PUT',
+            //     url: url,
+            //     headers: {"Content-Type": "application/json;charset=UTF-8"},
+            //     data: data
+            // };
+            //
+            // return httpRequest;
             var httpRequest = {
                 method: 'PUT',
                 url: url,
@@ -335,7 +344,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             };
 
             return httpRequest;
-        }
+        };
 
         this.createDelHttpRequest = function (url, data) {
             var httpRequest = {
@@ -357,13 +366,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
         }
     })
 
-    .service('servicePantallas',function ($cordovaSQLite) {
-
+    .service('servicePantallas', function ($cordovaSQLite) {
         this.savePantalla = function (numPantalla) {
-
             var pantalla = "UPDATE pantalla SET pantalla = ? WHERE id = 1";
             $cordovaSQLite.execute(db, pantalla, [numPantalla]);
-
         };
-
     });

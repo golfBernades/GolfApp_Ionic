@@ -3,7 +3,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
     .controller('juegoController', function ($scope, $ionicPopup, $cordovaSQLite,
                                              $state, $ionicLoading, $timeout,
                                              $ionicPlatform, $q, $http,
-                                             serviceHttpRequest) {
+                                             serviceHttpRequest, $ionicPopover) {
             $scope.hoyos1a9 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
             $scope.hoyos10a18 = [10, 11, 12, 13, 14, 15, 16, 17, 18];
             $scope.pares1a9 = [];
@@ -11,9 +11,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             $scope.ventajas1a9 = [];
             $scope.ventajas10a18 = [];
             $scope.nombreCampo = '';
-
-            $scope.rayasSeleccionada = false;
-            $scope.conejaSeleccionada = false;
 
             $scope.hoyos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
                 16, 17, 18];
@@ -24,9 +21,14 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             $scope.campo = {};
             $scope.partido = {};
 
+            $scope.partidoId = '';
+            $scope.claveConsulta = '';
+            $scope.claveEdicion = '';
+            $scope.inicioPartido = '';
+
+            var opcionesPopover;
             var sCirc = 'div-circular';
             var nCirc = 'circular-hidden';
-
             var modulePromises = [];
 
             $ionicPlatform.ready(function () {
@@ -39,7 +41,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                 $q.all(modulePromises).then(function () {
                     modulePromises.push(crearPartido());
-                    modulePromises.push(loadPuntos());
+                    // modulePromises.push(loadPuntos());
 
                     $q.all(modulePromises).then(function () {
                         actualizarScoreUi();
@@ -51,10 +53,75 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     });
                 });
 
+                $ionicPopover.fromTemplateUrl(
+                    'templates/opciones_partido_popover.html', {
+                        scope: $scope
+                    }).then(function (popover) {
+                    opcionesPopover = popover;
+                });
+
                 screen.orientation.addEventListener('change', function () {
                     $state.reload();
                 });
             });
+
+            $scope.showOpcionesPartido = function ($event) {
+                opcionesPopover.show($event);
+            };
+
+            $scope.finalizarPartido = function () {
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'Finalizar partido',
+                    template: '¿Estás seguro de que quieres finalizar el' +
+                    ' partido? Ya no podrás editar el tablero',
+                    cancelText: 'Cancelar',
+                    cancelType: 'button-assertive',
+                    okText: 'Finalizar'
+
+                });
+
+                confirmPopup.then(function (res) {
+                    if (res) {
+                        var deletePuntosQuery = 'DELETE FROM puntuaciones';
+                        var deletePartidoQuery = 'DELETE FROM partido';
+
+                        $cordovaSQLite.execute(db, deletePuntosQuery)
+                            .then(function (res) {
+                                $cordovaSQLite.execute(db, deletePartidoQuery)
+                                    .then(function (res) {
+                                        opcionesPopover.hide();
+                                        finalizarPartidoServer();
+                                        $state.go('inicio');
+                                    });
+                            });
+                    }
+                });
+            };
+
+            function finalizarPartidoServer() {
+                var httpRequest = serviceHttpRequest.createPutHttpRequest(
+                    dir + 'partido_finalizar',
+                    {
+                        fin: moment().format("YYYY-MM-DD h:mm:ss"),
+                        clave_edicion: $scope.claveEdicion,
+                        partido_id: $scope.partidoId
+                    }
+                );
+
+                $http(httpRequest)
+                    .then(function successCallback(response) {
+                        if (!response.data.ok) {
+                            popup('Error', response.data.error_message);
+                        }
+                    }, function errorCallback(response) {
+                        popup('Error', JSON.stringify(response));
+                        if (response.status == -1) {
+                            popup('Partido', 'Error de Conexión');
+                        } else {
+                            popup('Partido', 'Error de Parámetros');
+                        }
+                    });
+            }
 
             function popup(title, template) {
                 var pop = $ionicPopup.alert({
@@ -71,7 +138,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 }).then(function () {
                     // console.log("The loading indicator is now displayed");
                 });
-            };
+            }
 
             function fixRowsAndColumns() {
                 $('#fixed_hdr1').fxdHdrCol({
@@ -266,35 +333,97 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             }
 
             function crearPartido() {
-                var crearPartido = function () {
-                    $scope.partido = new Partido($scope.jugadores, $scope.campo);
-                };
+                $scope.partido = new Partido($scope.jugadores, $scope.campo);
 
-                var promises = [];
-                promises.push(crearPartido());
-
-                ////////////////////////////////
                 var queryApuestas = "SELECT id, nombre FROM apuesta WHERE" +
                     " seleccionada = 1";
 
-                var getApuestasPromise = $cordovaSQLite.execute(db,
-                    queryApuestas).then(function (res) {
+                $cordovaSQLite.execute(db, queryApuestas).then(function (res) {
                     for (var i = 0; i < res.rows.length; i++) {
                         if (res.rows.item(i).nombre == 'rayas') {
                             $scope.rayasSeleccionada = true;
+                            $scope.tablero.rayasSeleccionada = true;
                         } else if (res.rows.item(i).nombre == 'coneja') {
                             $scope.conejaSeleccionada = true;
+                            $scope.tablero.conejaSeleccionada = true;
                         }
                     }
+                    if ($scope.rayasSeleccionada) agregarApuestaRayas();
                 });
 
-                promises.push(getApuestasPromise);
+                var queryPartido = 'SELECT * FROM partido';
 
-                $q.all(promises).then(function () {
-                    if ($scope.rayasSeleccionada) agregarApuestaRayas();
-
+                $cordovaSQLite.execute(db, queryPartido).then(function (res) {
+                    if (res.rows.length == 0) {
+                        popup('Partido', 'Crearé nuevo partido');
+                        showLoading();
+                        nuevoPartidoPromises.push(insertarPartidoServidor());
+                        $q.all(nuevoPartidoPromises).then(function () {
+                            nuevoPartidoPromises.push(insertarPartidoLocal());
+                            $q.all(nuevoPartidoPromises).then(function () {
+                                $ionicLoading.hide();
+                            });
+                        });
+                    } else {
+                        $scope.partidoId = res.rows.item(0).id;
+                        $scope.claveConsulta = res.rows.item(0).clave_consulta;
+                        $scope.claveEdicion = res.rows.item(0).clave_edicion;
+                        popup('Partido', 'Cargaré partido existente');
+                        loadPuntos();
+                    }
+                    $q.all(nuevoPartidoPromises).then(function () {
+                        popup('Clave de consulta',
+                            '<h1>' + $scope.claveConsulta + '</h1>');
+                    });
                 });
             }
+
+            var nuevoPartidoPromises = [];
+
+            function insertarPartidoLocal() {
+                console.log('GolfApp', 'insertarPartidoLocal');
+
+                var insertQuery = 'INSERT INTO partido (id, inicio,' +
+                    ' clave_consulta, clave_edicion) VALUES (?, ?, ?, ?)';
+
+                var insertLocal = $cordovaSQLite.execute(db, insertQuery,
+                    [$scope.partidoId, $scope.inicioPartido,
+                        $scope.claveConsulta, $scope.claveEdicion]);
+
+                nuevoPartidoPromises.push(insertLocal);
+            }
+
+            function insertarPartidoServidor() {
+                console.log('GolfApp', 'insertarPartidoServidor');
+                var httpRequest = serviceHttpRequest.createPostHttpRequest(
+                    dir + 'partido_insert',
+                    {
+                        inicio: moment().format("YYYY-MM-DD h:mm:ss"),
+                        email: 'porfirioads@gmail.com',
+                        password: 'holamundo'
+                    }
+                );
+
+                var insertServer = $http(httpRequest)
+                    .then(function successCallback(response) {
+                        if (response.data.ok) {
+                            $scope.partidoId = response.data.partido_id;
+                            $scope.claveConsulta = response.data.clave_consulta;
+                            $scope.claveEdicion = response.data.clave_edicion;
+                        } else {
+                            popup('Partido', 'Error al insertar partido');
+                        }
+                    }, function errorCallback(response) {
+                        if (response.status == -1) {
+                            popup('Partido', 'Error de Conexión');
+                        } else {
+                            popup('Partido', 'Error de Parámetros');
+                        }
+                    });
+
+                nuevoPartidoPromises.push(insertServer);
+            }
+
 
             function agregarApuestaRayas() {
                 $scope.partido.agregarApuesta(new ApuestaRayas($scope.partido));
@@ -376,8 +505,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 var httpRequest = serviceHttpRequest.createPostHttpRequest(
                     dir + 'partido_tablero_write',
                     {
-                        partido_id: 7,
-                        clave_edicion: 'abcdefgh',
+                        partido_id: $scope.partidoId,
+                        clave_edicion: $scope.claveEdicion,
                         tablero_json: JSON.stringify($scope.tablero)
                     }
                 );
@@ -462,14 +591,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
             $scope.actualizarJuego = function () {
                 compartirScoreboard();
-                // console.log('btnActualizar.click()');
-
-                // var deleteQuery = 'DELETE FROM puntuaciones';
-                //
-                // $cordovaSQLite.execute(db, deleteQuery)
-                //     .then(function (resDelete) {
-                //         console.log('GolfApp>>', 'ResDelete: ' + JSON.stringify(resDelete));
-                //     });
             };
 
             $scope.guardarPantallaJuego = function (seleccion) {
@@ -483,11 +604,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             };
 
             function guardarPuntosDb(id_jugador, hoyo, golpes, unidades) {
-                // console.log('GolfApp', 'Se guardará la siguiente información en'
-                //     + ' la tabla "puntuaciones": jugador_id->' + id_jugador
-                //     + ', hoyo->' + hoyo + ', golpes->' + golpes + ', unidades->'
-                //     + unidades);
-
                 var selectJugador = "SELECT id FROM puntuaciones " +
                     "WHERE jugador_id = (?) AND hoyo = (?)";
                 var insertDatos = "INSERT INTO puntuaciones " +
