@@ -179,12 +179,10 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             var updateLocal = $cordovaSQLite.execute(db,
                                 updateQuery, data);
                             modulePromises.push(updateLocal);
-                            $scope.partidoSincronizado = true;
                         }
                     });
                 } else {
                     console.log('GolfApp', 'Partido ya sincronizado');
-                    $scope.partidoSincronizado = true;
                 }
             }
 
@@ -617,9 +615,12 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         }
                     );
 
+                    $scope.partidoSincronizado = false;
+
                     $http(httpRequest)
                         .then(function successCallback(response) {
                             if (response.data.ok) {
+                                $scope.partidoSincronizado = true;
                             } else {
                                 console.log('GolfApp', response.config.url + '['
                                     + response.config.method + ']: '
