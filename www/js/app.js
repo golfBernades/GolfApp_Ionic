@@ -32,7 +32,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             }
 
             db = $cordovaSQLite.openDB({
-                name: "espi8tiia99990j956.db",
+                name: "golfappp.db",
                 iosDatabaseLocation: 'default'
             });
 
@@ -120,23 +120,24 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             $cordovaSQLite.execute(db, apuesta);
 
             var partido = "CREATE TABLE IF NOT EXISTS partido (" +
-                "id integer NOT NULL PRIMARY KEY AUTOINCREMENT" +
-                ",clave_consulta char(8) NOT NULL UNIQUE" +
-                ",clave_edicion char(8) NOT NULL UNIQUE" +
-                ",inicio datetime NOT NULL" +
-                ",fin datetime DEFAULT NULL)";
+                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT" +
+                ", clave_consulta CHAR(8) NULL UNIQUE" +
+                ", clave_edicion CHAR(8) NULL UNIQUE" +
+                ", inicio DATETIME NOT NULL" +
+                ", fin DATETIME DEFAULT NULL" +
+                ", id_servidor INTEGER DEFAULT NULL UNIQUE)";
 
             $cordovaSQLite.execute(db, partido);
 
-            var apuesta_partido = "CREATE TABLE IF NOT EXISTS apuesta_partido (" +
-                "id integer NOT NULL PRIMARY KEY AUTOINCREMENT" +
-                ",partido_id integer NOT NULL" +
-                ",apuesta_id integer NOT NULL" +
-                ",CONSTRAINT unique_id_apue UNIQUE (partido_id, apuesta_id)" +
-                ",FOREIGN KEY (apuesta_id) REFERENCES apuesta (id)" +
-                ",FOREIGN KEY (partido_id) REFERENCES partido (id))";
-
-            $cordovaSQLite.execute(db, apuesta_partido);
+            // var apuesta_partido = "CREATE TABLE IF NOT EXISTS apuesta_partido (" +
+            //     "id integer NOT NULL PRIMARY KEY AUTOINCREMENT" +
+            //     ",partido_id integer NOT NULL" +
+            //     ",apuesta_id integer NOT NULL" +
+            //     ",CONSTRAINT unique_id_apue UNIQUE (partido_id, apuesta_id)" +
+            //     ",FOREIGN KEY (apuesta_id) REFERENCES apuesta (id)" +
+            //     ",FOREIGN KEY (partido_id) REFERENCES partido (id))";
+            //
+            // $cordovaSQLite.execute(db, apuesta_partido);
 
             var puntuacion = "CREATE TABLE IF NOT EXISTS puntuaciones (" +
                 "id integer NOT NULL PRIMARY KEY AUTOINCREMENT" +

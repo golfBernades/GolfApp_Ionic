@@ -15,9 +15,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             $scope.hoyos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
                 16, 17, 18];
             $scope.jugadores = [];
-            // $scope.pares = [];
             $scope.tablero = {};
-            // $scope.ventajas = [];
             $scope.campo = {};
             $scope.partido = {};
 
@@ -26,10 +24,21 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             $scope.claveEdicion = '';
             $scope.inicioPartido = '';
 
+            $scope.partidoSincronizado = false;
+
             var opcionesPopover;
             var sCirc = 'div-circular';
             var nCirc = 'circular-hidden';
             var modulePromises = [];
+
+            $scope.partidoExistente = {
+                id: null,
+                claveConsulta: 'Offline',
+                claveEdicion: null,
+                idServidor: null,
+                inicio: null,
+                fin: null
+            };
 
             $ionicPlatform.ready(function () {
                 console.log('GolfApp>> juego.$ionicPlatform.ready');
@@ -40,16 +49,36 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 modulePromises.push(loadJugadores());
 
                 $q.all(modulePromises).then(function () {
-                    modulePromises.push(crearPartido());
-                    // modulePromises.push(loadPuntos());
+                    $scope.partido = new Partido($scope.jugadores, $scope.campo);
+
+                    modulePromises.push(loadPartidoLocal());
+                    modulePromises.push(loadApuestas());
 
                     $q.all(modulePromises).then(function () {
-                        actualizarScoreUi();
-                        fixRowsAndColumns();
+                        if ($scope.partidoExistente.id) {
+                            modulePromises.push(sincronizarPartidos());
+                            modulePromises.push(loadPuntos());
+                        } else {
+                            modulePromises.push(insertarPartidoLocal());
 
-                        setTimeout(function () {
-                            $ionicLoading.hide()
-                        }, 3000)
+                            $q.all(modulePromises).then(function () {
+                                modulePromises.push(sincronizarPartidos());
+                            });
+                        }
+
+                        $q.all(modulePromises).then(function () {
+                            actualizarScoreUi();
+                            compartirScoreboard();
+                            fixRowsAndColumns();
+                            setTimeout(function () {
+                                $ionicLoading.hide();
+                                if ($scope.partidoExistente.idServidor) {
+                                    popup('Clave de consulta', '<h1>'
+                                        + $scope.partidoExistente.claveConsulta
+                                        + '</h1>');
+                                }
+                            }, 1000);
+                        });
                     });
                 });
 
@@ -65,6 +94,158 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 });
             });
 
+            function loadPartidoLocal() {
+                var queryPartido = 'SELECT * FROM partido';
+
+                var loadPartido = $cordovaSQLite.execute(db, queryPartido)
+                    .then(function (res) {
+                        if (res.rows.length != 0) {
+                            var partidoRow = res.rows.item(0);
+                            $scope.partidoExistente = {
+                                id: partidoRow.id,
+                                claveConsulta: partidoRow.clave_consulta,
+                                claveEdicion: partidoRow.clave_edicion,
+                                idServidor: partidoRow.id_servidor,
+                                inicio: partidoRow.inicio,
+                                fin: partidoRow.fin
+                            };
+                        }
+                    });
+
+                modulePromises.push(loadPartido);
+            }
+
+            function loadApuestas() {
+                var queryApuestas = "SELECT id, nombre FROM apuesta WHERE" +
+                    " seleccionada = 1";
+
+                var apuestas = $cordovaSQLite.execute(db, queryApuestas)
+                    .then(function (res) {
+                        for (var i = 0; i < res.rows.length; i++) {
+                            if (res.rows.item(i).nombre == 'rayas') {
+                                $scope.rayasSeleccionada = true;
+                                $scope.tablero.rayasSeleccionada = true;
+                            } else if (res.rows.item(i).nombre == 'coneja') {
+                                $scope.conejaSeleccionada = true;
+                                $scope.tablero.conejaSeleccionada = true;
+                            }
+                        }
+                        if ($scope.rayasSeleccionada) {
+                            modulePromises.push(agregarApuestaRayas());
+                        }
+                    });
+
+                modulePromises.push(apuestas)
+            }
+
+            function agregarApuestaRayas() {
+                console.log('GolfApp', 'agregarApuestaRayas');
+
+                $scope.partido.agregarApuesta(new ApuestaRayas($scope.partido));
+
+                $.each($scope.tablero.datos_juego, function (index, dato) {
+                    dato.apuestaRayas = {
+                        unidades: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0],
+                        rayas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0],
+                        style_rayas: []
+                    }
+                });
+            }
+
+            function agregarApuestaConeja() {
+
+            }
+
+            function sincronizarPartidos() {
+                console.log('GolfApp', 'sincronizarPartidos');
+
+                if (!$scope.partidoExistente.idServidor) {
+                    console.log('GolfApp', 'Partido aún no sincronizado');
+
+                    modulePromises.push(subirPartido());
+
+                    $q.all(modulePromises).then(function () {
+                        if ($scope.partidoExistente.idServidor) {
+                            var updateQuery = 'UPDATE partido SET' +
+                                ' id_servidor = ?, clave_consulta = ?,' +
+                                ' clave_edicion = ?' +
+                                ' WHERE id = ?';
+                            var data = [$scope.partidoExistente.idServidor,
+                                $scope.partidoExistente.claveConsulta,
+                                $scope.partidoExistente.claveEdicion,
+                                $scope.partidoExistente.id];
+                            var updateLocal = $cordovaSQLite.execute(db,
+                                updateQuery, data);
+                            modulePromises.push(updateLocal);
+                            $scope.partidoSincronizado = true;
+                        }
+                    });
+                } else {
+                    console.log('GolfApp', 'Partido ya sincronizado');
+                    $scope.partidoSincronizado = true;
+                }
+            }
+
+            function subirPartido() {
+                console.log('GolfApp', 'subirPartido');
+
+                var httpRequest = serviceHttpRequest.createPostHttpRequest(
+                    dir + 'partido_insert',
+                    {
+                        inicio: $scope.partidoExistente.inicio,
+                        email: 'porfirioads@gmail.com',
+                        password: 'holamundo'
+                    }
+                );
+
+                var insertServer = $http(httpRequest)
+                    .then(function successCallback(response) {
+                        if (response.data.ok) {
+                            $scope.partidoExistente.claveConsulta
+                                = response.data.clave_consulta;
+                            $scope.partidoExistente.claveEdicion
+                                = response.data.clave_edicion;
+                            $scope.partidoExistente.idServidor
+                                = response.data.partido_id;
+                        } else {
+                            console.log('GolfApp', response.config.url + '['
+                                + response.config.method + ']: '
+                                + response.data.error_message);
+                        }
+                    }, function errorCallback(response) {
+                        if (response.status == -1) {
+                            console.log('GolfApp', 'Error de conexión');
+                        } else {
+                            console.log('GolfApp', response.config.url + '['
+                                + response.config.method + ']: '
+                                + response.data.error_message);
+                        }
+                    });
+
+                modulePromises.push(insertServer);
+            }
+
+            function insertarPartidoLocal() {
+                console.log('GolfApp', 'insertarPartidoLocal');
+
+                var insertQuery = 'INSERT INTO partido (inicio) VALUES (?)';
+
+                var inicio = moment().format("YYYY-MM-DD h:mm:ss");
+
+                var insertLocal = $cordovaSQLite.execute(db, insertQuery,
+                    [inicio]).then(function successCallback(res) {
+                    console.log('GolfApp', 'OK: ' + JSON.stringify(res));
+                }, function errorCallback(res) {
+                    console.log('GolfApp', 'ERROR: ' + JSON.stringify(res));
+                });
+
+                modulePromises.push(insertLocal);
+            }
+
+            //------------------------------------------------------------------
+
             $scope.showOpcionesPartido = function ($event) {
                 opcionesPopover.show($event);
             };
@@ -77,48 +258,69 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     cancelText: 'Cancelar',
                     cancelType: 'button-assertive',
                     okText: 'Finalizar'
-
                 });
 
                 confirmPopup.then(function (res) {
                     if (res) {
-                        var deletePuntosQuery = 'DELETE FROM puntuaciones';
-                        var deletePartidoQuery = 'DELETE FROM partido';
+                        modulePromises.push(finalizarPartidoLocal());
 
-                        $cordovaSQLite.execute(db, deletePuntosQuery)
-                            .then(function (res) {
-                                $cordovaSQLite.execute(db, deletePartidoQuery)
-                                    .then(function (res) {
-                                        opcionesPopover.hide();
-                                        finalizarPartidoServer();
-                                        $state.go('inicio');
-                                    });
-                            });
+                        $q.all(modulePromises).then(function () {
+                            if (!$scope.partidoExistente.id) {
+                                finalizarPartidoServer();
+                            }
+                            $state.go('inicio');
+                        });
                     }
                 });
             };
 
+            function finalizarPartidoLocal() {
+                console.log('GolfApp', 'finalizarPartidoLocal');
+
+                var deletePuntosQuery = 'DELETE FROM puntuaciones';
+                var deletePartidoQuery = 'DELETE FROM partido';
+
+                var deletePuntos = $cordovaSQLite.execute(db, deletePuntosQuery)
+                    .then(function (res) {
+                        var deletePartido = $cordovaSQLite
+                            .execute(db, deletePartidoQuery)
+                            .then(function (res) {
+                                opcionesPopover.hide();
+                                $scope.partidoExistente.id = null;
+                            });
+
+                        modulePromises.push(deletePartido);
+                    });
+
+                modulePromises.push(deletePuntos);
+            }
+
             function finalizarPartidoServer() {
+                console.log('GolfApp', 'finalizarPartidoServer');
+
                 var httpRequest = serviceHttpRequest.createPutHttpRequest(
                     dir + 'partido_finalizar',
                     {
                         fin: moment().format("YYYY-MM-DD h:mm:ss"),
-                        clave_edicion: $scope.claveEdicion,
-                        partido_id: $scope.partidoId
+                        clave_edicion: $scope.partidoExistente.claveEdicion,
+                        partido_id: $scope.partidoExistente.idServidor
                     }
                 );
 
                 $http(httpRequest)
                     .then(function successCallback(response) {
                         if (!response.data.ok) {
-                            popup('Error', response.data.error_message);
+                            console.log('GolfApp', response.config.url + '['
+                                + response.config.method + ']: '
+                                + response.data.error_message);
                         }
                     }, function errorCallback(response) {
-                        popup('Error', JSON.stringify(response));
                         if (response.status == -1) {
-                            popup('Partido', 'Error de Conexión');
+                            console.log('GolfApp', 'Error de conexión');
                         } else {
-                            popup('Partido', 'Error de Parámetros');
+                            console.log('GolfApp', response.config.url + '['
+                                + response.config.method + ']: '
+                                + response.data.error_message);
                         }
                     });
             }
@@ -241,10 +443,14 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                             = resPunt.rows.item(i).unidades;
                                     }
 
-                                    $scope.partido.registrarGolpes(j,
-                                        resPunt.rows.item(i).hoyo - 1,
-                                        resPunt.rows.item(i).golpes,
-                                        resPunt.rows.item(i).unidades);
+
+                                    var registrar = $scope.partido
+                                        .registrarGolpes(j,
+                                            resPunt.rows.item(i).hoyo - 1,
+                                            resPunt.rows.item(i).golpes,
+                                            resPunt.rows.item(i).unidades);
+
+                                    modulePromises.push(registrar);
                                     break;
                                 }
                             }
@@ -332,117 +538,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 modulePromises.push(selectCampoPromise);
             }
 
-            function crearPartido() {
-                $scope.partido = new Partido($scope.jugadores, $scope.campo);
-
-                var queryApuestas = "SELECT id, nombre FROM apuesta WHERE" +
-                    " seleccionada = 1";
-
-                $cordovaSQLite.execute(db, queryApuestas).then(function (res) {
-                    for (var i = 0; i < res.rows.length; i++) {
-                        if (res.rows.item(i).nombre == 'rayas') {
-                            $scope.rayasSeleccionada = true;
-                            $scope.tablero.rayasSeleccionada = true;
-                        } else if (res.rows.item(i).nombre == 'coneja') {
-                            $scope.conejaSeleccionada = true;
-                            $scope.tablero.conejaSeleccionada = true;
-                        }
-                    }
-                    if ($scope.rayasSeleccionada) agregarApuestaRayas();
-                });
-
-                var queryPartido = 'SELECT * FROM partido';
-
-                $cordovaSQLite.execute(db, queryPartido).then(function (res) {
-                    if (res.rows.length == 0) {
-                        popup('Partido', 'Crearé nuevo partido');
-                        showLoading();
-                        nuevoPartidoPromises.push(insertarPartidoServidor());
-                        $q.all(nuevoPartidoPromises).then(function () {
-                            nuevoPartidoPromises.push(insertarPartidoLocal());
-                            $q.all(nuevoPartidoPromises).then(function () {
-                                $ionicLoading.hide();
-                            });
-                        });
-                    } else {
-                        $scope.partidoId = res.rows.item(0).id;
-                        $scope.claveConsulta = res.rows.item(0).clave_consulta;
-                        $scope.claveEdicion = res.rows.item(0).clave_edicion;
-                        popup('Partido', 'Cargaré partido existente');
-                        loadPuntos();
-                    }
-                    $q.all(nuevoPartidoPromises).then(function () {
-                        popup('Clave de consulta',
-                            '<h1>' + $scope.claveConsulta + '</h1>');
-                    });
-                });
-            }
-
-            var nuevoPartidoPromises = [];
-
-            function insertarPartidoLocal() {
-                console.log('GolfApp', 'insertarPartidoLocal');
-
-                var insertQuery = 'INSERT INTO partido (id, inicio,' +
-                    ' clave_consulta, clave_edicion) VALUES (?, ?, ?, ?)';
-
-                var insertLocal = $cordovaSQLite.execute(db, insertQuery,
-                    [$scope.partidoId, $scope.inicioPartido,
-                        $scope.claveConsulta, $scope.claveEdicion]);
-
-                nuevoPartidoPromises.push(insertLocal);
-            }
-
-            function insertarPartidoServidor() {
-                console.log('GolfApp', 'insertarPartidoServidor');
-                var httpRequest = serviceHttpRequest.createPostHttpRequest(
-                    dir + 'partido_insert',
-                    {
-                        inicio: moment().format("YYYY-MM-DD h:mm:ss"),
-                        email: 'porfirioads@gmail.com',
-                        password: 'holamundo'
-                    }
-                );
-
-                var insertServer = $http(httpRequest)
-                    .then(function successCallback(response) {
-                        if (response.data.ok) {
-                            $scope.partidoId = response.data.partido_id;
-                            $scope.claveConsulta = response.data.clave_consulta;
-                            $scope.claveEdicion = response.data.clave_edicion;
-                        } else {
-                            popup('Partido', 'Error al insertar partido');
-                        }
-                    }, function errorCallback(response) {
-                        if (response.status == -1) {
-                            popup('Partido', 'Error de Conexión');
-                        } else {
-                            popup('Partido', 'Error de Parámetros');
-                        }
-                    });
-
-                nuevoPartidoPromises.push(insertServer);
-            }
-
-
-            function agregarApuestaRayas() {
-                $scope.partido.agregarApuesta(new ApuestaRayas($scope.partido));
-
-                $.each($scope.tablero.datos_juego, function (index, dato) {
-                    dato.apuestaRayas = {
-                        unidades: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0],
-                        rayas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0],
-                        style_rayas: []
-                    }
-                });
-            }
-
-            function agregarApuestaConeja() {
-
-            }
-
             $scope.guardarPuntos = function (jugador_idx, jugador_id, hoyo) {
                 $scope.juego = {};
 
@@ -485,7 +580,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                             unidades));
 
                                     $q.all(promises).then(function () {
-                                        // console.log('GolfApp', 'AllPromisesExecuted');
                                         actualizarScoreUi();
                                         compartirScoreboard();
                                     });
@@ -500,40 +594,54 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             };
 
             function compartirScoreboard() {
+                console.log('GolfApp', 'compartirScoreboard');
+
                 showLoading();
 
-                var httpRequest = serviceHttpRequest.createPostHttpRequest(
-                    dir + 'partido_tablero_write',
-                    {
-                        partido_id: $scope.partidoId,
-                        clave_edicion: $scope.claveEdicion,
-                        tablero_json: JSON.stringify($scope.tablero)
-                    }
-                );
+                var sincroPromises = [];
 
-                $http(httpRequest)
-                    .then(function successCallback(response) {
-                        if (response.data.ok) {
-                            popup('Partido', 'Marcador enviado al servidor');
-                        } else {
-                            popup('Partido', 'Error al subir marcador');
+                if (!$scope.partidoExistente.idServidor) {
+                    console.log('GolfApp', 'compartirScoreboard [Offline]');
+                    sincroPromises.push(sincronizarPartidos());
+                } else {
+                    console.log('GolfApp', 'compartirScoreboard [Online]');
+                }
+
+                $q.all(sincroPromises).then(function () {
+                    var httpRequest = serviceHttpRequest.createPostHttpRequest(
+                        dir + 'partido_tablero_write',
+                        {
+                            partido_id: $scope.partidoExistente.idServidor,
+                            clave_edicion: $scope.partidoExistente.claveEdicion,
+                            tablero_json: JSON.stringify($scope.tablero)
                         }
-                        $ionicLoading.hide();
-                    }, function errorCallback(response) {
-                        if (response.status == -1) {
-                            if (intento < 3) {
+                    );
+
+                    $http(httpRequest)
+                        .then(function successCallback(response) {
+                            if (response.data.ok) {
                             } else {
-                                $ionicLoading.hide();
-                                popup('Partido', 'Error de Conexión');
+                                console.log('GolfApp', response.config.url + '['
+                                    + response.config.method + ']: '
+                                    + response.data.error_message);
                             }
-                        } else {
                             $ionicLoading.hide();
-                            popup('Partido', 'Error de Parámetros');
-                        }
-                    });
+                        }, function errorCallback(response) {
+                            if (response.status == -1) {
+                                console.log('GolfApp', 'Error de Conexión');
+                            } else {
+                                console.log('GolfApp', response.config.url + '['
+                                    + response.config.method + ']: '
+                                    + response.data.error_message);
+                            }
+                            $ionicLoading.hide();
+                        });
+                });
             }
 
             function actualizarScoreUi() {
+                console.log('GolfApp', 'actualizarScoreUi');
+
                 var numJugadores = $scope.tablero.datos_juego.length;
 
                 for (var i = 0; i < numJugadores; i++) {
@@ -566,7 +674,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             golpesTotales10a18 += $scope.tablero.datos_juego[i].golpes[j];
                         }
 
-
                         if ($scope.tablero.datos_juego[i].golpes[j] != 0) {
                             var circulos = $scope.tablero.campo.pares[j].value
                                 - $scope.tablero.datos_juego[i].golpes[j];
@@ -590,6 +697,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             }
 
             $scope.actualizarJuego = function () {
+                actualizarScoreUi();
                 compartirScoreboard();
             };
 

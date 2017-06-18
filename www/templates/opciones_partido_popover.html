@@ -6,12 +6,13 @@
         <ul class="list no-spacing-list">
             <li class="item">
                 <button class="button button-full button-stable">
-                    <strong>Clave: </strong> {{claveConsulta}}
+                    <strong>Clave: </strong> {{partidoExistente.claveConsulta}}
                 </button>
             </li>
             <li class="item">
                 <button class="button button-full button-positive"
-                ng-click="finalizarPartido()">
+                        name="btnFinalizar" ng-click="finalizarPartido()"
+                        ng-disabled="!partidoSincronizado">
                     Finalizar
                 </button>
             </li>
