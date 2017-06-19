@@ -160,9 +160,6 @@ angular.module('starter.campos-cuenta', ['ionic'])
     }
 
     function getCampos() {
-        var par = [];
-        var ventaja = [];
-
 
         var query = "SELECT id, nombre, seleccionado FROM campo WHERE cuenta = 1 AND usuario_id = (?) ORDER BY nombre ASC";
         $cordovaSQLite.execute(db, query,[id_user_app]).then(function (res) {
@@ -206,7 +203,6 @@ angular.module('starter.campos-cuenta', ['ionic'])
     };
 
     $ionicPlatform.ready(function () {
-        servicePantallas.savePantalla(4);
         getCampos();
     });
 

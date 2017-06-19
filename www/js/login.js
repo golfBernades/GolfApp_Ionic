@@ -46,21 +46,23 @@ angular.module('starter.login', ['ionic'])
         $http(httpRequest)
             .then(function successCallback(response) {
 
+                sesionActual = response.data.ok;
                 if(response.data.ok){
                     idUsuario = response.data.usuario_id;
                     guardarUsuarioPhone(response.data.usuario_id);
                     getCamposCuenta(0);
-
                 }else{
                     popup('Error de Login', 'Usuario o Password Incorrectos. Volver a intentar');
                 }
 
             }, function errorCallback(response) {
+                sesionActual = false;
                 if(response.status == -1){
                     if (intento < 3) {
                         loginServer(intento + 1);
                     } else {
                         $ionicLoading.hide();
+
                         popup('Error de conexion', 'Error de Conexión. Volver a intentar más tarde.');
                     }
                 }else{
@@ -73,6 +75,10 @@ angular.module('starter.login', ['ionic'])
     function guardarUsuarioPhone(idUser) {
         var query = "INSERT INTO usuario (id, email, password) VALUES (?,?,?)";
         $cordovaSQLite.execute(db, query, [idUser, $scope.loginData.correo, $scope.loginData.password]);
+
+        id_user_app= idUser;
+        user_app = $scope.loginData.correo;
+        password_app =  $scope.loginData.password;
     }
 
     function getCamposCuenta(intento) {
@@ -99,9 +105,9 @@ angular.module('starter.login', ['ionic'])
                         $cordovaSQLite.execute(db, query2, [campos[i].id, campos[i].nombre, campos[i].par_hoyo_1, campos[i].par_hoyo_2, campos[i].par_hoyo_3, campos[i].par_hoyo_4, campos[i].par_hoyo_5, campos[i].par_hoyo_6, campos[i].par_hoyo_7, campos[i].par_hoyo_8, campos[i].par_hoyo_9, campos[i].par_hoyo_10, campos[i].par_hoyo_11, campos[i].par_hoyo_12, campos[i].par_hoyo_13, campos[i].par_hoyo_14, campos[i].par_hoyo_15, campos[i].par_hoyo_16, campos[i].par_hoyo_17, campos[i].par_hoyo_18,
                             campos[i].ventaja_hoyo_1, campos[i].ventaja_hoyo_2, campos[i].ventaja_hoyo_3, campos[i].ventaja_hoyo_4, campos[i].ventaja_hoyo_5, campos[i].ventaja_hoyo_6, campos[i].ventaja_hoyo_7, campos[i].ventaja_hoyo_8, campos[i].ventaja_hoyo_9, campos[i].ventaja_hoyo_10, campos[i].ventaja_hoyo_11, campos[i].ventaja_hoyo_12, campos[i].ventaja_hoyo_13, campos[i].ventaja_hoyo_14, campos[i].ventaja_hoyo_15, campos[i].ventaja_hoyo_16, campos[i].ventaja_hoyo_17, campos[i].ventaja_hoyo_18, 1, 0,idUsuario])
                             .then(function (res) {
-                                //popup("INSERT ID -> ", JSON.stringify(res))
+                                popup("INSERT ID -> ", JSON.stringify(res))
                             }, function (err) {
-                                //popup("error", JSON.stringify(err))
+                                popup("error", JSON.stringify(err))
                             });
                     }
 

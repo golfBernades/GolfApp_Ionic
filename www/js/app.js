@@ -9,6 +9,7 @@ var dir = 'http://148.233.65.228:8080/';
 var id_user_app = "";
 var user_app = "";
 var password_app = "";
+var sesionActual = false;
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
     'starter.campos-dispositivo', 'starter.juego', 'starter.nuevo-campo',
@@ -32,7 +33,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             }
 
             db = $cordovaSQLite.openDB({
-                name: "golfapppp.db",
+                name: "golfappaoaoppp9.db",
                 iosDatabaseLocation: 'default'
             });
 
@@ -180,6 +181,27 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 "ON puntuaciones (partido_id)";
 
             $cordovaSQLite.execute(db, idx_puntuaciones_puntuaciones_partido_id_fk);
+
+            function isUser() {
+                var query = "SELECT * FROM usuario";
+                $cordovaSQLite.execute(db, query).then(function (res) {
+                    console.log(JSON.stringify(res) + " érrrrppppppp")
+                    if (res.rows.length > 0) {
+
+                        id_user_app = res.rows.item(0).id;
+                        user_app = res.rows.item(0).email;
+                        password_app = res.rows.item(0).password;
+                        sesionActual = true;
+
+
+                        console.log(id_user_app,user_app,password_app)
+                    } else {
+                        sesionActual = false;
+                    }
+                });
+            }
+
+            isUser();
         });
     })
 
@@ -272,30 +294,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
         $urlRouterProvider.otherwise('/inicio');
     })
 
-    // .controller('ctrlInicio', function ($scope, $state, $cordovaSQLite) {
-    //     $scope.paginas = function (select) {
-    //         switch (select) {
-    //             case 1:
-    //                 $state.go('inicio');
-    //                 break;
-    //             case 2:
-    //                 $state.go('seleccion_jugadores');
-    //                 break;
-    //             case 3:
-    //                 $state.go('tabs.camp-dis');
-    //                 break;
-    //             case 4:
-    //                 $state.go('seleccion_apuestas');
-    //                 break;
-    //             case 5:
-    //                 $state.go('nuevo_campo');
-    //                 break;
-    //             case 6:
-    //                 $state.go('juego');
-    //                 break;
-    //         }
-    //     }
-    // })
 
     .service('serviceHttpRequest', function () {
 
@@ -319,16 +317,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
         };
 
         this.createPutHttpRequest = function (url, data) {
-            // // $rootScope.request.data = {"name": "John", "surname":"Doe"}
-            // // var uri = //some REST API
-            // var httpRequest = {
-            //     method: 'PUT',
-            //     url: url,
-            //     headers: {"Content-Type": "application/json;charset=UTF-8"},
-            //     data: data
-            // };
-            //
-            // return httpRequest;
+
             var httpRequest = {
                 method: 'PUT',
                 url: url,

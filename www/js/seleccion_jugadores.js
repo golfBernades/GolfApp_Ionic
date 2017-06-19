@@ -5,7 +5,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
 
     .controller('jugadoresController', function ($scope, $ionicPopup, $cordovaSQLite,
                                                  $state, $ionicPlatform, $ionicLoading,
-                                                 servicePantallas) {
+                                                 $rootScope, servicePantallas) {
         $scope.jugadores = [];
 
         $scope.guardarPantallaJugadores = function (seleccion) {
@@ -29,7 +29,19 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                                 }
                             }
                             if(control){
-                                $state.go('tabs.camp-dis');
+
+                                switch ($rootScope.campos){
+                                    case 1:
+                                        $state.go('tabs.camp-dis');
+                                        break;
+                                    case 2:
+                                        $state.go('tabs.camp-cue');
+                                        break;
+                                    default:
+                                        $state.go('tabs.camp-dis');
+                                        break;
+                                }
+
                             }else{
                                 var title = "Jugadores no seleccionados!";
                                 var template = "Seleccionar jugadores para poder avanzar a la siguiente página.";
@@ -47,70 +59,16 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
             }
         };
 
-        function popup(title, template) {
-            var alertPopup = $ionicPopup.alert({
-                title: title,
-                template: template
-            });
-        };
-
-        function showLoading() {
-            $ionicLoading.show({
-                template: '<ion-spinner></ion-spinner>' +
-                '<p>Cargando</p>',
-                animation: 'fade-in'
-            }).then(function () {
-
-            });
-        };
-
-        function getJugadores() {
-            var query = "SELECT * FROM jugador WHERE usuario_id = (?)";
-            $cordovaSQLite.execute(db, query, [id_user_app]).then(function (res) {
-                if (res.rows.length > 0) {
-                    showLoading();
-                    for (var i = 0; i < res.rows.length; i++) {
-                        console.log(res.rows.item(i).id+" "+res.rows.item(i).jugar)
-                        //
-                        $scope.jugadores.push(new Jugador(res.rows.item(i).id, res.rows.item(i).nombre, "", res.rows.item(i).handicap, res.rows.item(i).jugar, "", "", "", ""));
-                    }
-                    isChecked();
-                }
-
-            });
-        };
-
-        function isChecked() {
-            console.log($scope.jugadores.length)
-            if($scope.jugadores.length>0){
-                setTimeout(function () {
-                    for(var i=0; i<$scope.jugadores.length; i++){
-                        if($scope.jugadores[i].jugar == 1){
-                            document.getElementById("cb-"+i).checked = true;
-                        }else{
-                            document.getElementById("cb-"+i).checked = false;
-                        }
-                    }
-                    $ionicLoading.hide();
-                },1000)
-            }
-        }
-
         $scope.isJugador= function(idJugador, index){
 
-            var checked = document.getElementById("cb-"+index).checked;
-            console.log(idJugador+" "+checked +" "+index)
+            console.log($scope.jugadores[index].jugar);
 
 
             var query = "UPDATE jugador SET jugar = ? WHERE id =?";
-            if(checked){
-                $cordovaSQLite.execute(db, query, [1,idJugador]).then(function (res) {
-                    $scope.jugadores[index].jugar=1;
-                });
+            if($scope.jugadores[index].jugar){
+                $cordovaSQLite.execute(db, query, [1,idJugador]);
             }else{
-                $cordovaSQLite.execute(db, query, [0,idJugador]).then(function (res) {
-                    $scope.jugadores[index].jugar=0;
-                });
+                $cordovaSQLite.execute(db, query, [0,idJugador]);
             }
 
         }
@@ -178,7 +136,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                                             $cordovaSQLite.execute(db, query, [nombre])
                                                 .then(function (res) {
                                                 if (res.rows.length > 0) {
-                                                    $scope.jugadores.push(new Jugador(res.rows.item(0).id, nombre, "", handicap, 0, "", "", "", ""));
+                                                    $scope.jugadores.push({id: res.rows.item(0).id, nombre:nombre, handicap:handicap, jugar: false})
                                                 }
                                             }, function (err) {
                                                     console.log(JSON.stringify(err))
@@ -285,8 +243,37 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
             });
         };
 
+        function popup(title, template) {
+            var alertPopup = $ionicPopup.alert({
+                title: title,
+                template: template
+            });
+        };
+
+        function getJugadores() {
+
+            var query = "SELECT * FROM jugador WHERE usuario_id = (?)";
+            $cordovaSQLite.execute(db, query, [id_user_app]).then(function (res) {
+                if (res.rows.length > 0) {
+
+                    for (var i = 0; i < res.rows.length; i++) {
+                        console.log(res.rows.item(i).id+" "+res.rows.item(i).jugar)
+
+                        if(res.rows.item(i).jugar == 1){
+                            $scope.jugadores.push({id:res.rows.item(i).id, nombre:res.rows.item(i).nombre, handicap:res.rows.item(i).handicap, jugar: true});
+                        }else{
+                            $scope.jugadores.push({id:res.rows.item(i).id, nombre:res.rows.item(i).nombre, handicap:res.rows.item(i).handicap, jugar: false});
+                        }
+
+                    }
+                }
+
+            },function (err) {
+                JSON.stringify(err)
+            });
+        };
+
         $ionicPlatform.ready(function () {
-            servicePantallas.savePantalla(2);
             getJugadores();
         });
 

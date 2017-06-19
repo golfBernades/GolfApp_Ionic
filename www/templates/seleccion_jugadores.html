@@ -36,7 +36,7 @@
                         <td>{{skill.handicap}}</td>
                         <td>
                         <label class="toggle">
-                            <input id="cb-{{$index}}" ng-click="isJugador(skill.id, $index)" type="checkbox">
+                            <input ng-model="skill.jugar" ng-click="isJugador(skill.id, $index)" type="checkbox">
                             <div class="track">
                                 <div class="handle"></div>
                             </div>

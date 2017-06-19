@@ -13,7 +13,7 @@ angular.module('starter.inicio', ['ionic'])
 
             switch (seleccion) {
                 case 2:
-                    if (sesion) {
+                    if (sesionActual) {
                         servicePantallas.savePantalla(2);
                         $state.go('seleccion_jugadores');
                     } else {
@@ -79,7 +79,7 @@ angular.module('starter.inicio', ['ionic'])
             //         break;
             // }
 
-            $state.go('inicio');
+            //$state.go('inicio');
         }
 
         function logIn() {
@@ -106,34 +106,20 @@ angular.module('starter.inicio', ['ionic'])
         function deleteUser() {
             var query = 'DELETE FROM usuario';
             $cordovaSQLite.execute(db, query);
+            sesionActual = false;
         }
 
         function isUser() {
-            var query = "SELECT * FROM usuario";
-            setTimeout(function () {
-                $cordovaSQLite.execute(db, query).then(function (res) {
-                    console.log(JSON.stringify(res) + " hola")
-                    if (res.rows.length > 0) {
-
-                        id_user_app = res.rows.item(0).id;
-                        user_app = res.rows.item(0).email;
-                        password_app = res.rows.item(0).password;
-
-                        console.log(id_user_app, user_app, password_app);
-
-                        sesion = true;
-                        $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-out";
-                        cargarPantalla();
-                    } else {
-                        sesion = false;
-                        $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
-                    }
-                });
-            }, 500)
+            if (sesionActual) {
+                $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-out";
+                cargarPantalla();
+            } else {
+                $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
+            }
         }
 
         $scope.log = function () {
-            if (sesion) {
+            if (sesionActual) {
                 logOut();
             } else {
                 logIn();
