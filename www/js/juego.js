@@ -74,6 +74,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         $q.all(modulePromises).then(function () {
                             actualizarScoreUi();
                             // compartirScoreboard();
+
                             fixRowsAndColumns();
                             setTimeout(function () {
                                 $ionicLoading.hide();
@@ -116,6 +117,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                 inicio: partidoRow.inicio,
                                 fin: partidoRow.fin
                             };
+                        } else {
+                            console.log('GolfApp', 'Partido local: No hay');
                         }
                     });
 
@@ -174,10 +177,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     modulePromises.push(subirPartido());
 
                     $q.all(modulePromises).then(function () {
-                        setTimeout(function () {
-                            updatePartidoLocal();
-                        }, 5000);
-
+                        updatePartidoLocal();
                     });
                 } else {
                     console.log('GolfApp', 'Partido ya sincronizado');
@@ -199,6 +199,10 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         $scope.partidoExistente.claveConsulta,
                         $scope.partidoExistente.claveEdicion,
                         $scope.partidoExistente.id];
+
+                    console.log('GolfApp', 'UpdateLocalData: ['
+                        + data.join(', ') + ']');
+
                     var updateLocal = $cordovaSQLite.execute(db,
                         updateQuery, data)
                         .then(function () {
@@ -251,7 +255,9 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         }
                     }, function errorCallback(response) {
                         if (response.status == -1) {
-                            console.log('GolfApp', 'Error de conexión');
+                            console.log('GolfApp', response.config.url + '['
+                                + response.config.method + ']: '
+                                + 'Error de conexión');
                         } else {
                             console.log('GolfApp', response.config.url + '['
                                 + response.config.method + ']: '
@@ -273,6 +279,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 var insertLocal = $cordovaSQLite.execute(db, insertQuery,
                     [$scope.partidoExistente.inicio])
                     .then(function successCallback(res) {
+                        // console.log(JSON.stringify(res))
+                        $scope.partidoExistente.id = res.insertId;
                         console.log('GolfApp', '[OK] Partido local inserted');
                     }, function errorCallback(res) {
                         console.log('GolfApp', '[ERROR] Partido local inserted');
@@ -288,6 +296,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             };
 
             $scope.finalizarPartido = function () {
+                $scope.finPartido = moment().format("YYYY-MM-DD h:mm:ss");
+
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Finalizar partido',
                     template: '¿Estás seguro de que quieres finalizar el' +
@@ -300,6 +310,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 confirmPopup.then(function (res) {
                     if (res) {
                         modulePromises.push(finalizarPartidoLocal());
+                        finalizarPartidoServer();
+                        $state.go('inicio');
 
                         $q.all(modulePromises).then(function () {
                             if (!$scope.partidoExistente.id) {
@@ -338,7 +350,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 var httpRequest = serviceHttpRequest.createPutHttpRequest(
                     dir + 'partido_finalizar',
                     {
-                        fin: moment().format("YYYY-MM-DD h:mm:ss"),
+                        fin: $scope.finPartido,
                         clave_edicion: $scope.partidoExistente.claveEdicion,
                         partido_id: $scope.partidoExistente.idServidor
                     }
@@ -353,7 +365,9 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         }
                     }, function errorCallback(response) {
                         if (response.status == -1) {
-                            console.log('GolfApp', 'Error de conexión');
+                            console.log('GolfApp', response.config.url + '['
+                                + response.config.method + ']: '
+                                + 'Error de conexión');
                         } else {
                             console.log('GolfApp', response.config.url + '['
                                 + response.config.method + ']: '
@@ -671,7 +685,9 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             $ionicLoading.hide();
                         }, function errorCallback(response) {
                             if (response.status == -1) {
-                                console.log('GolfApp', 'Error de Conexión');
+                                console.log('GolfApp', response.config.url + '['
+                                    + response.config.method + ']: '
+                                    + 'Error de Conexión');
                             } else {
                                 console.log('GolfApp', response.config.url + '['
                                     + response.config.method + ']: '
