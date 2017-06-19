@@ -41,7 +41,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             };
 
             $ionicPlatform.ready(function () {
-                console.log('GolfApp>> juego.$ionicPlatform.ready');
+                console.log('GolfApp', 'juego.$ionicPlatform.ready()');
 
                 showLoading();
 
@@ -56,9 +56,14 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                     $q.all(modulePromises).then(function () {
                         if ($scope.partidoExistente.id) {
+                            console.log('GolfApp', 'Partido local existente');
+
                             modulePromises.push(sincronizarPartidos());
                             modulePromises.push(loadPuntos());
                         } else {
+                            console.log('GolfApp', 'Partido local no' +
+                                ' existente');
+
                             modulePromises.push(insertarPartidoLocal());
 
                             $q.all(modulePromises).then(function () {
@@ -68,7 +73,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                         $q.all(modulePromises).then(function () {
                             actualizarScoreUi();
-                            compartirScoreboard();
+                            // compartirScoreboard();
                             fixRowsAndColumns();
                             setTimeout(function () {
                                 $ionicLoading.hide();
@@ -101,6 +106,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     .then(function (res) {
                         if (res.rows.length != 0) {
                             var partidoRow = res.rows.item(0);
+                            console.log('GolfApp', 'Partido' +
+                                ' local: ' + JSON.stringify(partidoRow));
                             $scope.partidoExistente = {
                                 id: partidoRow.id,
                                 claveConsulta: partidoRow.clave_consulta,
@@ -167,27 +174,51 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     modulePromises.push(subirPartido());
 
                     $q.all(modulePromises).then(function () {
-                        if ($scope.partidoExistente.idServidor) {
-                            var updateQuery = 'UPDATE partido SET' +
-                                ' id_servidor = ?, clave_consulta = ?,' +
-                                ' clave_edicion = ?' +
-                                ' WHERE id = ?';
-                            var data = [$scope.partidoExistente.idServidor,
-                                $scope.partidoExistente.claveConsulta,
-                                $scope.partidoExistente.claveEdicion,
-                                $scope.partidoExistente.id];
-                            var updateLocal = $cordovaSQLite.execute(db,
-                                updateQuery, data);
-                            modulePromises.push(updateLocal);
-                        }
+                        setTimeout(function () {
+                            updatePartidoLocal();
+                        }, 5000);
+
                     });
                 } else {
                     console.log('GolfApp', 'Partido ya sincronizado');
                 }
             }
 
+            function updatePartidoLocal() {
+                console.log('GolfApp', 'updatePartidoLocal');
+
+                console.log('Intento subir partido idServidor: ['
+                    + $scope.partidoExistente.idServidor + ']');
+
+                if ($scope.partidoExistente.idServidor) {
+                    var updateQuery = 'UPDATE partido SET' +
+                        ' id_servidor = ?, clave_consulta = ?,' +
+                        ' clave_edicion = ?' +
+                        ' WHERE id = ?';
+                    var data = [$scope.partidoExistente.idServidor,
+                        $scope.partidoExistente.claveConsulta,
+                        $scope.partidoExistente.claveEdicion,
+                        $scope.partidoExistente.id];
+                    var updateLocal = $cordovaSQLite.execute(db,
+                        updateQuery, data)
+                        .then(function () {
+                            $cordovaSQLite.execute(db, 'SELECT *' +
+                                ' FROM partido')
+                                .then(function (res) {
+                                    console.log('GolfApp',
+                                        'LocalSincronizado: ['
+                                        + JSON.stringify(res.rows.item(0))
+                                        + ']');
+                                })
+                        });
+                    modulePromises.push(updateLocal);
+                }
+            }
+
             function subirPartido() {
                 console.log('GolfApp', 'subirPartido');
+
+                console.log('GolfApp', 'Inicio: ' + $scope.partidoExistente.inicio);
 
                 var httpRequest = serviceHttpRequest.createPostHttpRequest(
                     dir + 'partido_insert',
@@ -207,6 +238,12 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                 = response.data.clave_edicion;
                             $scope.partidoExistente.idServidor
                                 = response.data.partido_id;
+                            console.log('GolfApp', '[OK] Insertar partido en' +
+                                ' servidor ['
+                                + [$scope.partidoExistente.claveConsulta,
+                                    $scope.partidoExistente.claveEdicion,
+                                    $scope.partidoExistente.idServidor]
+                                    .join(', ') + ']');
                         } else {
                             console.log('GolfApp', response.config.url + '['
                                 + response.config.method + ']: '
@@ -230,14 +267,16 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                 var insertQuery = 'INSERT INTO partido (inicio) VALUES (?)';
 
-                var inicio = moment().format("YYYY-MM-DD h:mm:ss");
+                $scope.partidoExistente.inicio = moment()
+                    .format("YYYY-MM-DD h:mm:ss");
 
                 var insertLocal = $cordovaSQLite.execute(db, insertQuery,
-                    [inicio]).then(function successCallback(res) {
-                    console.log('GolfApp', 'OK: ' + JSON.stringify(res));
-                }, function errorCallback(res) {
-                    console.log('GolfApp', 'ERROR: ' + JSON.stringify(res));
-                });
+                    [$scope.partidoExistente.inicio])
+                    .then(function successCallback(res) {
+                        console.log('GolfApp', '[OK] Partido local inserted');
+                    }, function errorCallback(res) {
+                        console.log('GolfApp', '[ERROR] Partido local inserted');
+                    });
 
                 modulePromises.push(insertLocal);
             }
@@ -606,6 +645,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 }
 
                 $q.all(sincroPromises).then(function () {
+                    $scope.partidoSincronizado = false;
+
                     var httpRequest = serviceHttpRequest.createPostHttpRequest(
                         dir + 'partido_tablero_write',
                         {
@@ -615,7 +656,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         }
                     );
 
-                    $scope.partidoSincronizado = false;
+                    console.log('GolfApp', 'Write partido ['
+                        + $scope.partidoExistente.idServidor + ']');
 
                     $http(httpRequest)
                         .then(function successCallback(response) {

@@ -32,7 +32,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             }
 
             db = $cordovaSQLite.openDB({
-                name: "golfappp.db",
+                name: "golfapppp.db",
                 iosDatabaseLocation: 'default'
             });
 
@@ -125,7 +125,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 ", clave_edicion CHAR(8) NULL UNIQUE" +
                 ", inicio DATETIME NOT NULL" +
                 ", fin DATETIME DEFAULT NULL" +
-                ", id_servidor INTEGER DEFAULT NULL UNIQUE)";
+                ", id_servidor INTEGER NULL UNIQUE)";
 
             $cordovaSQLite.execute(db, partido);
 
