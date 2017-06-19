@@ -3,29 +3,27 @@ angular.module('starter.inicio', ['ionic'])
     .controller('inicioController', function ($scope, $cordovaSQLite, $state,
                                               $ionicPlatform, $ionicPopup, servicePantallas) {
 
-        $scope.funcionUser = "";
         $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
-        var sesion;
 
-        $scope.guardarPantallaInicio = function (seleccion) {
-            console.log('inicioController', 'guardarPantallaInicio');
-            var pantalla = "UPDATE pantalla SET pantalla = ? WHERE id = 1";
-
-            switch (seleccion) {
-                case 2:
-                    if (sesionActual) {
-                        servicePantallas.savePantalla(2);
-                        $state.go('seleccion_jugadores');
-                    } else {
-                        confirmSesion()
-                    }
-                    break;
-                case 7:
-                    servicePantallas.savePantalla(7);
-                    $state.go('juego_consulta');
-                    break;
+        $scope.seleccionarJugadores = function () {
+            if (sesionActual) {
+                $state.go('seleccion_jugadores');
+            } else {
+                confirmSesion()
             }
         };
+
+        $scope.consultaJuego = function () {
+            $state.go('juego_consulta');
+        };
+
+        $scope.verificarSesion = function () {
+            if (sesionActual) {
+                logOut();
+            } else {
+                logIn();
+            }
+        }
 
         function confirmSesion() {
             var confirmPopup = $ionicPopup.confirm({
@@ -95,10 +93,8 @@ angular.module('starter.inicio', ['ionic'])
             confirmPopup.then(function (res) {
                 if (res) {
                     deleteUser()
-                    sesion = false;
+                    sesionActual = false;
                     $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
-                } else {
-
                 }
             });
         };
@@ -106,7 +102,6 @@ angular.module('starter.inicio', ['ionic'])
         function deleteUser() {
             var query = 'DELETE FROM usuario';
             $cordovaSQLite.execute(db, query);
-            sesionActual = false;
         }
 
         function isUser() {
@@ -115,14 +110,6 @@ angular.module('starter.inicio', ['ionic'])
                 cargarPantalla();
             } else {
                 $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
-            }
-        }
-
-        $scope.log = function () {
-            if (sesionActual) {
-                logOut();
-            } else {
-                logIn();
             }
         }
 

@@ -4,7 +4,7 @@
         <ion-nav-title>Bienvenido a GolfApp</ion-nav-title>
         <ion-nav-buttons side="right">
             <button class="{{iconStatus}}"
-                    menu-toggle="right" ng-click="log()">
+                    menu-toggle="right" ng-click="verificarSesion()">
             </button>
 
         </ion-nav-buttons>
@@ -15,11 +15,11 @@
             <img src="img/golficon.png"
                  class="image-logo"/>
             <button class="button button-balanced button-block btn-full"
-                    ng-click="guardarPantallaInicio(2)">
+                    ng-click="seleccionarJugadores()">
                 Iniciar juego nuevo
             </button>
             <button class="button button-balanced button-block btn-full"
-            ng-click="guardarPantallaInicio(7)">
+            ng-click="consultaJuego()">
                 Ver juego existente
             </button>
         </div>
