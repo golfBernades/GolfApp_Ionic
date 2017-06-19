@@ -35,3 +35,7 @@ path, o bien, especificar la ruta de la variable en cada ejecución de comandos
 
 > Abrir Chrome e ingresar en la barra de direcciones esto: 
 ```chrome://inspect```
+
+## Correr la aplicación en un dispositivo específico:
+
+> ```sudo ANDROID_HOME="/home/porfirio/android_sdk_tools" ionic run android  --target=192.168.1.87:5555```

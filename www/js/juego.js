@@ -595,7 +595,9 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 $ionicPopup.show({
                     templateUrl: 'templates/registro_puntos_popup.html',
                     title: 'Registro de puntos.',
-                    subTitle: 'Jugador: ' + $scope.jugadores[jugador_idx].nombre + '.  Hoyo: ' + hoyo + '.',
+                    subTitle: 'Jugador: '
+                    + $scope.jugadores[jugador_idx].nombre + ', Hoyo: '
+                    + hoyo + '.',
                     scope: $scope,
                     buttons: [
                         {
