@@ -194,7 +194,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                         sesionActual = true;
 
 
-                        console.log(id_user_app,user_app,password_app)
+                        console.log(id_user_app, user_app, password_app)
                     } else {
                         sesionActual = false;
                     }
@@ -360,5 +360,15 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
         this.savePantalla = function (numPantalla) {
             var pantalla = "UPDATE pantalla SET pantalla = ? WHERE id = 1";
             $cordovaSQLite.execute(db, pantalla, [numPantalla]);
+        };
+    })
+
+    .service('utils', function ($ionicPopup) {
+
+        this.popup = function(title, template) {
+            var alertPopup = $ionicPopup.alert({
+                title: title,
+                template: template
+            });
         };
     });

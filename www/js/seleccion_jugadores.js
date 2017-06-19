@@ -5,7 +5,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
 
     .controller('jugadoresController', function ($scope, $ionicPopup, $cordovaSQLite,
                                                  $state, $ionicPlatform, $ionicLoading,
-                                                 $rootScope, servicePantallas) {
+                                                 $rootScope, servicePantallas, utils) {
         $scope.jugadores = [];
 
         $scope.seleccionarCampo = function () {
@@ -37,10 +37,10 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                             }
 
                         } else {
-                            popup("Jugadores no seleccionados!", "Seleccionar jugadores para poder avanzar a la siguiente página.")
+                            utils.popup("Jugadores no seleccionados!", "Seleccionar jugadores para poder avanzar a la siguiente página.")
                         }
                     } else {
-                        popup("Jugadores no creados!", "No se tiene ningun jugador creado para poder avanzar a la siguiente página.")
+                        utils.popup("Jugadores no creados!", "No se tiene ningun jugador creado para poder avanzar a la siguiente página.")
                     }
                 }, function (err) {
                     console.log(JSON.stringify(err))
@@ -62,7 +62,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
 
         }
 
-        $scope.deleteSkill = function (index) {
+        $scope.deleteJugador = function (index) {
 
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Eliminar jugador',
@@ -83,8 +83,9 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
             });
         };
 
-        $scope.addUser = function () {
+        $scope.addJugador = function () {
             $scope.data = {};
+
             var myPopup = $ionicPopup.show({
                 templateUrl: 'templates/add_user_popup.html',
                 title: 'Nuevo jugador',
@@ -136,9 +137,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                                             console.log(JSON.stringify(err))
                                         });
                                 } else {
-                                    var title = "Jugadores repetido!";
-                                    var template = "Nombre de jugador repetido. Escribir otro nombre.";
-                                    popup(title, template)
+                                    utils.popup("Jugadores repetido!", "Nombre de jugador repetido. Escribir otro nombre.")
                                 }
 
                                 $scope.data.nombreJug = "";
@@ -166,7 +165,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
             });
         };
 
-        $scope.editUser = function (index) {
+        $scope.editJugador = function (index) {
 
             $scope.data = {};
 
@@ -213,7 +212,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                                 } else {
                                     var title = "Jugadores repetido!";
                                     var template = "Nombre de jugador repetido. Escribir otro nombre.";
-                                    popup(title, template)
+                                    utils.popup(title, template)
                                     e.preventDefault();
                                 }
 
@@ -231,13 +230,6 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                         }
                     }
                 ]
-            });
-        };
-
-        function popup(title, template) {
-            var alertPopup = $ionicPopup.alert({
-                title: title,
-                template: template
             });
         };
 

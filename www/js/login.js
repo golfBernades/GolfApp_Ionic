@@ -105,9 +105,9 @@ angular.module('starter.login', ['ionic'])
                         $cordovaSQLite.execute(db, query2, [campos[i].id, campos[i].nombre, campos[i].par_hoyo_1, campos[i].par_hoyo_2, campos[i].par_hoyo_3, campos[i].par_hoyo_4, campos[i].par_hoyo_5, campos[i].par_hoyo_6, campos[i].par_hoyo_7, campos[i].par_hoyo_8, campos[i].par_hoyo_9, campos[i].par_hoyo_10, campos[i].par_hoyo_11, campos[i].par_hoyo_12, campos[i].par_hoyo_13, campos[i].par_hoyo_14, campos[i].par_hoyo_15, campos[i].par_hoyo_16, campos[i].par_hoyo_17, campos[i].par_hoyo_18,
                             campos[i].ventaja_hoyo_1, campos[i].ventaja_hoyo_2, campos[i].ventaja_hoyo_3, campos[i].ventaja_hoyo_4, campos[i].ventaja_hoyo_5, campos[i].ventaja_hoyo_6, campos[i].ventaja_hoyo_7, campos[i].ventaja_hoyo_8, campos[i].ventaja_hoyo_9, campos[i].ventaja_hoyo_10, campos[i].ventaja_hoyo_11, campos[i].ventaja_hoyo_12, campos[i].ventaja_hoyo_13, campos[i].ventaja_hoyo_14, campos[i].ventaja_hoyo_15, campos[i].ventaja_hoyo_16, campos[i].ventaja_hoyo_17, campos[i].ventaja_hoyo_18, 1, 0,idUsuario])
                             .then(function (res) {
-                                popup("INSERT ID -> ", JSON.stringify(res))
+                                //popup("INSERT ID -> ", JSON.stringify(res))
                             }, function (err) {
-                                popup("error", JSON.stringify(err))
+                                //popup("error", JSON.stringify(err))
                             });
                     }
 
