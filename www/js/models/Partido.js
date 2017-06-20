@@ -14,17 +14,31 @@ function Partido(jugadores, campo) {
     this.jugadores = jugadores;
     this.campo = campo;
     this.scoreBoard = [];
-    this.apuestas = [];
+    this.apuestas = {
+        agregadas: [],
+        find: function (nombre) {
+            var encontrada = undefined;
+
+            $.each(this.agregadas, function (index, value) {
+                if (value.nombre == nombre) {
+                    encontrada = value;
+                }
+            });
+
+            return encontrada;
+        }
+    };
 
     this.registrarGolpes = function (jugadorIndex, hoyoIndex, golpes, unidades) {
         this.scoreBoard[jugadorIndex].golpes[hoyoIndex] = golpes;
         this.scoreBoard[jugadorIndex].unidades[hoyoIndex] = unidades;
-        // console.log('GolfApp', 'Partido.registrarGolpes: [jugadorIndex: '
-        //     + jugadorIndex + ', hoyoIndex: ' + hoyoIndex + ', golpes: ' + golpes
-        //     + ', unidades: ' + unidades + ']');
-        this.apuestas.forEach(function (apuesta) {
-            apuesta.actualizar(jugadorIndex, hoyoIndex);
+
+        $.each(this.apuestas.agregadas, function (index, value) {
+            value.apuesta.actualizar();
         });
+        // this.apuestas.forEach(function (apuesta) {
+        //     apuesta.actualizar(jugadorIndex, hoyoIndex);
+        // });
     };
 
     this.createScoreboard = function () {
@@ -39,8 +53,8 @@ function Partido(jugadores, campo) {
         }
     };
 
-    this.agregarApuesta = function (apuesta) {
-        this.apuestas.push(apuesta);
+    this.agregarApuesta = function (nombre, apuesta) {
+        this.apuestas.agregadas.push({'nombre': nombre, 'apuesta': apuesta});
     };
 
     this.createScoreboard();

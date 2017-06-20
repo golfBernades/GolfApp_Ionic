@@ -1,6 +1,6 @@
 /**
- * Esta función crea una instancia de un objeto de tipo ApuestaRayas, que es
- * el gestor de las Puntuaciones para un Partido donde se está jugando esta
+ * Esta función crea una instancia de un objeto de tipo ApuestaConjea, que es
+ * el gestor de las puntuaciones para un Partido donde se está jugando esta
  * modalidad.
  *
  * @param partido Es la instancia del Partido donde se está implementando
@@ -8,14 +8,11 @@
  *
  * @author Porfirio Ángel Díaz Sánchez
  */
-function ApuestaRayas(partido) {
+function ApuestaConeja(partido) {
     this.partido = partido;
-    this.scoreRayas = [];
+    this.scoreConeja = [];
 
-    // this.actualizar = function (jugadorIndex, hoyoIndex) {
-    this.actualizar = function (jugadorIndex, hoyoIndex) {
-        // console.log('GolfApp', 'ApuestaRayas.actualizar');
-
+    this.actualizar = function () {
         var playersNumber = this.partido.scoreBoard.length;
 
         this.createScoreboard();
@@ -29,32 +26,42 @@ function ApuestaRayas(partido) {
                 }
             }
             if (turnoTerminado) {
-                // console.log('GolfApp', 'ApuestaRayas.actualizar [hoyo '
-                //     + hIndex + ']');
                 this.actualizarHoyo(hIndex);
             }
         }
     };
 
-    this.actualizarHoyo = function (hIndex, playersNumber) {
+    this.actualizarHoyo = function (hIndex) {
+        console.log('GolfApp', 'Actualizar coneja hoyo [' + (hIndex + 1) + ']');
+
         var playersNumber = this.partido.scoreBoard.length;
+        var llevaPata = true;
 
         for (var i = 0; i < playersNumber; i++) {
+            var jugadorConPataAnteriorIndex = -1;
+
             for (var j = 0; j < playersNumber; j++) {
                 // Validación para que un Jugador solo se compare con
                 // los demás y no con el mismo
                 if (i != j) {
                     var golpesI = this.partido.scoreBoard[i].golpes[hIndex];
                     var golpesJ = this.partido.scoreBoard[j].golpes[hIndex];
-                    var unidadesI = this.partido.scoreBoard[i].unidades[hIndex];
-                    var unidadesJ = this.partido.scoreBoard[j].unidades[hIndex];
                     var handicapI = this.partido.jugadores[i].handicap;
                     var handicapJ = this.partido.jugadores[j].handicap;
                     var ventajaHoyo = this.partido.campo.ventajas[hIndex].value;
                     var diferenciaIJ = (handicapI - handicapJ);
                     var diferenciaJI = (handicapJ - handicapI);
 
-                    // console.log('ventajaHoyo[' + hIndex + '] = ' + JSON.stringify(ventajaHoyo));
+                    // Se verifica si el jugador j llevaba pata en el hoyo
+                    // anterior.
+                    if (hIndex > 0) {
+                        var patasAnterior =
+                            parseInt(this.scoreConeja[j].status[hIndex - 1]);
+
+                        if (!isNaN(patasAnterior)) {
+                            jugadorConPataAnteriorIndex = j;
+                        }
+                    }
 
                     // Si se cumple, el Jugador I le dará ventaja al J
                     if (diferenciaIJ >= ventajaHoyo) {
@@ -97,25 +104,70 @@ function ApuestaRayas(partido) {
                         }
                     }
 
-                    // Se suma un punto al Jugador que le corresponda de
-                    // acuerdo al oponente actual en esta ronda de rayas.
-                    if (golpesI < golpesJ) {
-                        this.scoreRayas[i].puntos[hIndex]++;
-                    } else if (golpesI > golpesJ) {
-                        this.scoreRayas[i].puntos[hIndex]--;
+                    // Se verifica si el jugador i hizo igual o más puntos
+                    // que el j, para descartarlo como candidato a ganar pata.
+                    if (golpesI >= golpesJ) {
+                        console.log('GolfApp', 'El jugador [' + i + '] se' +
+                            ' descarta para que lleve pata en el hoyo ['
+                            + (hIndex + 1) + ']');
+                        llevaPata = false;
+                        break;
                     }
-                    this.scoreRayas[i].puntos[hIndex] += unidadesI - unidadesJ;
                 }
             }
-            // Se suman los puntos obtenidos por el Jugador en el hoyo
-            // anterior en caso de que no se esté jugando en el primer hoyo.
-            if (hIndex > 0) {
-                this.scoreRayas[i].puntos[hIndex]
-                    += this.scoreRayas[i].puntos[hIndex - 1];
-                if (hIndex == 9) {
-                    this.scoreRayas[i].puntos[hIndex]
-                        -= this.scoreRayas[i].puntos[8];
+
+            // Se verifica si el jugador i terminó el turno con la pata, y
+            // de ser así se le suma, o bien, se determina si ya ganó la coneja.
+            if (llevaPata) {
+                if (hIndex > 0) {
+                    console.log('GolfApp', 'Se verificarán patas en hoyos' +
+                        ' anteriores');
+                    // Se busca si en el hoyo anterior alguien más llevaba la
+                    // pata
+                    if (jugadorConPataAnteriorIndex != -1) {
+                        // Obtiene la cantidad de patas que llevaba otro
+                        // jugador en el hoyo anterior
+                        var patasAnterior
+                            = parseInt(this
+                            .scoreConeja[jugadorConPataAnteriorIndex]
+                            .status[hIndex - 1]);
+
+                        patasAnterior--;
+
+                        // Resta una pata al otro jugador o la establece
+                        // como una cadena vacía si ya resuta 0 patas
+                        if (patasAnterior)
+                            patasAnterior = patasAnterior.toString();
+                        else
+                            patasAnterior = '.';
+
+                        this.scoreConeja[jugadorConPataAnteriorIndex]
+                            .status[hIndex] = patasAnterior;
+                    } else {
+                        var pataAnteriorJugadorActual =
+                            parseInt(this.scoreConeja[i].status[hIndex - 1]);
+
+                        if (isNaN(pataAnteriorJugadorActual)) {
+                            this.scoreConeja[i].status[hIndex] = 1;
+                        } else {
+                            this.scoreConeja[i].status[hIndex]
+                                = pataAnteriorJugadorActual + 1;
+                        }
+                    }
+                } else {
+                    console.log('GolfApp', 'No se verificarán patas en hoyos' +
+                        ' anteriores');
+                    this.scoreConeja[i].status[hIndex] = '1';
                 }
+
+                break;
+            }
+        }
+
+        if (!llevaPata && hIndex > 0) {
+            for (var i = 0; i < playersNumber; i++) {
+                this.scoreConeja[i].status[hIndex]
+                    = this.scoreConeja[i].status[hIndex - 1];
             }
         }
     };
@@ -123,14 +175,14 @@ function ApuestaRayas(partido) {
     this.createScoreboard = function () {
         var numJugadores = this.partido.scoreBoard.length;
         var numHoyos = this.partido.scoreBoard[0].golpes.length;
-        this.scoreRayas = [];
+        this.scoreConeja = [];
+
         for (var i = 0; i < numJugadores; i++) {
-            this.scoreRayas.push({puntos: []});
+            this.scoreConeja.push({status: []});
             for (var j = 0; j < numHoyos; j++) {
-                this.scoreRayas[i].puntos.push(0);
+                this.scoreConeja[i].status.push('.');
             }
         }
-        // console.log('GolfApp', 'ApuestaRayas.createScoreboard');
     };
 
     this.createScoreboard();

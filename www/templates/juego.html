@@ -111,7 +111,7 @@
                                     <div class="apuesta-tablero-principal"
                                          ng-if="tablero.conejaSeleccionada"
                                          style="color: blue">
-                                        C
+                                        {{puntuacion.apuestaConeja.status[hoyo - 1]}}
                                     </div>
                                     <div class="apuesta-tablero-principal"
                                          ng-if="!tablero.conejaSeleccionada">-</div>
@@ -157,7 +157,7 @@
                                     <div class="apuesta-tablero-principal"
                                          ng-if="tablero.conejaSeleccionada"
                                          style="color: blue">
-                                        C
+                                        {{puntuacion.apuestaConeja.status[hoyo - 1]}}
                                     </div>
                                     <div class="apuesta-tablero-principal"
                                          ng-if="!tablero.conejaSeleccionada">-</div>

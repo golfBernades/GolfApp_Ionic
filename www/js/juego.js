@@ -132,16 +132,21 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 var apuestas = $cordovaSQLite.execute(db, queryApuestas)
                     .then(function (res) {
                         for (var i = 0; i < res.rows.length; i++) {
-                            if (res.rows.item(i).nombre == 'rayas') {
+                            if (res.rows.item(i).nombre.toLowerCase()
+                                == 'rayas') {
                                 $scope.rayasSeleccionada = true;
                                 $scope.tablero.rayasSeleccionada = true;
-                            } else if (res.rows.item(i).nombre == 'coneja') {
+                            } else if (res.rows.item(i).nombre.toLowerCase()
+                                == 'coneja') {
                                 $scope.conejaSeleccionada = true;
                                 $scope.tablero.conejaSeleccionada = true;
                             }
                         }
                         if ($scope.rayasSeleccionada) {
                             modulePromises.push(agregarApuestaRayas());
+                        }
+                        if ($scope.conejaSeleccionada) {
+                            modulePromises.push(agregarApuestaConeja());
                         }
                     });
 
@@ -151,7 +156,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             function agregarApuestaRayas() {
                 console.log('GolfApp', 'agregarApuestaRayas');
 
-                $scope.partido.agregarApuesta(new ApuestaRayas($scope.partido));
+                $scope.partido.agregarApuesta('rayas',
+                    new ApuestaRayas($scope.partido));
 
                 $.each($scope.tablero.datos_juego, function (index, dato) {
                     dato.apuestaRayas = {
@@ -165,7 +171,17 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             }
 
             function agregarApuestaConeja() {
+                console.log('GolfApp', 'agregarApuestaConeja');
 
+                $scope.partido.agregarApuesta('coneja',
+                    new ApuestaConeja($scope.partido));
+
+                $.each($scope.tablero.datos_juego, function (index, dato) {
+                    dato.apuestaConeja = {
+                        status: ['.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.',
+                            '.', '.', '.', '.', '.', '.', '.']
+                    };
+                });
             }
 
             function sincronizarPartidos() {
@@ -712,8 +728,12 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                     for (var j = 0; j < 18; j++) {
                         if ($scope.rayasSeleccionada) {
-                            var rayas = $scope.partido.apuestas[0].scoreRayas[i]
-                                .puntos[j];
+                            var apuestaRayas = $scope.partido.apuestas
+                                .find('rayas');
+
+                            var rayas =
+                                apuestaRayas.apuesta.scoreRayas[i].puntos[j];
+
                             rayas = rayas ? rayas : 0;
                             $scope.tablero.datos_juego[i].apuestaRayas.rayas[j]
                                 = rayas;
@@ -727,6 +747,17 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             else
                                 $scope.tablero.datos_juego[i].apuestaRayas
                                     .style_rayas[j] = 'color: black';
+                        }
+
+                        if ($scope.conejaSeleccionada) {
+                            var apuestaConeja = $scope.partido.apuestas
+                                .find('coneja');
+
+                            var status = apuestaConeja.apuesta.scoreConeja[i]
+                                .status[j];
+
+                            $scope.tablero.datos_juego[i]
+                                .apuestaConeja.status[j] = status;
                         }
 
                         if (j < 9) {
