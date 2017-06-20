@@ -7,7 +7,7 @@ angular.module('starter.campos-cuenta', ['ionic'])
 .controller('camposCuenController', function ($scope, $state, $cordovaSQLite,
                                               $ionicPlatform, $ionicPopup, $rootScope,
                                               $http,$ionicLoading,servicePantallas,
-                                                serviceHttpRequest) {
+                                              serviceHttpRequest,utils) {
 
     var campoSeleccionado = false;
     var alertPopupOpcionesCampo = null;
@@ -21,36 +21,29 @@ angular.module('starter.campos-cuenta', ['ionic'])
     $rootScope.idCampoAct = null;
     $rootScope.campos = 2;
 
-    $scope.guardarPantallaSeleccionCampo = function (seleccion) {
 
-        switch (seleccion) {
+    $scope.seleccionaJugadores = function () {
+        $state.go('seleccion_jugadores');
+    };
 
-            case 2:
-                $state.go('seleccion_jugadores');
-                break;
+    $scope.seleccionaApuestas = function () {
+        var selAllCampos = "SELECT id FROM campo";
+        var selOneCampo = "SELECT id FROM campo WHERE seleccionado = 1";
+        $cordovaSQLite.execute(db, selAllCampos).then(function (res) {
+            if (res.rows.length > 0) {
 
-            case 4:
-
-                var selAllCampos = "SELECT id FROM campo";
-                var selOneCampo = "SELECT id FROM campo WHERE seleccionado = 1";
-                $cordovaSQLite.execute(db, selAllCampos).then(function (res) {
+                $cordovaSQLite.execute(db, selOneCampo).then(function (res) {
                     if (res.rows.length > 0) {
-
-                        $cordovaSQLite.execute(db, selOneCampo).then(function (res) {
-                            if (res.rows.length > 0) {
-                                $state.go('seleccion_apuestas');
-                            } else {
-                                popup('Campo no seleccionado!','Para avanzar debes seleccionar un campo.')
-                            }
-                        })
-
+                        $state.go('seleccion_apuestas');
                     } else {
-                        popup('Campo no seleccionado!','Para avanzar debes crear y seleccionar un campo. ')
+                        utils.popup('Campo no seleccionado!','Para avanzar debes seleccionar un campo.')
                     }
-                });
-                break;
-        }
+                })
 
+            } else {
+                utils.popup('Campo no seleccionado!','Para avanzar debes crear y seleccionar un campo. ')
+            }
+        });
     };
 
     $scope.campoSeleccionado = function (campo) {
@@ -71,7 +64,6 @@ angular.module('starter.campos-cuenta', ['ionic'])
         $scope.nombreCampo = nombreCampo;
         $scope.index = index;
 
-        console.log(idCampo,nombreCampo, index)
         var query = "SELECT * FROM campo WHERE id = (?) AND cuenta = 0";
         $cordovaSQLite.execute(db, query,[idCampo]).then(function (res) {
 
@@ -92,13 +84,13 @@ angular.module('starter.campos-cuenta', ['ionic'])
         $cordovaSQLite.execute(db, query,[$rootScope.idCampoAct]).then(function (res) {
             alertPopupOpcionesCampo.close();
             alertPopupOpcionesCampo = null;
-            confirmdeleteCampoDispositivoCuenta()
+            confirmDeleteCampoDispositivoCuenta()
 
         });
 
     };
 
-    function confirmdeleteCampoDispositivoCuenta() {
+    function confirmDeleteCampoDispositivoCuenta() {
         var confirmPopup = $ionicPopup.confirm({
             title: 'Eliminar Campo',
             template: 'Estas seguro de eliminar el campo ' + $scope.nombreCampo+'?'
@@ -106,7 +98,7 @@ angular.module('starter.campos-cuenta', ['ionic'])
 
         confirmPopup.then(function(res) {
             if(res) {
-                showLoading();
+                utils.showLoading();
                 deleteCampoDispositivoCuenta(0);
             }
 
@@ -122,16 +114,18 @@ angular.module('starter.campos-cuenta', ['ionic'])
         $http(httpRequest)
             .then(function successCallback(response) {
 
+                $ionicLoading.hide();
+
                 if(response.data.ok){
+
                     var query = 'DELETE FROM campo WHERE id = (?)';
                     $cordovaSQLite.execute(db, query, [$rootScope.idCampoAct]);
                     $scope.campos.splice($scope.index, 1);
 
-                    $ionicLoading.hide();
-                    popup("Campo Eliminado","Campo eliminado correctamente de la cuenta.");
+
+                    utils.popup("Campo Eliminado","Campo eliminado correctamente de la cuenta.");
                 }else{
-                    $ionicLoading.hide();
-                    popup("Campo No Eliminado","Campo pudo ser eliminaado. Volverlo a intentar más tarde.");
+                    utils.popup("Campo No Eliminado","Campo pudo ser eliminaado. Volverlo a intentar más tarde.");
                 }
             }, function errorCallback(response) {
 
@@ -140,11 +134,11 @@ angular.module('starter.campos-cuenta', ['ionic'])
                         deleteCampoDispositivoCuenta(intento + 1);
                     } else {
                         $ionicLoading.hide();
-                        popup("Error de Conexión","Error de Conexión. Volverlo a intentar más tarde.");
+                        utils.popup("Error de Conexión","Error de Conexión. Volverlo a intentar más tarde.");
                     }
                 }else{
                     $ionicLoading.hide();
-                    popup("Error de Parámetros","Error de Parámetros incorrectos. Volverlo a intentar más tarde.");
+                    utils.popup("Error de Parámetros","Error de Parámetros incorrectos. Volverlo a intentar más tarde.");
                 }
             });
     }
@@ -184,23 +178,6 @@ angular.module('starter.campos-cuenta', ['ionic'])
             }
         });
     }
-
-    function showLoading() {
-        $ionicLoading.show({
-            template: '<ion-spinner></ion-spinner>' +
-            '<p>Cargando</p>',
-            animation: 'fade-in'
-        }).then(function () {
-
-        });
-    };
-
-    function popup(title, template) {
-        var alertPopup = $ionicPopup.alert({
-            title: title,
-            template: template
-        });
-    };
 
     $ionicPlatform.ready(function () {
         getCampos();

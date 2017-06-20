@@ -11,6 +11,8 @@ var user_app = "";
 var password_app = "";
 var sesionActual = false;
 
+var claveActual;
+
 angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
     'starter.campos-dispositivo', 'starter.juego', 'starter.nuevo-campo',
     'starter.seleccion-apuestas', 'starter.inicio', 'starter.login', 'starter.registro',
@@ -33,13 +35,13 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             }
 
             db = $cordovaSQLite.openDB({
-                name: "golfappaoaoppp9.db",
+                name: "golfappsaoaoppp9.db",
                 iosDatabaseLocation: 'default'
             });
 
             var pantalla = "CREATE TABLE IF NOT EXISTS pantalla" +
                 "(id integer PRIMARY KEY AUTOINCREMENT" +
-                ",pantalla integer)";
+                ",pantalla text)";
 
             $cordovaSQLite.execute(db, pantalla);
 
@@ -194,7 +196,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                         sesionActual = true;
 
 
-                        console.log(id_user_app, user_app, password_app)
+                        console.log(id_user_app, user_app, password_app);
                     } else {
                         sesionActual = false;
                     }
@@ -288,10 +290,16 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 cache: false,
                 url: '/juego_consulta',
                 templateUrl: 'templates/juego_consulta.html',
-                controller: 'juegoConsultaController'
+                controller: 'juegoConsultaController',
+                params: {
+                    clave: null
+                }
             });
 
-        $urlRouterProvider.otherwise('/inicio');
+
+        $urlRouterProvider.otherwise('/inicio')
+
+
     })
 
 
@@ -356,19 +364,29 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
         }
     })
 
-    .service('servicePantallas', function ($cordovaSQLite) {
+    .service('servicePantallas', function ($cordovaSQLite, $ionicLoading) {
         this.savePantalla = function (numPantalla) {
             var pantalla = "UPDATE pantalla SET pantalla = ? WHERE id = 1";
             $cordovaSQLite.execute(db, pantalla, [numPantalla]);
         };
     })
 
-    .service('utils', function ($ionicPopup) {
+    .service('utils', function ($ionicPopup, $ionicLoading) {
 
         this.popup = function(title, template) {
             var alertPopup = $ionicPopup.alert({
                 title: title,
                 template: template
+            });
+        };
+
+        this.showLoading = function() {
+            $ionicLoading.show({
+                template: '<ion-spinner></ion-spinner>' +
+                '<p>Cargando</p>',
+                animation: 'fade-in'
+            }).then(function () {
+                // console.log("The loading indicator is now displayed");
             });
         };
     });

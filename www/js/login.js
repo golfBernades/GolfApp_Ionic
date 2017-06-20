@@ -6,7 +6,7 @@ angular.module('starter.login', ['ionic'])
 
 .controller('loginController',function ($scope, $state, $ionicPopup,
                                         $ionicLoading, $http, $cordovaSQLite,
-                                        serviceHttpRequest) {
+                                        serviceHttpRequest,utils) {
 
     var idUsuario;
 
@@ -17,7 +17,7 @@ angular.module('starter.login', ['ionic'])
 
     $scope.goInicio = function(){
         $state.go('inicio')
-    }
+    };
 
     $scope.goLogin = function(){
 
@@ -25,9 +25,9 @@ angular.module('starter.login', ['ionic'])
         var password = $scope.loginData.password;
 
         if(correo== null&& password==null){
-            popup("Campos Incompletos","Revisar el correo o el password")
+            utils.popup("Campos Incompletos","Revisar el correo o el password")
         }else{
-            showLoading();
+            utils.showLoading();
             loginServer(0);
         }
     };
@@ -52,7 +52,7 @@ angular.module('starter.login', ['ionic'])
                     guardarUsuarioPhone(response.data.usuario_id);
                     getCamposCuenta(0);
                 }else{
-                    popup('Error de Login', 'Usuario o Password Incorrectos. Volver a intentar');
+                    utils.popup('Error de Login', 'Usuario o Password Incorrectos. Volver a intentar');
                 }
 
             }, function errorCallback(response) {
@@ -63,11 +63,11 @@ angular.module('starter.login', ['ionic'])
                     } else {
                         $ionicLoading.hide();
 
-                        popup('Error de conexion', 'Error de Conexión. Volver a intentar más tarde.');
+                        utils.popup('Error de conexion', 'Error de Conexión. Volver a intentar más tarde.');
                     }
                 }else{
                     $ionicLoading.hide();
-                    popup('Error de Parámetros', 'Error de Parámetros incorrectos. Volver a intentar más tarde.');
+                    utils.popup('Error de Parámetros', 'Error de Parámetros incorrectos. Volver a intentar más tarde.');
                 }
             });
     }
@@ -112,12 +112,12 @@ angular.module('starter.login', ['ionic'])
                     }
 
                     $ionicLoading.hide();
-                    popup('Bienvenido a GolfApp', 'Disfruta todos los privilegios como usuario del sistema.');
+                    utils.popup('Bienvenido a GolfApp', 'Disfruta todos los privilegios como usuario del sistema.');
 
                     $state.go('inicio');
                 } else {
                     $ionicLoading.hide();
-                    popup('Error de Campos', 'Error al obtener los campos de la cuenta.');
+                    utils.popup('Error de Campos', 'Error al obtener los campos de la cuenta.');
                 }
             }, function errorCallback(response) {
 
@@ -126,11 +126,11 @@ angular.module('starter.login', ['ionic'])
                         getCamposCuenta(intento + 1);
                     } else {
                         $ionicLoading.hide();
-                        popup('Error de conexion', 'Error de Conexión. Volver a intentar más tarde.');
+                        utils.popup('Error de conexion', 'Error de Conexión. Volver a intentar más tarde.');
                     }
                 }else{
                     $ionicLoading.hide();
-                    popup('Error de Parámetros', 'Error de Parámetros incorrectos. Volver a intentar más tarde.');
+                    utils.popup('Error de Parámetros', 'Error de Parámetros incorrectos. Volver a intentar más tarde.');
                 }
             });
     }
@@ -139,22 +139,5 @@ angular.module('starter.login', ['ionic'])
         var query = 'DELETE FROM campo WHERE cuenta = 1';
         $cordovaSQLite.execute(db, query);
     }
-
-    function popup(title, template) {
-        var alertPopup = $ionicPopup.alert({
-            title: title,
-            template: template
-        });
-    };
-
-    function showLoading() {
-        $ionicLoading.show({
-            template: '<ion-spinner></ion-spinner>' +
-            '<p>Cargando</p>',
-            animation: 'fade-in'
-        }).then(function () {
-            // console.log("The loading indicator is now displayed");
-        });
-    };
 
 });

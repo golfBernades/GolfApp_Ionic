@@ -1,7 +1,12 @@
 angular.module('starter.inicio', ['ionic'])
 
     .controller('inicioController', function ($scope, $cordovaSQLite, $state,
-                                              $ionicPlatform, $ionicPopup, servicePantallas) {
+                                              $ionicPlatform, $ionicPopup, $ionicLoading,
+                                              $http, servicePantallas, serviceHttpRequest, utils) {
+
+        $scope.data = {
+            clave:"abcdefgh"
+        };
 
         $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
 
@@ -13,8 +18,32 @@ angular.module('starter.inicio', ['ionic'])
             }
         };
 
-        $scope.consultaJuego = function () {
-            $state.go('juego_consulta');
+        $scope.consultaJuego = function() {
+
+            var myPopup = $ionicPopup.show({
+                template: '<input type="text" ng-model="data.clave" id="in-cla">',
+                title: 'Ingresar Clave del Partido.',
+                subTitle: 'Asegurate de poner la clave correcta.',
+                scope: $scope,
+                buttons: [
+                    { text: 'Cancelar' },
+                    {
+                        text: '<b>Verificar</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+
+                            if ($scope.data.clave) {
+                                utils.showLoading();
+                                verificarClave(0)
+                            } else {
+                                document.getElementById("in-cla").style.backgroundColor = "#F5A9A9";
+                                e.preventDefault();
+                            }
+                        }
+                    }
+                ]
+            });
+
         };
 
         $scope.verificarSesion = function () {
@@ -23,6 +52,46 @@ angular.module('starter.inicio', ['ionic'])
             } else {
                 logIn();
             }
+        };
+
+        function verificarClave (intento) {
+
+            var httpRequest = serviceHttpRequest.createPostHttpRequest(
+                dir+'partido_consulta_exists',
+                {clave_consulta: $scope.data.clave}
+            );
+
+            $http(httpRequest)
+                .then(function successCallback(response) {
+
+                    $ionicLoading.hide();
+                    if(response.data.ok){
+
+                        if(response.data.exists){
+                            claveActual = $scope.data.clave;
+                            $state.go('juego_consulta');
+                        }else{
+                            utils.popup('Error de clave', 'No se pudo encontrar esa clave. Volver a intentar');
+                        }
+                    }else{
+                        utils.popup('Error de clave', 'No se pudo encontrar esa clave. Intentar más tarde.');
+                    }
+
+                }, function errorCallback(response) {
+
+                    if(response.status == -1){
+                        if (intento < 3) {
+                            verificarClave(intento + 1);
+                        } else {
+                            $ionicLoading.hide();
+
+                            utils.popup('Error de conexion', 'Error de Conexión. Volver a intentar más tarde.');
+                        }
+                    }else{
+                        $ionicLoading.hide();
+                        utils.popup('Error de Parámetros', 'Error de Parámetros incorrectos. Volver a intentar más tarde.');
+                    }
+                });
         }
 
         function confirmSesion() {
@@ -39,46 +108,6 @@ angular.module('starter.inicio', ['ionic'])
                 }
             });
         };
-
-        function cargarPantalla() {
-            setTimeout(function () {
-                var pant = "SELECT * FROM pantalla";
-                $cordovaSQLite.execute(db, pant).then(function (res) {
-                    if (res.rows.length > 0) {
-                        var val = res.rows.item(0).pantalla;
-                        direccionPagina(val);
-                    } else {
-                        var query = "INSERT INTO pantalla (pantalla) VALUES (?)";
-                        $cordovaSQLite.execute(db, query, [1])
-                    }
-                });
-            }, 500)
-        }
-
-        function direccionPagina(pagina) {
-            // switch (pagina) {
-            //     case 2:
-            //         $state.go('seleccion_jugadores');
-            //         break;
-            //     case 3:
-            //         $state.go('tabs.camp-dis');
-            //         break;
-            //     case 4:
-            //         $state.go('tabs.camp-cue');
-            //         break;
-            //     case 5:
-            //         $state.go('nuevo_campo');
-            //         break;
-            //     case 6:
-            //         $state.go('seleccion_apuestas');
-            //         break;
-            //     case 7:
-            //         $state.go('juego');
-            //         break;
-            // }
-
-            //$state.go('inicio');
-        }
 
         function logIn() {
             $state.go('login');
@@ -107,7 +136,6 @@ angular.module('starter.inicio', ['ionic'])
         function isUser() {
             if (sesionActual) {
                 $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-out";
-                cargarPantalla();
             } else {
                 $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
             }

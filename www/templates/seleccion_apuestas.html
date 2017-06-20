@@ -3,7 +3,7 @@
         <ion-nav-buttons side="left">
             <button class="button button-icon button-clear ion-chevron-left"
                     menu-toggle="left"
-                    ng-click="guardarPantallaApuestas(3)">
+                    ng-click="seleccionarCampo()">
             </button>
         </ion-nav-buttons>
         <ion-nav-title>Apuestas</ion-nav-title>
@@ -11,19 +11,26 @@
 
     <ion-content>
         <div class="contenedor">
-            <div class="lista-apuestas">
+            <div class="lista-apuestas list">
                 <ion-list ng-repeat="apuesta in apuestas" ng-model="apuestas">
-                    <ion-checkbox ng-model="apuesta.seleccionada"
-                                  ng-change="apuestaSeleccionada(apuesta)">
-                        {{apuesta.nombre}}
-                    </ion-checkbox>
+
+                    <li class="item item-toggle">
+                        <h3>{{apuesta.nombre}}</h3>
+                        <label class="toggle toggle-assertive">
+                            <input ng-model="apuesta.seleccionada" ng-change="apuestaSeleccionada(apuesta)" type="checkbox">
+                            <div class="track">
+                                <div class="handle"></div>
+                            </div>
+                        </label>
+                    </li>
+
                 </ion-list>
             </div>
             <div>
                 <button
                         class="button button-balanced button-block
                         btn-full btn-fixed-bottom my-btn-red"
-                        ng-click="guardarPantallaApuestas(6)">
+                        ng-click="seleccionarJuego()">
                     Comenzar juego
                 </button>
             </div>

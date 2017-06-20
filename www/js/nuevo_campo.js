@@ -7,19 +7,21 @@ angular.module('starter.nuevo-campo', ['ionic'])
     .controller('nuevoCampoController', function ($scope, $ionicPopup, $state,
                                                   $cordovaSQLite, $timeout, $ionicPlatform,
                                                   $rootScope, $ionicLoading, $http, servicePantallas,
-                                                  serviceHttpRequest) {
+                                                  serviceHttpRequest, utils) {
 
         var campo = null;
+        var isUpdateCampo = false;
+
         var par = [];
         var ventaja = [];
         var nombresCampos = [];
-        var isUpdateCampo = false;
+
         var nomCampo;
         var cuenta;
 
         $scope.statusCampo = "";
 
-        $scope.guardarPantallaNuevoCampo = function () {
+        $scope.seleccionarCampo = function () {
 
             if($rootScope.campos == 1){
                 $state.go('tabs.camp-dis')
@@ -52,15 +54,13 @@ angular.module('starter.nuevo-campo', ['ionic'])
             }
 
             var nombreCampo = document.getElementById("nombreCampoNuevo").value;
+
             var control = true;
             var ok = true;
-
-            console.log(ok + " OK-1 " + nombreCampo)
 
             if (nombreCampo == "") {
                 document.getElementById("nombreCampoNuevo").style.backgroundColor = "#F5A9A9";
                 ok = false;
-                console.log(ok + " OK-2");
 
                 par = [];
                 ventaja = [];
@@ -70,17 +70,12 @@ angular.module('starter.nuevo-campo', ['ionic'])
 
                 par = [];
                 ventaja = [];
-                console.log(ok + " OK-3")
             }
 
-            console.log(ok + " OK-4")
             if (!ok) {
-                console.log(ok + " OK-5")
-                var alertPopup = $ionicPopup.alert({
-                    title: 'Datos incompletos!',
-                    template: 'No puedes dejar campos vacios.',
-                    okType: 'button-balanced'
-                });
+
+                utils.popup("Datos incompletos!","No puedes dejar campos vacios.")
+
             } else {
 
                 if ($rootScope.idCampoAct != null) {
@@ -104,24 +99,20 @@ angular.module('starter.nuevo-campo', ['ionic'])
                 }
 
                 if (control) {
-                    showLoading();
+                    utils.showLoading();
                     if (isUpdateCampo) {
                         if (cuenta == 0) {
-                            update(nombreCampo,0);
+                            updateCampo(nombreCampo,0);
                         } else {
                             updateCampoServer(0, nombreCampo)
                         }
                     } else {
-                        insert(nombreCampo);
+                        insertCampo(nombreCampo);
                     }
 
                 } else {
                     document.getElementById("nombreCampoNuevo").style.backgroundColor = "#F5A9A9";
-
-                    var title = "Campo Repetido!";
-                    var template = "Nombre de campo repetido. Escribir otro nombre.";
-                    popup(title, template)
-
+                    utils.popup("Campo Repetido!", "Nombre de campo repetido. Escribir otro nombre.");
                     par = [];
                     ventaja = [];
                 }
@@ -129,7 +120,7 @@ angular.module('starter.nuevo-campo', ['ionic'])
 
         };
 
-        function insert(nombreCampo) {
+        function insertCampo(nombreCampo) {
             var fecha = new Date();
             var idCampo = fecha.getFullYear() + "-" + (fecha.getMonth() + 1) + "-" + fecha.getDate() + " " + fecha.getHours() + ":" + fecha.getMinutes() + ":" + fecha.getSeconds();
 
@@ -144,17 +135,17 @@ angular.module('starter.nuevo-campo', ['ionic'])
                     vaciarCampos();
 
                     $ionicLoading.hide();
-                    popup("Campo Guardado", "Campo Guardado Correctamente.");
+                    utils.popup("Campo Guardado", "Campo Guardado Correctamente.");
 
                     $state.go('tabs.camp-dis');
                 }, function (err) {
                     $ionicLoading.hide();
-                    popup("Campo No Guardado", "Campo NO Guardado. Volver a intentar más tarde.");
+                    utils.popup("Campo No Guardado", "Campo NO Guardado. Volver a intentar más tarde.");
                 });
 
         }
 
-        function update(nombreCampo, cuenta) {
+        function updateCampo(nombreCampo, cuenta) {
             var query = "UPDATE campo SET nombre = ?, par_hoyo_1 = ?, par_hoyo_2 = ?, par_hoyo_3 = ?, par_hoyo_4 = ?, par_hoyo_5 = ?, par_hoyo_6 = ?, par_hoyo_7 = ?, par_hoyo_8 = ?, par_hoyo_9 = ?, par_hoyo_10 = ?, par_hoyo_11 = ?, par_hoyo_12 = ?, par_hoyo_13 = ?, par_hoyo_14 = ?, par_hoyo_15 = ?, par_hoyo_16 = ?, par_hoyo_17 = ?, par_hoyo_18= ?, " +
                 "ventaja_hoyo_1 = ?, ventaja_hoyo_2 = ?, ventaja_hoyo_3 = ?, ventaja_hoyo_4 = ?, ventaja_hoyo_5 = ?, ventaja_hoyo_6 = ?, ventaja_hoyo_7 = ?, ventaja_hoyo_8 = ?, ventaja_hoyo_9 = ?, ventaja_hoyo_10 = ?, ventaja_hoyo_11 = ?, ventaja_hoyo_12 = ?, ventaja_hoyo_13 = ?, ventaja_hoyo_14 = ?, ventaja_hoyo_15 = ?, ventaja_hoyo_16 = ?, ventaja_hoyo_17 = ?, ventaja_hoyo_18 = ?, cuenta = ?, seleccionado = ? WHERE id = ?";
             $cordovaSQLite.execute(db, query, [nombreCampo, par[0], par[1], par[2], par[3], par[4], par[5], par[6], par[7], par[8], par[9], par[10], par[11], par[12], par[13], par[14], par[15], par[16], par[17],
@@ -163,7 +154,7 @@ angular.module('starter.nuevo-campo', ['ionic'])
                     vaciarCampos();
 
                     $ionicLoading.hide();
-                    popup("Campo Actualizado", "Campo Actualizado Correctamente.");
+                    utils.popup("Campo Actualizado", "Campo Actualizado Correctamente.");
 
                     if($rootScope.campos == 1){
                         $state.go('tabs.camp-dis')
@@ -174,7 +165,7 @@ angular.module('starter.nuevo-campo', ['ionic'])
                 }, function (err) {
 
                     $ionicLoading.hide();
-                    popup("Campo No Actualizado", "Campo NO Actualizado. Volver a intentar más tarde.");
+                    utils.popup("Campo No Actualizado", "Campo NO Actualizado. Volver a intentar más tarde.");
                 });
         }
 
@@ -201,18 +192,13 @@ angular.module('starter.nuevo-campo', ['ionic'])
             });
         };
 
-        function popup(title, template) {
-            var alertPopup = $ionicPopup.alert({
-                title: title,
-                template: template
-            });
-        };
-
         function isUpadate() {
             if ($rootScope.idCampoAct != null) {
+                utils.showLoading();
+
                 isUpdateCampo = true;
-                showLoading();
                 getCampo();
+
                 $scope.statusCampo = "Actualizar Campo";
             } else {
                 $scope.statusCampo = "Crear Campo";
@@ -272,20 +258,10 @@ angular.module('starter.nuevo-campo', ['ionic'])
                         $ionicLoading.hide();
                     } else {
                         $ionicLoading.hide();
-                        popup("Error de Campo", "Error al obtener el Campo. Volver a intentar más tarde.");
+                        utils.popup("Error de Campo", "Error al obtener el Campo. Volver a intentar más tarde.");
                     }
                 });
         }
-
-        function showLoading() {
-            $ionicLoading.show({
-                template: '<ion-spinner></ion-spinner>' +
-                '<p>Cargando</p>',
-                animation: 'fade-in'
-            }).then(function () {
-                // console.log("The loading indicator is now displayed");
-            });
-        };
 
         function updateCampoServer(intento, nombreCampo) {
             var httpRequest = serviceHttpRequest.createPutHttpRequest(
@@ -337,10 +313,10 @@ angular.module('starter.nuevo-campo', ['ionic'])
             $http(httpRequest)
                 .then(function successCallback(response) {
                     if (response.data.ok) {
-                        update(nombreCampo,1);
+                        updateCampo(nombreCampo,1);
                     } else {
                         $ionicLoading.hide();
-                        popup("Campo No Actualizado", "Campo NO Actualizado. Volver a intentar más tarde.");
+                        utils.popup("Campo No Actualizado", "Campo NO Actualizado. Volver a intentar más tarde.");
                     }
                 }, function errorCallback(response) {
 
@@ -349,17 +325,16 @@ angular.module('starter.nuevo-campo', ['ionic'])
                             updateCampoServer(intento + 1, nombreCampo);
                         } else {
                             $ionicLoading.hide();
-                            popup('Error de Conexión', 'Error de Conexión. Volver a intentar más tarde.');
+                            utils.popup('Error de Conexión', 'Error de Conexión. Volver a intentar más tarde.');
                         }
                     } else {
                         $ionicLoading.hide();
-                        popup('Error de Parámetros', 'Error de Parámetros Incorrectos. Volver a intentar más tarde.');
+                        utils.popup('Error de Parámetros', 'Error de Parámetros Incorrectos. Volver a intentar más tarde.');
                     }
                 });
         }
 
         $ionicPlatform.ready(function () {
-            servicePantallas.savePantalla(5);
             getCampos();
             isUpadate();
         });

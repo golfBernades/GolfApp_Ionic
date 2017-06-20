@@ -7,7 +7,7 @@ angular.module('starter.registro', ['ionic'])
     .controller('registroController', function ($scope, $state, $ionicPopup,
                                                 $http, $ionicLoading,
                                                 $cordovaSQLite, $ionicPlatform,
-                                                $q, serviceHttpRequest) {
+                                                $q, serviceHttpRequest, utils) {
 
         var modulePromises = [];
         var correoDisponible = false;
@@ -39,29 +39,31 @@ angular.module('starter.registro', ['ionic'])
             var passwordConf = $scope.registroData.passwordConf;
 
             if (correo == null || password == null || passwordConf == null) {
-                popup('Error', 'Debes llenar todos los campos');
+                utils.popup('Error', 'Debes llenar todos los campos');
             } else {
                 if (password != passwordConf) {
-                    popup('Error', 'Las contraseñas no coinciden');
+                    utils.popup('Error', 'Las contraseñas no coinciden');
                 } else {
                     datosCompletos = true;
                 }
             }
 
             if (datosCompletos) {
-                showLoading();
-                consultarCorreo(1);
+                utils.showLoading();
+                consultarCorreo(0);
 
                 $q.all(modulePromises).then(function () {
                     if (correoDisponible) {
                         insertarUsuario(1);
                         $q.all(modulePromises).then(function () {
                             if (registroCorrecto) {
+
+                                sesionActual= true;
                                 guardarUsuarioPhone();
                                 deleteAllDatosCuenta();
 
                                 $ionicLoading.hide();
-                                popup('Bienvenido a GolfApp', 'Disfruta todos los privilegios como usuario del sistema.');
+                                utils.popup('Bienvenido a GolfApp', 'Disfruta todos los privilegios como usuario del sistema.');
                                 $state.go('inicio');
                             }
                         });
@@ -81,14 +83,14 @@ angular.module('starter.registro', ['ionic'])
                     if (response.data.ok) {
                         if(response.data.existe){
                             $ionicLoading.hide();
-                            popup('Correo Existente', 'Correo Existente. Revisa tus datos o intenta con otro correo.');
+                            utils.popup('Correo Existente', 'Correo Existente. Revisa tus datos o intenta con otro correo.');
                             correoDisponible = false;
                         }else{
                             correoDisponible = true;
                         }
                     } else {
                         correoDisponible = false;
-                        popup('Error de Correo', 'Error al Registrase. Intentar mas tarde.');
+                        utils.popup('Error de Correo', 'Error al Registrase. Intentar mas tarde.');
                     }
                 }, function errorCallback(response) {
                     if(response.status == -1){
@@ -97,12 +99,12 @@ angular.module('starter.registro', ['ionic'])
                         } else {
                             correoDisponible = false;
                             $ionicLoading.hide();
-                            popup('Error de conexion', 'Error de Conexión. Volver a intentar más tarde.');
+                            utils.popup('Error de conexion', 'Error de Conexión. Volver a intentar más tarde.');
                         }
                     }else{
                         correoDisponible = false;
                         $ionicLoading.hide();
-                        popup('Error de Parámetros', 'Error de Parámetros incorrectos. Volver a intentar más tarde.');
+                        utils.popup('Error de Parámetros', 'Error de Parámetros incorrectos. Volver a intentar más tarde.');
                     }
                 });
 
@@ -126,7 +128,7 @@ angular.module('starter.registro', ['ionic'])
                     } else {
                         registroCorrecto = false;
                         $ionicLoading.hide();
-                        popup('Error de Registro', 'Error de Registro. Volver a intentar más tarde.');
+                        utils.popup('Error de Registro', 'Error de Registro. Volver a intentar más tarde.');
                     }
                 }, function errorCallback(response) {
                     if(response.status == -1){
@@ -135,12 +137,12 @@ angular.module('starter.registro', ['ionic'])
                         } else {
                             registroCorrecto = false;
                             $ionicLoading.hide();
-                            popup('Error de conexion', 'Error de Conexión. Volver a intentar más tarde.');
+                            utils.popup('Error de conexion', 'Error de Conexión. Volver a intentar más tarde.');
                         }
                     }else{
                         registroCorrecto = false;
                         $ionicLoading.hide();
-                        popup('Error de Parámetros', 'Error de Parámetros incorrectos. Volver a intentar más tarde.');
+                        utils.popup('Error de Parámetros', 'Error de Parámetros incorrectos. Volver a intentar más tarde.');
                     }
                 });
 
@@ -157,25 +159,4 @@ angular.module('starter.registro', ['ionic'])
             $cordovaSQLite.execute(db, query);
         }
 
-        function popup(title, template) {
-            var alertPopup = $ionicPopup.alert({
-                title: title,
-                template: template
-            });
-        };
-
-        function showLoading() {
-            $ionicLoading.show({
-                template: '<ion-spinner></ion-spinner>' +
-                '<p>Cargando</p>',
-                animation: 'fade-in'
-            }).then(function () {
-                // console.log("The loading indicator is now displayed");
-            });
-        };
-
-        $ionicPlatform.ready(function () {
-            console.log('jugadoresController', 'Ready');
-            ;
-        });
     });

@@ -7,17 +7,18 @@ angular.module('starter.campos-dispositivo', ['ionic'])
     .controller('camposDispController', function ($scope, $cordovaSQLite, $state,
                                                   $ionicPlatform, $ionicPopup, $rootScope,
                                                   $ionicLoading, $http, $q, servicePantallas,
-                                                  serviceHttpRequest) {
+                                                  serviceHttpRequest, utils) {
 
-        var campoSeleccionado = false;
-        var par = [];
-        var ventaja = [];
         var nombreCampoA = "";
-
-        var alertPopupOpcionesCampo = null;
         var countCamposUser;
 
+        var par = [];
+        var ventaja = [];
         var modulePromises = [];
+
+        var alertPopupOpcionesCampo = null;
+
+        var campoSeleccionado = false;
         var responseCountCampos = false;
         var responseGetCampo = false;
 
@@ -26,44 +27,37 @@ angular.module('starter.campos-dispositivo', ['ionic'])
         $scope.data = {
             clientSide: 'ng'
         };
+
         $rootScope.idCampoAct = null;
         $rootScope.campos = 1;
 
-        $scope.guardarPantallaSeleccionCampo = function (seleccion) {
+        $scope.seleccionarJugadores = function () {
+            $state.go('seleccion_jugadores');
+        };
 
-            switch (seleccion) {
+        $scope.seleccionarApuestas = function () {
+            var selAllCampos = "SELECT id FROM campo";
+            var selOneCampo = "SELECT id FROM campo WHERE seleccionado = 1";
+            $cordovaSQLite.execute(db, selAllCampos).then(function (res) {
+                if (res.rows.length > 0) {
 
-                case 2:
-                    $state.go('seleccion_jugadores');
-                    break;
-
-                case 4:
-
-                    var selAllCampos = "SELECT id FROM campo";
-                    var selOneCampo = "SELECT id FROM campo WHERE seleccionado = 1";
-                    $cordovaSQLite.execute(db, selAllCampos).then(function (res) {
+                    $cordovaSQLite.execute(db, selOneCampo).then(function (res) {
                         if (res.rows.length > 0) {
-
-                            $cordovaSQLite.execute(db, selOneCampo).then(function (res) {
-                                if (res.rows.length > 0) {
-                                    $state.go('seleccion_apuestas');
-                                } else {
-                                    popup('Campo no seleccionado!','Para avanzar debes seleccionar un campo.')
-                                }
-                            })
-
+                            $state.go('seleccion_apuestas');
                         } else {
-                            popup('Campo no seleccionado!','Para avanzar debes crear y seleccionar un campo. ')
+                            popup('Campo no seleccionado!','Para avanzar debes seleccionar un campo.')
                         }
-                    });
-                    break;
+                    })
 
-                case 5:
-                    $rootScope.idCampoAct = null;
-                    $state.go('nuevo_campo')
-                    break;
-            }
+                } else {
+                    popup('Campo no seleccionado!','Para avanzar debes crear y seleccionar un campo. ')
+                }
+            });
+        };
 
+        $scope.seleccionNuevoCampo = function () {
+            $rootScope.idCampoAct = null;
+            $state.go('nuevo_campo');
         };
 
         $scope.campoSeleccionado = function (campo) {
@@ -96,7 +90,7 @@ angular.module('starter.campos-dispositivo', ['ionic'])
 
         $scope.subirCampo = function(){
             alertPopupOpcionesCampo.close();
-            showLoading();
+            utils.showLoading();
             countCampoServer(0);
             $q.all(modulePromises).then(function () {
                 modulePromises = [];
@@ -134,17 +128,17 @@ angular.module('starter.campos-dispositivo', ['ionic'])
 
             confirmPopup.then(function(res) {
                 if(res) {
-                    showLoading();
+                    utils.showLoading();
                     var query = 'DELETE FROM campo WHERE id = (?)';
                     $cordovaSQLite.execute(db, query, [$rootScope.idCampoAct])
                         .then(function (res) {
                             $scope.campos.splice($scope.index, 1);
                             $ionicLoading.hide();
-                            popup('Campo Borrado', 'Campo Borrdado Correctamente del Dispositivo.');
+                            utils.popup('Campo Borrado', 'Campo Borrdado Correctamente del Dispositivo.');
 
                         }, function (err) {
                             $ionicLoading.hide();
-                            popup('Campo No Borrado', 'Campo No Borrado. Intentarlo más tarde.');
+                            utils.popup('Campo No Borrado', 'Campo No Borrado. Intentarlo más tarde.');
                         });
 
                 }
@@ -154,7 +148,6 @@ angular.module('starter.campos-dispositivo', ['ionic'])
 
         function getCampos() {
 
-            var img="";
             var query = "SELECT id, nombre, seleccionado, cuenta FROM campo WHERE cuenta = 0  AND usuario_id = (?) ORDER BY nombre ASC";
             $cordovaSQLite.execute(db, query,[id_user_app]).then(function (res) {
 
@@ -229,7 +222,7 @@ angular.module('starter.campos-dispositivo', ['ionic'])
                         responseGetCampo = true
                     }else{
                         $ionicLoading.hide();
-                        popup('Error de Campo', 'Error al obtener el campo. Volver a intentar más tarde.');
+                        utils.popup('Error de Campo', 'Error al obtener el campo. Volver a intentar más tarde.');
                     }
                 });
 
@@ -260,12 +253,12 @@ angular.module('starter.campos-dispositivo', ['ionic'])
                             countCampoServer(intento + 1);
                         } else {
                             $ionicLoading.hide();
-                            popup('Error de Conexión', 'Error de Conexión. Volver a intentar más tarde.');
+                            utils.popup('Error de Conexión', 'Error de Conexión. Volver a intentar más tarde.');
                             responseCountCampos = false;
                         }
                     }else{
                         $ionicLoading.hide();
-                        popup('Error de Parámetros', 'Error de Parámetros. Volver a intentar más tarde.');
+                        utils.popup('Error de Parámetros', 'Error de Parámetros. Volver a intentar más tarde.');
                         responseCountCampos = false
                     }
                 });
@@ -286,17 +279,16 @@ angular.module('starter.campos-dispositivo', ['ionic'])
 
             $http(httpRequest)
                 .then(function successCallback(response) {
+                    $ionicLoading.hide();
                     if (response.data.ok) {
 
                         actualizarCampo(response.data.campo_id,1);
                         $scope.campos.splice($scope.index, 1);
 
-                        $ionicLoading.hide();
-                        popup('Campo Guardado', 'Campo Guardado Correctamente en la cuenta.');
+                        utils.popup('Campo Guardado', 'Campo Guardado Correctamente en la cuenta.');
 
                     } else {
-                        $ionicLoading.hide();
-                        popup('Error del Campo', 'Error al Guardar el Campo. Volver a intentar más tarde.');
+                        utils.popup('Error del Campo', 'Error al Guardar el Campo. Volver a intentar más tarde.');
                     }
                 }, function errorCallback(response) {
 
@@ -305,11 +297,11 @@ angular.module('starter.campos-dispositivo', ['ionic'])
                             insertCampoServer(intento + 1);
                         } else {
                             $ionicLoading.hide();
-                            popup('Error de Conexión', 'Error de Conexión. Volver a intentar más tarde.');
+                            utils.popup('Error de Conexión', 'Error de Conexión. Volver a intentar más tarde.');
                         }
                     }else{
                         $ionicLoading.hide();
-                        popup('Error de Parámetros', 'Error de Pármetros incorrectos. Volver a intentar más tarde.');
+                        utils.popup('Error de Parámetros', 'Error de Pármetros incorrectos. Volver a intentar más tarde.');
                     }
                 });
         }
@@ -328,23 +320,6 @@ angular.module('starter.campos-dispositivo', ['ionic'])
                 okType:'button-balanced'
             });
         }
-
-        function showLoading() {
-            $ionicLoading.show({
-                template: '<ion-spinner></ion-spinner>' +
-                '<p>Cargando</p>',
-                animation: 'fade-in'
-            }).then(function () {
-
-            });
-        };
-
-        function popup(title, template) {
-            var alertPopup = $ionicPopup.alert({
-                title: title,
-                template: template
-            });
-        };
 
         $ionicPlatform.ready(function () {
             servicePantallas.savePantalla(3);
