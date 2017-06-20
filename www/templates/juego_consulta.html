@@ -7,6 +7,11 @@
             </button>
         </ion-nav-buttons>
         <ion-nav-title>Juego en Curso</ion-nav-title>
+        <ion-nav-buttons side="right">
+            <button class="button button-icon button-clear ion-navicon-round"
+                    menu-toggle="left" ng-click="showOpcionesPartido($event)">
+            </button>
+        </ion-nav-buttons>
     </ion-nav-bar>
 
     <ion-content>
@@ -86,8 +91,7 @@
                                         </div>
                                     </div>
                                     <div class="apuesta-tablero-principal"
-                                         style="{{puntuacion.apuestaRayas.style_rayas[hoyo -
-                                         1]}}"
+                                         style="{{puntuacion.apuestaRayas.style_rayas[hoyo -1]}}"
                                          ng-if="tablero.rayasSeleccionada">
                                         {{puntuacion.apuestaRayas.rayas[hoyo -
                                         1]}}

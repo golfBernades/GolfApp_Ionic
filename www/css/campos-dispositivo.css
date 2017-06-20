@@ -22,3 +22,11 @@
     overflow: scroll;
     height: 120%;
 }
+
+.txt-der{
+    text-decoration: none !important;
+}
+
+.tabs-fullwidth .tab-item {
+    max-width: 100%;
+}

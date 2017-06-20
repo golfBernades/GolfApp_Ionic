@@ -68,8 +68,7 @@ angular.module('starter.inicio', ['ionic'])
                     if(response.data.ok){
 
                         if(response.data.exists){
-                            claveActual = $scope.data.clave;
-                            $state.go('juego_consulta');
+                            insertClave($scope.data.clave)
                         }else{
                             utils.popup('Error de clave', 'No se pudo encontrar esa clave. Volver a intentar');
                         }
@@ -139,6 +138,16 @@ angular.module('starter.inicio', ['ionic'])
             } else {
                 $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
             }
+        }
+
+        function insertClave(clave) {
+            var query = "INSERT INTO clave (clave) VALUES (?)";
+            $cordovaSQLite.execute(db, query, [clave])
+                .then(function (res) {
+                    $state.go('juego_consulta');
+                }, function (err) {
+                    console.log(JSON.stringify(err))
+                });
         }
 
         $ionicPlatform.ready(function () {

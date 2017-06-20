@@ -7,7 +7,7 @@
                ng-focus="juego.style_golpes = 'background-color: white'">
     </div>
     <br>
-    <div>
+    <div ng-if="rayasSeleccionada">
         <label for="puntosExtras">Unidades:</label>
         <input type="number" ng-model="juego.puntosExtras"
                name="juego.puntosExtras" id="puntosExtras" value="0">

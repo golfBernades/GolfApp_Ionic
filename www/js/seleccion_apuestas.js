@@ -42,7 +42,7 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
 
         function getApuestas() {
 
-            var query = "SELECT * FROM apuesta";
+            var query = "SELECT * FROM apuesta ORDER BY nombre ASC";
             $cordovaSQLite.execute(db, query).then(function (result) {
                 if (result.rows.length > 0) {
                     for (var i = 0; i < result.rows.length; i++) {
@@ -55,8 +55,8 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
                     }
                 } else {
                     var apuesta = "INSERT INTO apuesta (nombre, seleccionada) VALUES (?,?)";
-                    $cordovaSQLite.execute(db, apuesta, ["rayas", 0]);
-                    $cordovaSQLite.execute(db, apuesta, ["coneja", 0]);
+                    $cordovaSQLite.execute(db, apuesta, ["Rayas", 0]);
+                    $cordovaSQLite.execute(db, apuesta, ["Coneja", 0]);
 
                     getApuestas();
                 }

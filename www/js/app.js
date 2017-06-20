@@ -35,7 +35,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             }
 
             db = $cordovaSQLite.openDB({
-                name: "golfappsaoaoppp9.db",
+                name: "gosaoa80aaaoppp9.db",
                 iosDatabaseLocation: 'default'
             });
 
@@ -44,6 +44,11 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 ",pantalla text)";
 
             $cordovaSQLite.execute(db, pantalla);
+
+            var clave = "CREATE TABLE IF NOT EXISTS clave" +
+                "(clave text PRIMARY KEY)";
+
+            $cordovaSQLite.execute(db, clave);
 
             var usuario = "CREATE TABLE IF NOT EXISTS usuario" +
                 "(id integer PRIMARY KEY" +

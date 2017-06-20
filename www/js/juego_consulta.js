@@ -2,11 +2,17 @@ angular.module('starter.juego_consulta', ['ionic'])
 
     .controller('juegoConsultaController', function ($scope, $ionicPopup, $cordovaSQLite,
                                                      $state, $ionicLoading, $timeout,
-                                                     $ionicPlatform, $q, $http,
+                                                     $ionicPlatform, $q, $http, $ionicPopover,
                                                      serviceHttpRequest, utils) {
 
 
         var modulePromises = [];
+        var opcionesPopover;
+
+        $scope.partidoExistente={
+            claveConsulta:""
+        };
+
 
         $scope.hoyos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
         $scope.hoyos1a9 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -15,11 +21,34 @@ angular.module('starter.juego_consulta', ['ionic'])
 
         $ionicPlatform.ready(function () {
             console.log('GolfApp>> juego.$ionicPlatform.ready');
-            getMarcador();
+
+            getClave();
+
+            $ionicPopover.fromTemplateUrl(
+                'templates/opciones_partido_popover.html', {
+                    scope: $scope
+                }).then(function (popover) {
+                opcionesPopover = popover;
+            });
+
+
             screen.orientation.addEventListener('change', function () {
                 $state.reload();
             });
         });
+
+        $ionicPlatform.registerBackButtonAction(function(event) {
+            if (true) { // your check here
+                $ionicPopup.confirm({
+                    title: 'Salir de partido',
+                    template: 'Estas seguro de salir del partido?'
+                }).then(function(res) {
+                    if (res) {
+                        deleteClave();
+                    }
+                })
+            }
+        }, 500);
 
         $scope.seleccionarInicio = function () {
             $state.go('inicio');
@@ -29,11 +58,19 @@ angular.module('starter.juego_consulta', ['ionic'])
             getMarcador();
         };
 
+        $scope.showOpcionesPartido = function ($event) {
+            opcionesPopover.show($event);
+        };
+
+        $scope.finalizarPartido = function() {
+            deleteClave();
+        }
+
         function getMarcador() {
             utils.showLoading();
             var httpRequest = serviceHttpRequest.createPostHttpRequest(
                 dir + 'partido_tablero_get', {
-                    clave_consulta: claveActual
+                    clave_consulta: $scope.partidoExistente.claveConsulta
                 }
             );
 
@@ -92,6 +129,28 @@ angular.module('starter.juego_consulta', ['ionic'])
                     {width: 100, align: 'center'}
                 ]
             });
+        }
+
+        function getClave() {
+            var query = "SELECT * FROM clave";
+            $cordovaSQLite.execute(db, query)
+                .then(function (res) {
+                    $scope.partidoExistente.claveConsulta = res.rows.item(0).clave;
+                    getMarcador();
+                }, function (err) {
+                    console.log(JSON.stringify(err))
+                });
+        }
+
+        function deleteClave() {
+            var query = "DELETE FROM clave";
+            $cordovaSQLite.execute(db, query)
+                .then(function (res) {
+                    opcionesPopover.hide();
+                    $state.go('inicio')
+                }, function (err) {
+                    console.log(JSON.stringify(err))
+                });
         }
 
     });
