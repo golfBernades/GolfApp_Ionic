@@ -137,7 +137,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                 $scope.rayasSeleccionada = true;
                                 $scope.tablero.rayasSeleccionada = true;
                             } else if (res.rows.item(i).nombre.toLowerCase()
-                                == 'coneja') {
+                                 == 'coneja') {
                                 $scope.conejaSeleccionada = true;
                                 $scope.tablero.conejaSeleccionada = true;
                             }
@@ -665,7 +665,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             function compartirScoreboard() {
                 console.log('GolfApp', 'compartirScoreboard');
 
-                showLoading();
+                // showLoading();
 
                 var sincroPromises = [];
 

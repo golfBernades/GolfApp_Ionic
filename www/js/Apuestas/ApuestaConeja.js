@@ -11,9 +11,14 @@
 function ApuestaConeja(partido) {
     this.partido = partido;
     this.scoreConeja = [];
+    var hayConeja1a6;
+    var hayConeja7a12;
 
     this.actualizar = function () {
         var playersNumber = this.partido.scoreBoard.length;
+
+        hayConeja1a6 = false;
+        hayConeja7a12 = false;
 
         this.createScoreboard();
 
@@ -32,13 +37,15 @@ function ApuestaConeja(partido) {
     };
 
     this.actualizarHoyo = function (hIndex) {
-        console.log('GolfApp', 'Actualizar coneja hoyo [' + (hIndex + 1) + ']');
+        // console.log('GolfApp', 'Actualizar coneja hoyo [' + (hIndex + 1) + ']');
 
         var playersNumber = this.partido.scoreBoard.length;
         var llevaPata = true;
 
         for (var i = 0; i < playersNumber; i++) {
             var jugadorConPataAnteriorIndex = -1;
+
+            llevaPata = true;
 
             for (var j = 0; j < playersNumber; j++) {
                 // Validación para que un Jugador solo se compare con
@@ -107,9 +114,9 @@ function ApuestaConeja(partido) {
                     // Se verifica si el jugador i hizo igual o más puntos
                     // que el j, para descartarlo como candidato a ganar pata.
                     if (golpesI >= golpesJ) {
-                        console.log('GolfApp', 'El jugador [' + i + '] se' +
-                            ' descarta para que lleve pata en el hoyo ['
-                            + (hIndex + 1) + ']');
+                        console.log('GolfApp', 'El jugador ' + i + ' con '
+                            + golpesI + ' golpes queda descartado para llevar '
+                            + 'para en el hoyo ' + (hIndex + 1));
                         llevaPata = false;
                         break;
                     }
@@ -119,12 +126,15 @@ function ApuestaConeja(partido) {
             // Se verifica si el jugador i terminó el turno con la pata, y
             // de ser así se le suma, o bien, se determina si ya ganó la coneja.
             if (llevaPata) {
+                console.log('El menor en el hoyo [' + (hIndex + 1) + '] fue: '
+                    + partido.jugadores[i].nombre);
                 if (hIndex > 0) {
-                    console.log('GolfApp', 'Se verificarán patas en hoyos' +
-                        ' anteriores');
                     // Se busca si en el hoyo anterior alguien más llevaba la
                     // pata
                     if (jugadorConPataAnteriorIndex != -1) {
+                        console.log('Otro jugador llevaba pata en el hoyo ['
+                            + jugadorConPataAnteriorIndex + ']');
+
                         // Obtiene la cantidad de patas que llevaba otro
                         // jugador en el hoyo anterior
                         var patasAnterior
@@ -155,22 +165,67 @@ function ApuestaConeja(partido) {
                         }
                     }
                 } else {
-                    console.log('GolfApp', 'No se verificarán patas en hoyos' +
-                        ' anteriores');
+                    // console.log('GolfApp', 'No se verificarán patas en hoyos' +
+                    //     ' anteriores');
                     this.scoreConeja[i].status[hIndex] = '1';
                 }
-
                 break;
             }
         }
 
         if (!llevaPata && hIndex > 0) {
             for (var i = 0; i < playersNumber; i++) {
-                this.scoreConeja[i].status[hIndex]
-                    = this.scoreConeja[i].status[hIndex - 1];
+                var statusAnterior = this.scoreConeja[i].status[hIndex - 1];
+                if (statusAnterior != 'C') {
+                    this.scoreConeja[i].status[hIndex] = statusAnterior;
+                }
+            }
+        }
+
+        if (hIndex == 5 || hIndex == 11 || hIndex == 17) {
+            for (var i = 0; i < playersNumber; i++) {
+                var status = this.scoreConeja[i].status[hIndex];
+                if (!isNaN(status)) {
+                    if(hIndex == 11) {
+                        if(hayConeja1a6) {
+                            this.scoreConeja[i].status[hIndex] = 'C';
+                        } else {
+                            this.scoreConeja[i].status[hIndex] = '2C';
+                        }
+                        hayConeja1a6 = true;
+                        hayConeja7a12 = true;
+                    } else if(hIndex == 17) {
+                        if(hayConeja1a6) {
+                            if(hayConeja7a12) {
+                                this.scoreConeja[i].status[hIndex] = 'C';
+                            } else {
+                                this.scoreConeja[i].status[hIndex] = '2C';
+                            }
+                        } else {
+                            this.scoreConeja[i].status[hIndex] = '3C';
+                        }
+                        hayConeja1a6 = true;
+                        hayConeja7a12 = true;
+                    } else {
+                        this.scoreConeja[i].status[hIndex] = 'C';
+                        hayConeja1a6 = true;
+                    }
+                }
             }
         }
     };
+
+    // function parseIntPatas(value) {
+    //     if (value == '.' || value == 'C')
+    //         return new NaN();
+    //
+    //     var intValue = parseInt(value);
+    //
+    //     if (isNaN(intValue))
+    //         intValue = parseInt(value.split('_')[1]);
+    //
+    //     return intValue;
+    // }
 
     this.createScoreboard = function () {
         var numJugadores = this.partido.scoreBoard.length;
