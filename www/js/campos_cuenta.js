@@ -73,12 +73,12 @@ angular.module('starter.campos-cuenta', ['ionic'])
 
     };
 
-    $scope.actualizarCampo = function () {
+    $scope.actualizar = function () {
         alertPopupOpcionesCampo.close();
         $state.go('nuevo_campo')
     };
 
-    $scope.deleteCampo = function() {
+    $scope.eliminar = function() {
 
         var query = "SELECT * FROM campo WHERE id = (?) AND cuenta = 0";
         $cordovaSQLite.execute(db, query,[$rootScope.idCampoAct]).then(function (res) {

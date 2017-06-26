@@ -18,34 +18,6 @@ angular.module('starter.inicio', ['ionic'])
             }
         };
 
-        $scope.consultaJuego = function() {
-
-            var myPopup = $ionicPopup.show({
-                template: '<input type="text" ng-model="data.clave" id="in-cla">',
-                title: 'Ingresar Clave del Partido.',
-                subTitle: 'Asegurate de poner la clave correcta.',
-                scope: $scope,
-                buttons: [
-                    { text: 'Cancelar' },
-                    {
-                        text: '<b>Verificar</b>',
-                        type: 'button-positive',
-                        onTap: function(e) {
-
-                            if ($scope.data.clave) {
-                                utils.showLoading();
-                                verificarClave(0)
-                            } else {
-                                document.getElementById("in-cla").style.backgroundColor = "#F5A9A9";
-                                e.preventDefault();
-                            }
-                        }
-                    }
-                ]
-            });
-
-        };
-
         $scope.verificarSesion = function () {
             if (sesionActual) {
                 logOut();
@@ -148,6 +120,46 @@ angular.module('starter.inicio', ['ionic'])
                 }, function (err) {
                     console.log(JSON.stringify(err))
                 });
+        }
+
+        $scope.consultaJuego = function() {
+            var query = "SELECT * FROM clave";
+            $cordovaSQLite.execute(db, query)
+                .then(function (res) {
+                    if(res.rows.length>0){
+                        $state.go('juego_consulta');
+                    }else{
+                        pedirClave();
+                    }
+                }, function (err) {
+                    console.log(JSON.stringify(err))
+                });
+        };
+
+        function pedirClave() {
+            var myPopup = $ionicPopup.show({
+                template: '<input type="text" ng-model="data.clave" id="in-cla">',
+                title: 'Ingresar Clave del Partido.',
+                subTitle: 'Asegurate de poner la clave correcta.',
+                scope: $scope,
+                buttons: [
+                    { text: 'Cancelar' },
+                    {
+                        text: '<b>Verificar</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+
+                            if ($scope.data.clave) {
+                                utils.showLoading();
+                                verificarClave(0)
+                            } else {
+                                document.getElementById("in-cla").style.backgroundColor = "#F5A9A9";
+                                e.preventDefault();
+                            }
+                        }
+                    }
+                ]
+            });
         }
 
         $ionicPlatform.ready(function () {

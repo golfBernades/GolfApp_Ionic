@@ -10,6 +10,13 @@
                 </button>
             </li>
             <li class="item">
+                <button class="button button-full button-balanced"
+                        ng-disabled="partidoSincronizado"
+                        name="btnFinalizar" ng-click="actualizarJuego()">
+                    Actualizar
+                </button>
+            </li>
+            <li class="item">
                 <button class="button button-full button-positive"
                         name="btnFinalizar" ng-click="finalizarPartido()">
                     Finalizar

@@ -5,6 +5,10 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
                                                 servicePantallas) {
         $scope.apuestas = [];
 
+        $scope.seleccionParejas = function () {
+            $state.go("seleccion_parejas");
+        }
+
         $scope.seleccionarJuego = function () {
             var selOneCampo = "SELECT id FROM apuesta WHERE seleccionada = 1";
             $cordovaSQLite.execute(db, selOneCampo).then(function (res) {
@@ -31,10 +35,19 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
             var selectApuestas = "SELECT seleccionada FROM apuesta WHERE id = ?";
             $cordovaSQLite.execute(db, selectApuestas, [apuesta.id]).then(function (res) {
 
+
                 if (res.rows.item(0).seleccionada == 0) {
                     $cordovaSQLite.execute(db, updateSeleccion, [1, apuesta.id]);
+
+                    if(apuesta.id == 3){
+                        $scope.iSfoursome = true;
+                    }
+
                 } else {
                     $cordovaSQLite.execute(db, updateSeleccion, [0, apuesta.id]);
+                    if(apuesta.id == 3){
+                        $scope.iSfoursome = false;
+                    }
                 }
 
             });
@@ -49,14 +62,23 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
                         if (result.rows.item(i).seleccionada == 0) {
 
                             $scope.apuestas.push(new Apuesta(result.rows.item(i).id, result.rows.item(i).nombre, false));
+                            if(result.rows.item(i).id == 3){
+                                $scope.iSfoursome = false;
+                            }
                         } else {
+
                             $scope.apuestas.push(new Apuesta(result.rows.item(i).id, result.rows.item(i).nombre, true));
+                            if(result.rows.item(i).id == 3){
+                                $scope.iSfoursome = true;
+                            }
                         }
+
                     }
                 } else {
                     var apuesta = "INSERT INTO apuesta (nombre, seleccionada) VALUES (?,?)";
                     $cordovaSQLite.execute(db, apuesta, ["Rayas", 0]);
                     $cordovaSQLite.execute(db, apuesta, ["Coneja", 0]);
+                    $cordovaSQLite.execute(db, apuesta, ["Foursome", 0]);
 
                     getApuestas();
                 }

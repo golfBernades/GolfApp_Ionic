@@ -7,10 +7,15 @@
             </button>
         </ion-nav-buttons>
         <ion-nav-title>Apuestas</ion-nav-title>
+        <ion-nav-buttons side="right">
+        <button ng-if="iSfoursome" class="button button-icon icon-right button-clear ion-chevron-right"
+                menu-toggle="right" ng-click="seleccionParejas()">
+        </button>
+        </ion-nav-buttons>
     </ion-nav-bar>
 
     <ion-content>
-        <div class="contenedor">
+        <div class="contenedor pad-top">
             <div class="lista-apuestas">
                 <table class="table table-striped table-text-vertical-centered"
                        style="overflow-y: scroll!important;">
@@ -39,7 +44,7 @@
                 </table>
             </div>
             <div>
-                <button
+                <button ng-if="!iSfoursome"
                         class="button button-balanced button-block
                         btn-full btn-fixed-bottom my-btn-red"
                         ng-click="seleccionarJuego()">

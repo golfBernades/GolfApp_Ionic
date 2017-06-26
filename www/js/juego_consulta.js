@@ -37,24 +37,11 @@ angular.module('starter.juego_consulta', ['ionic'])
             });
         });
 
-        $ionicPlatform.registerBackButtonAction(function(event) {
-            if (true) { // your check here
-                $ionicPopup.confirm({
-                    title: 'Salir de partido',
-                    template: 'Estas seguro de salir del partido?'
-                }).then(function(res) {
-                    if (res) {
-                        deleteClave();
-                    }
-                })
-            }
-        }, 500);
-
         $scope.seleccionarInicio = function () {
             $state.go('inicio');
         };
 
-        $scope.solicitarMarcador = function () {
+        $scope.actualizarJuego = function () {
             getMarcador();
         };
 
@@ -64,7 +51,7 @@ angular.module('starter.juego_consulta', ['ionic'])
 
         $scope.finalizarPartido = function() {
             deleteClave();
-        }
+        };
 
         function getMarcador() {
             utils.showLoading();
