@@ -76,6 +76,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             // compartirScoreboard();
 
                             fixRowsAndColumns();
+
                             setTimeout(function () {
                                 $ionicLoading.hide();
                                 if ($scope.partidoExistente.idServidor) {
@@ -137,7 +138,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                 $scope.rayasSeleccionada = true;
                                 $scope.tablero.rayasSeleccionada = true;
                             } else if (res.rows.item(i).nombre.toLowerCase()
-                                 == 'coneja') {
+                                == 'coneja') {
                                 $scope.conejaSeleccionada = true;
                                 $scope.tablero.conejaSeleccionada = true;
                             }
@@ -436,6 +437,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         {width: 100, align: 'center'},
                         {width: 100, align: 'center'},
                         {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
+                        {width: 100, align: 'center'},
                         {width: 100, align: 'center'}
                     ]
                 });
@@ -458,7 +461,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                 jugador_id: resJug.rows.item(i).id,
                                 golpes: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                     0, 0, 0, 0, 0],
-                                totales_golpes: [0, 0, 0],
+                                totales_golpes: [0, 0, 0, 0],
                                 circulos: [
                                     [nCirc, nCirc, nCirc, nCirc],
                                     [nCirc, nCirc, nCirc, nCirc],
@@ -725,6 +728,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     var golpesTotales1a9 = 0;
                     var golpesTotales10a18 = 0;
                     var golpesTotalesTotal = 0;
+                    var golpesMenosHandicap = 0;
 
                     for (var j = 0; j < 18; j++) {
                         if ($scope.rayasSeleccionada) {
@@ -780,11 +784,13 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         }
                     }
 
-                    golpesTotalesTotal = golpesTotales1a9 + golpesTotales10a18
+                    golpesTotalesTotal = golpesTotales1a9 + golpesTotales10a18;
+                    golpesMenosHandicap = golpesTotalesTotal
                         - $scope.tablero.datos_juego[i].handicap;
                     $scope.tablero.datos_juego[i].totales_golpes[0] = golpesTotales1a9;
                     $scope.tablero.datos_juego[i].totales_golpes[1] = golpesTotales10a18;
                     $scope.tablero.datos_juego[i].totales_golpes[2] = golpesTotalesTotal;
+                    $scope.tablero.datos_juego[i].totales_golpes[3] = golpesMenosHandicap;
                 }
             }
 
