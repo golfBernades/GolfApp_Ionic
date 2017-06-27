@@ -113,6 +113,8 @@ angular.module('starter.juego_consulta', ['ionic'])
                     {width: 100, align: 'center'},
                     {width: 100, align: 'center'},
                     {width: 100, align: 'center'},
+                    {width: 100, align: 'center'},
+                    {width: 100, align: 'center'},
                     {width: 100, align: 'center'}
                 ]
             });
