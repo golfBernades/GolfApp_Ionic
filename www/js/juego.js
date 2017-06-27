@@ -174,7 +174,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 console.log('GolfApp', 'agregarApuestaConeja');
 
                 $scope.partido.agregarApuesta('coneja',
-                    new ApuestaConeja($scope.partido));
+                    new ApuestaConeja($scope.partido, $q));
 
                 $.each($scope.tablero.datos_juego, function (index, dato) {
                     dato.apuestaConeja = {
