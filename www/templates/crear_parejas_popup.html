@@ -33,5 +33,12 @@
             </select>
         </label>
     </div>
+    <div class="list" ng-if="handicapIgualDos">
+        Preferencia Hanidcap:
+        <label class="item item-input item-select" style="padding-top: 25px;">
+            <select  ng-model="listaSeis.opcion" ng-options="opt as opt.nombre  for opt in listJN6" ng-change="selectedListaSeis()">
+            </select>
+        </label>
+    </div>
 
 </div>

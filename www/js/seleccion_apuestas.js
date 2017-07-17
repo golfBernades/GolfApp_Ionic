@@ -7,7 +7,7 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
 
         $scope.seleccionParejas = function () {
             $state.go("seleccion_parejas");
-        }
+        };
 
         $scope.seleccionarJuego = function () {
             var selOneCampo = "SELECT id FROM apuesta WHERE seleccionada = 1";

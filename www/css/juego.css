@@ -24,6 +24,15 @@
     font-weight: bold;
 }
 
+.golpes-turno-foursome{
+    height: 100%;
+    width: 50%;
+    float: left;
+    padding-top: 10%;
+    font-size: 30px;
+    font-weight: bold;
+}
+
 .apuesta-tablero-principal {
     /*border: solid 1px;*/
     /*box-sizing: border-box;*/
@@ -77,4 +86,14 @@ ion-popover-view.fit {
 
 ion-popover-view.fit ion-content {
     position: relative !important;
+}
+
+.row-foursome td{
+    height: 120px;
+    font-size: 20px;
+    line-height: 100%;
+}
+
+.row-foursome p{
+    margin: 0;
 }

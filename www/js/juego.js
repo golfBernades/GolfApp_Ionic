@@ -141,6 +141,9 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                 == 'coneja') {
                                 $scope.conejaSeleccionada = true;
                                 $scope.tablero.conejaSeleccionada = true;
+                            }else if (res.rows.item(i).nombre.toLowerCase()
+                                == 'foursome') {
+                                $scope.foursomeSeleccionada = true;
                             }
                         }
                         if ($scope.rayasSeleccionada) {
@@ -307,6 +310,11 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             }
 
             //------------------------------------------------------------------
+
+            $scope.selectForusome = function () {
+                opcionesPopover.hide();
+                $state.go('juego_foursome');
+            };
 
             $scope.showOpcionesPartido = function ($event) {
                 opcionesPopover.show($event);

@@ -15,7 +15,7 @@ var sesionActual = false;
 angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
     'starter.campos-dispositivo', 'starter.juego', 'starter.nuevo-campo',
     'starter.seleccion-apuestas', 'starter.inicio', 'starter.login', 'starter.registro',
-    'starter.campos-cuenta', 'starter.juego_consulta','starter.seleccion-parejas'])
+    'starter.campos-cuenta', 'starter.juego_consulta','starter.seleccion-parejas','starter.juego-foursome'])
 
     .run(function ($ionicPlatform, $cordovaSQLite, $state) {
         $ionicPlatform.ready(function () {
@@ -34,7 +34,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             }
 
             db = $cordovaSQLite.openDB({
-                name: "gosaoa80aaaauasaqopspp9.db",
+                name: "gosaoa80aaaauoasaqopspp9.db",
                 iosDatabaseLocation: 'default'
             });
 
@@ -167,7 +167,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 ",j_3_nombre text NOT NULL" +
                 ",j_4_id integer NOT NULL" +
                 ",j_4_nombre text NOT NULL" +
-                ",ventaja integer NOT NULL" +
+                ",ventaja_p_1 integer NOT NULL" +
+                ",ventaja_p_2 integer NOT NULL" +
                 ",usuario_id integer NOT NULL" +
                 ",FOREIGN KEY (usuario_id) REFERENCES usuario (id))";
 
@@ -349,20 +350,11 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 controller: 'parejasController'
             })
 
-            .state('tabsAp', {
-                url: "/tabAp",
-                abstract: true,
-                templateUrl: "templates/tabApuestas.html"
-            })
-
-            .state('tabsAp.apue-raya', {
-                url: '/apue-raya',
-                views: {
-                    'apue-raya': {
-                        templateUrl: 'templates/juego.html',
-                        controller: 'juegoController'
-                    }
-                }
+            .state('juego_foursome', {
+                cache: false,
+                url: '/juego_foursome',
+                templateUrl: 'templates/juego_foursome.html',
+                controller: 'juegoFoursomeController'
             });
 
         $urlRouterProvider.otherwise('/inicio')

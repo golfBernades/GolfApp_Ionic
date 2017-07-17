@@ -9,6 +9,12 @@
                     <strong>Clave: </strong> {{partidoExistente.claveConsulta}}
                 </button>
             </li>
+            <li class="item" ng-if="foursomeSeleccionada">
+                <button class="button button-full button-positive"
+                        ng-disabled="partidoSincronizado" ng-click="selectForusome()">
+                    Foursome
+                </button>
+            </li>
             <li class="item">
                 <button class="button button-full button-balanced"
                         ng-disabled="partidoSincronizado"
@@ -17,7 +23,7 @@
                 </button>
             </li>
             <li class="item">
-                <button class="button button-full button-positive"
+                <button class="button button-full button-assertive"
                         name="btnFinalizar" ng-click="finalizarPartido()">
                     Finalizar
                 </button>

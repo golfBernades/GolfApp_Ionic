@@ -14,8 +14,10 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         $scope.listJN3 = [];
         $scope.listJN4 = [];
         $scope.listJN5 = [];
+        $scope.listJN6 = [];
 
         $scope.handicapIgual = false;
+        $scope.handicapIgualDos = false;
         $scope.dosJugadores = true;
 
         $scope.listaUno ={
@@ -33,6 +35,9 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         $scope.listaCinco ={
             opcion:""
         };
+        $scope.listaSeis ={
+            opcion:""
+        };
 
         $scope.parejas = [];
 
@@ -41,6 +46,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         var j_3;
         var j_4;
         var j_5;
+        var j_6
 
         var alertPopupOpcionesCampo;
         var index;
@@ -50,7 +56,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         $scope.comenzarJuego = function () {
 
             if($scope.parejas.length){
-                $state.go('tabsAp.apue-raya');
+                $state.go('juego');
             }else{
                 utils.popup("Crear Parejas","Para poder avanzar debes haber creado las parejas a competir.")
             }
@@ -92,37 +98,53 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         function parejasDobles(e) {
             if((j_1!=null)&&(j_2!=null)&&(j_3!=null)&&(j_4!=null)){
 
-                var  ventaja=0;
+                var  ventaja={
+                    j_1:0,
+                    j_2:0
+                }
 
-                if(j_1.handicap == j_2.handicap){
+                if($scope.handicapIgual){
                     if(j_5==null){
-                        utils.popup("Seleccionar Jugador","Seleccionar jugador con preferencia en Handicap para la pareja 1.")
+                        utils.popup("Seleccionar Jugador", "Seleccionar jugador con preferencia en Handicap para la pareja 1.")
                         e.preventDefault();
                         return;
                     }else{
-                        ventaja = j_5.id;
+                        ventaja.j_1 = handicapMayor(j_1, j_2, 1);
                     }
-                }else if(j_1.handicap>j_2.handicap){
-                    ventaja = j_1.id;
                 }else{
-                    ventaja = j_2.id;
+                    ventaja.j_1 = handicapMayor(j_1, j_2, 1);
                 }
 
-                var query = "INSERT INTO foursome (j_1_id, j_1_nombre, j_2_id, j_2_nombre, j_3_id, j_3_nombre, j_4_id, j_4_nombre, ventaja, usuario_id) VALUES (?,?,?,?,?,?,?,?,?,?)";
-                $cordovaSQLite.execute(db, query, [j_1.id, j_1.nombre + " ("+j_1.handicap+")", j_2.id, j_2.nombre + " ("+j_2.handicap+")", j_3.id, j_3.nombre + " ("+j_3.handicap+")", j_4.id, j_4.nombre + " ("+j_4.handicap+")", ventaja, id_user_app])
+                if($scope.handicapIgualDos){
+                    if(j_6==null){
+                        utils.popup("Seleccionar Jugador", "Seleccionar jugador con preferencia en Handicap para la pareja 2.")
+                        e.preventDefault();
+                        return;
+                    }else{
+                        ventaja.j_2 = handicapMayor(j_3, j_4, 2);
+                    }
+                }else{
+                    ventaja.j_2 = handicapMayor(j_3, j_4, 2);
+                }
+
+
+
+                var query = "INSERT INTO foursome (j_1_id, j_1_nombre, j_2_id, j_2_nombre, j_3_id, j_3_nombre, j_4_id, j_4_nombre, ventaja_p_1, ventaja_p_2, usuario_id) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                $cordovaSQLite.execute(db, query, [j_1.id, j_1.nombre + " ("+j_1.handicap+")", j_2.id, j_2.nombre + " ("+j_2.handicap+")", j_3.id, j_3.nombre + " ("+j_3.handicap+")", j_4.id, j_4.nombre + " ("+j_4.handicap+")", ventaja.j_1, ventaja.j_1, id_user_app])
                     .then(function (res) {
 
                         $scope.parejas.push({
                             id: res.insertId,
                             j_1_id: j_1.id,
                             j_1_nombre: j_1.nombre + " ("+j_1.handicap+")",
-                            j_2_id: j_1.id,
-                            j_2_nombre: j_2.nombre + " ("+j_3.handicap+")",
-                            j_3_id: j_1.id,
-                            j_3_nombre: j_3.nombre + " ("+j_4.handicap+")",
-                            j_4_id: j_1.id,
-                            j_4_nombre: j_4.nombre + " ("+j_3.handicap+")",
-                            ventaja: ventaja,
+                            j_2_id: j_2.id,
+                            j_2_nombre: j_2.nombre + " ("+j_2.handicap+")",
+                            j_3_id: j_3.id,
+                            j_3_nombre: j_3.nombre + " ("+j_3.handicap+")",
+                            j_4_id: j_4.id,
+                            j_4_nombre: j_4.nombre + " ("+j_4.handicap+")",
+                            ventaja_p_1: ventaja.j_1,
+                            ventaja_p_2: ventaja.j_2,
                             jugador_id: id_user_app
                         })
 
@@ -134,6 +156,21 @@ angular.module('starter.seleccion-parejas', ['ionic'])
             }else{
                 utils.popup("Seleccionar Jugadores","Seleccionar jugadores de las dos parejas para poder avanzar.")
                 e.preventDefault();
+            }
+        }
+
+        function handicapMayor(jug_1, jug_2, par) {
+
+            if(jug_1.handicap>jug_2.handicap){
+                return jug_1.id;
+            }else if (jug_1.handicap<jug_2.handicap){
+                return jug_2.id;
+            }else{
+                if(par == 1){
+                    return j_5.id;
+                }else{
+                    return j_6.id;
+                }
             }
         }
 
@@ -255,12 +292,24 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         };
 
         $scope.selectedListaTres = function(){
+
             j_3 = $scope.listaTres.opcion;
             $scope.listJN4 = [];
 
             for(var i=0; i<jugadoresList.length; i++){
                 if($scope.listaTres.opcion.id != jugadoresList[i].id){
                     $scope.listJN4.push(jugadoresList[i]);
+                }
+            }
+
+            if(j_4 != null){
+                if(j_3.handicap == j_4.handicap){
+                    $scope.listJN6.push(j_3);
+                    $scope.listJN6.push(j_4);
+                    $scope.handicapIgualDos = true;
+                }else{
+                    $scope.listJN6 = [];
+                    $scope.handicapIgualDos = false;
                 }
             }
 
@@ -276,32 +325,35 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         };
 
         $scope.selectedListaCuatro = function(){
+
             j_4 = $scope.listaCuatro.opcion;
             $scope.listJN3 = [];
 
-            if(j_3 != null && j_2 !=null && j_1!=null ){
-
-                for(var i=0; i<jugadoresList.length; i++){
-                    if($scope.listaCuatro.opcion.id != jugadoresList[i].id){
-                        $scope.listJN3.push(jugadoresList[i]);
-                    }
+            for(var i=0; i<jugadoresList.length; i++){
+                if(j_4.id != jugadoresList[i].id){
+                    $scope.listJN3.push(jugadoresList[i]);
                 }
+            }
 
-            }else{
-
-                for(var i=0; i<jugadoresList.length; i++){
-                    if($scope.listaCuatro.opcion.id != jugadoresList[i].id){
-                        $scope.listJN3.push(jugadoresList[i]);
-                    }
+            if(j_3 != null){
+                if(j_3.handicap == j_4.handicap){
+                    $scope.listJN6.push(j_3);
+                    $scope.listJN6.push(j_4);
+                    $scope.handicapIgualDos = true;
+                }else{
+                    $scope.listJN6 = [];
+                    $scope.handicapIgualDos = false;
                 }
-
-
             }
         };
 
         $scope.selectedListaCinco = function(){
             j_5 = $scope.listaCinco.opcion;
         };
+
+        $scope.selectedListaSeis = function () {
+            j_6 = $scope.listaSeis.opcion;
+        }
 
         $scope.eliminar = function () {
 
