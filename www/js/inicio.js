@@ -55,12 +55,13 @@ angular.module('starter.inicio', ['ionic'])
                             verificarClave(intento + 1);
                         } else {
                             $ionicLoading.hide();
-
-                            utils.popup('Error de conexion', 'Error de Conexión. Volver a intentar más tarde.');
+                            utils.popup("Error de Conexión", "Volver a" +
+                                " intentar más tarde");
                         }
                     }else{
                         $ionicLoading.hide();
-                        utils.popup('Error de Parámetros', 'Error de Parámetros incorrectos. Volver a intentar más tarde.');
+                        utils.popup("Error de Parámetros", "Revisar los" +
+                            " parámetros de la petición HTTP");
                     }
                 });
         }
@@ -68,7 +69,7 @@ angular.module('starter.inicio', ['ionic'])
         function confirmSesion() {
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Iniciar Sesión',
-                template: 'Para poder avanzar deves iniciar sesión',
+                template: 'Para poder avanzar debes iniciar sesión',
                 okText: 'Iniciar Sesión',
                 cancelText: 'Cancelar'
             });

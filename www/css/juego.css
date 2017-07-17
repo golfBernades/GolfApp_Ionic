@@ -25,32 +25,16 @@
 }
 
 .golpes-turno-foursome{
-    height: 100%;
-    width: 50%;
-    float: left;
-    padding-top: 10%;
-    font-size: 30px;
+    font-size: 20px;
     font-weight: bold;
 }
 
 .apuesta-tablero-principal {
-    /*border: solid 1px;*/
-    /*box-sizing: border-box;*/
     height: 50% !important;
     line-height: 180%;
     width: 50%;
     float: right;
 }
-
-/*.unidades-turno {*/
-
-/*}*/
-
-/*.rayas-turno {*/
-/*height: 50%;*/
-/*width: 50%;*/
-/*float: right;*/
-/*}*/
 
 .div-circular {
     border: 1px solid black;
@@ -96,4 +80,9 @@ ion-popover-view.fit ion-content {
 
 .row-foursome p{
     margin: 0;
+}
+
+.div-table-scoreboard {
+    overflow: scroll;
+    height: 100%;
 }

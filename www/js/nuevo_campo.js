@@ -74,7 +74,8 @@ angular.module('starter.nuevo-campo', ['ionic'])
 
             if (!ok) {
 
-                utils.popup("Datos incompletos!","No puedes dejar campos vacios.")
+                utils.popup("Datos incompletos", "No puedes dejar datos" +
+                    " vacíos.")
 
             } else {
 
@@ -112,7 +113,8 @@ angular.module('starter.nuevo-campo', ['ionic'])
 
                 } else {
                     document.getElementById("nombreCampoNuevo").style.backgroundColor = "#F5A9A9";
-                    utils.popup("Campo Repetido!", "Nombre de campo repetido. Escribir otro nombre.");
+                    utils.popup("Campo repetido", "Nombre de campo repetido." +
+                        " Escribir otro nombre.");
                     par = [];
                     ventaja = [];
                 }
@@ -325,11 +327,13 @@ angular.module('starter.nuevo-campo', ['ionic'])
                             updateCampoServer(intento + 1, nombreCampo);
                         } else {
                             $ionicLoading.hide();
-                            utils.popup('Error de Conexión', 'Error de Conexión. Volver a intentar más tarde.');
+                            utils.popup("Error de Conexión", "Volver a" +
+                                " intentar más tarde");
                         }
                     } else {
                         $ionicLoading.hide();
-                        utils.popup('Error de Parámetros', 'Error de Parámetros Incorrectos. Volver a intentar más tarde.');
+                        utils.popup("Error de Parámetros", "Revisar los" +
+                            " parámetros de la petición HTTP");
                     }
                 });
         }

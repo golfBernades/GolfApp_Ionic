@@ -14,8 +14,9 @@ var sesionActual = false;
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
     'starter.campos-dispositivo', 'starter.juego', 'starter.nuevo-campo',
-    'starter.seleccion-apuestas', 'starter.inicio', 'starter.login', 'starter.registro',
-    'starter.campos-cuenta', 'starter.juego_consulta','starter.seleccion-parejas','starter.juego-foursome'])
+    'starter.seleccion-apuestas', 'starter.inicio', 'starter.login',
+    'starter.registro', 'starter.campos-cuenta', 'starter.juego_consulta',
+    'starter.seleccion-parejas','starter.juego-foursome'])
 
     .run(function ($ionicPlatform, $cordovaSQLite, $state) {
         $ionicPlatform.ready(function () {

@@ -1,11 +1,10 @@
-/**
- * Created by Victor Hugo on 22/03/2017.
- */
 angular.module('starter.seleccion-jugadores', ['ionic'])
 
-    .controller('jugadoresController', function ($scope, $ionicPopup, $cordovaSQLite,
-                                                 $state, $ionicPlatform, $ionicLoading,
-                                                 $rootScope, servicePantallas, utils) {
+    .controller('jugadoresController', function ($scope, $ionicPopup,
+                                                 $cordovaSQLite, $state,
+                                                 $ionicPlatform, $ionicLoading,
+                                                 $rootScope, servicePantallas,
+                                                 utils) {
         $scope.jugadores = [];
 
         var modificar = false;
@@ -26,12 +25,12 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                         }
                         if (control) {
 
-                            if(modificar){
+                            if (modificar) {
                                 var del_four = "DELETE FROM foursome WHERE usuario_id = (?)";
-                                $cordovaSQLite.execute(db, del_four,[id_user_app]);
+                                $cordovaSQLite.execute(db, del_four, [id_user_app]);
 
                                 var del_four_two = "DELETE FROM foursomeTwo WHERE usuario_id = (?)";
-                                $cordovaSQLite.execute(db, del_four_two,[id_user_app]);
+                                $cordovaSQLite.execute(db, del_four_two, [id_user_app]);
                             }
 
                             switch ($rootScope.campos) {
@@ -47,10 +46,15 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                             }
 
                         } else {
-                            utils.popup("Jugadores no seleccionados!", "Seleccionar jugadores para poder avanzar a la siguiente página.")
+                            utils.popup("Selección de jugadores",
+                                "Debes seleccionar los jugadores que" +
+                                " participarán en el partido para poder" +
+                                " avanzar");
                         }
                     } else {
-                        utils.popup("Jugadores no creados!", "No se tiene ningun jugador creado para poder avanzar a la siguiente página.")
+                        utils.popup("Creación de jugadores", "Debes crear" +
+                            " los jugadores que participarán en el partido" +
+                            " para poder avanzar");
                     }
                 }, function (err) {
                     console.log(JSON.stringify(err))
@@ -135,7 +139,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                                                 nombre: nombre,
                                                 handicap: handicap,
                                                 jugar: false
-                                            })
+                                            });
 
                                             modificar = true;
                                         }, function (err) {
@@ -212,15 +216,17 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                                     var query = "UPDATE jugador SET nombre = ?, handicap = ? WHERE id = ?";
                                     $cordovaSQLite.execute(db, query, [nomb, handi, $scope.jugadores[index].id])
                                         .then(function (res) {
-                                        $scope.jugadores[index].nombre = nomb;
-                                        $scope.jugadores[index].handicap = handi;
+                                            $scope.jugadores[index].nombre = nomb;
+                                            $scope.jugadores[index].handicap = handi;
 
-                                        modificar = true;
-                                    });
+                                            modificar = true;
+                                        });
                                 } else {
                                     var title = "Jugadores repetido!";
-                                    var template = "Nombre de jugador repetido. Escribir otro nombre.";
-                                    utils.popup(title, template)
+                                    var template = "El nombre del jugador ya" +
+                                        " se está usando, por favor escribir" +
+                                        " otro.";
+                                    utils.popup(title, template);
                                     e.preventDefault();
                                 }
 
@@ -244,9 +250,12 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         function getApuesta() {
 
             var query = "SELECT * FROM apuesta WHERE nombre = (?) AND seleccionada = 1";
-            $cordovaSQLite.execute(db, query,["Foursome"]).then(function (result) {
+            $cordovaSQLite.execute(db, query, ["Foursome"]).then(function (result) {
                 if (result.rows.length > 0) {
-                    utils.popup("Apuestas Foursome","Se esta llevando acabo la apuesta Foursome, si se realiza una modificación se perderan los datos de la apuesta.")
+                    utils.popup("Apuesta Foursome",
+                        "Se está llevando a cabo la apuesta 'Foursome', si" +
+                        " se realiza alguna modificación en los jugadores" +
+                        " los datos de esta apuesta se perderán");
                 }
             }, function (err) {
                 console.error(err);
@@ -261,7 +270,8 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                 if (res.rows.length > 0) {
 
                     for (var i = 0; i < res.rows.length; i++) {
-                        console.log(res.rows.item(i).id + " " + res.rows.item(i).jugar)
+                        console.log(res.rows.item(i).id + " "
+                            + res.rows.item(i).jugar);
 
                         if (res.rows.item(i).jugar == 1) {
                             $scope.jugadores.push({

@@ -15,7 +15,7 @@
 
     <ion-content>
         <div class="contenedor pad-top">
-            <div class="tab-jug div-table-scoreboard">
+            <div class="div-table-scoreboard">
                 <table id="fixed_table">
                     <thead>
                     <tr>
@@ -66,40 +66,28 @@
                             {{puntuacion.handicap}}
                         </td>
 
-                        <td ng-repeat="hoyo in hoyos1a9" >
-                            <div class="btn-celda-juego"
-                                    ng-click="addElement()">
-                                <div class="div-boton-juego">
-                                    <div class="golpes-turno-foursome">
-                                        {{puntuacion.golpes[hoyo- 1]}}
-                                    </div>
-                                    <div class="apuesta-tablero-principal"
-                                         ng-if="tablero.conejaSeleccionada"
-                                         style="color: blue">
-                                        {{puntuacion.apuestaConeja.status[hoyo - 1]}}
-                                    </div>
-                                    <div class="apuesta-tablero-principal"
-                                         ng-if="!tablero.conejaSeleccionada">-</div>
-                                </div>
-                            </div>
+                        <td ng-repeat="hoyo in hoyos1a9"
+                            class="vertical-centered-cell golpes-turno-foursome">
+                            {{puntuacion.golpes[hoyo - 1]}}
+                            <!--<div class="btn-celda-juego">-->
+                            <!--<div class="div-boton-juego">-->
+                            <!--<div class="golpes-turno-foursome">-->
+                            <!---->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--</div>-->
                         </td>
 
-                        <td ng-repeat="hoyo in hoyos10a18">
-                            <div class="btn-celda-juego"
-                                    ng-click="addElement()">
-                                <div class="div-boton-juego">
-                                    <div class="golpes-turno-foursome">
-                                        {{puntuacion.golpes[hoyo- 1]}}
-                                    </div>
-                                    <div class="apuesta-tablero-principal"
-                                         ng-if="tablero.conejaSeleccionada"
-                                         style="color: blue">
-                                        {{puntuacion.apuestaConeja.status[hoyo - 1]}}
-                                    </div>
-                                    <div class="apuesta-tablero-principal"
-                                         ng-if="!tablero.conejaSeleccionada">-</div>
-                                </div>
-                            </div>
+                        <td ng-repeat="hoyo in hoyos10a18"
+                            class="vertical-centered-cell golpes-turno-foursome">
+                            {{puntuacion.golpes[hoyo - 1]}}
+                            <!--ng-click="addElement()">-->
+                            <!--<div class="div-boton-juego">-->
+                            <!--<div class="golpes-turno-foursome">-->
+                            <!--{{puntuacion.golpes[hoyo- 1]}}-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--</div>-->
                         </td>
 
                     </tr>

@@ -45,12 +45,14 @@ angular.module('starter.campos-dispositivo', ['ionic'])
                         if (res.rows.length > 0) {
                             $state.go('seleccion_apuestas');
                         } else {
-                            popup('Campo no seleccionado!','Para avanzar debes seleccionar un campo.')
+                            utils.popup('Selección de campo',
+                                'Debes seleccionar un campo para poder avanzar');
                         }
                     })
 
                 } else {
-                    popup('Campo no seleccionado!','Para avanzar debes crear y seleccionar un campo. ')
+                    utils.popup('Selección de campo',
+                        'Debes crear y seleccionar un campo para poder avanzar');
                 }
             });
         };
@@ -134,11 +136,12 @@ angular.module('starter.campos-dispositivo', ['ionic'])
                         .then(function (res) {
                             $scope.campos.splice($scope.index, 1);
                             $ionicLoading.hide();
-                            utils.popup('Campo Borrado', 'Campo Borrdado Correctamente del Dispositivo.');
-
+                            utils.popup("Campo Eliminado", "El campo se eliminó" +
+                                " correctamente");
                         }, function (err) {
                             $ionicLoading.hide();
-                            utils.popup('Campo No Borrado', 'Campo No Borrado. Intentarlo más tarde.');
+                            utils.popup("Campo no Eliminado", "Error al eliminar" +
+                                " el campo");
                         });
 
                 }
@@ -222,7 +225,8 @@ angular.module('starter.campos-dispositivo', ['ionic'])
                         responseGetCampo = true
                     }else{
                         $ionicLoading.hide();
-                        utils.popup('Error de Campo', 'Error al obtener el campo. Volver a intentar más tarde.');
+                        utils.popup('Error de Campo', 'Error al obtener el' +
+                            ' campo. Volver a intentar más tarde.');
                     }
                 });
 
@@ -253,12 +257,14 @@ angular.module('starter.campos-dispositivo', ['ionic'])
                             countCampoServer(intento + 1);
                         } else {
                             $ionicLoading.hide();
-                            utils.popup('Error de Conexión', 'Error de Conexión. Volver a intentar más tarde.');
+                            utils.popup("Error de Conexión", "Volver a" +
+                                " intentar más tarde");
                             responseCountCampos = false;
                         }
                     }else{
                         $ionicLoading.hide();
-                        utils.popup('Error de Parámetros', 'Error de Parámetros. Volver a intentar más tarde.');
+                        utils.popup("Error de Parámetros", "Revisar los" +
+                            " parámetros de la petición HTTP");
                         responseCountCampos = false
                     }
                 });
@@ -285,10 +291,12 @@ angular.module('starter.campos-dispositivo', ['ionic'])
                         actualizarCampo(response.data.campo_id,1);
                         $scope.campos.splice($scope.index, 1);
 
-                        utils.popup('Campo Guardado', 'Campo Guardado Correctamente en la cuenta.');
+                        utils.popup('Campo Guardado', 'El campo se guardó' +
+                            ' correctamente en la cuenta');
 
                     } else {
-                        utils.popup('Error del Campo', 'Error al Guardar el Campo. Volver a intentar más tarde.');
+                        utils.popup('Error del Campo', 'No se pudo guardar' +
+                            ' el campo, volver a intentar más tarde');
                     }
                 }, function errorCallback(response) {
 
@@ -297,11 +305,13 @@ angular.module('starter.campos-dispositivo', ['ionic'])
                             insertCampoServer(intento + 1);
                         } else {
                             $ionicLoading.hide();
-                            utils.popup('Error de Conexión', 'Error de Conexión. Volver a intentar más tarde.');
+                            utils.popup("Error de Conexión", "Volver a" +
+                                " intentar más tarde");
                         }
                     }else{
                         $ionicLoading.hide();
-                        utils.popup('Error de Parámetros', 'Error de Pármetros incorrectos. Volver a intentar más tarde.');
+                        utils.popup("Error de Parámetros", "Revisar los" +
+                            " parámetros de la petición HTTP");
                     }
                 });
         }

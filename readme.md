@@ -19,6 +19,10 @@ path, o bien, especificar la ruta de la variable en cada ejecución de comandos
 
 > Ejecutar el comando ```npm rebuild node-sass```
 
+#### Error: spawn EACCES
+
+> Ejecutar el comando ```sudo chmod -R 777 my_project_folder```
+
 ## Plugins a instalar
 
 > ```ionic plugin add https://github.com/apache/cordova-plugin-whitelist.git```
