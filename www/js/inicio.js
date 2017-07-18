@@ -79,11 +79,11 @@ angular.module('starter.inicio', ['ionic'])
                     logIn()
                 }
             });
-        };
+        }
 
         function logIn() {
             $state.go('login');
-        };
+        }
 
         function logOut() {
             var confirmPopup = $ionicPopup.confirm({
@@ -93,12 +93,12 @@ angular.module('starter.inicio', ['ionic'])
 
             confirmPopup.then(function (res) {
                 if (res) {
-                    deleteUser()
+                    deleteUser();
                     sesionActual = false;
                     $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
                 }
             });
-        };
+        }
 
         function deleteUser() {
             var query = 'DELETE FROM usuario';

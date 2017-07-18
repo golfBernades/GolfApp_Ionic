@@ -146,11 +146,17 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                 $scope.foursomeSeleccionada = true;
                             }
                         }
+
                         if ($scope.rayasSeleccionada) {
                             modulePromises.push(agregarApuestaRayas());
                         }
+
                         if ($scope.conejaSeleccionada) {
                             modulePromises.push(agregarApuestaConeja());
+                        }
+
+                        if($scope.foursomeSeleccionada) {
+                            modulePromises.push(agregarApuestaFoursome());
                         }
                     });
 
@@ -178,7 +184,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 console.log('GolfApp', 'agregarApuestaConeja');
 
                 $scope.partido.agregarApuesta('coneja',
-                    new ApuestaConeja($scope.partido, $q));
+                    new ApuestaConeja($scope.partido));
 
                 $.each($scope.tablero.datos_juego, function (index, dato) {
                     dato.apuestaConeja = {
@@ -186,6 +192,24 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             '.', '.', '.', '.', '.', '.', '.']
                     };
                 });
+            }
+
+            function agregarApuestaFoursome() {
+                console.log('GolfApp', 'agregarApuestaFoursome');
+
+                $scope.partido.agregarApuesta('foursome',
+                    new ApuestaFoursome($scope.partido));
+
+                var query = "INSERT INTO foursome (j_1_id, j_1_nombre, "
+                    + "j_2_id, j_2_nombre, j_3_id, j_3_nombre, j_4_id, "
+                    + "j_4_nombre, ventaja_p_1, ventaja_p_2, usuario_id) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            }
+
+            var queryResult;
+
+            function selectSqlQuery(db, query) {
+
             }
 
             function sincronizarPartidos() {

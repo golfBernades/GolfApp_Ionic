@@ -16,7 +16,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
     'starter.campos-dispositivo', 'starter.juego', 'starter.nuevo-campo',
     'starter.seleccion-apuestas', 'starter.inicio', 'starter.login',
     'starter.registro', 'starter.campos-cuenta', 'starter.juego_consulta',
-    'starter.seleccion-parejas','starter.juego-foursome'])
+    'starter.seleccion-parejas', 'starter.juego-foursome'])
 
     .run(function ($ionicPlatform, $cordovaSQLite, $state) {
         $ionicPlatform.ready(function () {
@@ -35,7 +35,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             }
 
             db = $cordovaSQLite.openDB({
-                name: "gosaoa80aaaauoasaqopspp9.db",
+                name: "golfapp.db",
                 iosDatabaseLocation: 'default'
             });
 
@@ -137,16 +137,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
 
             $cordovaSQLite.execute(db, partido);
 
-            // var apuesta_partido = "CREATE TABLE IF NOT EXISTS apuesta_partido (" +
-            //     "id integer NOT NULL PRIMARY KEY AUTOINCREMENT" +
-            //     ",partido_id integer NOT NULL" +
-            //     ",apuesta_id integer NOT NULL" +
-            //     ",CONSTRAINT unique_id_apue UNIQUE (partido_id, apuesta_id)" +
-            //     ",FOREIGN KEY (apuesta_id) REFERENCES apuesta (id)" +
-            //     ",FOREIGN KEY (partido_id) REFERENCES partido (id))";
-            //
-            // $cordovaSQLite.execute(db, apuesta_partido);
-
             var puntuacion = "CREATE TABLE IF NOT EXISTS puntuaciones (" +
                 "id integer NOT NULL PRIMARY KEY AUTOINCREMENT" +
                 ",hoyo integer NOT NULL" +
@@ -157,47 +147,22 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
 
             $cordovaSQLite.execute(db, puntuacion);
 
-
-            var foursome = "CREATE TABLE IF NOT EXISTS foursome (" +
-                "id integer NOT NULL PRIMARY KEY AUTOINCREMENT" +
-                ",j_1_id integer NOT NULL" +
-                ",j_1_nombre text NOT NULL" +
-                ",j_2_id integer NOT NULL" +
-                ",j_2_nombre text NOT NULL" +
-                ",j_3_id integer NOT NULL" +
-                ",j_3_nombre text NOT NULL" +
-                ",j_4_id integer NOT NULL" +
-                ",j_4_nombre text NOT NULL" +
-                ",ventaja_p_1 integer NOT NULL" +
-                ",ventaja_p_2 integer NOT NULL" +
-                ",usuario_id integer NOT NULL" +
-                ",FOREIGN KEY (usuario_id) REFERENCES usuario (id))";
+            var foursome = 'CREATE TABLE IF NOT EXISTS foursome ('
+                + 'id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,'
+                + 'modalidad TEXT NOT NULL,'
+                + 'p1_j1_id INTEGER NULL,'
+                + 'p1_j1_nombre TEXT NOT NULL,'
+                + 'p1_j2_id INTEGER NULL,'
+                + 'p1_j2_nombre TEXT NOT NULL,'
+                + 'p1_ventaja_j_id INTEGER NULL,'
+                + 'p2_j1_id INTEGER NULL,'
+                + 'p2_j1_nombre TEXT NOT NULL,'
+                + 'p2_j2_id INTEGER NULL,'
+                + 'p2_j2_nombre TEXT NOT NULL,'
+                + 'p2_ventaja_j_id INTEGER NULL'
+                + ')';
 
             $cordovaSQLite.execute(db, foursome);
-
-
-            var foursomeTwo = "CREATE TABLE IF NOT EXISTS foursomeTwo (" +
-                "id integer NOT NULL PRIMARY KEY AUTOINCREMENT" +
-                ",j_1_id integer NOT NULL" +
-                ",j_1_nombre text NOT NULL" +
-                ",j_2_id integer NOT NULL" +
-                ",j_2_nombre text NOT NULL" +
-                ",usuario_id integer NOT NULL" +
-                ",FOREIGN KEY (usuario_id) REFERENCES usuario (id))";
-
-            $cordovaSQLite.execute(db, foursomeTwo);
-
-
-            var foursomeConf = "CREATE TABLE IF NOT EXISTS configFoursome (" +
-                "id integer NOT NULL PRIMARY KEY AUTOINCREMENT" +
-                ",mudo_nombre text NOT NULL" +
-                ",mudo_handicap integer NOT NULL" +
-                ",modalidad text NOT NULL" +
-                ",golpes integer NOT NULL" +
-                ",usuario_id integer NOT NULL" +
-                ",FOREIGN KEY (usuario_id) REFERENCES usuario (id))";
-
-            $cordovaSQLite.execute(db, foursomeConf);
 
             var idx_partido_partido_jugador_id_fk = "CREATE INDEX " +
                 "IF NOT EXISTS idx_partido_partido_jugador_id_fk " +
@@ -253,12 +218,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             isUser();
         });
 
-        $ionicPlatform.registerBackButtonAction(function(event) {
+        $ionicPlatform.registerBackButtonAction(function (event) {
 
         }, 500);
     })
 
-    .config(function ($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 
         $stateProvider
 
@@ -434,14 +399,14 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
 
     .service('utils', function ($ionicPopup, $ionicLoading) {
 
-        this.popup = function(title, template) {
+        this.popup = function (title, template) {
             var alertPopup = $ionicPopup.alert({
                 title: title,
                 template: template
             });
         };
 
-        this.showLoading = function() {
+        this.showLoading = function () {
             $ionicLoading.show({
                 template: '<ion-spinner></ion-spinner>' +
                 '<p>Cargando</p>',
@@ -450,4 +415,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 // console.log("The loading indicator is now displayed");
             });
         };
+
+        this.hideLoading = function () {
+            $ionicLoading.hide();
+        }
     });
