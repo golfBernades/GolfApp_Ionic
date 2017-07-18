@@ -474,7 +474,8 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                         j_3_nombre: res.rows.item(i).j_3_nombre,
                         j_4_id: res.rows.item(i).j_4_id,
                         j_4_nombre: res.rows.item(i).j_4_nombre,
-                        ventaja: res.rows.item(i).ventaja,
+                        ventaja_p_1: res.rows.item(i).ventaja_p_1,
+                        ventaja_p_2: res.rows.item(i).ventaja_p_2,
                         jugador_id: id_user_app
                     });
 
