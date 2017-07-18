@@ -1,0 +1,8 @@
+.popover_size {
+    width: 75%;
+    height: 40%;
+}
+
+#elemento:hover{
+    background-color: rgba(133, 133, 133, 0.49);
+}

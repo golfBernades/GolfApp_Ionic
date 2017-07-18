@@ -121,6 +121,10 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
 
                             if (nombre && (x != '')) {
 
+                                if(nombre.toLowerCase() == 'mudo'){
+                                    utils.popup("Jugador Reservado","No se puede asignar un jugador con el nombre Mudo")
+                                    return;
+                                }
                                 var control = true;
 
                                 for (var i = 0; i < $scope.jugadores.length; i++) {

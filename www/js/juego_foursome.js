@@ -19,6 +19,8 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
             $scope.tablero = {};
             $scope.campo = {};
             $scope.partido = {};
+            $scope.parejasDobles = [];
+            $scope.parejasIndividual = [];
 
             var opcionesPopover;
             var sCirc = 'div-circular';
@@ -55,43 +57,21 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
             }
 
             function loadJugadores() {
-                var queryJugadores = "SELECT * FROM jugador WHERE jugar = 1 ORDER BY handicap, nombre ASC";
+                var queryJugadores = "SELECT * FROM jugadores WHERE usuario_id = (?)";
 
                 var selectJugadoresPromise = $cordovaSQLite
-                    .execute(db, queryJugadores).then(function (resJug) {
+                    .execute(db, queryJugadores,[id_user_app]).then(function (resJug) {
                         $scope.tablero.datos_juego = [];
 
                         for (var i = 0; i < resJug.rows.length; i++) {
                             $scope.jugadores.push(resJug.rows.item(i));
 
+                            if(resJug.rows.item(i).id == resJug.rows.item(i).j_1_id )
                             $scope.tablero.datos_juego.push({
                                 index: i,
-                                nombre: resJug.rows.item(i).nombre,
-                                handicap: resJug.rows.item(i).handicap,
-                                jugador_id: resJug.rows.item(i).id,
-                                golpes: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                    0, 0, 0, 0, 0],
-                                totales_golpes: [0, 0, 0],
-                                circulos: [
-                                    [nCirc, nCirc, nCirc, nCirc],
-                                    [nCirc, nCirc, nCirc, nCirc],
-                                    [nCirc, nCirc, nCirc, nCirc],
-                                    [nCirc, nCirc, nCirc, nCirc],
-                                    [nCirc, nCirc, nCirc, nCirc],
-                                    [nCirc, nCirc, nCirc, nCirc],
-                                    [nCirc, nCirc, nCirc, nCirc],
-                                    [nCirc, nCirc, nCirc, nCirc],
-                                    [nCirc, nCirc, nCirc, nCirc],
-                                    [nCirc, nCirc, nCirc, nCirc],
-                                    [nCirc, nCirc, nCirc, nCirc],
-                                    [nCirc, nCirc, nCirc, nCirc],
-                                    [nCirc, nCirc, nCirc, nCirc],
-                                    [nCirc, nCirc, nCirc, nCirc],
-                                    [nCirc, nCirc, nCirc, nCirc],
-                                    [nCirc, nCirc, nCirc, nCirc],
-                                    [nCirc, nCirc, nCirc, nCirc],
-                                    [nCirc, nCirc, nCirc, nCirc]
-                                ]
+                                nombre: resJug.rows.item(i).j_1_nombre,
+                                jugador_id: resJug.rows.item(i).j_1_id,
+                                golpes: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                             });
                         }
                     });
@@ -175,6 +155,63 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                 modulePromises.push(selectCampoPromise);
             }
 
+            function loadParejaDoble() {
+
+            var query = "SELECT * FROM foursome WHERE usuario_id = (?)";
+             var selectPrejasDobles= $cordovaSQLite.execute(db, query, [id_user_app]).then(function (res) {
+
+                for (var i=0; i<res.rows.length; i++){
+
+                    $scope.parejasDobles.push({
+                        id: res.rows.item(i).id,
+                        j_1_id: res.rows.item(i).j_1_id,
+                        j_1_nombre: res.rows.item(i).j_1_nombre,
+                        j_2_id: res.rows.item(i).j_2_id,
+                        j_2_nombre: res.rows.item(i).j_3_nombre,
+                        j_3_id: res.rows.item(i).j_3_id,
+                        j_3_nombre: res.rows.item(i).j_3_nombre,
+                        j_4_id: res.rows.item(i).j_4_id,
+                        j_4_nombre: res.rows.item(i).j_4_nombre,
+                        ventaja_p_1: res.rows.item(i).ventaja_p_1,
+                        ventaja_p_2: res.rows.item(i).ventaja_p_2,
+                        jugador_id: id_user_app
+                    });
+                    console.log(JSON.stringify($scope.parejasDobles[i]))
+
+                    modulePromises.push(selectPrejasDobles);
+                }
+            }, function (err) {
+                JSON.stringify(err)
+            });
+        }
+
+            function loadParejasIndividal() {
+
+            var query = "SELECT * FROM foursomeTwo WHERE usuario_id = (?)";
+            $cordovaSQLite.execute(db, query, [id_user_app]).then(function (res) {
+
+                for (var i=0; i<res.rows.length; i++){
+
+                    $scope.parejas.push({
+                        id: res.rows.item(i).id,
+                        j_1_id: "",
+                        j_1_nombre: "",
+                        j_2_id: res.rows.item(i).j_1_id,
+                        j_2_nombre: res.rows.item(i).j_1_nombre,
+                        j_3_id: res.rows.item(i).j_2_id,
+                        j_3_nombre: res.rows.item(i).j_2_nombre,
+                        j_4_id: "",
+                        j_4_nombre: "",
+                        ventaja: 0,
+                        jugador_id: id_user_app
+                    });
+
+                }
+            }, function (err) {
+                JSON.stringify(err)
+            });
+        }
+
             $scope.selectJuego = function () {
                 $state.go('juego')
             };
@@ -187,7 +224,13 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                 console.log('GolfApp', 'juego.$ionicPlatform.ready()');
 
                 modulePromises.push(loadCampo());
-                modulePromises.push(loadJugadores());
+                modulePromises.push(loadParejaDoble());
+
+                $q.all(modulePromises).then(function () {
+                    modulePromises.push(loadJugadores());
+                });
+
+
 
                 $q.all(modulePromises).then(function () {
                     $scope.partido = new Partido($scope.jugadores, $scope.campo);
@@ -200,7 +243,7 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                 });
 
                 $ionicPopover.fromTemplateUrl(
-                    'templates/opciones_partido_popover.html', {
+                    'templates/opciones_parejas_foursome.html', {
                         scope: $scope
                     }).then(function (popover) {
                     opcionesPopover = popover;

@@ -1,0 +1,12 @@
+<ion-popover-view class="popover_size">
+    <ion-header-bar>
+        <h1 class="title">Parejas</h1>
+    </ion-header-bar>
+    <ion-content class="list">
+        <div ng-repeat="parejas in parejasDobles">
+            <a class="item" style="font-size: small" id="elemento">
+                {{parejas.j_1_nombre}} - {{parejas.j_2_nombre}} vs {{parejas.j_3_nombre}} - {{parejas.j_4_nombre}}
+            </a>
+        </div>
+    </ion-content>
+</ion-popover-view>
