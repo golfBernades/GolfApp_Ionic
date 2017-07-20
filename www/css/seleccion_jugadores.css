@@ -1,11 +1,11 @@
 
 .editar-nuevo-jugador {
-    color: white;
+    color: white !important;
     background-color: #0c60ee;
 }
 
 .eliminar-nuevo-jugador {
-    color: white;
+    color: white !important;
     background-color: red;
 }
 

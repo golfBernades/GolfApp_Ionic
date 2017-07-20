@@ -1,4 +1,8 @@
 {
-    "name": "AppGolf",
-    "app_id": ""
+  "name": "AppGolf",
+  "app_id": "",
+  "type": "ionic1",
+  "watchPatterns": [
+    "scss/**/*"
+  ]
 }

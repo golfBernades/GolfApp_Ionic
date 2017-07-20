@@ -34,9 +34,22 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 StatusBar.styleDefault();
             }
 
+            
+
+            /*
             db = $cordovaSQLite.openDB({
                 name: "golfapp.db",
                 iosDatabaseLocation: 'default'
+            });
+            */
+
+            db = window.sqlitePlugin.openDatabase({
+                name: 'my.db', 
+                location: 'default'
+            }, function successCallback() {
+                console.log("La DB se abrió correctamente");
+            }, function errorCallback() {
+                console.log("No se pudo abrir la DB");
             });
 
             var pantalla = "CREATE TABLE IF NOT EXISTS pantalla" +
@@ -323,9 +336,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 controller: 'juegoFoursomeController'
             });
 
-        $urlRouterProvider.otherwise('/inicio')
+        $urlRouterProvider.otherwise('/inicio');
 
-
+        // Configuración de elementos visuales
+        $ionicConfigProvider.scrolling.jsScrolling(false);
+        $ionicConfigProvider.tabs.style('striped');
+        $ionicConfigProvider.tabs.position('top');
     })
 
 

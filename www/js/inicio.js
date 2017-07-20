@@ -124,6 +124,8 @@ angular.module('starter.inicio', ['ionic'])
         }
 
         $scope.consultaJuego = function() {
+            console.log("--- DB: " + JSON.stringify(db));
+            
             var query = "SELECT * FROM clave";
             $cordovaSQLite.execute(db, query)
                 .then(function (res) {
