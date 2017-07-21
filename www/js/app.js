@@ -34,7 +34,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 StatusBar.styleDefault();
             }
 
-            
+
 
             /*
             db = $cordovaSQLite.openDB({
@@ -44,7 +44,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             */
 
             db = window.sqlitePlugin.openDatabase({
-                name: 'my.db', 
+                name: 'my.db',
                 location: 'default'
             }, function successCallback() {
                 console.log("La DB se abrió correctamente");
