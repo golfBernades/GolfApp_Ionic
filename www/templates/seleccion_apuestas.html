@@ -16,22 +16,21 @@
 
     <ion-content class="has-header">
         <div class="contenedor">
-            <div class="lista-apuestas">
-                <table class="table table-striped table-text-vertical-centered"
-                       style="overflow-y: scroll!important;">
-                    <thead>
+            <table class="table table-striped table-text-vertical-centered table-apuestas">
+                <thead>
                     <tr>
                         <th></th>
                         <th>Nombre</th>
                         <th></th>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="apuesta in apuestas" ng-model="apuestas"
-                        class="{'fadeOut' : skill.done}">
-                        <td><i class="icon ion-ios-list-outline" style="font-size: 200%"></i></td>
-                        <td style="width: 80%; text-align: left">{{apuesta.nombre}}</td>
-                        <td style="width: 20%;">
+                </thead>
+                <tbody>
+                    <tr ng-repeat="apuesta in apuestas" ng-model="apuestas">
+                        <td>
+                            <i class="icon ion-ios-list-outline"></i>
+                        </td>
+                        <td>{{apuesta.nombre}}</td>
+                        <td>
                             <label class="toggle toggle-assertive">
                                 <input ng-model="apuesta.seleccionada" ng-change="apuestaSeleccionada(apuesta)" type="checkbox">
                                 <div class="track">
@@ -40,9 +39,8 @@
                             </label>
                         </td>
                     </tr>
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
             <div>
                 <button ng-if="!iSfoursome"
                         class="button button-balanced button-block

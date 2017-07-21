@@ -1,4 +1,16 @@
-.lista-apuestas {
-    overflow: scroll;
-    height: 90%;
+.table-apuestas > tbody > tr > td:nth-child(1) {
+    width: 10%;
+}
+
+.table-apuestas > tbody > tr > td:nth-child(1) > i{
+    font-size: 20pt;
+}
+
+.table-apuestas > tbody > tr > td:nth-child(2) {
+    text-align: left;
+    width: 80%;
+}
+
+.table-apuestas > tbody > tr > td:nth-child(3) {
+    width: 10%;
 }
