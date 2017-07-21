@@ -37,14 +37,14 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
 
 
             /*
-            db = $cordovaSQLite.openDB({
-                name: "golfapp.db",
-                iosDatabaseLocation: 'default'
-            });
-            */
+             db = $cordovaSQLite.openDB({
+             name: "golfapp.db",
+             iosDatabaseLocation: 'default'
+             });
+             */
 
             db = window.sqlitePlugin.openDatabase({
-                name: 'my.db',
+                name: 'my.db3',
                 location: 'default'
             }, function successCallback() {
                 console.log("La DB se abrió correctamente");
@@ -163,15 +163,15 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             var foursome = 'CREATE TABLE IF NOT EXISTS foursome ('
                 + 'id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,'
                 + 'modalidad TEXT NOT NULL,'
-                + 'p1_j1_id INTEGER NULL,'
+                + 'p1_j1_id INTEGER NOT NULL,'
                 + 'p1_j1_nombre TEXT NOT NULL,'
-                + 'p1_j2_id INTEGER NULL,'
+                + 'p1_j2_id INTEGER NOT NULL,'
                 + 'p1_j2_nombre TEXT NOT NULL,'
                 + 'p1_ventaja_j_id INTEGER NULL,'
                 + 'p2_j1_id INTEGER NULL,'
-                + 'p2_j1_nombre TEXT NOT NULL,'
+                + 'p2_j1_nombre TEXT NULL,'
                 + 'p2_j2_id INTEGER NULL,'
-                + 'p2_j2_nombre TEXT NOT NULL,'
+                + 'p2_j2_nombre TEXT  NULL,'
                 + 'p2_ventaja_j_id INTEGER NULL'
                 + ')';
 
