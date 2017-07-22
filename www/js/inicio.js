@@ -142,8 +142,7 @@ angular.module('starter.inicio', ['ionic'])
         function pedirClave() {
             var myPopup = $ionicPopup.show({
                 template: '<input type="text" ng-model="data.clave" id="in-cla">',
-                title: 'Ingresar Clave del Partido.',
-                subTitle: 'Asegurate de poner la clave correcta.',
+                title: 'Ingresar Clave del Partido',
                 scope: $scope,
                 buttons: [
                     { text: 'Cancelar' },
