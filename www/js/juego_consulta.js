@@ -69,7 +69,9 @@ angular.module('starter.juego_consulta', ['ionic'])
                             fixRowsAndColumns();
                         }, 1000);
                     } else {
-                        utils.popup('Error', response.data.error_message);
+                        utils.popup('Error',
+                            'Aún no hay actualizaciones disponibles,' +
+                            ' intenta más tarde');
                     }
                     setTimeout(function () {
                         $ionicLoading.hide();
