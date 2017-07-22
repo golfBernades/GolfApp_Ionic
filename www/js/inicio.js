@@ -5,7 +5,8 @@ angular.module('starter.inicio', ['ionic'])
                                               $http, servicePantallas, serviceHttpRequest, utils) {
 
         $scope.data = {
-            clave:"abcdefgh"
+            clave: "abcdefgh",
+            styleClave: ''
         };
 
         $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
@@ -26,10 +27,10 @@ angular.module('starter.inicio', ['ionic'])
             }
         };
 
-        function verificarClave (intento) {
+        function verificarClave(intento) {
 
             var httpRequest = serviceHttpRequest.createPostHttpRequest(
-                dir+'partido_consulta_exists',
+                dir + 'partido_consulta_exists',
                 {clave_consulta: $scope.data.clave}
             );
 
@@ -37,20 +38,20 @@ angular.module('starter.inicio', ['ionic'])
                 .then(function successCallback(response) {
 
                     $ionicLoading.hide();
-                    if(response.data.ok){
+                    if (response.data.ok) {
 
-                        if(response.data.exists){
+                        if (response.data.exists) {
                             insertClave($scope.data.clave)
-                        }else{
+                        } else {
                             utils.popup('Error de clave', 'No se pudo encontrar esa clave. Volver a intentar');
                         }
-                    }else{
+                    } else {
                         utils.popup('Error de clave', 'No se pudo encontrar esa clave. Intentar más tarde.');
                     }
 
                 }, function errorCallback(response) {
 
-                    if(response.status == -1){
+                    if (response.status == -1) {
                         if (intento < 3) {
                             verificarClave(intento + 1);
                         } else {
@@ -58,7 +59,7 @@ angular.module('starter.inicio', ['ionic'])
                             utils.popup("Error de Conexión", "Volver a" +
                                 " intentar más tarde");
                         }
-                    }else{
+                    } else {
                         $ionicLoading.hide();
                         utils.popup("Error de Parámetros", "Revisar los" +
                             " parámetros de la petición HTTP");
@@ -123,15 +124,15 @@ angular.module('starter.inicio', ['ionic'])
                 });
         }
 
-        $scope.consultaJuego = function() {
+        $scope.consultaJuego = function () {
             console.log("--- DB: " + JSON.stringify(db));
-            
+
             var query = "SELECT * FROM clave";
             $cordovaSQLite.execute(db, query)
                 .then(function (res) {
-                    if(res.rows.length>0){
+                    if (res.rows.length > 0) {
                         $state.go('juego_consulta');
-                    }else{
+                    } else {
                         pedirClave();
                     }
                 }, function (err) {
@@ -140,22 +141,24 @@ angular.module('starter.inicio', ['ionic'])
         };
 
         function pedirClave() {
-            var myPopup = $ionicPopup.show({
-                template: '<input type="text" ng-model="data.clave" id="in-cla">',
+            $ionicPopup.show({
                 title: 'Ingresar Clave del Partido',
+                templateUrl: 'templates/clave_consulta_popup.html',
                 scope: $scope,
                 buttons: [
-                    { text: 'Cancelar' },
+                    {
+                        text: 'Cancelar'
+                    },
                     {
                         text: '<b>Verificar</b>',
                         type: 'button-positive',
-                        onTap: function(e) {
+                        onTap: function (e) {
 
                             if ($scope.data.clave) {
                                 utils.showLoading();
                                 verificarClave(0)
                             } else {
-                                document.getElementById("in-cla").style.backgroundColor = "#F5A9A9";
+                                $scope.data.styleClave = 'background-color:red';
                                 e.preventDefault();
                             }
                         }
