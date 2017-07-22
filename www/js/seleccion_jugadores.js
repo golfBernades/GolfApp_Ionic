@@ -7,6 +7,14 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                                                  utils) {
         $scope.jugadores = [];
 
+        $scope.data = {
+            nombreJug: '',
+            handicap: null,
+            lastHandicap: null,
+            styleNombre: '',
+            styleHandicap: ''
+        };
+
         var modificar = false;
 
         $scope.seleccionarCampo = function () {
@@ -74,7 +82,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                 $cordovaSQLite.execute(db, query, [0, idJugador]);
             }
 
-        }
+        };
 
         $scope.deleteJugador = function (index) {
 
@@ -101,8 +109,8 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         $scope.addJugador = function () {
             $scope.data = {};
 
-            var myPopup = $ionicPopup.show({
-                templateUrl: 'templates/add_user_popup.html',
+            $ionicPopup.show({
+                templateUrl: 'templates/form_jugador_popup.html',
                 title: 'Nuevo jugador',
                 scope: $scope,
                 buttons: [
@@ -117,26 +125,36 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                             var nombre = $scope.data.nombreJug;
                             var handicap = $scope.data.handicap;
 
-                            var x = document.getElementById("handicap").value;
+                            if (nombre && handicap) {
+                                if (nombre.toLowerCase() == 'mudo') {
+                                    utils.popup("Jugador Reservado",
+                                        "No se puede asignar un jugador con"
+                                        + " el nombre Mudo");
 
-                            if (nombre && (x != '')) {
-
-                                if(nombre.toLowerCase() == 'mudo'){
-                                    utils.popup("Jugador Reservado","No se puede asignar un jugador con el nombre Mudo")
+                                    e.preventDefault();
                                     return;
                                 }
+
                                 var control = true;
 
                                 for (var i = 0; i < $scope.jugadores.length; i++) {
-                                    if (nombre.toLowerCase() == $scope.jugadores[i].nombre.toLowerCase()) {
+                                    if (nombre.toLowerCase() == $scope
+                                            .jugadores[i].nombre
+                                            .toLowerCase()) {
                                         control = false;
                                         break;
                                     }
                                 }
 
                                 if (control) {
-                                    var query = "INSERT INTO jugador (nombre, handicap,jugar, usuario_id) VALUES (?,?,?,?)";
-                                    $cordovaSQLite.execute(db, query, [nombre, handicap, 0, id_user_app])
+                                    var query = "INSERT INTO jugador (nombre, "
+                                        + "handicap, jugar, usuario_id)"
+                                        + " VALUES (?, ?, ?, ?)";
+
+                                    var queryData = [nombre, handicap, 0,
+                                        id_user_app];
+
+                                    $cordovaSQLite.execute(db, query, queryData)
                                         .then(function (res) {
                                             $scope.jugadores.push({
                                                 id: res.insertId,
@@ -144,32 +162,27 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                                                 handicap: handicap,
                                                 jugar: false
                                             });
-
                                             modificar = true;
                                         }, function (err) {
                                             console.log(JSON.stringify(err))
                                         });
                                 } else {
-                                    utils.popup("Jugadores repetido!", "Nombre de jugador repetido. Escribir otro nombre.")
+                                    utils.popup("Jugadores repetido!",
+                                        "Nombre de jugador repetido."
+                                        + " Escribir otro nombre.");
+
+                                    e.preventDefault();
                                 }
 
                                 $scope.data.nombreJug = "";
                                 $scope.data.handicap = "";
-                                document.getElementById("nombreJug").style.backgroundColor = "#FAFAFA";
-                                document.getElementById("handicap").style.backgroundColor = "#FAFAFA";
-
-                                e.preventDefault();
                             } else {
-
-                                if (!nombre && !handicap) {
-                                    document.getElementById("nombreJug").style.backgroundColor = "#F5A9A9";
-                                    document.getElementById("handicap").style.backgroundColor = "#F5A9A9"
-                                } else if (!nombre) {
-                                    document.getElementById("nombreJug").style.backgroundColor = "#F5A9A9";
-                                } else if (!handicap) {
-                                    document.getElementById("handicap").style.backgroundColor = "#F5A9A9"
-                                }
-
+                                if (!$scope.data.nombreJug)
+                                    $scope.data.styleNombre
+                                        = 'background-color: red;';
+                                if (!$scope.data.handicap)
+                                    $scope.data.styleHandicap
+                                        = 'background-color: red;';
                                 e.preventDefault();
                             }
                         }
@@ -179,16 +192,11 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         };
 
         $scope.editJugador = function (index) {
+            $scope.data.nombreJug = $scope.jugadores[index].nombre;
+            $scope.data.handicap = $scope.jugadores[index].handicap;
 
-            $scope.data = {};
-
-            $scope.data.nombreJugEd = ($scope.jugadores[index].nombre);
-            $scope.data.handicapEd = ($scope.jugadores[index].handicap);
-
-            var nombre = $scope.data.nombreJugEd = ($scope.jugadores[index].nombre);
-
-            var myPopup = $ionicPopup.show({
-                templateUrl: 'templates/edit_user_popup.html',
+            $ionicPopup.show({
+                templateUrl: 'templates/form_jugador_popup.html',
                 title: 'Editar jugador',
                 scope: $scope,
                 buttons: [
@@ -200,16 +208,26 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                         text: 'Actualizar',
                         type: 'button-balanced',
                         onTap: function (e) {
-                            var nomb = $scope.data.nombreJugEd;
-                            var handi = $scope.data.handicapEd;
+                            var nombre = $scope.data.nombreJug;
+                            var handicap = $scope.data.handicap;
 
+                            if (nombre && handicap) {
+                                if (nombre.toLowerCase() == 'mudo') {
+                                    utils.popup("Jugador Reservado",
+                                        "No se puede asignar un jugador con"
+                                        + " el nombre Mudo");
 
-                            if (nomb && nomb) {
+                                    e.preventDefault();
+                                    return;
+                                }
+
                                 var control = true;
 
-                                if (nomb.toLowerCase() != $scope.jugadores[index].nombre.toLowerCase()) {
-                                    for (var i = 0; i < $scope.jugadores.length; i++) {
-                                        if (nomb.toLowerCase() == $scope.jugadores[i].nombre.toLowerCase()) {
+                                for (var i = 0; i < $scope.jugadores.length; i++) {
+                                    if (i != index) {
+                                        if (nombre.toLowerCase() == $scope
+                                                .jugadores[i].nombre
+                                                .toLowerCase()) {
                                             control = false;
                                             break;
                                         }
@@ -217,32 +235,36 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                                 }
 
                                 if (control) {
-                                    var query = "UPDATE jugador SET nombre = ?, handicap = ? WHERE id = ?";
-                                    $cordovaSQLite.execute(db, query, [nomb, handi, $scope.jugadores[index].id])
-                                        .then(function (res) {
-                                            $scope.jugadores[index].nombre = nomb;
-                                            $scope.jugadores[index].handicap = handi;
+                                    var query = "UPDATE jugador SET nombre = ?, " +
+                                        "handicap = ? WHERE id = ?";
 
+                                    var queryData = [nombre, handicap,
+                                        $scope.jugadores[index].id];
+
+                                    $cordovaSQLite.execute(db, query, queryData)
+                                        .then(function (res) {
+                                            $scope.jugadores[index].nombre = nombre;
+                                            $scope.jugadores[index].handicap = handicap;
                                             modificar = true;
                                         });
+
+                                    $scope.data.nombreJug = "";
+                                    $scope.data.handicap = "";
                                 } else {
-                                    var title = "Jugadores repetido!";
+                                    var title = "Jugador repetido!";
                                     var template = "El nombre del jugador ya" +
                                         " se está usando, por favor escribir" +
                                         " otro.";
                                     utils.popup(title, template);
                                     e.preventDefault();
                                 }
-
                             } else {
-                                if (!nomb && !nomb) {
-                                    document.getElementById("nombreJugEd").style.backgroundColor = "#F5A9A9";
-                                    document.getElementById("handicapEd").style.backgroundColor = "#F5A9A9"
-                                } else if (!nomb) {
-                                    document.getElementById("nombreJugEd").style.backgroundColor = "#F5A9A9";
-                                } else if (!nomb) {
-                                    document.getElementById("handicapEd").style.backgroundColor = "#F5A9A9"
-                                }
+                                if (!$scope.data.nombreJug)
+                                    $scope.data.styleNombre
+                                        = 'background-color: red;';
+                                if (!$scope.data.handicap)
+                                    $scope.data.styleHandicap
+                                        = 'background-color: red;';
                                 e.preventDefault();
                             }
                         }
@@ -252,19 +274,19 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         };
 
         function getApuesta() {
-
             var query = "SELECT * FROM apuesta WHERE nombre = (?) AND seleccionada = 1";
-            $cordovaSQLite.execute(db, query, ["Foursome"]).then(function (result) {
-                if (result.rows.length > 0) {
-                    utils.popup("Apuesta Foursome",
-                        "Se está llevando a cabo la apuesta 'Foursome', si" +
-                        " se realiza alguna modificación en los jugadores" +
-                        " los datos de esta apuesta se perderán");
-                }
-            }, function (err) {
-                console.error(err);
-            });
 
+            $cordovaSQLite.execute(db, query, ["Foursome"])
+                .then(function (result) {
+                    if (result.rows.length > 0) {
+                        utils.popup("Apuesta Foursome",
+                            "Se está llevando a cabo la apuesta 'Foursome', si"
+                            + " se realiza alguna modificación en los jugadores"
+                            + " los datos de esta apuesta se perderán");
+                    }
+                }, function (err) {
+                    console.error(err);
+                });
         }
 
         function getJugadores() {
@@ -300,10 +322,25 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
             }, function (err) {
                 JSON.stringify(err)
             });
-        };
+        }
 
         $ionicPlatform.ready(function () {
             getJugadores();
         });
 
+        /**
+         * Esta función está al pendiente de los cambios en la variable
+         * $scope.data.handicap para validar que coincida con una expresión
+         * regular, y en caso de que no coincida, regresar al último valor
+         * correcto que tenía.
+         */
+        $scope.$watch('data.handicap', function () {
+            var regex = new RegExp('^-?[0-9]*$');
+
+            if (!regex.test($scope.data.handicap)) {
+                $scope.data.handicap = $scope.data.lastHandicap;
+            } else {
+                $scope.data.lastHandicap = $scope.data.handicap;
+            }
+        });
     });
