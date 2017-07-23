@@ -120,7 +120,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                     },
                     {
                         text: 'Agregar',
-                        type: 'button-balanced',
+                        type: 'button-positive',
                         onTap: function (e) {
                             var nombre = $scope.data.nombreJug;
                             var handicap = $scope.data.handicap;
@@ -206,7 +206,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                     },
                     {
                         text: 'Actualizar',
-                        type: 'button-balanced',
+                        type: 'button-positive',
                         onTap: function (e) {
                             var nombre = $scope.data.nombreJug;
                             var handicap = $scope.data.handicap;

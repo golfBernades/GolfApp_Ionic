@@ -327,7 +327,7 @@ angular.module('starter.campos-dispositivo', ['ionic'])
                 title: 'Campo: '+nombreCampo,
                 scope: $scope,
                 okText:'Cancelar',
-                okType:'button-balanced'
+                okType:'button-assertive'
             });
         }
 

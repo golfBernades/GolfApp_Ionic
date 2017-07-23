@@ -147,13 +147,13 @@ angular.module('starter.inicio', ['ionic'])
                 scope: $scope,
                 buttons: [
                     {
-                        text: 'Cancelar'
+                        text: 'Cancelar',
+                        type: 'button-assertive',
                     },
                     {
-                        text: '<b>Verificar</b>',
+                        text: 'Verificar',
                         type: 'button-positive',
                         onTap: function (e) {
-
                             if ($scope.data.clave) {
                                 utils.showLoading();
                                 verificarClave(0)

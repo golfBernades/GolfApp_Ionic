@@ -654,7 +654,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         },
                         {
                             text: 'Guardar',
-                            type: 'button-balanced',
+                            type: 'button-positive',
                             onTap: function (e) {
                                 var golpesRealizaos = $scope.juego.golpesRealizados;
                                 var unidades = $scope.juego.puntosExtras;

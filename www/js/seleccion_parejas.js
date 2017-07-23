@@ -85,7 +85,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                     },
                     {
                         text: 'Agregar',
-                        type: 'button-balanced',
+                        type: 'button-positive',
                         onTap: function (e) {
 
                             if ($scope.dosJugadores) {
@@ -492,7 +492,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 title: 'Pareja VS Pareja',
                 scope: $scope,
                 okText: 'Cancelar',
-                okType: 'button-balanced'
+                okType: 'button-positive'
             });
         }
 
