@@ -664,26 +664,40 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                 $scope.tablero.datos_juego[jugador_idx]
                                     .golpes[hoyo - 1] = golpesRealizaos;
 
+                                var regex = new RegExp('^[0-9]*$');
+
                                 if ($scope.rayasSeleccionada) {
-                                    $scope.tablero.datos_juego[jugador_idx]
-                                        .apuestaRayas.unidades[hoyo - 1]
-                                        = unidades;
+                                    if (regex.test(unidades)) {
+                                        $scope.tablero.datos_juego[jugador_idx]
+                                            .apuestaRayas.unidades[hoyo - 1]
+                                            = unidades;
+                                    } else {
+                                        $scope.juego.style_unidades = 'background-color: red';
+                                        e.preventDefault();
+                                        return;
+                                    }
                                 }
 
                                 if (golpesRealizaos) {
-                                    var promises = [];
+                                    if (regex.test(golpesRealizaos)) {
+                                        var promises = [];
 
-                                    promises.push(guardarPuntosDb(jugador_id,
-                                        hoyo, golpesRealizaos, unidades));
-                                    promises.push($scope.partido
-                                        .registrarGolpes(jugador_idx,
-                                            (hoyo - 1), golpesRealizaos,
-                                            unidades));
+                                        promises.push(guardarPuntosDb(jugador_id,
+                                            hoyo, golpesRealizaos, unidades));
+                                        promises.push($scope.partido
+                                            .registrarGolpes(jugador_idx,
+                                                (hoyo - 1), golpesRealizaos,
+                                                unidades));
 
-                                    $q.all(promises).then(function () {
-                                        actualizarScoreUi();
-                                        compartirScoreboard();
-                                    });
+                                        $q.all(promises).then(function () {
+                                            actualizarScoreUi();
+                                            compartirScoreboard();
+                                        });
+                                    } else {
+                                        $scope.juego.style_golpes = 'background-color: red';
+                                        e.preventDefault();
+                                        return;
+                                    }
                                 } else {
                                     $scope.juego.style_golpes = 'background-color: red';
                                     e.preventDefault();

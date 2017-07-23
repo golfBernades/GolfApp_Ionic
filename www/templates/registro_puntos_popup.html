@@ -10,6 +10,8 @@
     <div ng-if="rayasSeleccionada">
         <label for="puntosExtras">Unidades:</label>
         <input type="number" ng-model="juego.puntosExtras"
-               name="juego.puntosExtras" id="puntosExtras" value="0">
+               name="juego.puntosExtras" id="puntosExtras" value="0"
+               style="{{juego.style_unidades}}"
+               ng-focus="juego.style_unidades = 'background-color: white'">
     </div>
 </div>
