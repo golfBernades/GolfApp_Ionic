@@ -141,7 +141,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                 == 'coneja') {
                                 $scope.conejaSeleccionada = true;
                                 $scope.tablero.conejaSeleccionada = true;
-                            }else if (res.rows.item(i).nombre.toLowerCase()
+                            } else if (res.rows.item(i).nombre.toLowerCase()
                                 == 'foursome') {
                                 $scope.foursomeSeleccionada = true;
                             }
@@ -155,7 +155,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             modulePromises.push(agregarApuestaConeja());
                         }
 
-                        if($scope.foursomeSeleccionada) {
+                        if ($scope.foursomeSeleccionada) {
                             modulePromises.push(agregarApuestaFoursome());
                         }
                     });
@@ -188,8 +188,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                 $.each($scope.tablero.datos_juego, function (index, dato) {
                     dato.apuestaConeja = {
-                        status: ['.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.',
-                            '.', '.', '.', '.', '.', '.', '.']
+                        status: ['.', '.', '.', '.', '.', '.', '.', '.', '.',
+                            '.', '.', '.', '.', '.', '.', '.', '.', '.']
                     };
                 });
             }
@@ -265,8 +265,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
             function subirPartido() {
                 console.log('GolfApp', 'subirPartido');
-
-                console.log('GolfApp', 'Inicio: ' + $scope.partidoExistente.inicio);
+                console.log('GolfApp', 'Inicio: '
+                    + $scope.partidoExistente.inicio);
 
                 var httpRequest = serviceHttpRequest.createPostHttpRequest(
                     dir + 'partido_insert',
@@ -332,8 +332,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                 modulePromises.push(insertLocal);
             }
-
-            //------------------------------------------------------------------
 
             $scope.selectForusome = function () {
                 opcionesPopover.hide();
@@ -545,7 +543,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                             = resPunt.rows.item(i).unidades;
                                     }
 
-
                                     var registrar = $scope.partido
                                         .registrarGolpes(j,
                                             resPunt.rows.item(i).hoyo - 1,
@@ -750,6 +747,11 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         });
                 });
             }
+
+            $scope.lastData = {
+                golpes: null,
+                handicap: null
+            };
 
             function actualizarScoreUi() {
                 console.log('GolfApp', 'actualizarScoreUi');

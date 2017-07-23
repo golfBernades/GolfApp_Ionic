@@ -5,33 +5,30 @@
 angular.module('starter.nuevo-campo', ['ionic'])
 
     .controller('nuevoCampoController', function ($scope, $ionicPopup, $state,
-                                                  $cordovaSQLite, $timeout, $ionicPlatform,
-                                                  $rootScope, $ionicLoading, $http, servicePantallas,
+                                                  $cordovaSQLite, $timeout,
+                                                  $ionicPlatform, $rootScope,
+                                                  $ionicLoading, $http,
+                                                  servicePantallas,
                                                   serviceHttpRequest, utils) {
-
         var campo = null;
         var isUpdateCampo = false;
-
         var par = [];
         var ventaja = [];
         var nombresCampos = [];
-
         var nomCampo;
         var cuenta;
 
         $scope.statusCampo = "";
 
         $scope.seleccionarCampo = function () {
-
-            if($rootScope.campos == 1){
+            if ($rootScope.campos == 1) {
                 $state.go('tabs.camp-dis')
-            }else{
+            } else {
                 $state.go('tabs.camp-cue')
             }
         };
 
         $scope.guardarCampo = function () {
-
             document.getElementById("nombreCampoNuevo").style.backgroundColor = "#FFFFFF";
 
             for (var i = 1; i < 19; i++) {
@@ -103,7 +100,7 @@ angular.module('starter.nuevo-campo', ['ionic'])
                     utils.showLoading();
                     if (isUpdateCampo) {
                         if (cuenta == 0) {
-                            updateCampo(nombreCampo,0);
+                            updateCampo(nombreCampo, 0);
                         } else {
                             updateCampoServer(0, nombreCampo)
                         }
@@ -126,53 +123,59 @@ angular.module('starter.nuevo-campo', ['ionic'])
             var fecha = new Date();
             var idCampo = fecha.getFullYear() + "-" + (fecha.getMonth() + 1) + "-" + fecha.getDate() + " " + fecha.getHours() + ":" + fecha.getMinutes() + ":" + fecha.getSeconds();
 
-
             var query2 = "INSERT INTO campo (id, nombre, par_hoyo_1, par_hoyo_2, par_hoyo_3,par_hoyo_4, par_hoyo_5, par_hoyo_6, par_hoyo_7, par_hoyo_8, par_hoyo_9, par_hoyo_10, par_hoyo_11, par_hoyo_12, par_hoyo_13, par_hoyo_14, par_hoyo_15, par_hoyo_16, par_hoyo_17, par_hoyo_18," +
                 "ventaja_hoyo_1, ventaja_hoyo_2, ventaja_hoyo_3, ventaja_hoyo_4, ventaja_hoyo_5, ventaja_hoyo_6, ventaja_hoyo_7, ventaja_hoyo_8, ventaja_hoyo_9, ventaja_hoyo_10, ventaja_hoyo_11, ventaja_hoyo_12, ventaja_hoyo_13, ventaja_hoyo_14, ventaja_hoyo_15, ventaja_hoyo_16, ventaja_hoyo_17, ventaja_hoyo_18, cuenta, seleccionado, usuario_id)" +
                 "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-            $cordovaSQLite.execute(db, query2, [idCampo, nombreCampo, par[0], par[1], par[2], par[3], par[4], par[5], par[6], par[7], par[8], par[9], par[10], par[11], par[12], par[13], par[14], par[15], par[16], par[17],
-                ventaja[0], ventaja[1], ventaja[2], ventaja[3], ventaja[4], ventaja[5], ventaja[6], ventaja[7], ventaja[8], ventaja[9], ventaja[10], ventaja[11], ventaja[12], ventaja[13], ventaja[14], ventaja[15], ventaja[16], ventaja[17], 0, 0, id_user_app])
+            $cordovaSQLite.execute(db, query2, [idCampo, nombreCampo, par[0],
+                par[1], par[2], par[3], par[4], par[5], par[6], par[7], par[8],
+                par[9], par[10], par[11], par[12], par[13], par[14], par[15],
+                par[16], par[17], ventaja[0], ventaja[1], ventaja[2],
+                ventaja[3], ventaja[4], ventaja[5], ventaja[6], ventaja[7],
+                ventaja[8], ventaja[9], ventaja[10], ventaja[11], ventaja[12],
+                ventaja[13], ventaja[14], ventaja[15], ventaja[16],
+                ventaja[17], 0, 0, id_user_app])
                 .then(function (res) {
                     vaciarCampos();
-
                     $ionicLoading.hide();
                     utils.popup("Campo Guardado", "Campo Guardado Correctamente.");
-
                     $state.go('tabs.camp-dis');
                 }, function (err) {
                     $ionicLoading.hide();
                     utils.popup("Campo No Guardado", "Campo NO Guardado. Volver a intentar más tarde.");
                 });
-
         }
 
         function updateCampo(nombreCampo, cuenta) {
             var query = "UPDATE campo SET nombre = ?, par_hoyo_1 = ?, par_hoyo_2 = ?, par_hoyo_3 = ?, par_hoyo_4 = ?, par_hoyo_5 = ?, par_hoyo_6 = ?, par_hoyo_7 = ?, par_hoyo_8 = ?, par_hoyo_9 = ?, par_hoyo_10 = ?, par_hoyo_11 = ?, par_hoyo_12 = ?, par_hoyo_13 = ?, par_hoyo_14 = ?, par_hoyo_15 = ?, par_hoyo_16 = ?, par_hoyo_17 = ?, par_hoyo_18= ?, " +
                 "ventaja_hoyo_1 = ?, ventaja_hoyo_2 = ?, ventaja_hoyo_3 = ?, ventaja_hoyo_4 = ?, ventaja_hoyo_5 = ?, ventaja_hoyo_6 = ?, ventaja_hoyo_7 = ?, ventaja_hoyo_8 = ?, ventaja_hoyo_9 = ?, ventaja_hoyo_10 = ?, ventaja_hoyo_11 = ?, ventaja_hoyo_12 = ?, ventaja_hoyo_13 = ?, ventaja_hoyo_14 = ?, ventaja_hoyo_15 = ?, ventaja_hoyo_16 = ?, ventaja_hoyo_17 = ?, ventaja_hoyo_18 = ?, cuenta = ?, seleccionado = ? WHERE id = ?";
-            $cordovaSQLite.execute(db, query, [nombreCampo, par[0], par[1], par[2], par[3], par[4], par[5], par[6], par[7], par[8], par[9], par[10], par[11], par[12], par[13], par[14], par[15], par[16], par[17],
-                ventaja[0], ventaja[1], ventaja[2], ventaja[3], ventaja[4], ventaja[5], ventaja[6], ventaja[7], ventaja[8], ventaja[9], ventaja[10], ventaja[11], ventaja[12], ventaja[13], ventaja[14], ventaja[15], ventaja[16], ventaja[17], cuenta, 0, $rootScope.idCampoAct])
+            $cordovaSQLite.execute(db, query, [nombreCampo, par[0], par[1],
+                par[2], par[3], par[4], par[5], par[6], par[7], par[8], par[9],
+                par[10], par[11], par[12], par[13], par[14], par[15], par[16],
+                par[17], ventaja[0], ventaja[1], ventaja[2], ventaja[3],
+                ventaja[4], ventaja[5], ventaja[6], ventaja[7], ventaja[8],
+                ventaja[9], ventaja[10], ventaja[11], ventaja[12], ventaja[13],
+                ventaja[14], ventaja[15], ventaja[16], ventaja[17], cuenta, 0,
+                $rootScope.idCampoAct])
                 .then(function (res) {
                     vaciarCampos();
 
                     $ionicLoading.hide();
                     utils.popup("Campo Actualizado", "Campo Actualizado Correctamente.");
 
-                    if($rootScope.campos == 1){
+                    if ($rootScope.campos == 1) {
                         $state.go('tabs.camp-dis')
-                    }else{
+                    } else {
                         $state.go('tabs.camp-cue')
                     }
 
                 }, function (err) {
-
                     $ionicLoading.hide();
                     utils.popup("Campo No Actualizado", "Campo NO Actualizado. Volver a intentar más tarde.");
                 });
         }
 
         function vaciarCampos() {
-
             par = [];
             ventaja = [];
 
@@ -181,7 +184,7 @@ angular.module('starter.nuevo-campo', ['ionic'])
                 document.getElementById("par" + i).value = "";
                 document.getElementById("ven" + i).value = "";
             }
-        };
+        }
 
         function getCampos() {
             var query = "SELECT nombre FROM campo";
@@ -192,7 +195,7 @@ angular.module('starter.nuevo-campo', ['ionic'])
                     }
                 }
             });
-        };
+        }
 
         function isUpadate() {
             if ($rootScope.idCampoAct != null) {
@@ -315,7 +318,7 @@ angular.module('starter.nuevo-campo', ['ionic'])
             $http(httpRequest)
                 .then(function successCallback(response) {
                     if (response.data.ok) {
-                        updateCampo(nombreCampo,1);
+                        updateCampo(nombreCampo, 1);
                     } else {
                         $ionicLoading.hide();
                         utils.popup("Campo No Actualizado", "Campo NO Actualizado. Volver a intentar más tarde.");
