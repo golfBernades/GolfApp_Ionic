@@ -34,17 +34,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 StatusBar.styleDefault();
             }
 
-
-
-            /*
-             db = $cordovaSQLite.openDB({
-             name: "golfapp.db",
-             iosDatabaseLocation: 'default'
-             });
-             */
-
             db = window.sqlitePlugin.openDatabase({
-                name: 'my.db3',
+                name: 'golfapp.db',
                 location: 'default'
             }, function successCallback() {
                 console.log("La DB se abrió correctamente");
@@ -214,13 +205,10 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 $cordovaSQLite.execute(db, query).then(function (res) {
                     console.log(JSON.stringify(res) + " érrrrppppppp")
                     if (res.rows.length > 0) {
-
                         id_user_app = res.rows.item(0).id;
                         user_app = res.rows.item(0).email;
                         password_app = res.rows.item(0).password;
                         sesionActual = true;
-
-
                         console.log(id_user_app, user_app, password_app);
                     } else {
                         sesionActual = false;
@@ -237,9 +225,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
     })
 
     .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-
         $stateProvider
-
             .state('login', {
                 cache: false,
                 url: '/login',
@@ -342,6 +328,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
         $ionicConfigProvider.scrolling.jsScrolling(false);
         $ionicConfigProvider.tabs.style('striped');
         $ionicConfigProvider.tabs.position('top');
+        $ionicConfigProvider.views.swipeBackEnabled(false);
     })
 
 
