@@ -9,8 +9,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
 
         $scope.data = {
             nombreJug: '',
-            handicap: null,
-            lastHandicap: null,
+            handicap: '',
             styleNombre: '',
             styleHandicap: ''
         };
@@ -334,13 +333,11 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
          * regular, y en caso de que no coincida, regresar al último valor
          * correcto que tenía.
          */
-        $scope.$watch('data.handicap', function () {
+        $scope.$watch('data.handicap', function (newValue, oldValue) {
             var regex = new RegExp('^-?[0-9]*$');
 
-            if (!regex.test($scope.data.handicap)) {
-                $scope.data.handicap = $scope.data.lastHandicap;
-            } else {
-                $scope.data.lastHandicap = $scope.data.handicap;
+            if (!regex.test(newValue)) {
+                $scope.data.handicap = oldValue;
             }
         });
     });
