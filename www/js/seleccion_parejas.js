@@ -107,8 +107,8 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 j_2: 0
             };
 
-            console.log(parejaExistenteDoble($scope.listaUno.opcion, $scope.listaDos.opcion))
-            console.log(parejaExistenteDoble($scope.listaTres.opcion, $scope.listaCuatro.opcion))
+            // console.log(parejaExistenteDoble($scope.listaUno.opcion, $scope.listaDos.opcion));
+            // console.log(parejaExistenteDoble($scope.listaTres.opcion, $scope.listaCuatro.opcion));
 
             var res_1 = parejaExistenteDoble($scope.listaUno.opcion, $scope.listaDos.opcion);
             var res_2 = parejaExistenteDoble($scope.listaTres.opcion, $scope.listaCuatro.opcion);
@@ -181,7 +181,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                                 ventaja_p_2: ventaja.j_2
                             });
                         }, function (err) {
-                            console.log(JSON.stringify(err))
+                            // console.log(JSON.stringify(err))
                         });
 
                 }else{
@@ -219,7 +219,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
                         });
                     }, function (err) {
-                        console.log(JSON.stringify(err))
+                        // console.log(JSON.stringify(err))
                     });
             }else{
 
@@ -326,7 +326,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 }
             }
 
-            console.log(cont +" cont")
+            // console.log(cont +" cont")
 
             if(cont>=2){
                 return true;
@@ -451,17 +451,16 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
         $scope.selectedListaSeis = function () {
             j_6 = $scope.listaSeis.opcion;
-        }
+        };
 
         $scope.eliminar = function () {
-
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Eliminar Parejas',
-                template: '¿Estás seguro que deseas eliminar estas parejas?',
+                template: '¿Estás seguro que deseas eliminar a la' +
+                ' competición de [p1] VS [p2]?',
                 cancelText: 'Cancelar',
                 cancelType: 'button-assertive',
                 okText: 'Eliminar'
-
             });
 
             confirmPopup.then(function (res) {
@@ -471,15 +470,13 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                     var query = 'DELETE FROM foursome WHERE id = ?';
                     $cordovaSQLite.execute(db, query, [idPareja])
                         .then(function (res) {
-                            console.log(JSON.stringify(res))
+                            // console.log(JSON.stringify(res))
                             $scope.parejas.splice(index, 1);
                         }, function (err) {
-                            console.log(JSON.stringify(err))
+                            // console.log(JSON.stringify(err))
                         });
-
                 }
             });
-
         };
 
         $scope.actualizar = function () {
@@ -492,19 +489,18 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 title: 'Pareja VS Pareja',
                 scope: $scope,
                 okText: 'Cancelar',
-                okType: 'button-positive'
+                okType: 'button-assertive'
             });
         }
 
         function getJugadores() {
-
             var query = "SELECT * FROM jugador WHERE usuario_id = (?) AND jugar = 1";
             $cordovaSQLite.execute(db, query, [id_user_app]).then(function (res) {
                 if (res.rows.length > 0) {
 
                     for (var i = 0; i < res.rows.length; i++) {
 
-                        console.log(res.rows.item(i).id + " " + res.rows.item(i).jugar + " ------------------")
+                        // console.log(res.rows.item(i).id + " " + res.rows.item(i).jugar + " ------------------")
 
                         var jug = {
                             id: res.rows.item(i).id,
@@ -620,13 +616,10 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         }
 
         function getParejaIndividual() {
-            console.log("Holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-
             var query = "SELECT * FROM foursome WHERE modalidad = (?)";
+
             $cordovaSQLite.execute(db, query,['individual_normal']).then(function (res) {
-
                 for (var i = 0; i < res.rows.length; i++) {
-
                     $scope.parejasIndividual.push({
                         id: res.rows.item(i).id,
                         p1_j1_id: res.rows.item(i).p1_j1_id,
@@ -635,10 +628,10 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                         p1_j2_nombre: res.rows.item(i).p1_j2_nombre
                     });
 
-                    console.log(JSON.stringify($scope.parejasIndividual[i]))
+                    // console.log(JSON.stringify($scope.parejasIndividual[i]))
                 }
             }, function (err) {
-                JSON.stringify(err)
+                // JSON.stringify(err)
             });
 
         }

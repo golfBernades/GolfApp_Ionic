@@ -25,12 +25,7 @@
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 (function ($) {
-
-    console.log('inicio fixed_table_rc.js');
-
     $.fn.fxdHdrCol = function (o) {
-        console.log('fixed_table_rc.js [$.fn.fxdHdrCol]');
-
         var cfg = {
             height: 0,
             width: 0,

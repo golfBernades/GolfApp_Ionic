@@ -61,18 +61,15 @@ angular.module('starter.campos-cuenta', ['ionic'])
         };
 
         $scope.popupOpcionesCampo = function (idCampo, nombreCampo, index) {
-
             $rootScope.idCampoAct = idCampo;
             $scope.nombreCampo = nombreCampo;
             $scope.index = index;
 
             var query = "SELECT * FROM campo WHERE id = (?) AND cuenta = 0";
+
             $cordovaSQLite.execute(db, query, [idCampo]).then(function (res) {
-
                 alertOpcionesCampo(nombreCampo, "edit_delete_campo.html");
-
             });
-
         };
 
         $scope.actualizar = function () {
@@ -81,13 +78,11 @@ angular.module('starter.campos-cuenta', ['ionic'])
         };
 
         $scope.eliminar = function () {
-
             var query = "SELECT * FROM campo WHERE id = (?) AND cuenta = 0";
             $cordovaSQLite.execute(db, query, [$rootScope.idCampoAct]).then(function (res) {
                 alertPopupOpcionesCampo.close();
                 alertPopupOpcionesCampo = null;
                 confirmDeleteCampoDispositivoCuenta()
-
             });
 
         };
@@ -95,7 +90,12 @@ angular.module('starter.campos-cuenta', ['ionic'])
         function confirmDeleteCampoDispositivoCuenta() {
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Eliminar Campo',
-                template: 'Estas seguro de eliminar el campo ' + $scope.nombreCampo + '?'
+                template: '¿Estás seguro que deseas eliminar el campo '
+                + $scope.nombreCampo + '?',
+                okText: 'Eliminar',
+                okType: 'button-positive',
+                cancelText: 'Cancelar',
+                cancelType: 'button-assertive'
             });
 
             confirmPopup.then(function (res) {
@@ -103,7 +103,6 @@ angular.module('starter.campos-cuenta', ['ionic'])
                     utils.showLoading();
                     deleteCampoDispositivoCuenta(0);
                 }
-
             });
         }
 

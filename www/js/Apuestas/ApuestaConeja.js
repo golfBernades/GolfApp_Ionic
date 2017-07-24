@@ -98,33 +98,33 @@ function ApuestaConeja(partido) {
 
         // Alguien es candidato a pata
         if (jugadorPataActual != -1) {
-            console.log('[hoyo ' + (hIndex + 1) + '] -> Candidato a pata: '
-                + jugadorPataActual);
+            // console.log('[hoyo ' + (hIndex + 1) + '] -> Candidato a pata: '
+            //     + jugadorPataActual);
             // Hoyos del 2 al 18
             if (hIndex > 0) {
                 // Alguien llevaba pata en el hoyo anterior
                 if (jugadorPataAnterior != -1) {
-                    console.log('[hoyo ' + (hIndex + 1) + '] -> Había pata' +
-                        ' en el hoyo anterior');
+                    // console.log('[hoyo ' + (hIndex + 1) + '] -> Había pata' +
+                    //     ' en el hoyo anterior');
                     // Hizo dos patas seguidas
                     if (jugadorPataAnterior == jugadorPataActual) {
-                        console.log('[hoyo ' + (hIndex + 1) + '] -> El' +
-                            ' jugador ' + jugadorPataActual + ' hizo patas' +
-                            ' seguidas');
+                        // console.log('[hoyo ' + (hIndex + 1) + '] -> El' +
+                        //     ' jugador ' + jugadorPataActual + ' hizo patas' +
+                        //     ' seguidas');
                         this.actualizarStatus(jugadorPataActual, hIndex, 1);
                     }
                     // Alguien le quitó la pata
                     else {
-                        console.log('[hoyo ' + (hIndex + 1) + '] -> El' +
-                            ' jugador ' + jugadorPataActual + ' le quitó' +
-                            ' pata al jugador ' + jugadorPataAnterior);
+                        // console.log('[hoyo ' + (hIndex + 1) + '] -> El' +
+                        //     ' jugador ' + jugadorPataActual + ' le quitó' +
+                        //     ' pata al jugador ' + jugadorPataAnterior);
                         this.actualizarStatus(jugadorPataAnterior, hIndex, -1);
                     }
                 }
                 // Nadie llevaba pata en el hoyo anterior
                 else {
-                    console.log('[hoyo ' + (hIndex + 1) + '] -> No había pata' +
-                        ' en el hoyo anterior');
+                    // console.log('[hoyo ' + (hIndex + 1) + '] -> No había pata' +
+                    //     ' en el hoyo anterior');
                     this.actualizarStatus(jugadorPataActual, hIndex, 1);
                 }
             }
@@ -135,14 +135,14 @@ function ApuestaConeja(partido) {
         }
         // Nadie es candidato a pata
         else {
-            console.log('[hoyo ' + (hIndex + 1) + '] -> No hubo candidato a' +
-                ' pata');
+            // console.log('[hoyo ' + (hIndex + 1) + '] -> No hubo candidato a' +
+            //     ' pata');
             // Hoyos 2 al 18
             if (hIndex > 0) {
                 // Hubo pata en el hoyo anterior
                 if (jugadorPataAnterior != -1) {
-                    console.log('[hoyo ' + (hIndex + 1) + '] -> Había pata' +
-                        ' en el hoyo anterior');
+                    // console.log('[hoyo ' + (hIndex + 1) + '] -> Había pata' +
+                    //     ' en el hoyo anterior');
 
                     var pataQuitada = false;
 
@@ -221,8 +221,8 @@ function ApuestaConeja(partido) {
             patas = aumentoPatas;
         }
 
-        console.log('< [hoyo ' + (hoyoIndex + 1) + '] -> Patas: '
-            + patas + ', Conejas: ' + conejas );
+        // console.log('< [hoyo ' + (hoyoIndex + 1) + '] -> Patas: '
+        //     + patas + ', Conejas: ' + conejas );
 
         if (patas) {
             if (hoyoIndex == 5) {
@@ -282,9 +282,9 @@ function ApuestaConeja(partido) {
 
         this.scoreConeja[jugadorIndex].conejas[hoyoIndex] = conejas;
 
-        console.log('> [hoyo ' + (hoyoIndex + 1) + '] -> Patas: '
-            + this.scoreConeja[jugadorIndex].patas[hoyoIndex] + ', Conejas: '
-            + this.scoreConeja[jugadorIndex].conejas[hoyoIndex]);
+        // console.log('> [hoyo ' + (hoyoIndex + 1) + '] -> Patas: '
+        //     + this.scoreConeja[jugadorIndex].patas[hoyoIndex] + ', Conejas: '
+        //     + this.scoreConeja[jugadorIndex].conejas[hoyoIndex]);
     };
 
     this.createScoreboard = function () {

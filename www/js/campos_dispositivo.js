@@ -108,24 +108,26 @@ angular.module('starter.campos-dispositivo', ['ionic'])
         };
 
         $scope.popupOpcionesCampo= function(idCampo,nombreCampo,index) {
-
             $rootScope.idCampoAct = idCampo;
             $scope.nombreCampo = nombreCampo;
             $scope.index = index;
 
-            console.log(idCampo,nombreCampo, index)
             var query = "SELECT * FROM campo WHERE id = (?) AND cuenta = 0";
-            $cordovaSQLite.execute(db, query,[idCampo]).then(function (res) {
 
+            $cordovaSQLite.execute(db, query,[idCampo]).then(function (res) {
                 alertOpcionesCampo(nombreCampo,"edit_delete_upload_campo.html");
             });
-
         };
 
         function deleteCampoDispositivo() {
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Eliminar Campo',
-                template: 'Estas seguro de eliminar el campo ' + $scope.nombreCampo+'?'
+                template: 'Estas seguro de eliminar el campo '
+                + $scope.nombreCampo +'?',
+                okText: 'Eliminar',
+                okType: 'button-positive',
+                cancelText: 'Cancelar',
+                cancelType: 'button-assertive'
             });
 
             confirmPopup.then(function(res) {

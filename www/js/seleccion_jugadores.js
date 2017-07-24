@@ -289,15 +289,11 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         }
 
         function getJugadores() {
-
             var query = "SELECT * FROM jugador WHERE usuario_id = (?)";
             $cordovaSQLite.execute(db, query, [id_user_app]).then(function (res) {
                 if (res.rows.length > 0) {
 
                     for (var i = 0; i < res.rows.length; i++) {
-                        console.log(res.rows.item(i).id + " "
-                            + res.rows.item(i).jugar);
-
                         if (res.rows.item(i).jugar == 1) {
                             $scope.jugadores.push({
                                 id: res.rows.item(i).id,

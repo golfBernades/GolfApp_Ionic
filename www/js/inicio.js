@@ -125,9 +125,8 @@ angular.module('starter.inicio', ['ionic'])
         }
 
         $scope.consultaJuego = function () {
-            console.log("--- DB: " + JSON.stringify(db));
-
             var query = "SELECT * FROM clave";
+
             $cordovaSQLite.execute(db, query)
                 .then(function (res) {
                     if (res.rows.length > 0) {
@@ -148,7 +147,7 @@ angular.module('starter.inicio', ['ionic'])
                 buttons: [
                     {
                         text: 'Cancelar',
-                        type: 'button-assertive',
+                        type: 'button-assertive'
                     },
                     {
                         text: 'Verificar',

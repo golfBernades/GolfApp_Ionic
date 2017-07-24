@@ -20,7 +20,7 @@ angular.module('starter.juego_consulta', ['ionic'])
 
 
         $ionicPlatform.ready(function () {
-            console.log('GolfApp>> juego.$ionicPlatform.ready');
+            // console.log('GolfApp>> juego.$ionicPlatform.ready');
 
             getClave();
 
@@ -129,7 +129,7 @@ angular.module('starter.juego_consulta', ['ionic'])
                     $scope.partidoExistente.claveConsulta = res.rows.item(0).clave;
                     getMarcador();
                 }, function (err) {
-                    console.log(JSON.stringify(err))
+                    // console.log(JSON.stringify(err))
                 });
         }
 
@@ -140,7 +140,7 @@ angular.module('starter.juego_consulta', ['ionic'])
                     opcionesPopover.hide();
                     $state.go('inicio')
                 }, function (err) {
-                    console.log(JSON.stringify(err))
+                    // console.log(JSON.stringify(err))
                 });
         }
 

@@ -184,7 +184,7 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
             };
 
             $ionicPlatform.ready(function () {
-                console.log('GolfApp', 'juego.$ionicPlatform.ready()');
+                // console.log('GolfApp', 'juego.$ionicPlatform.ready()');
 
                 utils.showLoading();
 
