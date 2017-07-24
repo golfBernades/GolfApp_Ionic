@@ -4,7 +4,7 @@
         <input type="number" ng-model="juego.golpesRealizados"
                name="juego.golpesRealizados" id="golpesRealizados" value="0"
                autofocus style="{{juego.style_golpes}}"
-               ng-focus="juego.style_golpes = 'background-color: white'">
+               ng-focus="juego.style_golpes = ''">
     </div>
     <br>
     <div ng-if="rayasSeleccionada">
@@ -12,6 +12,6 @@
         <input type="number" ng-model="juego.puntosExtras"
                name="juego.puntosExtras" id="puntosExtras" value="0"
                style="{{juego.style_unidades}}"
-               ng-focus="juego.style_unidades = 'background-color: white'">
+               ng-focus="juego.style_unidades = ''">
     </div>
 </div>
