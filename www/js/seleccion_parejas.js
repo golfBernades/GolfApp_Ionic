@@ -85,7 +85,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                     },
                     {
                         text: 'Agregar',
-                        type: 'button-positive',
+                        type: 'button-balanced',
                         onTap: function (e) {
 
                             if ($scope.dosJugadores) {
@@ -107,25 +107,22 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 j_2: 0
             };
 
-            // console.log(parejaExistenteDoble($scope.listaUno.opcion, $scope.listaDos.opcion));
-            // console.log(parejaExistenteDoble($scope.listaTres.opcion, $scope.listaCuatro.opcion));
-
             var res_1 = parejaExistenteDoble($scope.listaUno.opcion, $scope.listaDos.opcion);
             var res_2 = parejaExistenteDoble($scope.listaTres.opcion, $scope.listaCuatro.opcion);
 
-            var pareja_rep = false;
+            var pareja = false;
 
             if(res_1 & res_2){
-                pareja_rep = true;
+                pareja = false;
             }else if(!res_1 & !res_2){
-                pareja_rep = false;
+                pareja = true;
             }else if(res_1 & !res_2){
-                pareja_rep = false;
+                pareja = true;
             }else{
-                pareja_rep = false;
+                pareja = true;
             }
 
-            if(!pareja_rep){
+            if(pareja){
                 if(validarParejas()){
 
                     if($scope.handicapIgual){
@@ -304,10 +301,6 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                     cont++;
                 }
 
-                if(cont == 1){
-                    cont=0;
-                }
-
                 if(jug_2.id == $scope.parejas[i].p1_j1_id){
                     cont++;
                 }
@@ -326,11 +319,13 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 }
             }
 
-            // console.log(cont +" cont")
+
 
             if(cont>=2){
+                // console.log("cont"+cont +" - true ")
                 return true;
             }else{
+                // console.log("cont"+cont +" - false ")
                 return false;
             }
         }
@@ -451,16 +446,17 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
         $scope.selectedListaSeis = function () {
             j_6 = $scope.listaSeis.opcion;
-        };
+        }
 
         $scope.eliminar = function () {
+
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Eliminar Parejas',
-                template: '¿Estás seguro que deseas eliminar a la' +
-                ' competición de [p1] VS [p2]?',
+                template: '¿Estás seguro que deseas eliminar estas parejas?',
                 cancelText: 'Cancelar',
                 cancelType: 'button-assertive',
                 okText: 'Eliminar'
+
             });
 
             confirmPopup.then(function (res) {
@@ -475,8 +471,10 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                         }, function (err) {
                             // console.log(JSON.stringify(err))
                         });
+
                 }
             });
+
         };
 
         $scope.actualizar = function () {
@@ -489,11 +487,12 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 title: 'Pareja VS Pareja',
                 scope: $scope,
                 okText: 'Cancelar',
-                okType: 'button-assertive'
+                okType: 'button-balanced'
             });
         }
 
         function getJugadores() {
+
             var query = "SELECT * FROM jugador WHERE usuario_id = (?) AND jugar = 1";
             $cordovaSQLite.execute(db, query, [id_user_app]).then(function (res) {
                 if (res.rows.length > 0) {
@@ -616,10 +615,13 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         }
 
         function getParejaIndividual() {
-            var query = "SELECT * FROM foursome WHERE modalidad = (?)";
+            // console.log("Holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
+            var query = "SELECT * FROM foursome WHERE modalidad = (?)";
             $cordovaSQLite.execute(db, query,['individual_normal']).then(function (res) {
+
                 for (var i = 0; i < res.rows.length; i++) {
+
                     $scope.parejasIndividual.push({
                         id: res.rows.item(i).id,
                         p1_j1_id: res.rows.item(i).p1_j1_id,
@@ -631,13 +633,12 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                     // console.log(JSON.stringify($scope.parejasIndividual[i]))
                 }
             }, function (err) {
-                // JSON.stringify(err)
+                JSON.stringify(err)
             });
 
         }
 
         $ionicPlatform.ready(function () {
             getJugadores();
-
         });
     });

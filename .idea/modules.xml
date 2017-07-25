@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/AppGolf.iml" filepath="$PROJECT_DIR$/.idea/AppGolf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/GolfApp_Ionic.iml" filepath="$PROJECT_DIR$/.idea/GolfApp_Ionic.iml" />
     </modules>
   </component>
 </project>
