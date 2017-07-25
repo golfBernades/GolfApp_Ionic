@@ -3,7 +3,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
     .controller('juegoController', function ($scope, $ionicPopup, $cordovaSQLite,
                                              $state, $ionicLoading, $timeout,
                                              $ionicPlatform, $q, $http,
-                                             serviceHttpRequest, $ionicPopover) {
+                                             serviceHttpRequest, $ionicPopover,
+                                             sql) {
             $scope.hoyos1a9 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
             $scope.hoyos10a18 = [10, 11, 12, 13, 14, 15, 16, 17, 18];
             $scope.pares1a9 = [];
@@ -194,22 +195,72 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 });
             }
 
+            var apuestaFoursome;
+
             function agregarApuestaFoursome() {
                 console.log('GolfApp', 'agregarApuestaFoursome');
 
-                $scope.partido.agregarApuesta('foursome',
-                    new ApuestaFoursome($scope.partido));
+                var query = "SELECT * FROM foursome";
 
-                var query = "INSERT INTO foursome (j_1_id, j_1_nombre, "
-                    + "j_2_id, j_2_nombre, j_3_id, j_3_nombre, j_4_id, "
-                    + "j_4_nombre, ventaja_p_1, ventaja_p_2, usuario_id) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                sql.sqlQuery(db, query, [])
+                    .then(function (res) {
+                        if (res.rows.length > 0) {
+                            var modalidad = res.rows.item(0).modalidad;
+                            apuestaFoursome = new ApuestaFoursome(
+                                $scope.partido, modalidad);
+
+                            $scope.partido.agregarApuesta('foursome',
+                                apuestaFoursome);
+
+                            console.log('GolfApp', 'Modalidad: ' + modalidad);
+
+                            if (modalidad == 'pareja_normal'
+                                || modalidad == 'pareja_california') {
+                                agregarCompeticionesFoursome(res.rows,
+                                    'pareja', 0);
+                            } else {
+                                agregarCompeticionesFoursome(res.rows,
+                                    'individual', 0);
+                            }
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log('[ERROR]', error);
+                    });
             }
 
-            var queryResult;
+            function agregarCompeticionesFoursome(parejas, tipoCompeti, idx) {
+                if (tipoCompeti == 'pareja') {
+                    console.log('pareja [' + idx + ']');
 
-            function selectSqlQuery(db, query) {
+                    var p1j1 = {
+                        id: parejas.item(idx).p1_j1_id,
+                        nombre: parejas.item(idx).p1_j1_nombre
+                    };
 
+                    var p1j2 = {
+                        id: parejas.item(idx).p1_j2_id,
+                        nombre: parejas.item(idx).p1_j2_nombre
+                    };
+
+                    var p2j1 = {
+                        id: parejas.item(idx).p2_j1_id,
+                        nombre: parejas.item(idx).p2_j1_nombre
+                    };
+
+                    var p2j2 = {
+                        id: parejas.item(idx).p2_j2_id,
+                        nombre: parejas.item(idx).p2_j2_nombre
+                    };
+
+                    apuestaFoursome.agregarCompeticionPareja(
+                        p1j1, p1j2, 1, p2j1, p1j2, 1
+                    );
+                }
+
+                if (idx < parejas.length - 1) {
+                    agregarCompeticionesFoursome(parejas, tipoCompeti, idx + 1);
+                }
             }
 
             function sincronizarPartidos() {
@@ -675,7 +726,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                                 if (golpesRealizaos) {
                                     if (regex.test(golpesRealizaos)) {
-                                        if(entradaCorrecta) {
+                                        if (entradaCorrecta) {
                                             $scope.tablero.datos_juego[jugador_idx]
                                                 .apuestaRayas.unidades[hoyo - 1]
                                                 = unidades;

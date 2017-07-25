@@ -6,6 +6,11 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                                                      serviceHttpRequest,
                                                      $ionicPopover, utils) {
 
+            ////////////////////////////////////////////////////////////////////
+            $scope.parejas = [];
+            $scope.parejasDobles = false;
+            ////////////////////////////////////////////////////////////////////
+
             $scope.hoyos1a9 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
             $scope.hoyos10a18 = [10, 11, 12, 13, 14, 15, 16, 17, 18];
             $scope.pares1a9 = [];

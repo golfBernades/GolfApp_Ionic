@@ -3,9 +3,12 @@
         <ion-side-menu-content drag-content="false">
             <ion-nav-bar class="bar-balanced" align-title="center">
                 <ion-nav-buttons side="left">
-                    <button class="button button-icon button-clear ion-chevron-left" menu-toggle="left" ng-click="selectJuego()"></button>
+                    <button class="button button-icon button-clear ion-chevron-left"
+                            menu-toggle="left"
+                            ng-click="selectJuego()"></button>
                     <h1 class="title">Juego Foursome</h1>
-                    <button class="button button-icon button-clear ion-navicon" menu-toggle="right"></button>
+                    <button class="button button-icon button-clear ion-navicon"
+                            menu-toggle="right"></button>
                 </ion-nav-buttons>
             </ion-nav-bar>
             <ion-nav-view>
@@ -120,9 +123,17 @@
                 <h1 class="title">Parejas</h1>
             </ion-header-bar>
             <ion-content class="list">
-                <div ng-repeat="parejas in parejasDobles">
-                    <a class="item" style="font-size: small" id="elemento">
-                        {{parejas.j_1_nombre}} - {{parejas.j_2_nombre}} vs {{parejas.j_3_nombre}} - {{parejas.j_4_nombre}}
+                <div ng-repeat="parejaD in parejas" ng-if="parejasDobles">
+                    <a class="item" style="font-size: small">
+                        {{parejas.p1_j1_nombre}} - {{parejas.p1_j2_nombre}}
+                        vs
+                        {{parejas.p2_j1_nombre}} - {{parejas.p2_j2_nombre}}
+                    </a>
+                </div>
+                <div ng-repeat="parejaD in parejas" ng-if="!parejasDobles">
+                    <a class="item" style="font-size: small">
+                        {{parejas.j_1_nombre}} - {{parejas.j_2_nombre}} vs
+                        {{parejas.j_3_nombre}} - {{parejas.j_4_nombre}}
                     </a>
                 </div>
             </ion-content>

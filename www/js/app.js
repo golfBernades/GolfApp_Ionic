@@ -420,4 +420,20 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
         this.hideLoading = function () {
             $ionicLoading.hide();
         }
+    })
+
+    .service('sql', function ($q, $cordovaSQLite) {
+        this.sqlQuery = function (db, query, queryData) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $cordovaSQLite.execute(db, query, queryData)
+                .then(function successCallback(res) {
+                    defered.resolve(res);
+                }, function errorCallback(error) {
+                    defered.reject(error);
+                });
+
+            return promise;
+        };
     });
