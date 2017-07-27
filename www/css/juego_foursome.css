@@ -38,3 +38,9 @@
     font-size: 20px;
     line-height: 100%;
 }
+
+.golpes-foursome .l4 span{
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+}
