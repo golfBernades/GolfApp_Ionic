@@ -59,12 +59,13 @@
                                         <br>
                                         {{puntuacion.handicap}}
                                     </td>
-                                    <td ng-repeat="hoyo in hoyos">
-                                        <div class="golpes-turno">
-                                            <div class="{{puntuacion.circulos[hoyo - 1][0]}}">
-                                                <div class="{{puntuacion.circulos[hoyo - 1][1]}}">
-                                                    <div class="{{puntuacion.circulos[hoyo - 1][2]}}">
-                                                        <div class="{{puntuacion.circulos[hoyo - 1][3]}}">
+                                    <td ng-repeat="hoyo in hoyos"
+                                        class="td-golpes">
+                                        <div class="golpes-foursome">
+                                            <div class="{{puntuacion.circulos[hoyo - 1][0]}} l1">
+                                                <div class="{{puntuacion.circulos[hoyo - 1][1]}} l2">
+                                                    <div class="{{puntuacion.circulos[hoyo - 1][2]}} l3">
+                                                        <div class="{{puntuacion.circulos[hoyo - 1][3]}} l4">
                                                             {{puntuacion.golpes[hoyo
                                                             - 1]}}
                                                         </div>

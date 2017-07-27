@@ -3,6 +3,38 @@
     height: 40%;
 }
 
-#elemento:hover{
+#elemento:hover {
     background-color: rgba(133, 133, 133, 0.49);
+}
+
+.td-golpes {
+    height: 50px;
+    width: 75px;
+    padding: 0 !important;
+}
+
+.golpes-foursome {
+    width: 100%;
+    height: 100%;
+}
+
+.golpes-foursome, .golpes-foursome div {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    text-align: center !important;
+}
+
+.golpes-foursome .l1 {
+    width: 48px;
+    height: 48px;
+}
+
+.golpes-foursome .l2, div .golpes-foursome .l3, .golpes-foursome .l4 {
+    width: 100%;
+    height: 100%;
+}
+
+.golpes-foursome .l4 {
+    font-size: 20px;
+    line-height: 100%;
 }

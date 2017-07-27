@@ -5,7 +5,7 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                                                      $ionicPlatform, $q, $http,
                                                      serviceHttpRequest, $ionicPopover,
                                                      sql, $ionicSideMenuDelegate) {
-        $scope.parejasDobles = true;
+        $scope.parejasDobles = false;
 
         $scope.hoyos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
             16, 17, 18];
@@ -130,6 +130,8 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                 .then(function (res) {
                     if (res.rows.length > 0) {
                         $scope.tablero = JSON.parse(res.rows.item(0).tablero);
+                        $scope.parejasDobles = $scope.tablero.configFoursome
+                                .modoJugadores == 'pareja';
                         defered.resolve(res);
                     }
                 })
