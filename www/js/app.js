@@ -34,8 +34,28 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 StatusBar.styleDefault();
             }
 
+            configureDatabase();
+
+            function isUser() {
+                var query = "SELECT * FROM usuario";
+                $cordovaSQLite.execute(db, query).then(function (res) {
+                    if (res.rows.length > 0) {
+                        id_user_app = res.rows.item(0).id;
+                        user_app = res.rows.item(0).email;
+                        password_app = res.rows.item(0).password;
+                        sesionActual = true;
+                    } else {
+                        sesionActual = false;
+                    }
+                });
+            }
+
+            isUser();
+        });
+
+        function configureDatabase() {
             db = window.sqlitePlugin.openDatabase({
-                name: 'golfapp.db',
+                name: 'appgolfito.db',
                 location: 'default'
             }, function successCallback() {
                 console.log("La DB se abrió correctamente");
@@ -79,7 +99,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             var campo = "CREATE TABLE IF NOT EXISTS campo (" +
                 "id text NOT NULL PRIMARY KEY" +
                 ",nombre text(100) NOT NULL" +
-                ",ciudad text(100) DEFAULT NULL" +
                 ",par_hoyo_1 integer DEFAULT NULL" +
                 ",par_hoyo_2 integer DEFAULT NULL" +
                 ",par_hoyo_3 integer DEFAULT NULL" +
@@ -151,22 +170,45 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
 
             $cordovaSQLite.execute(db, puntuacion);
 
+            var tableroJson = 'CREATE TABLE IF NOT EXISTS tablero_json ('
+                + 'id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, '
+                + 'tablero TEXT NOT NULL'
+                + ')';
+
+            $cordovaSQLite.execute(db, tableroJson);
+
             var foursome = 'CREATE TABLE IF NOT EXISTS foursome ('
                 + 'id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,'
-                + 'modalidad TEXT NOT NULL,'
-                + 'p1_j1_id INTEGER NOT NULL,'
-                + 'p1_j1_nombre TEXT NOT NULL,'
-                + 'p1_j2_id INTEGER NOT NULL,'
-                + 'p1_j2_nombre TEXT NOT NULL,'
-                + 'p1_ventaja_j_id INTEGER NULL,'
+                + 'p1_j1_id INTEGER NULL,'
+                + 'p1_j1_nombre TEXT NULL,'
+                + 'p1_j1_handicap INTEGER NULL,'
+                + 'p1_j1_idx INTEGER NULL,'
+                + 'p1_j2_id INTEGER NULL,'
+                + 'p1_j2_nombre TEXT NULL,'
+                + 'p1_j2_handicap INTEGER NULL,'
+                + 'p1_j2_idx INTEGER NULL,'
+                + 'p1_jug_ventaja INTEGER NULL,'
                 + 'p2_j1_id INTEGER NULL,'
                 + 'p2_j1_nombre TEXT NULL,'
+                + 'p2_j1_handicap INTEGER NULL,'
+                + 'p2_j1_idx INTEGER NULL,'
                 + 'p2_j2_id INTEGER NULL,'
                 + 'p2_j2_nombre TEXT  NULL,'
-                + 'p2_ventaja_j_id INTEGER NULL'
+                + 'p2_j2_handicap INTEGER NULL,'
+                + 'p2_j2_idx INTEGER NULL,'
+                + 'p2_jug_ventaja INTEGER NULL'
                 + ')';
 
             $cordovaSQLite.execute(db, foursome);
+
+            var configFoursome = 'CREATE TABLE IF NOT EXISTS config_foursome '
+                + '(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, '
+                + 'modo_jugadores TEXT NOT NULL, '
+                + 'modo_presiones TEXT NOT NULL, '
+                + 'pareja_idx INTEGER NOT NULL'
+                + ')';
+
+            $cordovaSQLite.execute(db, configFoursome);
 
             var idx_partido_partido_jugador_id_fk = "CREATE INDEX " +
                 "IF NOT EXISTS idx_partido_partido_jugador_id_fk " +
@@ -199,23 +241,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 "ON puntuaciones (partido_id)";
 
             $cordovaSQLite.execute(db, idx_puntuaciones_puntuaciones_partido_id_fk);
-
-            function isUser() {
-                var query = "SELECT * FROM usuario";
-                $cordovaSQLite.execute(db, query).then(function (res) {
-                    if (res.rows.length > 0) {
-                        id_user_app = res.rows.item(0).id;
-                        user_app = res.rows.item(0).email;
-                        password_app = res.rows.item(0).password;
-                        sesionActual = true;
-                    } else {
-                        sesionActual = false;
-                    }
-                });
-            }
-
-            isUser();
-        });
+        }
 
         $ionicPlatform.registerBackButtonAction(function (event) {
 
@@ -320,7 +346,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 controller: 'juegoFoursomeController'
             });
 
-        $urlRouterProvider.otherwise('/inicio');
+        $urlRouterProvider.otherwise('/juego_foursome');
+        // $urlRouterProvider.otherwise('/inicio');
 
         // Configuración de elementos visuales
         $ionicConfigProvider.scrolling.jsScrolling(false);

@@ -55,6 +55,7 @@ angular.module('starter.juego_consulta', ['ionic'])
 
         function getMarcador() {
             utils.showLoading();
+
             var httpRequest = serviceHttpRequest.createPostHttpRequest(
                 dir + 'partido_tablero_get', {
                     clave_consulta: $scope.partidoExistente.claveConsulta

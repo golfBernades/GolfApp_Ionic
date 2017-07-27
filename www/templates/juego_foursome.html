@@ -5,7 +5,7 @@
                 <ion-nav-buttons side="left">
                     <button class="button button-icon button-clear ion-chevron-left"
                             menu-toggle="left"
-                            ng-click="selectJuego()"></button>
+                            ng-click="goJuegoGeneral()"></button>
                     <h1 class="title">Juego Foursome</h1>
                     <button class="button button-icon button-clear ion-navicon"
                             menu-toggle="right"></button>
@@ -15,7 +15,7 @@
                 <ion-content class="has-header">
                     <div class="contenedor">
                         <div class="div-table-scoreboard">
-                            <table id="fixed_table">
+                            <table id="table_foursome">
                                 <thead>
                                 <tr>
                                     <th>HOYO</th>
@@ -40,68 +40,45 @@
                                 </tr>
                                 <tr>
                                     <th>PAR</th>
-                                    <th ng-repeat="par in tablero.campo.pares1a9">
-                                        {{par.value}}
-                                    </th>
-                                    <th ng-repeat="par in tablero.campo.pares10a18">
+                                    <th ng-repeat="par in tablero.campo.pares">
                                         {{par.value}}
                                     </th>
                                 </tr>
                                 <tr>
                                     <th>VENTAJA</th>
-                                    <th ng-repeat="ventaja in tablero.campo.ventajas1a9">
-                                        {{ventaja.value}}
-                                    </th>
-                                    <th ng-repeat="ventaja in tablero.campo.ventajas10a18">
+                                    <th ng-repeat="ventaja in tablero.campo.ventajas">
                                         {{ventaja.value}}
                                     </th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr ng-repeat="puntuacion in tablero.datos_juego">
+                                <tr
+                                        ng-repeat="puntuacion in tableroPareja.datos_juego">
                                     <td class="vertical-centered-cell">
                                         {{puntuacion.nombre}}
+                                        <br>
+                                        {{puntuacion.handicap}}
                                     </td>
-
-                                    <td ng-repeat="hoyo in hoyos1a9"
-                                        class="vertical-centered-cell golpes-turno-foursome">
-                                        {{puntuacion.golpes[hoyo - 1]}}
-                                        <!--<div class="btn-celda-juego">-->
-                                        <!--<div class="div-boton-juego">-->
-                                        <!--<div class="golpes-turno-foursome">-->
-                                        <!---->
-                                        <!--</div>-->
-                                        <!--</div>-->
-                                        <!--</div>-->
+                                    <td ng-repeat="hoyo in hoyos">
+                                        <div class="golpes-turno">
+                                            <div class="{{puntuacion.circulos[hoyo - 1][0]}}">
+                                                <div class="{{puntuacion.circulos[hoyo - 1][1]}}">
+                                                    <div class="{{puntuacion.circulos[hoyo - 1][2]}}">
+                                                        <div class="{{puntuacion.circulos[hoyo - 1][3]}}">
+                                                            {{puntuacion.golpes[hoyo
+                                                            - 1]}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
-
-                                    <td ng-repeat="hoyo in hoyos10a18"
-                                        class="vertical-centered-cell golpes-turno-foursome">
-                                        {{puntuacion.golpes[hoyo - 1]}}
-                                        <!--ng-click="addElement()">-->
-                                        <!--<div class="div-boton-juego">-->
-                                        <!--<div class="golpes-turno-foursome">-->
-                                        <!--{{puntuacion.golpes[hoyo- 1]}}-->
-                                        <!--</div>-->
-                                        <!--</div>-->
-                                        <!--</div>-->
-                                    </td>
-
                                 </tr>
-
                                 <tr class="row-foursome">
                                     <td class="vertical-centered-cell">
                                         Puntos
                                     </td>
-                                    <td ng-repeat="hoyo in hoyos10a18">
-                                        <p>A</p>
-                                        <p>B</p>
-                                        <p>C</p>
-                                        <p>D</p>
-                                        <p>K</p>
-                                        <p>7</p>
-                                    </td>
-                                    <td ng-repeat="hoyo in hoyos10a18">
+                                    <td ng-repeat="hoyo in hoyos">
                                         <p>A</p>
                                         <p>B</p>
                                         <p>C</p>
@@ -123,11 +100,18 @@
                 <h1 class="title">Parejas</h1>
             </ion-header-bar>
             <ion-content class="list">
-                <div ng-repeat="parejaD in parejas" ng-if="parejasDobles">
-                    <a class="item" style="font-size: small">
-                        {{parejas.p1_j1_nombre}} - {{parejas.p1_j2_nombre}}
-                        vs
-                        {{parejas.p2_j1_nombre}} - {{parejas.p2_j2_nombre}}
+                <br>
+                <div ng-repeat="competicion in tablero.apuestaFoursome"
+                     ng-if="parejasDobles">
+                    <a class="item" style="font-size: small"
+                       ng-click="verFoursomePareja($index)">
+                        [{{competicion.p1_j1.nombre}}
+                        -
+                        {{competicion.p1_j2.nombre}}]
+                        VS
+                        [{{competicion.p2_j1.nombre}}
+                        -
+                        {{competicion.p2_j2.nombre}}]
                     </a>
                 </div>
                 <div ng-repeat="parejaD in parejas" ng-if="!parejasDobles">

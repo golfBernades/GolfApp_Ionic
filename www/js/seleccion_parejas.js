@@ -60,11 +60,13 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         var idPareja;
 
         $scope.comenzarJuego = function () {
-            if ($scope.parejas.length) {
-                $state.go('juego');
-            } else {
-                utils.popup("Crear Parejas", "Para poder avanzar debes haber creado las parejas a competir.")
-            }
+            $state.go('juego');
+            // if ($scope.parejas.length) {
+            //     $state.go('juego');
+            // } else {
+            //     utils.popup("Crear Parejas",
+            //         "Para poder avanzar debes haber creado las parejas a competir.")
+            // }
         };
 
         $scope.seleccionarApuesta = function () {
@@ -101,14 +103,15 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         };
 
         function parejasDobles(e) {
-
             var ventaja = {
                 j_1: 0,
                 j_2: 0
             };
 
-            var res_1 = parejaExistenteDoble($scope.listaUno.opcion, $scope.listaDos.opcion);
-            var res_2 = parejaExistenteDoble($scope.listaTres.opcion, $scope.listaCuatro.opcion);
+            var res_1 = parejaExistenteDoble($scope.listaUno.opcion,
+                $scope.listaDos.opcion);
+            var res_2 = parejaExistenteDoble($scope.listaTres.opcion,
+                $scope.listaCuatro.opcion);
 
             var pareja = false;
 
@@ -124,7 +127,6 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
             if(pareja){
                 if(validarParejas()){
-
                     if($scope.handicapIgual){
                         if($scope.listaCinco.opcion.id == null){
                             utils.popup("Seleccionar Jugador", "Seleccionar jugador con preferencia en Handicap para la pareja 1.")
@@ -416,28 +418,23 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         };
 
         $scope.selectedListaUno = function () {
-
             agregarJugadoresSelect($scope.listaUno.opcion, $scope.listJN2);
             handicapIgual($scope.listaUno.opcion, $scope.listaDos.opcion, $scope.listJN5, 1);
         };
 
         $scope.selectedListaDos = function () {
-
             agregarJugadoresSelect($scope.listaDos.opcion, $scope.listJN1);
             handicapIgual($scope.listaDos.opcion, $scope.listaUno.opcion, $scope.listJN5, 1);
         };
 
         $scope.selectedListaTres = function () {
-
             agregarJugadoresSelect($scope.listaTres.opcion, $scope.listJN4);
             handicapIgual($scope.listaTres.opcion, $scope.listaCuatro.opcion, $scope.listJN6, 2);
         };
 
         $scope.selectedListaCuatro = function () {
-
             agregarJugadoresSelect($scope.listaCuatro.opcion, $scope.listJN3);
             handicapIgual($scope.listaCuatro.opcion, $scope.listaTres.opcion, $scope.listJN6, 2);
-
         };
 
         $scope.selectedListaCinco = function () {
@@ -446,7 +443,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
         $scope.selectedListaSeis = function () {
             j_6 = $scope.listaSeis.opcion;
-        }
+        };
 
         $scope.eliminar = function () {
 
@@ -536,7 +533,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
                     }
 
-                    añadirDefaultJugadores(res.rows.length)
+                    anadirDefaultJugadores(res.rows.length)
 
                     if (res.rows.length == 2) {
                         $scope.pareja_individual = true;
@@ -559,7 +556,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
             });
         };
 
-        function añadirDefaultJugadores(jugadores) {
+        function anadirDefaultJugadores(jugadores) {
 
             if(jugadores == 2){
                 $scope.listaDos.opcion = jugadoresList[0]
