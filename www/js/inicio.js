@@ -2,7 +2,8 @@ angular.module('starter.inicio', ['ionic'])
 
     .controller('inicioController', function ($scope, $cordovaSQLite, $state,
                                               $ionicPlatform, $ionicPopup, $ionicLoading,
-                                              $http, servicePantallas, serviceHttpRequest, utils) {
+                                              $http, servicePantallas, serviceHttpRequest, utils,
+                                              $q) {
 
         $scope.data = {
             clave: "abcdefgh",
@@ -167,7 +168,69 @@ angular.module('starter.inicio', ['ionic'])
         }
 
         $ionicPlatform.ready(function () {
+            console.log('inicio.$ionicPlatform.ready()');
             isUser()
         });
+
+        $scope.insertTestData = function () {
+
+        };
+
+        $scope.emptyDatabase = function () {
+            var emptyPuntuaciones = 'DELETE FROM puntuaciones';
+            var emptyApuesta = 'UPDATE apuesta SET seleccionada = 0';
+            var emptyCampo = 'DELETE FROM campo';
+            var emptyClave = 'DELETE FROM clave';
+            var emptyConfigFoursome = 'DELETE FROM config_foursome';
+            var emptyFoursome = 'DELETE FROM foursome';
+            var emptyJugador = 'DELETE FROM jugador';
+            var emptyPantalla = 'DELETE FROM pantalla';
+            var emptyPartido = 'DELETE FROM partido';
+            var emptyTableroJson = 'DELETE FROM tablero_json';
+            var emptyUsuario = 'DELETE FROM usuario';
+
+            $q.when()
+                .then(function () {
+                    return $cordovaSQLite.execute(db, emptyPuntuaciones);
+                })
+                .then(function () {
+                    return $cordovaSQLite.execute(db, emptyApuesta);
+                })
+                .then(function () {
+                    return $cordovaSQLite.execute(db, emptyCampo);
+                })
+                .then(function () {
+                    return $cordovaSQLite.execute(db, emptyClave);
+                })
+                .then(function () {
+                    return $cordovaSQLite.execute(db, emptyConfigFoursome);
+                })
+                .then(function () {
+                    return $cordovaSQLite.execute(db, emptyFoursome);
+                })
+                .then(function () {
+                    return $cordovaSQLite.execute(db, emptyJugador);
+                })
+                .then(function () {
+                    return $cordovaSQLite.execute(db, emptyPantalla);
+                })
+                .then(function () {
+                    return $cordovaSQLite.execute(db, emptyPartido);
+                })
+                .then(function () {
+                    return $cordovaSQLite.execute(db, emptyTableroJson);
+                })
+                .then(function () {
+                    return $cordovaSQLite.execute(db, emptyUsuario);
+                })
+                .then(function () {
+                    console.log('Database vaciada');
+                    sesionActual = false;
+                    $state.reload();
+                })
+                .catch(function (error) {
+                    console.log('GolfApp', error);
+                })
+        };
 
     });

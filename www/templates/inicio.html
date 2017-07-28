@@ -19,8 +19,16 @@
                 Iniciar juego nuevo
             </button>
             <button class="button button-balanced button-block btn-full"
-            ng-click="consultaJuego()">
+                    ng-click="consultaJuego()">
                 Ver juego existente
+            </button>
+            <button class="button button-assertive button-block btn-full"
+                    ng-click="emptyDatabase()">
+                Vaciar base de datos
+            </button>
+            <button class="button button-assertive button-block btn-full"
+                    ng-click="insertTestData()">
+                Insertar datos de prueba
             </button>
         </div>
     </ion-content>
