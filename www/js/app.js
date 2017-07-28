@@ -63,110 +63,103 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 console.log("No se pudo abrir la DB");
             });
 
-            var pantalla = "CREATE TABLE IF NOT EXISTS pantalla" +
-                "(id integer PRIMARY KEY AUTOINCREMENT" +
-                ",pantalla text)";
+            var pantalla = 'CREATE TABLE IF NOT EXISTS pantalla'
+                + '(id integer PRIMARY KEY AUTOINCREMENT'
+                + ',pantalla text)';
 
             $cordovaSQLite.execute(db, pantalla);
 
-            var clave = "CREATE TABLE IF NOT EXISTS clave" +
-                "(clave text PRIMARY KEY)";
+            var clave = 'CREATE TABLE IF NOT EXISTS clave'
+                + '(clave text PRIMARY KEY)';
 
             $cordovaSQLite.execute(db, clave);
 
-            var usuario = "CREATE TABLE IF NOT EXISTS usuario" +
-                "(id integer PRIMARY KEY" +
-                ",email text" +
-                ",password text)";
+            var usuario = 'CREATE TABLE IF NOT EXISTS usuario'
+                + '(id integer PRIMARY KEY'
+                + ',email text'
+                + ',password text)';
 
             $cordovaSQLite.execute(db, usuario);
 
-            var jugador = "CREATE TABLE IF NOT EXISTS jugador" +
-                "(id integer PRIMARY KEY AUTOINCREMENT, " +
-                "nombre text, " +
-                "handicap integer," +
-                "jugar integer," +
-                "sexo integer," +
-                "url_foto text," +
-                "password text," +
-                "email text," +
-                "usuario_id integer NOT NULL," +
-                "CONSTRAINT email_unique UNIQUE (email)," +
-                "FOREIGN KEY (usuario_id) REFERENCES usuario (id))";
+            var jugador = 'CREATE TABLE IF NOT EXISTS jugador'
+                + '(id integer PRIMARY KEY AUTOINCREMENT, '
+                + 'nombre text, ' 
+                + 'handicap integer,' 
+                + 'jugar integer)';
 
             $cordovaSQLite.execute(db, jugador);
 
-            var campo = "CREATE TABLE IF NOT EXISTS campo (" +
-                "id text NOT NULL PRIMARY KEY" +
-                ",nombre text(100) NOT NULL" +
-                ",par_hoyo_1 integer DEFAULT NULL" +
-                ",par_hoyo_2 integer DEFAULT NULL" +
-                ",par_hoyo_3 integer DEFAULT NULL" +
-                ",par_hoyo_4 integer DEFAULT NULL" +
-                ",par_hoyo_5 integer DEFAULT NULL" +
-                ",par_hoyo_6 integer DEFAULT NULL" +
-                ",par_hoyo_7 integer DEFAULT NULL" +
-                ",par_hoyo_8 integer DEFAULT NULL" +
-                ",par_hoyo_9 integer DEFAULT NULL" +
-                ",par_hoyo_10 integer DEFAULT NULL" +
-                ",par_hoyo_11 integer DEFAULT NULL" +
-                ",par_hoyo_12 integer DEFAULT NULL" +
-                ",par_hoyo_13 integer DEFAULT NULL" +
-                ",par_hoyo_14 integer DEFAULT NULL" +
-                ",par_hoyo_15 integer DEFAULT NULL" +
-                ",par_hoyo_16 integer DEFAULT NULL" +
-                ",par_hoyo_17 integer DEFAULT NULL" +
-                ",par_hoyo_18 integer DEFAULT NULL" +
-                ",ventaja_hoyo_1 integer DEFAULT NULL" +
-                ",ventaja_hoyo_2 integer DEFAULT NULL" +
-                ",ventaja_hoyo_3 integer DEFAULT NULL" +
-                ",ventaja_hoyo_4 integer DEFAULT NULL" +
-                ",ventaja_hoyo_5 integer DEFAULT NULL" +
-                ",ventaja_hoyo_6 integer DEFAULT NULL" +
-                ",ventaja_hoyo_7 integer DEFAULT NULL" +
-                ",ventaja_hoyo_8 integer DEFAULT NULL" +
-                ",ventaja_hoyo_9 integer DEFAULT NULL" +
-                ",ventaja_hoyo_10 integer DEFAULT NULL" +
-                ",ventaja_hoyo_11 integer DEFAULT NULL" +
-                ",ventaja_hoyo_12 integer DEFAULT NULL" +
-                ",ventaja_hoyo_13 integer DEFAULT NULL" +
-                ",ventaja_hoyo_14 integer DEFAULT NULL" +
-                ",ventaja_hoyo_15 integer DEFAULT NULL" +
-                ",ventaja_hoyo_16 integer DEFAULT NULL" +
-                ",ventaja_hoyo_17 integer DEFAULT NULL" +
-                ",ventaja_hoyo_18 integer DEFAULT NULL" +
-                ",cuenta integer (1) NOT NULL" +
-                ",seleccionado integer(1) NOT NULL" +
-                ",usuario_id integer NOT NULL" +
-                ",FOREIGN KEY (usuario_id) REFERENCES usuario (id))";
+            var campo = 'CREATE TABLE IF NOT EXISTS campo (' +
+                'id text NOT NULL PRIMARY KEY' +
+                ',nombre text(100) NOT NULL' +
+                ',par_hoyo_1 integer DEFAULT NULL' +
+                ',par_hoyo_2 integer DEFAULT NULL' +
+                ',par_hoyo_3 integer DEFAULT NULL' +
+                ',par_hoyo_4 integer DEFAULT NULL' +
+                ',par_hoyo_5 integer DEFAULT NULL' +
+                ',par_hoyo_6 integer DEFAULT NULL' +
+                ',par_hoyo_7 integer DEFAULT NULL' +
+                ',par_hoyo_8 integer DEFAULT NULL' +
+                ',par_hoyo_9 integer DEFAULT NULL' +
+                ',par_hoyo_10 integer DEFAULT NULL' +
+                ',par_hoyo_11 integer DEFAULT NULL' +
+                ',par_hoyo_12 integer DEFAULT NULL' +
+                ',par_hoyo_13 integer DEFAULT NULL' +
+                ',par_hoyo_14 integer DEFAULT NULL' +
+                ',par_hoyo_15 integer DEFAULT NULL' +
+                ',par_hoyo_16 integer DEFAULT NULL' +
+                ',par_hoyo_17 integer DEFAULT NULL' +
+                ',par_hoyo_18 integer DEFAULT NULL' +
+                ',ventaja_hoyo_1 integer DEFAULT NULL' +
+                ',ventaja_hoyo_2 integer DEFAULT NULL' +
+                ',ventaja_hoyo_3 integer DEFAULT NULL' +
+                ',ventaja_hoyo_4 integer DEFAULT NULL' +
+                ',ventaja_hoyo_5 integer DEFAULT NULL' +
+                ',ventaja_hoyo_6 integer DEFAULT NULL' +
+                ',ventaja_hoyo_7 integer DEFAULT NULL' +
+                ',ventaja_hoyo_8 integer DEFAULT NULL' +
+                ',ventaja_hoyo_9 integer DEFAULT NULL' +
+                ',ventaja_hoyo_10 integer DEFAULT NULL' +
+                ',ventaja_hoyo_11 integer DEFAULT NULL' +
+                ',ventaja_hoyo_12 integer DEFAULT NULL' +
+                ',ventaja_hoyo_13 integer DEFAULT NULL' +
+                ',ventaja_hoyo_14 integer DEFAULT NULL' +
+                ',ventaja_hoyo_15 integer DEFAULT NULL' +
+                ',ventaja_hoyo_16 integer DEFAULT NULL' +
+                ',ventaja_hoyo_17 integer DEFAULT NULL' +
+                ',ventaja_hoyo_18 integer DEFAULT NULL' +
+                ',cuenta integer (1) NOT NULL' +
+                ',seleccionado integer(1) NOT NULL' +
+                ',usuario_id integer NOT NULL' +
+                ',FOREIGN KEY (usuario_id) REFERENCES usuario (id))';
 
             $cordovaSQLite.execute(db, campo);
 
-            var apuesta = "CREATE TABLE IF NOT EXISTS apuesta (" +
-                "id integer NOT NULL PRIMARY KEY AUTOINCREMENT" +
-                ",nombre varchar(50) NOT NULL" +
-                ",seleccionada integer(1) NOT NULL" +
-                ",CONSTRAINT nombre_ap_unique UNIQUE (nombre))";
+            var apuesta = 'CREATE TABLE IF NOT EXISTS apuesta (' +
+                'id integer NOT NULL PRIMARY KEY AUTOINCREMENT' +
+                ',nombre varchar(50) NOT NULL' +
+                ',seleccionada integer(1) NOT NULL' +
+                ',CONSTRAINT nombre_ap_unique UNIQUE (nombre))';
 
             $cordovaSQLite.execute(db, apuesta);
 
-            var partido = "CREATE TABLE IF NOT EXISTS partido (" +
-                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT" +
-                ", clave_consulta CHAR(8) NULL UNIQUE" +
-                ", clave_edicion CHAR(8) NULL UNIQUE" +
-                ", inicio DATETIME NOT NULL" +
-                ", fin DATETIME DEFAULT NULL" +
-                ", id_servidor INTEGER NULL UNIQUE)";
+            var partido = 'CREATE TABLE IF NOT EXISTS partido ('
+                + 'id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT'
+                + ', clave_consulta CHAR(8) NULL UNIQUE'
+                + ', clave_edicion CHAR(8) NULL UNIQUE'
+                + ', inicio DATETIME NOT NULL'
+                + ', fin DATETIME DEFAULT NULL'
+                + ', id_servidor INTEGER NULL UNIQUE)';
 
             $cordovaSQLite.execute(db, partido);
 
-            var puntuacion = "CREATE TABLE IF NOT EXISTS puntuaciones (" +
-                "id integer NOT NULL PRIMARY KEY AUTOINCREMENT" +
-                ",hoyo integer NOT NULL" +
-                ",golpes integer NOT NULL" +
-                ",unidades integer NOT NULL" +
-                ",jugador_id integer NOT NULL" +
-                ",FOREIGN KEY (jugador_id) REFERENCES jugador (id))";
+            var puntuacion = 'CREATE TABLE IF NOT EXISTS puntuaciones ('
+                + 'id integer NOT NULL PRIMARY KEY AUTOINCREMENT'
+                + ',hoyo integer NOT NULL'
+                + ',golpes integer NOT NULL'
+                + ',unidades integer NOT NULL'
+                + ',jugador_id integer NOT NULL'
+                + ',FOREIGN KEY (jugador_id) REFERENCES jugador (id))';
 
             $cordovaSQLite.execute(db, puntuacion);
 
@@ -210,35 +203,35 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
 
             $cordovaSQLite.execute(db, configFoursome);
 
-            var idx_partido_partido_jugador_id_fk = "CREATE INDEX " +
-                "IF NOT EXISTS idx_partido_partido_jugador_id_fk " +
-                "ON partido (jugador_id);";
+            var idx_partido_partido_jugador_id_fk = 'CREATE INDEX ' +
+                'IF NOT EXISTS idx_partido_partido_jugador_id_fk ' +
+                'ON partido (jugador_id);';
 
             $cordovaSQLite.execute(db, idx_partido_partido_jugador_id_fk);
 
-            var idx_partido_partido_campo_id_fk = "CREATE INDEX " +
-                "IF NOT EXISTS idx_partido_partido_campo_id_fk " +
-                "ON partido (campo_id)";
+            var idx_partido_partido_campo_id_fk = 'CREATE INDEX ' +
+                'IF NOT EXISTS idx_partido_partido_campo_id_fk ' +
+                'ON partido (campo_id)';
 
             $cordovaSQLite.execute(db, idx_partido_partido_campo_id_fk);
 
             var idx_jugador_partido_jugador_partido_partido_id_fk =
-                "CREATE INDEX IF NOT EXISTS " +
-                "idx_jugador_partido_jugador_partido_partido_id_fk " +
-                "ON jugador_partido (partido_id)";
+                'CREATE INDEX IF NOT EXISTS ' +
+                'idx_jugador_partido_jugador_partido_partido_id_fk ' +
+                'ON jugador_partido (partido_id)';
 
             $cordovaSQLite.execute(db, idx_jugador_partido_jugador_partido_partido_id_fk);
 
             var idx_apuesta_partido_apuesta_partido_apuesta_id_fk =
-                "CREATE INDEX IF NOT EXISTS " +
-                "idx_apuesta_partido_apuesta_partido_apuesta_id_fk " +
-                "ON apuesta_partido (apuesta_id)";
+                'CREATE INDEX IF NOT EXISTS ' +
+                'idx_apuesta_partido_apuesta_partido_apuesta_id_fk ' +
+                'ON apuesta_partido (apuesta_id)';
 
             $cordovaSQLite.execute(db, idx_apuesta_partido_apuesta_partido_apuesta_id_fk);
 
-            var idx_puntuaciones_puntuaciones_partido_id_fk = "CREATE INDEX " +
-                "IF NOT EXISTS idx_puntuaciones_puntuaciones_partido_id_fk " +
-                "ON puntuaciones (partido_id)";
+            var idx_puntuaciones_puntuaciones_partido_id_fk = 'CREATE INDEX ' +
+                'IF NOT EXISTS idx_puntuaciones_puntuaciones_partido_id_fk ' +
+                'ON puntuaciones (partido_id)';
 
             $cordovaSQLite.execute(db, idx_puntuaciones_puntuaciones_partido_id_fk);
         }
@@ -355,7 +348,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
         $ionicConfigProvider.tabs.position('top');
         $ionicConfigProvider.views.swipeBackEnabled(false);
     })
-
 
     .service('serviceHttpRequest', function () {
 

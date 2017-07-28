@@ -17,8 +17,8 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         var modificar = false;
 
         $scope.seleccionarCampo = function () {
-            var query = "SELECT jugar FROM jugador WHERE usuario_id = (?)";
-            $cordovaSQLite.execute(db, query, [id_user_app])
+            var query = "SELECT jugar FROM jugador";
+            $cordovaSQLite.execute(db, query)
                 .then(function (res) {
                     if (res.rows.length > 0) {
 
@@ -31,7 +31,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                             }
                         }
                         if (control) {
-
+                            // TODO Corregir esta madre
                             if (modificar) {
                                 var del_four = "DELETE FROM foursome WHERE usuario_id = (?)";
                                 $cordovaSQLite.execute(db, del_four, [id_user_app]);
@@ -73,14 +73,13 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         };
 
         $scope.isJugador = function (idJugador, index) {
-
             var query = "UPDATE jugador SET jugar = ? WHERE id =?";
+
             if ($scope.jugadores[index].jugar) {
                 $cordovaSQLite.execute(db, query, [1, idJugador]);
             } else {
                 $cordovaSQLite.execute(db, query, [0, idJugador]);
             }
-
         };
 
         $scope.deleteJugador = function (index) {
@@ -99,7 +98,6 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                     var query = 'DELETE FROM jugador  WHERE id = ?';
                     $cordovaSQLite.execute(db, query, [$scope.jugadores[index].id]);
                     $scope.jugadores.splice(index, 1);
-
                     modificar = true;
                 }
             });
@@ -289,8 +287,8 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         }
 
         function getJugadores() {
-            var query = "SELECT * FROM jugador WHERE usuario_id = (?)";
-            $cordovaSQLite.execute(db, query, [id_user_app]).then(function (res) {
+            var query = "SELECT * FROM jugador";
+            $cordovaSQLite.execute(db, query).then(function (res) {
                 if (res.rows.length > 0) {
 
                     for (var i = 0; i < res.rows.length; i++) {
@@ -315,7 +313,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                 }
 
             }, function (err) {
-                JSON.stringify(err)
+                console.log(err);
             });
         }
 

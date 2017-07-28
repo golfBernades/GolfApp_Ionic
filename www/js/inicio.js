@@ -90,7 +90,7 @@ angular.module('starter.inicio', ['ionic'])
         function logOut() {
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Cerrar Sesión',
-                template: 'Estas seguro de cerrar sesión?'
+                template: '¿Estás seguro de querer salir de tu cuenta?'
             });
 
             confirmPopup.then(function (res) {
@@ -173,10 +173,98 @@ angular.module('starter.inicio', ['ionic'])
         });
 
         $scope.insertTestData = function () {
+            var defered = $q.defer();
+            var promise = defered.promise;
 
+            var insertJugador = 'INSERT INTO jugador (id, nombre, handicap,'
+                + ' jugar) VALUES (?, ?, ?, ?)';
+            var jug1Data = [1, 'Beto', 4, 1]; // 0
+            var jug2Data = [2, 'Moy', 5, 1]; // 2
+            var jug3Data = [3, 'JLuis', 5, 1]; // 1
+            var jug4Data = [4, 'Rafa', 5, 1]; // 3
+            var jug5Data = [5, 'Micho', 9, 1]; // 4
+            var selectApuesta = 'UPDATE apuesta SET seleccionada=1';
+            var insertConfigFoursome = 'INSERT INTO config_foursome '
+                + '(modo_jugadores, modo_presiones, pareja_idx) '
+                + 'VALUES (?, ?, ?)';
+            var configFoursomeData = ['pareja', 'normal', 0];
+            var insertFoursome = 'INSERT INTO foursome ('
+                + 'p1_j1_id, p1_j1_nombre, p1_j1_handicap, p1_j1_idx, '
+                + 'p1_j2_id, p1_j2_nombre, p1_j2_handicap, p1_j2_idx, '
+                + 'p2_j1_id, p2_j1_nombre, p2_j1_handicap, p2_j1_idx, '
+                + 'p2_j2_id, p2_j2_nombre, p2_j2_handicap, p2_j2_idx, '
+                + 'p1_jug_ventaja, p2_jug_ventaja'
+                + ') VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+            var four1Data = [1, 'Beto', 4, 0, 2, 'Moy', 5, 2, 3, 'JLuis', 5, 1,
+                4, 'Rafa', 5, 3, 1, 1];
+            var four2Data = [1, 'Beto', 4, 0, 2, 'Moy', 5, 2, 3, 'JLuis', 5, 1,
+                5, 'Micho', 9, 4, 1, 2];
+            var four3Data = [1, 'Beto', 4, 0, 2, 'Moy', 5, 2, 4, 'Rafa', 5, 3,
+                5, 'Micho', 9, 4, 1, 2];
+
+            $q.when()
+                .then(function () {
+                    return $cordovaSQLite.execute(db, insertJugador, jug1Data);
+                })
+                .then(function () {
+                    console.log('GolfApp', '[OK] -> insertJugador');
+                    return $cordovaSQLite.execute(db, insertJugador, jug2Data);
+                })
+                .then(function () {
+                    console.log('GolfApp', '[OK] -> insertJugador');
+                    return $cordovaSQLite.execute(db, insertJugador, jug3Data);
+                })
+                .then(function () {
+                    console.log('GolfApp', '[OK] -> insertJugador');
+                    return $cordovaSQLite.execute(db, insertJugador, jug4Data);
+                })
+                .then(function () {
+                    console.log('GolfApp', '[OK] -> insertJugador');
+                    return $cordovaSQLite.execute(db, insertJugador, jug5Data);
+                })
+                .then(function () {
+                    console.log('GolfApp', '[OK] -> insertJugador');
+                    return $cordovaSQLite.execute(db, selectApuesta);
+                })
+                .then(function () {
+                    console.log('GolfApp', '[OK] -> selectApuesta');
+                    return $cordovaSQLite.execute(db, insertConfigFoursome,
+                        configFoursomeData);
+                })
+                .then(function () {
+                    console.log('GolfApp', '[OK] -> insertConfigFoursome');
+                    return $cordovaSQLite.execute(db, insertFoursome,
+                        four1Data);
+                })
+                .then(function () {
+                    console.log('GolfApp', '[OK] -> insertFoursome');
+                    return $cordovaSQLite.execute(db, insertFoursome,
+                        four2Data);
+                })
+                .then(function () {
+                    console.log('GolfApp', '[OK] -> insertFoursome');
+                    return $cordovaSQLite.execute(db, insertFoursome,
+                        four3Data);
+                })
+                .then(function () {
+                    console.log('GolfApp', '[OK] -> insertFoursome');
+                    console.log('Database llenada');
+                    defered.resolve('Database llenada');
+                    utils.popup('INFO', 'Database llenada');
+                })
+                .catch(function (error) {
+                    console.log('GolfApp', error);
+                    defered.reject(error);
+                    utils.popup('ERROR', JSON.stringify(error));
+                });
+
+            return promise;
         };
 
         $scope.emptyDatabase = function () {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
             var emptyPuntuaciones = 'DELETE FROM puntuaciones';
             var emptyApuesta = 'UPDATE apuesta SET seleccionada = 0';
             var emptyCampo = 'DELETE FROM campo';
@@ -226,11 +314,17 @@ angular.module('starter.inicio', ['ionic'])
                 .then(function () {
                     console.log('Database vaciada');
                     sesionActual = false;
-                    $state.reload();
+                    $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
+                    defered.resolve('Database vaciada');
+                    utils.popup('INFO', 'Database vaciada');
                 })
                 .catch(function (error) {
                     console.log('GolfApp', error);
-                })
+                    defered.reject(error);
+                    utils.popup('ERROR', JSON.stringify(error));
+                });
+
+            return promise;
         };
 
     });
