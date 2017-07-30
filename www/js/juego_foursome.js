@@ -35,19 +35,34 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
 
             $q.when()
                 .then(function () {
+                    console.log('JuegoFoursome', 'Inicio Correcto');
                     return getLocalTablero();
                 })
                 .then(function () {
+                    console.log('JuegoFoursome', 'getLocalTablero() Correcto');
                     return cargarParejaIndex();
                 })
                 .then(function (index) {
+                    console.log('JuegoFoursome', 'cargarParejaIndex()' +
+                        ' Correcto');
                     return verFoursomePareja(index);
                 })
                 .then(function () {
+                    console.log('JuegoFoursome', 'verFoursomePareja()' +
+                        ' Correcto');
                     return fixRowsAndColumns();
                 })
-                .then(function (res) {
+                .then(function () {
+                    console.log('JuegoFoursome', 'fixRowsAndColumns()' +
+                        ' Correcto');
                     $ionicLoading.hide();
+                    return $q.when();
+                })
+                .then(function () {
+                    console.log('JuegoFoursome', 'All Correcto');
+                })
+                .catch(function (error) {
+                    console.log('JuegoFoursome', error);
                 });
 
             screen.orientation.addEventListener('change', function () {
@@ -136,6 +151,8 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                         $scope.parejasDobles = $scope.tablero.configFoursome
                                 .modoJugadores == 'pareja';
                         defered.resolve(res);
+                    } else {
+                        defered.reject('No hay tablero foursome local');
                     }
                 })
                 .catch(function (error) {

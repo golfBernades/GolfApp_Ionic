@@ -44,47 +44,49 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
         $ionicPlatform.ready(function () {
             console.log('GolfApp', 'juego.$ionicPlatform.ready()');
 
+            /*
+            $q.all(modulePromises).then(function () {
+                if ($scope.partidoExistente.id) {
+                    // console.log('GolfApp', 'Partido local existente');
+
+                    modulePromises.push(sincronizarPartidos());
+                    modulePromises.push(loadPuntos());
+                } else {
+                    // console.log('GolfApp', 'Partido local no' +
+                    //     ' existente');
+
+                    modulePromises.push(insertarPartidoLocal());
+
+                    $q.all(modulePromises).then(function () {
+                        modulePromises.push(sincronizarPartidos());
+                    });
+                }
+
+                $q.all(modulePromises).then(function () {
+                    actualizarScoreUi();
+
+                    setTimeout(function () {
+                        compartirScoreboard();
+                    }, 1000);
+
+                    fixRowsAndColumns();
+
+                    setTimeout(function () {
+                        $ionicLoading.hide();
+                        if ($scope.partidoExistente.idServidor) {
+                            popup('Clave de consulta', '<h1>'
+                                + $scope.partidoExistente.claveConsulta
+                                + '</h1>');
+                        }
+                    }, 1000);
+                });
+            });
+            */
+
             showLoading();
 
             modulePromises.push(loadCampo());
             modulePromises.push(loadJugadores());
-
-            // $q.all(modulePromises).then(function () {
-            //     if ($scope.partidoExistente.id) {
-            //         // console.log('GolfApp', 'Partido local existente');
-            //
-            //         modulePromises.push(sincronizarPartidos());
-            //         modulePromises.push(loadPuntos());
-            //     } else {
-            //         // console.log('GolfApp', 'Partido local no' +
-            //         //     ' existente');
-            //
-            //         modulePromises.push(insertarPartidoLocal());
-            //
-            //         $q.all(modulePromises).then(function () {
-            //             modulePromises.push(sincronizarPartidos());
-            //         });
-            //     }
-            //
-            //     $q.all(modulePromises).then(function () {
-            //         actualizarScoreUi();
-            //
-            //         setTimeout(function () {
-            //             compartirScoreboard();
-            //         }, 1000);
-            //
-            //         fixRowsAndColumns();
-            //
-            //         setTimeout(function () {
-            //             $ionicLoading.hide();
-            //             if ($scope.partidoExistente.idServidor) {
-            //                 popup('Clave de consulta', '<h1>'
-            //                     + $scope.partidoExistente.claveConsulta
-            //                     + '</h1>');
-            //             }
-            //         }, 1000);
-            //     });
-            // });
 
             $q.all(modulePromises)
                 .then(function () {
@@ -118,6 +120,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                     setTimeout(function () {
                         compartirScoreboard();
+                        refreshLocalTablero();
                     }, 1000);
 
                     fixRowsAndColumns();
