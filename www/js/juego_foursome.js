@@ -4,7 +4,7 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                                                      $state, $ionicLoading, $timeout,
                                                      $ionicPlatform, $q, $http,
                                                      serviceHttpRequest, $ionicPopover,
-                                                     sql, $ionicSideMenuDelegate) {
+                                                     sql) {
         $scope.parejasDobles = false;
 
         $scope.hoyos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
@@ -113,6 +113,9 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                     circulos: $scope.tablero.datos_juego[p2_j2_idx].circulos
                 }
             ];
+
+            $scope.tableroPareja.puntosFoursome
+                = $scope.tablero.apuestaFoursome[index].p1_puntos;
 
             setTimeout(function () {
                 defered.resolve('Pareja renderizada correctamente');

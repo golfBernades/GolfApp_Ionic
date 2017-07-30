@@ -49,22 +49,61 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             modulePromises.push(loadCampo());
             modulePromises.push(loadJugadores());
 
-            $q.all(modulePromises).then(function () {
-                $scope.partido = new Partido($scope.jugadores, $scope.campo);
+            // $q.all(modulePromises).then(function () {
+            //     if ($scope.partidoExistente.id) {
+            //         // console.log('GolfApp', 'Partido local existente');
+            //
+            //         modulePromises.push(sincronizarPartidos());
+            //         modulePromises.push(loadPuntos());
+            //     } else {
+            //         // console.log('GolfApp', 'Partido local no' +
+            //         //     ' existente');
+            //
+            //         modulePromises.push(insertarPartidoLocal());
+            //
+            //         $q.all(modulePromises).then(function () {
+            //             modulePromises.push(sincronizarPartidos());
+            //         });
+            //     }
+            //
+            //     $q.all(modulePromises).then(function () {
+            //         actualizarScoreUi();
+            //
+            //         setTimeout(function () {
+            //             compartirScoreboard();
+            //         }, 1000);
+            //
+            //         fixRowsAndColumns();
+            //
+            //         setTimeout(function () {
+            //             $ionicLoading.hide();
+            //             if ($scope.partidoExistente.idServidor) {
+            //                 popup('Clave de consulta', '<h1>'
+            //                     + $scope.partidoExistente.claveConsulta
+            //                     + '</h1>');
+            //             }
+            //         }, 1000);
+            //     });
+            // });
 
-                modulePromises.push(loadPartidoLocal());
-                modulePromises.push(loadApuestas());
+            $q.all(modulePromises)
+                .then(function () {
+                    $scope.partido = new Partido($scope.jugadores, $scope.campo);
+                    modulePromises.push(loadPartidoLocal());
+                    modulePromises.push(loadApuestas());
+                    return $q.all(modulePromises);
+                })
+                .then(function () {
+                    if($scope.foursomeSeleccionada) {
+                        setTimeout(function () {
+                            $scope.partido.apuestas.find('foursome').apuesta.actualizar();
+                        }, 5000);
+                    }
 
-                $q.all(modulePromises).then(function () {
                     if ($scope.partidoExistente.id) {
-                        // console.log('GolfApp', 'Partido local existente');
-
                         modulePromises.push(sincronizarPartidos());
                         modulePromises.push(loadPuntos());
                     } else {
-                        // console.log('GolfApp', 'Partido local no' +
-                        //     ' existente');
-
                         modulePromises.push(insertarPartidoLocal());
 
                         $q.all(modulePromises).then(function () {
@@ -72,23 +111,26 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         });
                     }
 
-                    $q.all(modulePromises).then(function () {
-                        actualizarScoreUi();
-                        // compartirScoreboard();
+                    return $q.all(modulePromises);
+                })
+                .then(function () {
+                    actualizarScoreUi();
 
-                        fixRowsAndColumns();
+                    setTimeout(function () {
+                        compartirScoreboard();
+                    }, 1000);
 
-                        setTimeout(function () {
-                            $ionicLoading.hide();
-                            if ($scope.partidoExistente.idServidor) {
-                                popup('Clave de consulta', '<h1>'
-                                    + $scope.partidoExistente.claveConsulta
-                                    + '</h1>');
-                            }
-                        }, 1000);
-                    });
+                    fixRowsAndColumns();
+
+                    setTimeout(function () {
+                        $ionicLoading.hide();
+                        if ($scope.partidoExistente.idServidor) {
+                            popup('Clave de consulta', '<h1>'
+                                + $scope.partidoExistente.claveConsulta
+                                + '</h1>');
+                        }
+                    }, 1000);
                 });
-            });
 
             $ionicPopover.fromTemplateUrl(
                 'templates/opciones_partido_popover.html', {
@@ -198,12 +240,12 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
         var apuestaFoursome;
 
         function agregarApuestaFoursome() {
-            console.log('GolfApp', 'agregarApuestaFoursome');
+            console.log('GolfApp', 'juego.agregarApuestaFoursome()');
 
             var modoJugadores = undefined;
             var modoPresiones = undefined;
 
-            $q.when()
+            var promise = $q.when()
                 .then(function () {
                     return getFoursomeModalidad();
                 })
@@ -213,7 +255,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         modoPresiones = data.modoPresiones;
 
                         $scope.tablero.configFoursome = data;
-                        
+
                         apuestaFoursome = new ApuestaFoursome($scope.partido,
                             modoJugadores, modoPresiones);
                         $scope.partido.agregarApuesta('foursome',
@@ -222,19 +264,21 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     return getFoursomeParejas();
                 })
                 .then(function (data) {
-                    console.log('GolfApp', data.item(0));
-
                     $scope.tablero.apuestaFoursome = [];
 
+                    console.log('ModoJugadores', modoJugadores);
+
                     if (modoJugadores == 'pareja') {
-                        agregarCompeticionesFoursome(data, 'pareja', 0);
+                        modulePromises.push(agregarCompeticionesFoursome(data, 'pareja', 0));
                     } else if (modoJugadores == 'individual') {
-                        agregarCompeticionesFoursome(data, 'individual', 0);
+                        modulePromises.push(agregarCompeticionesFoursome(data, 'individual', 0));
                     }
                 })
                 .catch(function (error) {
                     console.log('GolfApp', error);
                 });
+
+            modulePromises.push(promise);
         }
 
         function getFoursomeModalidad() {
@@ -284,31 +328,35 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
         }
 
         function agregarCompeticionesFoursome(parejas, tipoCompeti, idx) {
-            if (tipoCompeti == 'pareja') {
-                console.log('pareja [' + idx + ']');
+            console.log('GolfApp', 'juego.agregarApuestaFoursome(' + idx + ')');
 
+            if (tipoCompeti == 'pareja') {
                 var p1j1 = {
                     id: parejas.item(idx).p1_j1_id,
                     nombre: parejas.item(idx).p1_j1_nombre,
-                    idx: parejas.item(idx).p1_j1_idx
+                    idx: parejas.item(idx).p1_j1_idx,
+                    handicap: parejas.item(idx).p1_j1_handicap
                 };
 
                 var p1j2 = {
                     id: parejas.item(idx).p1_j2_id,
                     nombre: parejas.item(idx).p1_j2_nombre,
-                    idx: parejas.item(idx).p1_j2_idx
+                    idx: parejas.item(idx).p1_j2_idx,
+                    handicap: parejas.item(idx).p1_j2_handicap
                 };
 
                 var p2j1 = {
                     id: parejas.item(idx).p2_j1_id,
                     nombre: parejas.item(idx).p2_j1_nombre,
-                    idx: parejas.item(idx).p2_j1_idx
+                    idx: parejas.item(idx).p2_j1_idx,
+                    handicap: parejas.item(idx).p2_j1_handicap
                 };
 
                 var p2j2 = {
                     id: parejas.item(idx).p2_j2_id,
                     nombre: parejas.item(idx).p2_j2_nombre,
-                    idx: parejas.item(idx).p2_j2_idx
+                    idx: parejas.item(idx).p2_j2_idx,
+                    handicap: parejas.item(idx).p2_j2_handicap
                 };
 
                 $scope.tablero.apuestaFoursome.push({
@@ -319,20 +367,16 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     p1_puntos: [
                         [], [], [], [], [], [], [], [], [], [], [], [], [], [],
                         [], [], [], []
-                    ],
-                    p2_puntos: [
-                        [], [], [], [], [], [], [], [], [], [], [], [], [], [],
-                        [], [], [], []
                     ]
                 });
 
-                apuestaFoursome.agregarCompeticionPareja(
+                modulePromises.push(apuestaFoursome.agregarCompeticionPareja(
                     p1j1, p1j2, 1, p2j1, p2j2, 1
-                );
+                ));
             }
 
             if (idx < parejas.length - 1) {
-                agregarCompeticionesFoursome(parejas, tipoCompeti, idx + 1);
+                modulePromises.push(agregarCompeticionesFoursome(parejas, tipoCompeti, idx + 1));
             }
         }
 
@@ -786,23 +830,28 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                             var regex = new RegExp('^[0-9]*$');
 
-                            var entradaCorrecta = false;
+                            var entradaCorrecta = true;
 
                             if ($scope.rayasSeleccionada) {
-                                if (regex.test(unidades)) {
-                                    entradaCorrecta = true;
-                                } else {
+                                console.log('RayasIsSeleccionada');
+                                if (!regex.test(unidades)) {
+                                    console.log('UnidadesFormatIncorrect');
                                     $scope.juego.style_unidades = 'background-color: red';
                                     e.preventDefault();
+                                    entradaCorrecta = false;
                                 }
                             }
 
                             if (golpesRealizaos) {
+                                console.log('GolpesInserted');
                                 if (regex.test(golpesRealizaos)) {
+                                    console.log('GolpesFormatCorrect');
                                     if (entradaCorrecta) {
-                                        $scope.tablero.datos_juego[jugador_idx]
-                                            .apuestaRayas.unidades[hoyo - 1]
-                                            = unidades;
+                                        if ($scope.rayasSeleccionada) {
+                                            $scope.tablero.datos_juego[jugador_idx]
+                                                .apuestaRayas.unidades[hoyo - 1]
+                                                = unidades;
+                                        }
 
                                         $scope.tablero.datos_juego[jugador_idx]
                                             .golpes[hoyo - 1] = golpesRealizaos;
@@ -811,6 +860,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                                         promises.push(guardarPuntosDb(jugador_id,
                                             hoyo, golpesRealizaos, unidades));
+
                                         promises.push($scope.partido
                                             .registrarGolpes(jugador_idx,
                                                 (hoyo - 1), golpesRealizaos,

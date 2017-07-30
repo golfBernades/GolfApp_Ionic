@@ -202,6 +202,20 @@ angular.module('starter.inicio', ['ionic'])
             var four3Data = [1, 'Beto', 4, 0, 2, 'Moy', 5, 2, 4, 'Rafa', 5, 3,
                 5, 'Micho', 9, 4, 1, 2];
 
+            var insertPuntuaciones = 'INSERT INTO `puntuaciones` '
+                + 'VALUES (1,1,5,0,1), (2,1,5,0,2), (3,1,8,0,3), '
+                + '(4,1,5,0,4), (5,1,5,0,5), (6,2,7,0,1), (7,2,5,0,2), '
+                + '(8,2,5,0,3), (9,2,4,0,4), (10,2,4,0,5), (11,3,3,0,1), '
+                + '(12,3,4,0,3), (13,3,3,0,2), (14,3,3,0,4), (15,3,4,0,5), '
+                + '(16,4,4,0,1), (17,4,4,0,2), (18,4,4,0,3), (19,4,4,0,4), '
+                + '(20,4,6,0,5), (21,5,4,0,1), (22,5,3,0,3), (23,5,3,0,2), '
+                + '(24,5,3,0,4), (25,5,3,0,5), (26,6,4,0,1), (27,6,4,0,3), '
+                + '(28,6,4,0,2), (29,6,4,0,4), (30,6,5,0,5), (31,7,5,0,1), '
+                + '(32,7,5,0,3), (33,7,4,0,2), (34,7,4,0,4), (35,7,4,0,5), '
+                + '(36,8,4,0,1), (37,8,4,0,3), (38,8,4,0,2), (39,8,4,0,4), '
+                + '(40,8,5,0,5), (41,9,5,0,1), (42,9,5,0,3), (43,9,7,0,2), '
+                + '(44,9,5,0,4), (45,9,4,0,5)';
+
             $q.when()
                 .then(function () {
                     return $cordovaSQLite.execute(db, insertJugador, jug1Data);
@@ -248,6 +262,10 @@ angular.module('starter.inicio', ['ionic'])
                 })
                 .then(function () {
                     console.log('GolfApp', '[OK] -> insertFoursome');
+                    return $cordovaSQLite.execute(db, insertPuntuaciones);
+                })
+                .then(function () {
+                    console.log('GolfApp', '[OK] -> insertPuntuaciones');
                     console.log('Database llenada');
                     defered.resolve('Database llenada');
                     utils.popup('INFO', 'Database llenada');

@@ -80,12 +80,11 @@
                                         Puntos
                                     </td>
                                     <td ng-repeat="hoyo in hoyos">
-                                        <p>A</p>
-                                        <p>B</p>
-                                        <p>C</p>
-                                        <p>D</p>
-                                        <p>K</p>
-                                        <p>7</p>
+                                        <p ng-repeat="p in
+                                        tableroPareja.puntosFoursome[hoyo - 1]
+                                        track by $index">
+                                            {{p}}
+                                        </p>
                                     </td>
                                 </tr>
                                 </tbody>

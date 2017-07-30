@@ -36,9 +36,6 @@ function Partido(jugadores, campo) {
         $.each(this.apuestas.agregadas, function (index, value) {
             value.apuesta.actualizar();
         });
-        // this.apuestas.forEach(function (apuesta) {
-        //     apuesta.actualizar(jugadorIndex, hoyoIndex);
-        // });
     };
 
     this.createScoreboard = function () {

@@ -15,12 +15,11 @@
  *
  * @author Porfirio Ángel Díaz Sánchez
  */
-function ApuestaFoursome(partido, modalidad) {
+function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
     this.partido = partido;
-
     this.competiciones = [];
 
-    var playersNumber = this.partido.scoreBoard.length;
+    var staticThis = this;
 
     /**
      * Agrega dos jugadores que están compitiendo individualmente uno contra
@@ -60,12 +59,12 @@ function ApuestaFoursome(partido, modalidad) {
     this.agregarCompeticionPareja = function (p1Jugador1, p1Jugador2, p1Ventaja,
                                               p2Jugador1, p2Jugador2, p2Ventaja) {
         this.competiciones.push({
-            p1Jugador1: p1Jugador1,
-            p1Jugador2: p1Jugador2,
-            p1Ventaja: p1Ventaja,
-            p2Jugador1: p2Jugador1,
-            p2Jugador2: p2Jugador2,
-            p2Ventaja: p2Ventaja,
+            p1_j1: p1Jugador1,
+            p1_j2: p1Jugador2,
+            p1_ventaja: p1Ventaja,
+            p2_j1: p2Jugador1,
+            p2_j2: p2Jugador2,
+            p2_ventaja: p2Ventaja,
             puntuaciones: [
                 [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [],
                 [], []
@@ -83,145 +82,262 @@ function ApuestaFoursome(partido, modalidad) {
     };
 
     this.actualizar = function () {
+        console.log('GolfApp', 'ApuestaFoursome.actualizar()');
         this.resetScoreboard();
 
         $.each(this.competiciones, function (index, competicion) {
-            if (modalidad == 'pareja_normal'
-                || modalidad == 'pareja_california') {
-                this.actualizarParejas(competicion);
-            } else if (modalidad == 'individual_normal'
-                || modalidad == 'pareja_california') {
-                this.actualizarIndividual(competicion);
+            if (modoJugadores == 'pareja') {
+                staticThis.actualizarParejas(competicion);
+            } else if (modoJugadores == 'individual') {
+                // staticThis.actualizarIndividual(competicion);
             }
         });
     };
 
-    this.actualizarIndividual = function (competicion) {
+    this.actualizarParejas = function (competicion) {
+        console.log('ApuestaFoursome.actualizarParejas', competicion);
+
         for (var hIndex = 0; hIndex < 18; hIndex++) {
-            var turnoTerminado = false;
-            var indexJ1 = competicion.jugador1.index;
-            var golpesJ1 = this.partido.scoreBoard[indexJ1].golpes[hIndex];
-            var indexJ2 = competicion.jugador2.index;
-            var golpesJ2 = this.partido.scoreBoard[indexJ2].golpes[hIndex];
-
-            if (golpesJ1 && golpesJ2) {
-                turnoTerminado = true;
-            }
-
-            if (turnoTerminado) {
-                this.actualizarHoyoIndividual(competicion, hIndex);
+            if (verificarHoyoTerminadoParejas(competicion, hIndex)) {
+                var jugsGolpes = obtenerGolpesParejas(competicion, hIndex);
+                calcularFoursome(competicion, jugsGolpes, hIndex);
             }
         }
     };
 
-    this.actualizarHoyoIndividual = function (competicion, hIndex) {
-        var indexJ1 = competicion.jugador1.index;
-        var golpesJ1 = this.partido.scoreBoard[indexJ1].golpes[hIndex];
-        var indexJ2 = competicion.jugador2.index;
-        var golpesJ2 = this.partido.scoreBoard[indexJ2].golpes[hIndex];
-        var handicapJ1 = this.partido.jugadores[indexJ1].handicap;
-        var handicapJ2 = this.partido.jugadores[indexJ2].handicap;
-        var ventajaHoyo = this.partido.campo.ventajas[hIndex].value;
-        var diferenciaJ1J2 = (handicapJ1 - handicapJ2);
-        var diferenciaJ2J1 = (handicapJ2 - handicapJ1);
+    function verificarHoyoTerminadoParejas(competicion, hIndex) {
+        console.log('ApuestaFoursome.verificarHoyoTerminadoParejas',
+            competicion + ', ' + (hIndex + 1));
+
+        var indexP1J1 = competicion.p1_j1.idx;
+        var golpesP1J1 = staticThis.partido.scoreBoard[indexP1J1].golpes[hIndex];
+        var indexP1J2 = competicion.p1_j2.idx;
+        var golpesP1J2 = staticThis.partido.scoreBoard[indexP1J2].golpes[hIndex];
+        var indexP2J1 = competicion.p2_j1.idx;
+        var golpesP2J1 = staticThis.partido.scoreBoard[indexP2J1].golpes[hIndex];
+        var indexP2J2 = competicion.p2_j2.idx;
+        var golpesP2J2 = staticThis.partido.scoreBoard[indexP2J2].golpes[hIndex];
+
+        return golpesP1J1 && golpesP1J2 && golpesP2J1 && golpesP2J2;
+    }
+
+    function obtenerGolpesParejas(competicion, hIndex) {
+        console.log('ApuestaFoursome.obtenerGolpesParejas', competicion + ', '
+            + (hIndex + 1));
+
+        var p1_j1_idx = competicion.p1_j1.idx;
+        var p1_j2_idx = competicion.p1_j2.idx;
+        var p2_j1_idx = competicion.p2_j1.idx;
+        var p2_j2_idx = competicion.p2_j2.idx;
+        var p1_j1_golpes = staticThis.partido.scoreBoard[p1_j1_idx].golpes[hIndex];
+        var p1_j2_golpes = staticThis.partido.scoreBoard[p1_j2_idx].golpes[hIndex];
+        var p2_j1_golpes = staticThis.partido.scoreBoard[p2_j1_idx].golpes[hIndex];
+        var p2_j2_golpes = staticThis.partido.scoreBoard[p2_j2_idx].golpes[hIndex];
+        var p1_j1_handicap = competicion.p1_j1.handicap;
+        var p1_j2_handicap = competicion.p1_j2.handicap;
+        var p2_j1_handicap = competicion.p2_j1.handicap;
+        var p2_j2_handicap = competicion.p2_j2.handicap;
+        var p1_handicap = p1_j1_handicap + p1_j2_handicap;
+        var p2_handicap = p2_j1_handicap + p2_j2_handicap;
+        var p1_ventaja = competicion.p1_ventaja;
+        var p2_ventaja = competicion.p2_ventaja;
+        var ventajaHoyo = staticThis.partido.campo.ventajas[hIndex].value;
+
+        var diferenciaP1P1 = p1_handicap - p2_handicap;
+        var diferenciaP2P1 = p2_handicap - p1_handicap;
         var vents = 0;
 
-        if (diferenciaJ1J2 >= ventajaHoyo) {
-            if (diferenciaJ1J2 > 18) {
+        if (diferenciaP1P1 >= ventajaHoyo) {
+            if (diferenciaP1P1 > 18) {
                 vents = 1;
-                while (diferenciaJ1J2 - 18 >= ventajaHoyo) {
+                while (diferenciaP1P1 - 18 >= ventajaHoyo) {
                     vents++;
-                    diferenciaJ1J2 -= 18;
+                    diferenciaP1P1 -= 18;
                 }
-                golpesJ1 -= vents;
+                if (p1_ventaja == 1) p1_j1_golpes -= vents;
+                else if (p1_ventaja == 2) p1_j2_golpes -= vents;
             } else {
-                golpesJ1--;
+                if (p1_ventaja == 1) p1_j1_golpes--;
+                else if (p1_ventaja == 2) p1_j2_golpes--;
             }
-        } else if (diferenciaJ2J1 >= ventajaHoyo) {
-            if (diferenciaJ2J1 > 18) {
+        } else if (diferenciaP2P1 >= ventajaHoyo) {
+            if (diferenciaP2P1 > 18) {
                 vents = 1;
-                while (diferenciaJ2J1 - 18 >= ventajaHoyo) {
+                while (diferenciaP2P1 - 18 >= ventajaHoyo) {
                     vents++;
-                    diferenciaJ2J1 -= 18;
+                    diferenciaP2P1 -= 18;
                 }
-                golpesJ2 -= vents;
+                if (p2_ventaja == 1) p2_j1_golpes -= vents;
+                else if (p2_ventaja == 2) p2_j2_golpes -= vents;
             }
             else {
-                golpesJ2--;
+                if (p2_ventaja == 1) p2_j1_golpes--;
+                else if (p2_ventaja == 2) p2_j2_golpes--;
             }
         }
 
-        if (golpesJ1 < golpesJ2) {
-            if (hIndex > 0) {
-                var compAnterior = competicion.puntuaciones[hIndex - 1];
-                var compActual = competicion.puntuaciones[hIndex];
-
-                for (var i = 0; i < compAnterior.length; i++) {
-                    compActual.push(compAnterior[i] + 1);
-                }
-
-                var ultimaPuntuacion = compActual[compActual.length - 1];
-
-                if (ultimaPuntuacion == 3 || ultimaPuntuacion == -3) {
-                    console.log('Se agregará otra puntuación')
-                }
-            } else {
-                competicion.puntuaciones[hIndex].push(1);
+        return {
+            p1_j1: {
+                idx: p1_j1_idx,
+                golpes: p1_j1_golpes
+            },
+            p1_j2: {
+                idx: p1_j2_idx,
+                golpes: p1_j2_golpes
+            },
+            p2_j1: {
+                idx: p2_j1_idx,
+                golpes: p2_j1_golpes
+            },
+            p2_j2: {
+                idx: p2_j2_idx,
+                golpes: p2_j2_golpes
             }
-        } else if (golpesI > golpesJ) {
-            if (hIndex > 0) {
-                var compAnterior = competicion.puntuaciones[hIndex - 1];
-                var compActual = competicion.puntuaciones[hIndex];
+        }
+    }
 
-                for (var i = 0; i < compAnterior.length; i++) {
-                    compActual.push(compAnterior[i] - 1);
+    function calcularFoursome(competicion, jugsGolpes, hIndex) {
+        console.log('ApuestaFoursome.calcularFoursome', competicion + ', '
+            + jugsGolpes + ', ' + (hIndex + 1));
+
+        var p1_j1_golpes = jugsGolpes.p1_j1.golpes;
+        var p1_j2_golpes = jugsGolpes.p1_j2.golpes;
+        var p2_j1_golpes = jugsGolpes.p2_j1.golpes;
+        var p2_j2_golpes = jugsGolpes.p2_j2.golpes;
+
+        var p1_bola_alta;
+        var p1_bola_baja;
+        var p2_bola_alta;
+        var p2_bola_baja;
+
+        if (p1_j1_golpes > p1_j2_golpes) {
+            p1_bola_alta = p1_j1_golpes;
+            p1_bola_baja = p1_j2_golpes;
+        } else {
+            p1_bola_alta = p1_j2_golpes;
+            p1_bola_baja = p1_j1_golpes;
+        }
+
+        if (p2_j1_golpes > p2_j2_golpes) {
+            p2_bola_alta = p2_j1_golpes;
+            p2_bola_baja = p2_j2_golpes;
+        } else {
+            p2_bola_alta = p2_j2_golpes;
+            p2_bola_baja = p2_j1_golpes;
+        }
+
+        compararGolpesPareja(competicion, p1_bola_baja, p2_bola_baja, hIndex, false);
+        compararGolpesPareja(competicion, p1_bola_alta, p2_bola_alta, hIndex, true);
+    }
+
+    function compararGolpesPareja(competicion, p1_golpes, p2_golpes, hIndex, isPrimerJugador) {
+        var compAnterior = hIndex > 0 ? competicion.puntuaciones[hIndex - 1] : undefined;
+        var compActual = competicion.puntuaciones[hIndex];
+        var ultimaPuntuacion;
+        var i;
+
+        if (p1_golpes < p2_golpes) {
+            if (hIndex > 0) {
+                for (i = 0; i < compAnterior.length; i++) {
+                    if (compActual[i] == undefined) {
+                        compActual.push(compAnterior[i]);
+                    }
+                    compActual[i] += 1;
                 }
 
-                var ultimaPuntuacion = compActual[compActual.length - 1];
+                if (!isPrimerJugador) {
+                    ultimaPuntuacion = compActual[compActual.length - 1];
 
-                if (ultimaPuntuacion == 3 || ultimaPuntuacion == -3) {
-                    console.log('Se agregará otra puntuación')
+                    if (ultimaPuntuacion == 3 || ultimaPuntuacion == -3) {
+                        console.log('Se agregará otra presión')
+                    }
                 }
             } else {
-                competicion.puntuaciones[hIndex].push(-1);
+                if (compActual[0] == undefined) {
+                    compActual.push(1);
+                } else {
+                    compActual[0] += 1;
+                }
+            }
+        } else if (p2_golpes < p1_golpes) {
+            if (hIndex > 0) {
+                for (i = 0; i < compAnterior.length; i++) {
+                    if (compActual[i] == undefined) {
+                        compActual.push(compAnterior[i]);
+                    }
+                    compActual[i] -= 1;
+                }
+
+                if (!isPrimerJugador) {
+                    ultimaPuntuacion = compActual[compActual.length - 1];
+
+                    if (ultimaPuntuacion == 3 || ultimaPuntuacion == -3) {
+                        console.log('Se agregará otra presión')
+                    }
+                }
+            } else {
+                if (compActual[0] == undefined) {
+                    compActual.push(-1);
+                } else {
+                    compActual[0] -= 1;
+                }
             }
         } else {
             if (hIndex > 0) {
-                var compAnterior = competicion.puntuaciones[hIndex - 1];
-                var compActual = competicion.puntuaciones[hIndex];
-
-                for (var i = 0; i < compAnterior.length; i++) {
-                    compActual.push(compAnterior[i]);
+                if (compActual[0] == undefined) {
+                    for (i = 0; i < compAnterior.length; i++) {
+                        compActual.push(compAnterior[i]);
+                    }
                 }
-            } else {
-                competicion.puntuaciones[hIndex].push(0);
+            } else if (compActual[0] == undefined) {
+                compActual.push(0);
             }
         }
-    };
-
-    this.actualizarParejas = function (competicion) {
-        for (var hIndex = 0; hIndex < 18; hIndex++) {
-            var turnoTerminado = false;
-            var indexP1J1 = competicion.p1Jugador1.index;
-            var golpesP1J1 = this.partido.scoreBoard[indexP1J1].golpes[hIndex];
-            var indexP1J2 = competicion.p1Jugador2.index;
-            var golpesP1J2 = this.partido.scoreBoard[indexP1J2].golpes[hIndex];
-            var indexP2J1 = competicion.p2Jugador1.index;
-            var golpesP2J1 = this.partido.scoreBoard[indexP2J1].golpes[hIndex];
-            var indexP2J2 = competicion.p2Jugador2.index;
-            var golpesP2J2 = this.partido.scoreBoard[indexP2J2].golpes[hIndex];
-
-            if (golpesP1J1 && golpesP1J2 && golpesP2J1 && golpesP2J2) {
-                turnoTerminado = true;
-            }
-
-            if (turnoTerminado) {
-                // TODO Hacer las acciones para actualizar el hoyo
-            }
-        }
-    };
-
-    this.actualizarHoyoParejas = function () {
-
-    };
+        // if (golpesJ1 < golpesJ2) {
+        //     if (hIndex > 0) {
+        //         var compAnterior = competicion.puntuaciones[hIndex - 1];
+        //         var compActual = competicion.puntuaciones[hIndex];
+        //
+        //         for (var i = 0; i < compAnterior.length; i++) {
+        //             compActual.push(compAnterior[i] + 1);
+        //         }
+        //
+        //         var ultimaPuntuacion = compActual[compActual.length - 1];
+        //
+        //         if (ultimaPuntuacion == 3 || ultimaPuntuacion == -3) {
+        //             console.log('Se agregará otra puntuación')
+        //         }
+        //     } else {
+        //         competicion.puntuaciones[hIndex].push(1);
+        //     }
+        // } else if (golpesI > golpesJ) {
+        //     if (hIndex > 0) {
+        //         var compAnterior = competicion.puntuaciones[hIndex - 1];
+        //         var compActual = competicion.puntuaciones[hIndex];
+        //
+        //         for (var i = 0; i < compAnterior.length; i++) {
+        //             compActual.push(compAnterior[i] - 1);
+        //         }
+        //
+        //         var ultimaPuntuacion = compActual[compActual.length - 1];
+        //
+        //         if (ultimaPuntuacion == 3 || ultimaPuntuacion == -3) {
+        //             console.log('Se agregará otra puntuación')
+        //         }
+        //     } else {
+        //         competicion.puntuaciones[hIndex].push(-1);
+        //     }
+        // } else {
+        //     if (hIndex > 0) {
+        //         var compAnterior = competicion.puntuaciones[hIndex - 1];
+        //         var compActual = competicion.puntuaciones[hIndex];
+        //
+        //         for (var i = 0; i < compAnterior.length; i++) {
+        //             compActual.push(compAnterior[i]);
+        //         }
+        //     } else {
+        //         competicion.puntuaciones[hIndex].push(0);
+        //     }
+        // }
+    }
 }
