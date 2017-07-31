@@ -99,8 +99,8 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
             var p2_j1_idx = $scope.tablero.apuestaFoursome[index].p2_j1.idx;
             var p2_j2_idx = $scope.tablero.apuestaFoursome[index].p2_j2.idx;
 
-            console.log('GolfApp', 'Se renderizará el foursome de la pareja '
-                + index);
+            // console.log('GolfApp', 'Se renderizará el foursome de la pareja '
+            //     + index);
 
             $scope.tableroPareja.datos_juego = [
                 {
@@ -131,6 +131,8 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
 
             $scope.tableroPareja.puntosFoursome
                 = $scope.tablero.apuestaFoursome[index].p1_puntos;
+
+            // console.log('PuntosFoursome', $scope.tableroPareja.puntosFoursome);
 
             setTimeout(function () {
                 defered.resolve('Pareja renderizada correctamente');

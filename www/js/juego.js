@@ -45,43 +45,43 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             console.log('GolfApp', 'juego.$ionicPlatform.ready()');
 
             /*
-            $q.all(modulePromises).then(function () {
-                if ($scope.partidoExistente.id) {
-                    // console.log('GolfApp', 'Partido local existente');
+             $q.all(modulePromises).then(function () {
+             if ($scope.partidoExistente.id) {
+             // console.log('GolfApp', 'Partido local existente');
 
-                    modulePromises.push(sincronizarPartidos());
-                    modulePromises.push(loadPuntos());
-                } else {
-                    // console.log('GolfApp', 'Partido local no' +
-                    //     ' existente');
+             modulePromises.push(sincronizarPartidos());
+             modulePromises.push(loadPuntos());
+             } else {
+             // console.log('GolfApp', 'Partido local no' +
+             //     ' existente');
 
-                    modulePromises.push(insertarPartidoLocal());
+             modulePromises.push(insertarPartidoLocal());
 
-                    $q.all(modulePromises).then(function () {
-                        modulePromises.push(sincronizarPartidos());
-                    });
-                }
+             $q.all(modulePromises).then(function () {
+             modulePromises.push(sincronizarPartidos());
+             });
+             }
 
-                $q.all(modulePromises).then(function () {
-                    actualizarScoreUi();
+             $q.all(modulePromises).then(function () {
+             actualizarScoreUi();
 
-                    setTimeout(function () {
-                        compartirScoreboard();
-                    }, 1000);
+             setTimeout(function () {
+             compartirScoreboard();
+             }, 1000);
 
-                    fixRowsAndColumns();
+             fixRowsAndColumns();
 
-                    setTimeout(function () {
-                        $ionicLoading.hide();
-                        if ($scope.partidoExistente.idServidor) {
-                            popup('Clave de consulta', '<h1>'
-                                + $scope.partidoExistente.claveConsulta
-                                + '</h1>');
-                        }
-                    }, 1000);
-                });
-            });
-            */
+             setTimeout(function () {
+             $ionicLoading.hide();
+             if ($scope.partidoExistente.idServidor) {
+             popup('Clave de consulta', '<h1>'
+             + $scope.partidoExistente.claveConsulta
+             + '</h1>');
+             }
+             }, 1000);
+             });
+             });
+             */
 
             showLoading();
 
@@ -96,7 +96,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     return $q.all(modulePromises);
                 })
                 .then(function () {
-                    if($scope.foursomeSeleccionada) {
+                    if ($scope.foursomeSeleccionada) {
                         setTimeout(function () {
                             $scope.partido.apuestas.find('foursome').apuesta.actualizar();
                         }, 5000);
@@ -120,7 +120,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                     setTimeout(function () {
                         compartirScoreboard();
-                        refreshLocalTablero();
                     }, 1000);
 
                     fixRowsAndColumns();
@@ -210,7 +209,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
         }
 
         function agregarApuestaRayas() {
-            console.log('GolfApp', 'agregarApuestaRayas');
+            console.log('GolfApp', 'juego.agregarApuestaRayas()');
 
             $scope.partido.agregarApuesta('rayas',
                 new ApuestaRayas($scope.partido));
@@ -227,7 +226,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
         }
 
         function agregarApuestaConeja() {
-            console.log('GolfApp', 'agregarApuestaConeja');
+            console.log('GolfApp', 'juego.agregarApuestaConeja()');
 
             $scope.partido.agregarApuesta('coneja',
                 new ApuestaConeja($scope.partido));
@@ -269,7 +268,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 .then(function (data) {
                     $scope.tablero.apuestaFoursome = [];
 
-                    console.log('ModoJugadores', modoJugadores);
+                    // console.log('ModoJugadores', modoJugadores);
 
                     if (modoJugadores == 'pareja') {
                         modulePromises.push(agregarCompeticionesFoursome(data, 'pareja', 0));
@@ -331,7 +330,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
         }
 
         function agregarCompeticionesFoursome(parejas, tipoCompeti, idx) {
-            console.log('GolfApp', 'juego.agregarApuestaFoursome(' + idx + ')');
+            // console.log('GolfApp', 'juego.agregarApuestaFoursome(' + idx + ')');
 
             if (tipoCompeti == 'pareja') {
                 var p1j1 = {
@@ -373,8 +372,14 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     ]
                 });
 
+                var length = $scope.tablero.apuestaFoursome.length;
+
+                // console.log('InitPuntosFoursome', $scope.tablero.apuestaFoursome[length - 1]);
+
+
                 modulePromises.push(apuestaFoursome.agregarCompeticionPareja(
-                    p1j1, p1j2, 1, p2j1, p2j2, 1
+                    p1j1, p1j2, parejas.item(idx).p1_jug_ventaja, p2j1, p2j2,
+                    parejas.item(idx).p2_jug_ventaja
                 ));
             }
 
@@ -506,7 +511,16 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
         $scope.selectForusome = function () {
             opcionesPopover.hide();
-            $state.go('juego_foursome');
+
+            actualizarScoreUi();
+
+            setTimeout(function () {
+                refreshLocalTablero().then(function () {
+                    $state.go('juego_foursome');
+                }).catch(function (error) {
+                    console.log('$scope.selectFoursome [OK]');
+                });
+            }, 300);
         };
 
         $scope.showOpcionesPartido = function ($event) {
@@ -836,7 +850,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             var entradaCorrecta = true;
 
                             if ($scope.rayasSeleccionada) {
-                                console.log('RayasIsSeleccionada');
+                                // console.log('RayasIsSeleccionada');
                                 if (!regex.test(unidades)) {
                                     console.log('UnidadesFormatIncorrect');
                                     $scope.juego.style_unidades = 'background-color: red';
@@ -846,9 +860,9 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             }
 
                             if (golpesRealizaos) {
-                                console.log('GolpesInserted');
+                                // console.log('GolpesInserted');
                                 if (regex.test(golpesRealizaos)) {
-                                    console.log('GolpesFormatCorrect');
+                                    // console.log('GolpesFormatCorrect');
                                     if (entradaCorrecta) {
                                         if ($scope.rayasSeleccionada) {
                                             $scope.tablero.datos_juego[jugador_idx]
@@ -872,7 +886,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                         $q.all(promises).then(function () {
                                             actualizarScoreUi();
                                             compartirScoreboard();
-                                            refreshLocalTablero();
                                         });
                                     }
                                 } else {
@@ -890,21 +903,28 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
         };
 
         function refreshLocalTablero() {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
             var deleteQuery = 'DELETE FROM tablero_json';
             var insertQuery = 'INSERT INTO tablero_json (tablero) VALUES (?)';
             var insertData = [JSON.stringify($scope.tablero)];
 
             sql.sqlQuery(db, deleteQuery, [])
                 .then(function (res) {
-                    console.log('GolfApp', res);
+                    // console.log('GolfApp', deleteQuery + ' [OK]');
                     return sql.sqlQuery(db, insertQuery, insertData);
                 })
                 .then(function (res) {
-                    console.log('GolfApp', res);
+                    // console.log('GolfApp', insertQuery + ' [OK]');
+                    defered.resolve('refreshLocalTablero() [OK]')
                 })
                 .catch(function (error) {
                     console.log('GolfApp', error);
+                    defered.reject(error);
                 });
+
+            return promise;
         }
 
         function compartirScoreboard() {
@@ -1004,11 +1024,19 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         var apuestaConeja = $scope.partido.apuestas
                             .find('coneja');
 
-                        var status = apuestaConeja.apuesta.scoreConeja[i]
-                            .status[j];
+                        var status = apuestaConeja.apuesta.scoreConeja[i].status[j];
 
                         $scope.tablero.datos_juego[i]
                             .apuestaConeja.status[j] = status;
+                    }
+
+                    if ($scope.foursomeSeleccionada) {
+                        var apuestaFoursome = $scope.partido.apuestas
+                            .find('foursome').apuesta;
+
+                        $.each(apuestaFoursome.competiciones, function (index, competi) {
+                            $scope.tablero.apuestaFoursome[index].p1_puntos = competi.puntuaciones;
+                        });
                     }
 
                     if (j < 9) {
@@ -1034,18 +1062,16 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 golpesTotalesTotal = golpesTotales1a9 + golpesTotales10a18;
                 golpesMenosHandicap = golpesTotalesTotal
                     - $scope.tablero.datos_juego[i].handicap;
-                $scope.tablero.datos_juego[i].totales_golpes[0] = golpesTotales1a9;
-                $scope.tablero.datos_juego[i].totales_golpes[1] = golpesTotales10a18;
-                $scope.tablero.datos_juego[i].totales_golpes[2] = golpesTotalesTotal;
-                $scope.tablero.datos_juego[i].totales_golpes[3] = golpesMenosHandicap;
+                $scope.tablero.datos_juego[i].totales_golpes[0]
+                    = golpesTotales1a9;
+                $scope.tablero.datos_juego[i].totales_golpes[1]
+                    = golpesTotales10a18;
+                $scope.tablero.datos_juego[i].totales_golpes[2]
+                    = golpesTotalesTotal;
+                $scope.tablero.datos_juego[i].totales_golpes[3]
+                    = golpesMenosHandicap;
             }
         }
-
-        $scope.actualizarJuego = function () {
-            actualizarScoreUi();
-            compartirScoreboard();
-            refreshLocalTablero();
-        };
 
         $scope.guardarPantallaJuego = function (seleccion) {
             var pantalla = "UPDATE pantalla SET pantalla = ? WHERE id = 1";
@@ -1073,7 +1099,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             .then(function (res) {
                                 // console.log("UPDATE ID -> " + res.insertId);
                             }, function (err) {
-                                // console.error(err);
+                                console.error(err);
                             });
                     } else {
                         $cordovaSQLite.execute(db, insertDatos, [hoyo, golpes,
@@ -1081,7 +1107,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             .then(function (res) {
                                 // console.log("INSERT ID -> " + res.insertId);
                             }, function (err) {
-                                // console.error(err);
+                                console.error(err);
                             });
                     }
                 }, function (err) {
