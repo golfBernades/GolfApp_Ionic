@@ -145,11 +145,9 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
 
                                 if (control) {
                                     var query = "INSERT INTO jugador (nombre, "
-                                        + "handicap, jugar, usuario_id)"
-                                        + " VALUES (?, ?, ?, ?)";
+                                        + "handicap, jugar) VALUES (?, ?, ?)";
 
-                                    var queryData = [nombre, handicap, 0,
-                                        id_user_app];
+                                    var queryData = [nombre, handicap, 0];
 
                                     $cordovaSQLite.execute(db, query, queryData)
                                         .then(function (res) {
@@ -232,8 +230,8 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                                 }
 
                                 if (control) {
-                                    var query = "UPDATE jugador SET nombre = ?, " +
-                                        "handicap = ? WHERE id = ?";
+                                    var query = "UPDATE jugador SET nombre = ?"
+                                        + ", handicap = ? WHERE id = ?";
 
                                     var queryData = [nombre, handicap,
                                         $scope.jugadores[index].id];

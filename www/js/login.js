@@ -94,9 +94,20 @@ angular.module('starter.login', ['ionic'])
                 {usuario_id: idUsuario}
             );
 
-            var query2 = "INSERT INTO campo (id, nombre, par_hoyo_1, par_hoyo_2, par_hoyo_3,par_hoyo_4, par_hoyo_5, par_hoyo_6, par_hoyo_7, par_hoyo_8, par_hoyo_9, par_hoyo_10, par_hoyo_11, par_hoyo_12, par_hoyo_13, par_hoyo_14, par_hoyo_15, par_hoyo_16, par_hoyo_17, par_hoyo_18," +
-                "ventaja_hoyo_1, ventaja_hoyo_2, ventaja_hoyo_3, ventaja_hoyo_4, ventaja_hoyo_5, ventaja_hoyo_6, ventaja_hoyo_7, ventaja_hoyo_8, ventaja_hoyo_9, ventaja_hoyo_10, ventaja_hoyo_11, ventaja_hoyo_12, ventaja_hoyo_13, ventaja_hoyo_14, ventaja_hoyo_15, ventaja_hoyo_16, ventaja_hoyo_17, ventaja_hoyo_18, cuenta, seleccionado, usuario_id)" +
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            var query2 = "INSERT INTO campo (id, nombre, par_hoyo_1, " +
+                "par_hoyo_2, par_hoyo_3,par_hoyo_4, par_hoyo_5, par_hoyo_6, " +
+                "par_hoyo_7, par_hoyo_8, par_hoyo_9, par_hoyo_10, " +
+                "par_hoyo_11, par_hoyo_12, par_hoyo_13, par_hoyo_14, " +
+                "par_hoyo_15, par_hoyo_16, par_hoyo_17, par_hoyo_18," +
+                "ventaja_hoyo_1, ventaja_hoyo_2, ventaja_hoyo_3, " +
+                "ventaja_hoyo_4, ventaja_hoyo_5, ventaja_hoyo_6, " +
+                "ventaja_hoyo_7, ventaja_hoyo_8, ventaja_hoyo_9, " +
+                "ventaja_hoyo_10, ventaja_hoyo_11, ventaja_hoyo_12, " +
+                "ventaja_hoyo_13, ventaja_hoyo_14, ventaja_hoyo_15, " +
+                "ventaja_hoyo_16, ventaja_hoyo_17, ventaja_hoyo_18, " +
+                "cuenta, seleccionado, usuario_id)" +
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?," +
+                "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
             $http(httpRequest)
                 .then(function successCallback(response) {

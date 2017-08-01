@@ -340,7 +340,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             });
 
         // $urlRouterProvider.otherwise('/juego_foursome');
-        $urlRouterProvider.otherwise('/juego');
+		$urlRouterProvider.otherwise('/inicio');
 
         // Configuración de elementos visuales
         $ionicConfigProvider.scrolling.jsScrolling(false);
