@@ -9,9 +9,9 @@
         <ion-nav-title>Campos</ion-nav-title>
         <ion-nav-buttons side="right">
             <button
-                class="button button-icon button-clear ion-chevron-right"
-                menu-toggle="right"
-                ng-click="seleccionarApuestas()">
+                    class="button button-icon button-clear ion-chevron-right"
+                    menu-toggle="right"
+                    ng-click="seleccionarApuestas()">
             </button>
         </ion-nav-buttons>
     </ion-nav-bar>
@@ -19,17 +19,18 @@
         <div class="contenedor content-after-top-tabs">
             <div class="lista-campos">
                 <ion-list ng-repeat="campo in campos" ng-model="campos">
-                    <ion-radio class="item item-avatar" ng-model="select" ng-value="campo.seleccionado"
+                    <ion-radio class="item item-avatar" ng-model="select"
+                               ng-value="campo.seleccionado"
                                on-hold="popupOpcionesCampo(campo.id, campo.nombre, $index)"
                                ng-change="campoSeleccionado(campo)">
-                            <img src="img/ionic.png">
-                            <h2 style="padding-top: 10px">{{campo.nombre}}</h2>
+                        <img src="img/ionic.png">
+                        <h2 style="padding-top: 10px">{{campo.nombre}}</h2>
                     </ion-radio>
                 </ion-list>
             </div>
-                <button class="button button-balanced button-block btn-full btn-fixed-bottom"
-                        ng-click="seleccionNuevoCampo()">Nuevo campo
-                </button>
+            <button class="button button-balanced button-block btn-full btn-fixed-bottom"
+                    ng-click="seleccionNuevoCampo()">Nuevo campo
+            </button>
         </div>
     </ion-content>
 </ion-nav-view>
