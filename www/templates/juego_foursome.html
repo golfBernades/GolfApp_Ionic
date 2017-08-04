@@ -117,10 +117,13 @@
                         {{competicion.p2_j2.nombre}}]
                     </a>
                 </div>
-                <div ng-repeat="parejaD in parejas" ng-if="!parejasDobles">
-                    <a class="item" style="font-size: small">
-                        {{parejas.j_1_nombre}} - {{parejas.j_2_nombre}} vs
-                        {{parejas.j_3_nombre}} - {{parejas.j_4_nombre}}
+                <div ng-repeat="competicion in tablero.apuestaFoursome"
+                     ng-if="!parejasDobles">
+                    <a class="item" style="font-size: small"
+                       ng-click="verFoursomePareja($index)">
+                        [{{competicion.j1.nombre}}]
+                        VS
+                        [{{competicion.j2.nombre}}]
                     </a>
                 </div>
             </ion-content>

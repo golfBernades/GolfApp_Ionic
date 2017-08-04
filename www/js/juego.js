@@ -330,8 +330,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
         }
 
         function agregarCompeticionesFoursome(parejas, tipoCompeti, idx) {
-            // console.log('GolfApp', 'juego.agregarApuestaFoursome(' + idx + ')');
-
             if (tipoCompeti == 'pareja') {
                 var p1j1 = {
                     id: parejas.item(idx).p1_j1_id,
@@ -372,15 +370,36 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     ]
                 });
 
-                var length = $scope.tablero.apuestaFoursome.length;
-
-                // console.log('InitPuntosFoursome', $scope.tablero.apuestaFoursome[length - 1]);
-
-
                 modulePromises.push(apuestaFoursome.agregarCompeticionPareja(
                     p1j1, p1j2, parejas.item(idx).p1_jug_ventaja, p2j1, p2j2,
                     parejas.item(idx).p2_jug_ventaja
                 ));
+            } else if (tipoCompeti == 'individual') {
+                var j1 = {
+                    id: parejas.item(idx).p1_j1_id,
+                    nombre: parejas.item(idx).p1_j1_nombre,
+                    idx: parejas.item(idx).p1_j1_idx,
+                    handicap: parejas.item(idx).p1_j1_handicap
+                };
+
+                var j2 = {
+                    id: parejas.item(idx).p1_j2_id,
+                    nombre: parejas.item(idx).p1_j2_nombre,
+                    idx: parejas.item(idx).p1_j2_idx,
+                    handicap: parejas.item(idx).p1_j2_handicap
+                };
+
+                $scope.tablero.apuestaFoursome.push({
+                    j1: j1,
+                    j2: j2,
+                    p1_puntos: [
+                        [], [], [], [], [], [], [], [], [], [], [], [], [], [],
+                        [], [], [], []
+                    ]
+                });
+
+                modulePromises.push(apuestaFoursome
+                    .agregarCompeticionIndividual(j1, j2));
             }
 
             if (idx < parejas.length - 1) {

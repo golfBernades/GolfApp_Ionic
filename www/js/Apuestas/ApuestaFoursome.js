@@ -404,7 +404,7 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
             } else {
                 compActual.push(1);
             }
-        } else if (p2_golpes < p1_golpes) {
+        } else if (j2_golpes < j1_golpes) {
             if ((hIndex > 0 && hIndex < 9) || hIndex > 9 && hIndex < 18) {
                 for (i = 0; i < compAnterior.length; i++) {
                     compActual.push(compAnterior[i]);

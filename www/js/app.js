@@ -5,12 +5,10 @@
 // the 2nd parameter is an array of 'requires'
 var db = null;
 var dir = 'http://148.233.65.228:8080/';
-// var dir = 'http://192.168.0.15:8000/';
 var id_user_app = "";
 var user_app = "";
 var password_app = "";
 var sesionActual = false;
-
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
     'starter.campos-dispositivo', 'starter.juego', 'starter.nuevo-campo',

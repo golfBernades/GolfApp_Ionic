@@ -45,10 +45,10 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                 .then(function (index) {
                     console.log('JuegoFoursome', 'cargarParejaIndex()' +
                         ' Correcto');
-                    return verFoursomePareja(index);
+                    return verFoursomeCompeticion(index);
                 })
                 .then(function () {
-                    console.log('JuegoFoursome', 'verFoursomePareja()' +
+                    console.log('JuegoFoursome', 'verFoursomeCompeticion()' +
                         ' Correcto');
                     return fixRowsAndColumns();
                 })
@@ -90,6 +90,66 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
             return promise;
         }
 
+        function verFoursomeCompeticion(index) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            if ($scope.parejasDobles) {
+                verFoursomePareja(index)
+                    .then(function () {
+                        defered.resolve('VerFoursomePareja [OK]');
+                    })
+                    .catch(function (error) {
+                        defered.reject(error);
+                    });
+            } else {
+                verFoursomeIndividual(index)
+                    .then(function () {
+                        defered.resolve('verFoursomeIndividual [OK]');
+                    })
+                    .catch(function (error) {
+                        defered.reject(error);
+                    });
+            }
+
+            return promise;
+        }
+
+        function verFoursomeIndividual(index) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            console.log('verFoursomeIndividual(' + index + ')',
+                $scope.tablero.apuestaFoursome[index]);
+
+            var j1_idx = $scope.tablero.apuestaFoursome[index].j1.idx;
+            var j2_idx = $scope.tablero.apuestaFoursome[index].j2.idx;
+
+            $scope.tableroPareja.datos_juego = [
+                {
+                    nombre: $scope.tablero.datos_juego[j1_idx].nombre,
+                    handicap: $scope.tablero.datos_juego[j1_idx].handicap,
+                    golpes: $scope.tablero.datos_juego[j1_idx].golpes,
+                    circulos: $scope.tablero.datos_juego[j1_idx].circulos
+                },
+                {
+                    nombre: $scope.tablero.datos_juego[j2_idx].nombre,
+                    handicap: $scope.tablero.datos_juego[j2_idx].handicap,
+                    golpes: $scope.tablero.datos_juego[j2_idx].golpes,
+                    circulos: $scope.tablero.datos_juego[j2_idx].circulos
+                }
+            ];
+
+            $scope.tableroPareja.puntosFoursome
+                = $scope.tablero.apuestaFoursome[index].p1_puntos;
+
+            setTimeout(function () {
+                defered.resolve('Competición renderizada correctamente');
+            }, 300);
+
+            return promise;
+        }
+
         function verFoursomePareja(index) {
             var defered = $q.defer();
             var promise = defered.promise;
@@ -98,9 +158,6 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
             var p1_j2_idx = $scope.tablero.apuestaFoursome[index].p1_j2.idx;
             var p2_j1_idx = $scope.tablero.apuestaFoursome[index].p2_j1.idx;
             var p2_j2_idx = $scope.tablero.apuestaFoursome[index].p2_j2.idx;
-
-            // console.log('GolfApp', 'Se renderizará el foursome de la pareja '
-            //     + index);
 
             $scope.tableroPareja.datos_juego = [
                 {
@@ -132,10 +189,8 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
             $scope.tableroPareja.puntosFoursome
                 = $scope.tablero.apuestaFoursome[index].p1_puntos;
 
-            // console.log('PuntosFoursome', $scope.tableroPareja.puntosFoursome);
-
             setTimeout(function () {
-                defered.resolve('Pareja renderizada correctamente');
+                defered.resolve('Competición renderizada correctamente');
             }, 300);
 
             return promise;
