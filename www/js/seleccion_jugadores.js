@@ -162,9 +162,9 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                                             console.log(JSON.stringify(err))
                                         });
                                 } else {
-                                    utils.popup("Jugadores repetido!",
-                                        "Nombre de jugador repetido."
-                                        + " Escribir otro nombre.");
+                                    utils.popup("Jugador repetido",
+                                        "El nombre ya se está usando," +
+                                        " intenta con otro.");
 
                                     e.preventDefault();
                                 }

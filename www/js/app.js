@@ -420,7 +420,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
         this.popup = function (title, template) {
             var alertPopup = $ionicPopup.alert({
                 title: title,
-                template: template
+                template: template,
+                okText: 'Aceptar'
             });
         };
 

@@ -72,8 +72,10 @@ angular.module('starter.inicio', ['ionic'])
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Iniciar Sesión',
                 template: 'Para poder avanzar debes iniciar sesión',
-                okText: 'Iniciar Sesión',
-                cancelText: 'Cancelar'
+                okText: 'Ingresar',
+                okType: 'button-positive',
+                cancelText: 'Cancelar',
+                cancelType: 'button-assertive'
             });
 
             confirmPopup.then(function (res) {
@@ -90,7 +92,11 @@ angular.module('starter.inicio', ['ionic'])
         function logOut() {
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Cerrar Sesión',
-                template: '¿Estás seguro de querer salir de tu cuenta?'
+                template: '¿Estás seguro de querer salir de tu cuenta?',
+                okText: 'Salir',
+                okType: 'button-positive',
+                cancelText: 'Cancelar',
+                cancelType: 'button-assertive'
             });
 
             confirmPopup.then(function (res) {

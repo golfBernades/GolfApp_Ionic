@@ -4,7 +4,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                              $state, $ionicLoading, $timeout,
                                              $ionicPlatform, $q, $http,
                                              serviceHttpRequest, $ionicPopover,
-                                             sql) {
+                                             sql, utils) {
         $scope.hoyos1a9 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         $scope.hoyos10a18 = [10, 11, 12, 13, 14, 15, 16, 17, 18];
         $scope.pares1a9 = [];
@@ -127,7 +127,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     setTimeout(function () {
                         $ionicLoading.hide();
                         if ($scope.partidoExistente.idServidor) {
-                            popup('Clave de consulta', '<h1>'
+                            utils.popup('Clave de consulta', '<h1>'
                                 + $scope.partidoExistente.claveConsulta
                                 + '</h1>');
                         }
@@ -625,13 +625,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         //     + response.data.error_message);
                     }
                 });
-        }
-
-        function popup(title, template) {
-            var pop = $ionicPopup.alert({
-                title: title,
-                template: template
-            });
         }
 
         function showLoading() {
