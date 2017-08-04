@@ -327,7 +327,7 @@ angular.module('starter.inicio', ['ionic'])
                 + '(modo_jugadores, modo_presiones, pareja_idx) '
                 + 'VALUES (?, ?, ?)';
 
-            var configFoursomeData = ['individual', 'california', 0];
+            var configFoursomeData = ['individual', 'california ', 0];
 
             var insertFoursome = 'INSERT INTO foursome ('
                 + 'p1_j1_id, p1_j1_nombre, p1_j1_handicap, p1_j1_idx, '
