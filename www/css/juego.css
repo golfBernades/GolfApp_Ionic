@@ -68,7 +68,12 @@ ion-popover-view.fit {
     height: auto !important;
 }
 
+ion-popover-view.fit ion-header-bar {
+    position: relative !important;
+}
+
 ion-popover-view.fit ion-content {
+    top: 0 !important;
     position: relative !important;
 }
 
