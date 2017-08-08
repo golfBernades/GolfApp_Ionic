@@ -27,11 +27,11 @@ path, o bien, especificar la ruta de la variable en cada ejecución de comandos
 
 > ```ionic plugin add https://github.com/apache/cordova-plugin-whitelist.git```
 
-> ``` ionic plugin add ionic-plugin-keyboard```
+> ```ionic plugin add ionic-plugin-keyboard```
 
 > ```cordova plugin add https://github.com/litehelpers/Cordova-sqlite-storage#storage-master```
 
-> ```cordova plugin add cordova-plugin-screen-orientation```
+> ```sudo ANDROID_HOME="/home/porfirio/android_sdk_tools" PATH=$PATH:"/opt/gradle/gradle-4.0.1/bin" cordova plugin add cordova-plugin-screen-orientation```
 
 ## Inspeccionar aplicación con Chrome
 
@@ -43,3 +43,7 @@ path, o bien, especificar la ruta de la variable en cada ejecución de comandos
 ## Correr la aplicación en un dispositivo específico:
 
 > ```sudo ANDROID_HOME="/home/porfirio/android_sdk_tools" ionic run android  --target=192.168.1.87:5555```
+
+## Instalar versiones específicas de Ionic y Cordova
+> ```sudo npm install -g ionic@2.2.1```
+> ```sudo npm install -g cordova@6.5.0```

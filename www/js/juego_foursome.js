@@ -26,7 +26,7 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                     $state.reload();
                 })
                 .catch(function (error) {
-                    defered.reject(error);
+
                 });
         };
 
