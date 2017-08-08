@@ -29,7 +29,7 @@ path, o bien, especificar la ruta de la variable en cada ejecución de comandos
 
 > ``` ionic plugin add ionic-plugin-keyboard```
 
-> ```cordova plugin add https://github.com/litehelpers/Cordova-sqlite-storage.git```
+> ```cordova plugin add https://github.com/litehelpers/Cordova-sqlite-storage#storage-master```
 
 > ```cordova plugin add cordova-plugin-screen-orientation```
 
