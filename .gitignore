@@ -4,5 +4,4 @@
 node_modules/
 platforms/
 plugins/
-my-release-key.keystore
-.idea/workspace.xml
+.idea/

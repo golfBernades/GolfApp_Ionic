@@ -17,10 +17,12 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         var modificar = false;
 
         $scope.seleccionarCampo = function () {
-            var query = "SELECT jugar FROM jugador";
+            var query = "SELECT jugar FROM jugador WHERE jugar = 1";
             $cordovaSQLite.execute(db, query)
                 .then(function (res) {
-                    if (res.rows.length > 0) {
+
+                    console.log("res.rows.length: " + res.rows.length)
+                    if (res.rows.length >= 2) {
 
                         var control = false;
 
@@ -33,11 +35,8 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                         if (control) {
                             // TODO Corregir esta madre
                             if (modificar) {
-                                var del_four = "DELETE FROM foursome WHERE usuario_id = (?)";
-                                $cordovaSQLite.execute(db, del_four, [id_user_app]);
-
-                                var del_four_two = "DELETE FROM foursomeTwo WHERE usuario_id = (?)";
-                                $cordovaSQLite.execute(db, del_four_two, [id_user_app]);
+                                var del_four = "DELETE FROM foursome";
+                                $cordovaSQLite.execute(db, del_four);
                             }
 
                             switch ($rootScope.campos) {
@@ -54,12 +53,12 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
 
                         } else {
                             utils.popup("Selección de jugadores",
-                                "Debes seleccionar los jugadores que" +
+                                "Debes seleccionar al menos dos de los jugadores que" +
                                 " participarán en el partido para poder" +
                                 " avanzar");
                         }
                     } else {
-                        utils.popup("Creación de jugadores", "Debes crear" +
+                        utils.popup("Creación de jugadores", "Debes crear al menos 2" +
                             " los jugadores que participarán en el partido" +
                             " para poder avanzar");
                     }
@@ -75,6 +74,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         $scope.isJugador = function (idJugador, index) {
             var query = "UPDATE jugador SET jugar = ? WHERE id =?";
 
+            modificar = true;
             if ($scope.jugadores[index].jugar) {
                 $cordovaSQLite.execute(db, query, [1, idJugador]);
             } else {
