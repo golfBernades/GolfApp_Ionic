@@ -53,7 +53,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
 
         function configureDatabase() {
             db = window.sqlitePlugin.openDatabase({
-                name: 'appgolfito.db',
+                name: 'appgolfiato.db',
                 location: 'default'
             }, function successCallback() {
                 console.log("La DB se abrió correctamente");
@@ -81,8 +81,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
 
             var jugador = 'CREATE TABLE IF NOT EXISTS jugador'
                 + '(id integer PRIMARY KEY AUTOINCREMENT, '
-                + 'nombre text, ' 
-                + 'handicap integer,' 
+                + 'nombre text, '
+                + 'handicap integer,'
                 + 'jugar integer)';
 
             $cordovaSQLite.execute(db, jugador);

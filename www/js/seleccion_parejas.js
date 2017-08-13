@@ -103,7 +103,12 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         ];
 
         $scope.comenzarJuego = function () {
-            $state.go('juego');
+
+            if($scope.parejas.length >0 || $scope.parejasIndividual.length >0){
+                guardarConfigFoursome();
+            }else{
+                utils.popup('Parejas','Para poder avanzar debes haber formado minimo 1 pareja');
+            }
         };
 
         $scope.seleccionarApuesta = function () {
@@ -114,6 +119,65 @@ angular.module('starter.seleccion-parejas', ['ionic'])
             isCrearPareja = true;
             alertCrearParejas('crear_parejas_popup.html', 'Crear');
         };
+
+        function guardarConfigFoursome() {
+
+            var query = "SELECT id FROM config_foursome";
+            $cordovaSQLite.execute(db, query).then(function (res) {
+
+                if(res.rows.length > 0){
+                    configFoursome(false)
+                }else{
+                    configFoursome(true)
+                }
+            }, function (err) {
+                console.log(JSON.stringify(err))
+            })
+        }
+
+        function configFoursome(isInsert) {
+
+            var dataQuery = [];
+
+
+            switch ($scope.jugadoresLista.opcion){
+                case "1 VS 1":
+                    dataQuery[0] = 'individual';
+                    break;
+                case "2 VS 2":
+                    dataQuery[0] = 'pareja';
+                    break;
+            }
+
+            switch ($scope.presionesLista.opcion){
+                case "2 Golpes":
+                    dataQuery[1] = 'normal';
+                    break;
+                case "3 Golpes":
+                    dataQuery[1] = 'california';
+                    break;
+            }
+
+
+            if(isInsert){
+                var query = "INSERT INTO config_foursome(modo_jugadores, modo_presiones, pareja_idx) VALUES (?,?,?)";
+                $cordovaSQLite.execute(db, query, [dataQuery[0], dataQuery[1], '0']).then(function () {
+                    $state.go('juego')
+
+                }, function (err) {
+                    console.log(JSON.stringify(err))
+                });
+            }else{
+                var query = "UPDATE config_foursome SET modo_jugadores = ?, modo_presiones = ? WHERE id = 0";
+                $cordovaSQLite.execute(db, query, [dataQuery[0], dataQuery[1]]).then(function () {
+                    $state.go('juego')
+
+                }, function (err) {
+                    console.log(JSON.stringify(err))
+                });
+            }
+
+        }
 
         function parejasDobles(e) {
 
@@ -528,7 +592,25 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         };
 
         $scope.selectedJugadoresLista = function () {
-            console.log("VERSUS: " + $scope.jugadoresLista.opcion)
+            console.log("VERSUS: " + $scope.jugadoresLista.opcion);
+
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Confirmación',
+                template: '¿Seguro que desea cambiar a la modalidad a '+$scope.jugadoresLista.opcion+'? Esto eliminará las parejas que hayas formado.'
+            });
+
+            confirmPopup.then(function(res) {
+                if(res) {
+                    eliminarParejas();
+                } else {
+                    if($scope.jugadoresLista.opcion == "1 VS 1"){
+                        $scope.jugadoresLista.opcion = $scope.jugList[1];
+                    }else{
+                        $scope.jugadoresLista.opcion = $scope.jugList[0];
+                    }
+                }
+            });
+
         };
 
         $scope.selectedPresionesLista = function () {
@@ -588,6 +670,36 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
             alertCrearParejas('crear_parejas_popup.html', 'Actualizar');
         };
+
+        function eliminarParejas() {
+
+            var del_four = "DELETE FROM foursome";
+            $cordovaSQLite.execute(db, del_four).then(function () {
+                for(var i =0; i<$scope.parejas.length; i++){
+                    $scope.parejas.splice(i,1);
+                }
+                for(var i =0; i<$scope.parejasIndividual.length; i++){
+                    $scope.parejasIndividual.splice(i,1);
+                }
+
+                switch ($scope.jugadoresLista.opcion){
+                    case "1 VS 1":
+                        $scope.pareja_individual = true;
+                        $scope.pareja_doble = false;
+                        $scope.dosJugadores = false;
+                        break;
+                    case "2 VS 2":
+                        $scope.pareja_individual = false;
+                        $scope.pareja_doble = true;
+                        $scope.dosJugadores = true;
+                        break;
+                }
+
+            }, function (err) {
+                console.log(JSON.stringify(err))
+            })
+
+        }
 
         function alertOpcionesCampo(url) {
             alertPopupOpcionesCampo = $ionicPopup.alert({
