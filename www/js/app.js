@@ -53,7 +53,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
 
         function configureDatabase() {
             db = window.sqlitePlugin.openDatabase({
-                name: 'appgaolfiaato.db',
+                name: 'appgaaaoalafiaaatos.db',
                 location: 'default'
             }, function successCallback() {
                 console.log("La DB se abrió correctamente");
@@ -167,6 +167,24 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 + ')';
 
             $cordovaSQLite.execute(db, tableroJson);
+
+            var consultaJson = 'CREATE TABLE IF NOT EXISTS consulta_json ('
+                + 'clave INTEGER PRIMARY KEY'
+                + ')';
+            $cordovaSQLite.execute(db, consultaJson);
+
+
+            $cordovaSQLite.execute(db, "SELECT * FROM consulta_json")
+                .then(function (res) {
+                    if(res.rows.length==0){
+                        var insertConsultaJson = 'INSERT INTO consulta_json (clave) VALUES (?)';
+                        $cordovaSQLite.execute(db, insertConsultaJson, [1]);
+                    }
+                }, function (err) {
+                    console.log(JSON.stringify(err))
+                });
+
+
 
             var foursome = 'CREATE TABLE IF NOT EXISTS foursome ('
                 + 'id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,'

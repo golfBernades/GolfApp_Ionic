@@ -4,7 +4,7 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                                                      $state, $ionicLoading, $timeout,
                                                      $ionicPlatform, $q, $http,
                                                      serviceHttpRequest, $ionicPopover,
-                                                     sql) {
+                                                     sql, utils) {
         $scope.parejasDobles = false;
 
         $scope.hoyos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
@@ -14,8 +14,18 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
 
         $scope.tableroPareja = {};
 
+        var foursomeLocal = true;
+
         $scope.goJuegoGeneral = function () {
-            $state.go('juego');
+            if(foursomeLocal){
+                console.log('juego local')
+
+                $state.go('juego');
+            }else{
+                console.log('juego consulta')
+
+                $state.go('juego_consulta');
+            }
         };
 
         $scope.verFoursomePareja = function (index) {
@@ -36,10 +46,10 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
             $q.when()
                 .then(function () {
                     console.log('JuegoFoursome', 'Inicio Correcto');
-                    return getLocalTablero();
+                    return obtenerJson();
                 })
                 .then(function () {
-                    console.log('JuegoFoursome', 'getLocalTablero() Correcto');
+                    console.log('JuegoFoursome', 'obtenerJson() Correcto');
                     return cargarParejaIndex();
                 })
                 .then(function (index) {
@@ -55,7 +65,6 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                 .then(function () {
                     console.log('JuegoFoursome', 'fixRowsAndColumns()' +
                         ' Correcto');
-                    $ionicLoading.hide();
                     return $q.when();
                 })
                 .then(function () {
@@ -63,12 +72,59 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                 })
                 .catch(function (error) {
                     console.log('JuegoFoursome', error);
+                    utils.popup('Error', error);
+                })
+                .finally(function () {
+                    $ionicLoading.hide();
                 });
 
             screen.orientation.addEventListener('change', function () {
                 $state.reload();
             });
         });
+
+        function obtenerJson() {
+
+            var defered = $q.defer();
+            var promise = defered.promise;
+            var query = 'SELECT * FROM consulta_json';
+
+            sql.sqlQuery(db, query, [])
+                .then(function (res) {
+                    if (res.rows.length > 0) {
+                        if (res.rows.item(0).clave == 0) {
+
+                            console.log('Consulta local')
+                            foursomeLocal = true;
+                            getLocalTablero()
+                                .then(function () {
+                                    defered.resolve("OK");
+                                })
+                                .catch(function (error) {
+                                    defered.reject(error);
+                                });
+                        } else {
+                            console.log('Consulta servidor')
+
+                            foursomeLocal= false;
+                            getServidorTablero()
+                                .then(function () {
+                                    defered.resolve("OK");
+                                })
+                                .catch(function (error) {
+                                    defered.reject(error);
+                                });
+                        }
+                    } else {
+                        defered.reject('No hay tablero foursome local');
+                    }
+                })
+                .catch(function (error) {
+                    defered.reject(error);
+                });
+
+            return promise;
+        }
 
         function cargarParejaIndex() {
             var defered = $q.defer();
@@ -214,6 +270,48 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                 })
                 .catch(function (error) {
                     defered.reject(error);
+                });
+
+            return promise;
+        }
+
+        function getServidorTablero() {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            var query = "SELECT * FROM clave";
+            $cordovaSQLite.execute(db, query)
+                .then(function (res) {
+                    var httpRequest = serviceHttpRequest.createPostHttpRequest(
+                        dir + 'partido_tablero_get', {
+                            clave_consulta: res.rows.item(0).clave
+                        }
+                    );
+
+                    $http(httpRequest)
+                        .then(function successCallback(response) {
+                            if (response.data.ok) {
+                                $scope.tablero = response.data.tablero;
+                                $scope.foursomeSeleccionada = response.data.tablero.foursomeSeleccionada;
+                                $scope.parejasDobles = $scope.tablero.configFoursome
+                                        .modoJugadores == 'pareja';
+
+                                defered.resolve('OK');
+                            } else {
+                                defered.reject('Aún no hay actualizaciones disponibles,' +
+                                    ' intenta más tarde');
+                            }
+                        }, function errorCallback(response) {
+                            if (response.status == -1) {
+                                defered.reject('Error de conexión');
+                            } else {
+                                defered.reject(response.data.error_message);
+                            }
+                            $ionicLoading.hide();
+                        });
+
+                }, function (err) {
+                    console.log(JSON.stringify(err))
                 });
 
             return promise;

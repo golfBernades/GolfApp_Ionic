@@ -3,7 +3,7 @@ angular.module('starter.juego_consulta', ['ionic'])
     .controller('juegoConsultaController', function ($scope, $ionicPopup, $cordovaSQLite,
                                                      $state, $ionicLoading, $timeout,
                                                      $ionicPlatform, $q, $http, $ionicPopover,
-                                                     serviceHttpRequest, utils) {
+                                                     serviceHttpRequest, utils, sql) {
 
 
         var modulePromises = [];
@@ -55,7 +55,14 @@ angular.module('starter.juego_consulta', ['ionic'])
         };
 
         $scope.selectForusome = function () {
-            $state.go('juego_foursome')
+            var query = "UPDATE consulta_json SET clave = ?";
+            sql.sqlQuery(db, query, [1])
+                .then(function (res) {
+                    $state.go('juego_foursome');
+                })
+                .catch(function (error) {
+                    console.log(JSON.stringify(error))
+                });
         };
 
         function getMarcador() {

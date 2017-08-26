@@ -536,7 +536,14 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
             setTimeout(function () {
                 refreshLocalTablero().then(function () {
-                    $state.go('juego_foursome');
+                    var query = "UPDATE consulta_json SET clave = ?";
+                    sql.sqlQuery(db, query, [0])
+                        .then(function (res) {
+                            $state.go('juego_foursome');
+                        })
+                        .catch(function (error) {
+                            console.log(JSON.stringify(error))
+                        });
                 }).catch(function (error) {
                     console.log('$scope.selectFoursome [OK]');
                 });
