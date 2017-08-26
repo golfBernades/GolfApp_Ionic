@@ -189,6 +189,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         } else if (res.rows.item(i).nombre.toLowerCase()
                             == 'foursome') {
                             $scope.foursomeSeleccionada = true;
+                            $scope.tablero.foursomeSeleccionada = true;
                         }
                     }
 
@@ -481,26 +482,26 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             = response.data.clave_edicion;
                         $scope.partidoExistente.idServidor
                             = response.data.partido_id;
-                        // console.log('GolfApp', '[OK] Insertar partido en' +
-                        //     ' servidor ['
-                        //     + [$scope.partidoExistente.claveConsulta,
-                        //         $scope.partidoExistente.claveEdicion,
-                        //         $scope.partidoExistente.idServidor]
-                        //         .join(', ') + ']');
+                         console.log('GolfApp', '[OK] Insertar partido en' +
+                             ' servidor ['
+                             + [$scope.partidoExistente.claveConsulta,
+                                 $scope.partidoExistente.claveEdicion,
+                                 $scope.partidoExistente.idServidor]
+                                 .join(', ') + ']');
                     } else {
-                        // console.log('GolfApp', response.config.url + '['
-                        //     + response.config.method + ']: '
-                        //     + response.data.error_message);
+                         console.log('GolfApp', response.config.url + '['
+                            + response.config.method + ']: '
+                             + response.data.error_message);
                     }
                 }, function errorCallback(response) {
                     if (response.status == -1) {
-                        // console.log('GolfApp', response.config.url + '['
-                        //     + response.config.method + ']: '
-                        //     + 'Error de conexión');
+                         console.log('GolfApp', response.config.url + '['
+                             + response.config.method + ']: '
+                             + 'Error de conexión');
                     } else {
-                        // console.log('GolfApp', response.config.url + '['
-                        //     + response.config.method + ']: '
-                        //     + response.data.error_message);
+                         console.log('GolfApp', response.config.url + '['
+                             + response.config.method + ']: '
+                             + response.data.error_message);
                     }
                 });
 

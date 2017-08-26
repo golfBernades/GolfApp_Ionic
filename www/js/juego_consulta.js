@@ -17,6 +17,7 @@ angular.module('starter.juego_consulta', ['ionic'])
         $scope.hoyos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
         $scope.hoyos1a9 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         $scope.hoyos10a18 = [10, 11, 12, 13, 14, 15, 16, 17, 18];
+        $scope.foursomeSeleccionada = false;
 
 
         $ionicPlatform.ready(function () {
@@ -53,6 +54,10 @@ angular.module('starter.juego_consulta', ['ionic'])
             deleteClave();
         };
 
+        $scope.selectForusome = function () {
+            $state.go('juego_foursome')
+        };
+
         function getMarcador() {
             utils.showLoading();
 
@@ -66,6 +71,8 @@ angular.module('starter.juego_consulta', ['ionic'])
                 .then(function successCallback(response) {
                     if (response.data.ok) {
                         $scope.tablero = response.data.tablero;
+                        $scope.foursomeSeleccionada = response.data.tablero.foursomeSeleccionada;
+
                         setTimeout(function () {
                             fixRowsAndColumns();
                         }, 1000);
