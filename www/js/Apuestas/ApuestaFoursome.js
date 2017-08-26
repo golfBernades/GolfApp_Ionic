@@ -114,6 +114,8 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
         // console.log('ApuestaFoursome.verificarHoyoTerminadoParejas',
         //     competicion + ', ' + (hIndex + 1));
 
+        console.log('IdxMudo ' + indexP2J2 );
+
         var indexP1J1 = competicion.p1_j1.idx;
         var golpesP1J1 = staticThis.partido.scoreBoard[indexP1J1].golpes[hIndex];
         var indexP1J2 = competicion.p1_j2.idx;
@@ -122,6 +124,8 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
         var golpesP2J1 = staticThis.partido.scoreBoard[indexP2J1].golpes[hIndex];
         var indexP2J2 = competicion.p2_j2.idx;
         var golpesP2J2 = staticThis.partido.scoreBoard[indexP2J2].golpes[hIndex];
+
+
 
         return golpesP1J1 && golpesP1J2 && golpesP2J1 && golpesP2J2;
     }

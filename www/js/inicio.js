@@ -173,10 +173,14 @@ angular.module('starter.inicio', ['ionic'])
             });
         }
 
-        $ionicPlatform.ready(function () {
+        $(document).ready(function () {
             console.log('inicio.$ionicPlatform.ready()');
-            isUser()
+            isUser();
         });
+
+        // $ionicPlatform.ready(function () {
+        //
+        // });
 
         $scope.insertTestData = function () {
             var defered = $q.defer();
@@ -242,14 +246,14 @@ angular.module('starter.inicio', ['ionic'])
                     console.log('GolfApp', '[OK] -> insertJugador');
                     return $cordovaSQLite.execute(db, selectApuesta);
                 })
-                // .then(function () {
-                //     console.log('GolfApp', '[OK] -> selectApuesta');
-                //     return insertFoursomeParejasData();
-                // })
                 .then(function () {
                     console.log('GolfApp', '[OK] -> selectApuesta');
-                    return insertFoursomeIndividualData();
+                    return insertFoursomeParejasData();
                 })
+                // .then(function () {
+                //     console.log('GolfApp', '[OK] -> selectApuesta');
+                //     return insertFoursomeIndividualData();
+                // })
                 .then(function () {
                     console.log('GolfApp', '[OK] -> insertFoursomeData');
                     return $cordovaSQLite.execute(db, insertPuntuaciones);

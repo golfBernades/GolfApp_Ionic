@@ -118,9 +118,9 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 .then(function () {
                     actualizarScoreUi();
 
-                    setTimeout(function () {
-                        compartirScoreboard();
-                    }, 1000);
+                    // setTimeout(function () {
+                    //     compartirScoreboard();
+                    // }, 10000);
 
                     fixRowsAndColumns();
 
@@ -905,7 +905,9 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                                         $q.all(promises).then(function () {
                                             actualizarScoreUi();
-                                            compartirScoreboard();
+                                            setTimeout(function () {
+                                                compartirScoreboard();
+                                            }, 1000)
                                         });
                                     }
                                 } else {
@@ -1133,6 +1135,15 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 }, function (err) {
                     console.error(err);
                 });
+        }
+
+        $scope.actualizarJuego =function () {
+            console.log('juego.$scope.actualizarJuego');
+            actualizarScoreUi();
+            setTimeout(function () {
+                compartirScoreboard();
+            }, 1000);
+
         }
 
     });
