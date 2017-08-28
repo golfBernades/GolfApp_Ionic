@@ -54,7 +54,7 @@ angular.module('starter.juego_consulta', ['ionic'])
             deleteClave();
         };
 
-        $scope.selectForusome = function () {
+        $scope.selectFoursome = function () {
             var query = "UPDATE consulta_json SET clave = ?";
             sql.sqlQuery(db, query, [1])
                 .then(function (res) {

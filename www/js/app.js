@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 var db = null;
-var dir = 'http://192.168.1.65:8000/';
+var dir = 'http://148.233.65.228:8080/';
 var id_user_app = "";
 var user_app = "";
 var password_app = "";
@@ -171,8 +171,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             var consultaJson = 'CREATE TABLE IF NOT EXISTS consulta_json ('
                 + 'clave INTEGER PRIMARY KEY'
                 + ')';
-            $cordovaSQLite.execute(db, consultaJson);
 
+            $cordovaSQLite.execute(db, consultaJson);
 
             $cordovaSQLite.execute(db, "SELECT * FROM consulta_json")
                 .then(function (res) {
@@ -183,8 +183,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 }, function (err) {
                     console.log(JSON.stringify(err))
                 });
-
-
 
             var foursome = 'CREATE TABLE IF NOT EXISTS foursome ('
                 + 'id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,'
@@ -218,6 +216,18 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 + ')';
 
             $cordovaSQLite.execute(db, configFoursome);
+
+            var truncateConfigFoursome = 'DELETE FROM config_foursome';
+
+            $cordovaSQLite.execute(db, truncateConfigFoursome);
+
+            var insertConfigFoursome = 'INSERT INTO config_foursome ' +
+                '(modo_jugadores, modo_presiones, pareja_idx) VALUES ' +
+                '(?, ?, ?)';
+
+            var configFoursomeData = ['pareja', 'normal', 0];
+
+            $cordovaSQLite.execute(db, insertConfigFoursome, configFoursomeData);
 
             var idx_partido_partido_jugador_id_fk = 'CREATE INDEX ' +
                 'IF NOT EXISTS idx_partido_partido_jugador_id_fk ' +

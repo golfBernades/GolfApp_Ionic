@@ -36,7 +36,7 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                     $state.reload();
                 })
                 .catch(function (error) {
-
+                    console.log(error);
                 });
         };
 
@@ -136,7 +136,8 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                     if (res.rows.length > 0) {
                         defered.resolve(res.rows.item(0).pareja_idx);
                     } else {
-                        defered.reject('No hay datos en config_foursome');
+                        defered.resolve(0);
+                        // defered.reject('No hay datos en config_foursome');
                     }
                 })
                 .catch(function (error) {

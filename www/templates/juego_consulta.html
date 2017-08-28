@@ -74,7 +74,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="puntuacion in tablero.datos_juego">
+                    <tr ng-repeat="puntuacion in tablero.datos_juego"
+                        ng-if="puntuacion.nombre != 'Mudo'">
                         <td class="vertical-centered-cell">
                             {{puntuacion.nombre}}
                             <br>

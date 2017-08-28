@@ -104,10 +104,10 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
         $scope.comenzarJuego = function () {
 
-            if($scope.parejas.length >0 || $scope.parejasIndividual.length >0){
-                guardarConfigFoursome();
-            }else{
-                utils.popup('Parejas','Para poder avanzar debes haber formado minimo 1 pareja');
+            if ($scope.parejas.length > 0 || $scope.parejasIndividual.length > 0) {
+                configFoursome();
+            } else {
+                utils.popup('Parejas', 'Para poder avanzar debes haber formado minimo 1 pareja');
             }
         };
 
@@ -120,27 +120,10 @@ angular.module('starter.seleccion-parejas', ['ionic'])
             alertCrearParejas('crear_parejas_popup.html', 'Crear');
         };
 
-        function guardarConfigFoursome() {
-
-            var query = "SELECT id FROM config_foursome";
-            $cordovaSQLite.execute(db, query).then(function (res) {
-
-                if(res.rows.length > 0){
-                    configFoursome(false)
-                }else{
-                    configFoursome(true)
-                }
-            }, function (err) {
-                console.log(JSON.stringify(err))
-            })
-        }
-
-        function configFoursome(isInsert) {
-
+        function configFoursome() {
             var dataQuery = [];
 
-
-            switch ($scope.jugadoresLista.opcion){
+            switch ($scope.jugadoresLista.opcion) {
                 case "1 VS 1":
                     dataQuery[0] = 'individual';
                     break;
@@ -149,7 +132,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                     break;
             }
 
-            switch ($scope.presionesLista.opcion){
+            switch ($scope.presionesLista.opcion) {
                 case "2 Golpes":
                     dataQuery[1] = 'normal';
                     break;
@@ -158,40 +141,27 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                     break;
             }
 
+            var query = "UPDATE config_foursome SET modo_jugadores = ?, " +
+                "modo_presiones = ?, pareja_idx=0";
 
-            if(isInsert){
-                var query = "INSERT INTO config_foursome(modo_jugadores, modo_presiones, pareja_idx) VALUES (?,?,?)";
-                $cordovaSQLite.execute(db, query, [dataQuery[0], dataQuery[1], '0']).then(function () {
-                    $state.go('juego')
-
+            $cordovaSQLite.execute(db, query, [dataQuery[0], dataQuery[1]])
+                .then(function () {
+                    $state.go('juego');
                 }, function (err) {
                     console.log(JSON.stringify(err))
                 });
-            }else{
-                var query = "UPDATE config_foursome SET modo_jugadores = ?, modo_presiones = ? WHERE id = 0";
-                $cordovaSQLite.execute(db, query, [dataQuery[0], dataQuery[1]]).then(function () {
-                    $state.go('juego')
-
-                }, function (err) {
-                    console.log(JSON.stringify(err))
-                });
-            }
-
         }
 
         function parejasDobles(e) {
-
             var temp = true;
-
             var pareja = parejaExistenteDoble($scope.listaUno.opcion, $scope.listaDos.opcion, 1);
             var pareja_2 = parejaExistenteDoble($scope.listaTres.opcion, $scope.listaCuatro.opcion, 2);
 
+            console.log("Pareja: " + pareja + " pareja 2: " + pareja_2);
 
-            console.log("Pareja: " + pareja + " pareja 2: " + pareja_2)
-
-            if (pareja & pareja_2) {
+            if (pareja && pareja_2) {
                 temp = true;
-            } else if (!pareja & !pareja_2) {
+            } else if (!pareja && !pareja_2) {
                 temp = false;
             } else {
                 temp = true;
@@ -201,26 +171,34 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 if (validarParejas()) {
                     if ($scope.handicapIgual) {
                         if ($scope.listaCinco.opcion.id == null) {
-                            utils.popup("Seleccionar Jugador", "Seleccionar jugador con preferencia en Handicap para la pareja 1.")
+                            utils.popup("Seleccionar Jugador",
+                                "Seleccionar jugador con preferencia en " +
+                                "Handicap para la pareja 1.");
                             e.preventDefault();
                             return;
                         } else {
-                            ventaja.j_1 = handicapMayor($scope.listaUno.opcion, $scope.listaDos.opcion, 1);
+                            ventaja.p_1 = handicapMayor($scope.listaUno.opcion,
+                                $scope.listaDos.opcion, 1);
                         }
                     } else {
-                        ventaja.j_1 = handicapMayor($scope.listaUno.opcion, $scope.listaDos.opcion, 1);
+                        ventaja.p_1 = handicapMayor($scope.listaUno.opcion,
+                            $scope.listaDos.opcion, 1);
                     }
 
                     if ($scope.handicapIgualDos) {
                         if ($scope.listaSeis.opcion.id == null) {
-                            utils.popup("Seleccionar Jugador", "Seleccionar jugador con preferencia en Handicap para la pareja 2.")
+                            utils.popup("Seleccionar Jugador", "Seleccionar " +
+                                "jugador con preferencia en Handicap para la " +
+                                "pareja 2.");
                             e.preventDefault();
-                            return
+                            return;
                         } else {
-                            ventaja.j_2 = handicapMayor($scope.listaTres.opcion, $scope.listaCuatro.opcion, 2);
+                            ventaja.p_2 = handicapMayor($scope.listaTres.opcion,
+                                $scope.listaCuatro.opcion, 2);
                         }
                     } else {
-                        ventaja.j_2 = handicapMayor($scope.listaTres.opcion, $scope.listaCuatro.opcion, 2);
+                        ventaja.p_2 = handicapMayor($scope.listaTres.opcion,
+                            $scope.listaCuatro.opcion, 2);
                     }
 
                     if (isCrearPareja) {
@@ -228,20 +206,20 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                     } else {
                         actualizarParejas();
                     }
-
-
                 } else {
-                    utils.popup("Pareja Invalida", "Para poder avanzar formar una pareja valida, no repetir dos veces, los dos jugadores.");
+                    utils.popup("Pareja Invalida", "Para poder avanzar " +
+                        "formar una pareja valida, no repetir dos veces, " +
+                        "los dos jugadores.");
                     e.preventDefault();
                 }
             } else {
-                utils.popup("Pareja Repetida", "Para poder avanzar formar una pareja no existente.");
+                utils.popup("Pareja Repetida", "Para poder avanzar formar " +
+                    "una pareja no existente.");
                 e.preventDefault();
             }
         }
 
         function actualizarParejas() {
-
             var insertQuery = 'UPDATE foursome SET '
                 + 'p1_j1_id = ?, p1_j1_nombre = ?, p1_j1_handicap = ?, p1_j1_idx = ?,'
                 + 'p1_j2_id = ?, p1_j2_nombre = ?, p1_j2_handicap = ?, p1_j2_idx = ?, p1_jug_ventaja = ?, '
@@ -249,17 +227,20 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 + 'p2_j2_id = ?, p2_j2_nombre = ?, p2_j2_handicap = ?, p2_j2_idx = ?, p2_jug_ventaja = ? '
                 + 'WHERE id = ?';
 
-            var queryData = [$scope.listaUno.opcion.id, $scope.listaUno.opcion.nombre, $scope.listaUno.opcion.handicap, indexJug.jug_1,
-                $scope.listaDos.opcion.id, $scope.listaDos.opcion.nombre, $scope.listaDos.opcion.handicap, indexJug.jug_2, ventaja.p_1,
-                $scope.listaTres.opcion.id, $scope.listaTres.opcion.nombre, $scope.listaTres.opcion.handicap, indexJug.jug_3,
-                $scope.listaCuatro.opcion.id, $scope.listaCuatro.opcion.nombre, $scope.listaCuatro.opcion.handicap, indexJug.jug_4, ventaja.p_2,
+            var queryData = [$scope.listaUno.opcion.id,
+                $scope.listaUno.opcion.nombre,
+                $scope.listaUno.opcion.handicap, indexJug.jug_1,
+                $scope.listaDos.opcion.id, $scope.listaDos.opcion.nombre,
+                $scope.listaDos.opcion.handicap, indexJug.jug_2, ventaja.p_1,
+                $scope.listaTres.opcion.id, $scope.listaTres.opcion.nombre,
+                $scope.listaTres.opcion.handicap, indexJug.jug_3,
+                $scope.listaCuatro.opcion.id, $scope.listaCuatro.opcion.nombre,
+                $scope.listaCuatro.opcion.handicap, indexJug.jug_4, ventaja.p_2,
                 idPareja];
 
 
             $cordovaSQLite.execute(db, insertQuery, queryData)
                 .then(function (res) {
-
-
                     $scope.parejas[index].p1_j1_id = $scope.listaUno.opcion.id;
                     $scope.parejas[index].p1_j1_nombre = $scope.listaUno.opcion.nombre;
                     $scope.parejas[index].p1_j1_handicap = $scope.listaUno.opcion.handicap;
@@ -268,7 +249,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                     $scope.parejas[index].p1_j2_nombre = $scope.listaDos.opcion.nombre;
                     $scope.parejas[index].p1_j2_handicap = $scope.listaDos.opcion.handicap;
                     $scope.parejas[index].p1_j2_idx = indexJug.jug_2;
-                    $scope.parejas[index].p1_jug_ventaja = ventaja.j_1;
+                    $scope.parejas[index].p1_jug_ventaja = ventaja.p_1;
                     $scope.parejas[index].p2_j1_id = $scope.listaTres.opcion.id;
                     $scope.parejas[index].p2_j1_nombre = $scope.listaTres.opcion.nombre;
                     $scope.parejas[index].p2_j1_handicap = $scope.listaTres.opcion.handicap;
@@ -277,17 +258,14 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                     $scope.parejas[index].p2_j2_nombre = $scope.listaCuatro.opcion.nombre;
                     $scope.parejas[index].p2_j2_handicap = $scope.listaCuatro.opcion.handicap;
                     $scope.parejas[index].p2_j2_idx = indexJug.jug_4;
-                    $scope.parejas[index].p2_jug_ventaja = ventaja.j_2;
-
+                    $scope.parejas[index].p2_jug_ventaja = ventaja.p_2;
                     alertPopupOpcionesCampo.close();
-
                 }, function (err) {
                     console.log(JSON.stringify(err))
                 });
         }
 
         function insertarPareja() {
-
             var insertQuery = 'INSERT INTO foursome('
                 + 'p1_j1_id, p1_j1_nombre, p1_j1_handicap, p1_j1_idx,'
                 + 'p1_j2_id, p1_j2_nombre, p1_j2_handicap, p1_j2_idx, p1_jug_ventaja,'
@@ -295,14 +273,28 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 + 'p2_j2_id, p2_j2_nombre, p2_j2_handicap, p2_j2_idx, p2_jug_ventaja) '
                 + 'VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 
-            var queryData = [$scope.listaUno.opcion.id, $scope.listaUno.opcion.nombre, $scope.listaUno.opcion.handicap, indexJug.jug_1,
-                $scope.listaDos.opcion.id, $scope.listaDos.opcion.nombre, $scope.listaDos.opcion.handicap, indexJug.jug_2, ventaja.p_1,
-                $scope.listaTres.opcion.id, $scope.listaTres.opcion.nombre, $scope.listaTres.opcion.handicap, indexJug.jug_3,
-                $scope.listaCuatro.opcion.id, $scope.listaCuatro.opcion.nombre, $scope.listaCuatro.opcion.handicap, indexJug.jug_4, ventaja.p_2]
+            var queryData = [
+                $scope.listaUno.opcion.id,
+                $scope.listaUno.opcion.nombre,
+                $scope.listaUno.opcion.handicap,
+                indexJug.jug_1,
+                $scope.listaDos.opcion.id,
+                $scope.listaDos.opcion.nombre,
+                $scope.listaDos.opcion.handicap,
+                indexJug.jug_2,
+                ventaja.p_1,
+                $scope.listaTres.opcion.id,
+                $scope.listaTres.opcion.nombre,
+                $scope.listaTres.opcion.handicap,
+                indexJug.jug_3,
+                $scope.listaCuatro.opcion.id,
+                $scope.listaCuatro.opcion.nombre,
+                $scope.listaCuatro.opcion.handicap,
+                indexJug.jug_4,
+                ventaja.p_2];
 
             $cordovaSQLite.execute(db, insertQuery, queryData)
                 .then(function (res) {
-
                     $scope.parejas.push({
                         id: res.insertId,
                         p1_j1_id: $scope.listaUno.opcion.id,
@@ -313,7 +305,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                         p1_j2_nombre: $scope.listaDos.opcion.nombre,
                         p1_j2_handicap: $scope.listaDos.opcion.handicap,
                         p1_j2_idx: indexJug.jug_2,
-                        p1_jug_ventaja: ventaja.j_1,
+                        p1_jug_ventaja: ventaja.p_1,
                         p2_j1_id: $scope.listaTres.opcion.id,
                         p2_j1_nombre: $scope.listaTres.opcion.nombre,
                         p2_j1_handicap: $scope.listaTres.opcion.handicap,
@@ -322,7 +314,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                         p2_j2_nombre: $scope.listaCuatro.opcion.nombre,
                         p2_j2_handicap: $scope.listaCuatro.opcion.handicap,
                         p2_j2_idx: indexJug.jug_4,
-                        p2_jug_ventaja: ventaja.j_2
+                        p2_jug_ventaja: ventaja.p_2
                     });
                 }, function (err) {
                     console.log(JSON.stringify(err))
@@ -330,10 +322,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         }
 
         function parejaIndividual(e) {
-
-
             if (parejaExistenteIndividual($scope.listaDos.opcion, $scope.listaTres.opcion)) {
-
                 var insertQuery = 'INSERT INTO foursome('
                     + 'p1_j1_id, p1_j1_nombre, p1_j1_handicap, p1_j1_idx,'
                     + 'p1_j2_id, p1_j2_nombre, p1_j2_handicap, p1_j2_idx)'
@@ -353,38 +342,39 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                             p1_j2_id: $scope.listaTres.opcion.id,
                             p1_j2_nombre: $scope.listaTres.opcion.nombre,
                             p1_j2_handicap: $scope.listaTres.opcion.handicap
-
                         });
                     }, function (err) {
                         console.log(JSON.stringify(err))
                     });
             } else {
-
                 utils.popup("Pareja Repetida",
                     "Para poder avanzar formar una pareja no existente.");
                 e.preventDefault();
             }
-
-
         }
 
         function handicapMayor(jug_1, jug_2, par) {
-
             if (jug_1.handicap > jug_2.handicap) {
+                console.log('Pareja [' + par + '] -> Ventaja para jugador 1');
                 return 1
             } else if (jug_1.handicap < jug_2.handicap) {
+                console.log('Pareja [' + par + '] -> Ventaja para jugador 2');
                 return 2;
             } else {
                 if (par == 1) {
                     if ($scope.listaCinco.opcion.id == jug_1.id) {
+                        console.log('Pareja [' + par + '] -> Ventaja para jugador 1');
                         return 1;
                     } else {
+                        console.log('Pareja [' + par + '] -> Ventaja para jugador 2');
                         return 2;
                     }
                 } else {
                     if ($scope.listaSeis.opcion.id == jug_1.id) {
+                        console.log('Pareja [' + par + '] -> Ventaja para jugador 1');
                         return 1;
                     } else {
+                        console.log('Pareja [' + par + '] -> Ventaja para jugador 2');
                         return 2;
                     }
                 }
@@ -392,7 +382,6 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         }
 
         function agregarJugadoresSelect(jugador, list) {
-
             for (var i = 0; i < jugadoresList.length; i++) {
                 list.pop();
             }
@@ -596,16 +585,16 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Confirmación',
-                template: '¿Seguro que desea cambiar a la modalidad a '+$scope.jugadoresLista.opcion+'? Esto eliminará las parejas que hayas formado.'
+                template: '¿Seguro que desea cambiar a la modalidad a ' + $scope.jugadoresLista.opcion + '? Esto eliminará las parejas que hayas formado.'
             });
 
-            confirmPopup.then(function(res) {
-                if(res) {
+            confirmPopup.then(function (res) {
+                if (res) {
                     eliminarParejas();
                 } else {
-                    if($scope.jugadoresLista.opcion == "1 VS 1"){
+                    if ($scope.jugadoresLista.opcion == "1 VS 1") {
                         $scope.jugadoresLista.opcion = $scope.jugList[1];
-                    }else{
+                    } else {
                         $scope.jugadoresLista.opcion = $scope.jugList[0];
                     }
                 }
@@ -675,14 +664,14 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
             var del_four = "DELETE FROM foursome";
             $cordovaSQLite.execute(db, del_four).then(function () {
-                for(var i =0; i<$scope.parejas.length; i++){
-                    $scope.parejas.splice(i,1);
+                for (var i = 0; i < $scope.parejas.length; i++) {
+                    $scope.parejas.splice(i, 1);
                 }
-                for(var i =0; i<$scope.parejasIndividual.length; i++){
-                    $scope.parejasIndividual.splice(i,1);
+                for (var i = 0; i < $scope.parejasIndividual.length; i++) {
+                    $scope.parejasIndividual.splice(i, 1);
                 }
 
-                switch ($scope.jugadoresLista.opcion){
+                switch ($scope.jugadoresLista.opcion) {
                     case "1 VS 1":
                         $scope.pareja_individual = true;
                         $scope.pareja_doble = false;
@@ -712,7 +701,6 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         }
 
         function alertCrearParejas(url, title) {
-
             var myPopup = $ionicPopup.show({
                 templateUrl: 'templates/' + url,
                 title: title + ' Parejas',
@@ -726,13 +714,11 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                         text: title,
                         type: 'button-balanced',
                         onTap: function (e) {
-
                             if ($scope.dosJugadores) {
                                 parejasDobles(e);
                             } else {
                                 parejaIndividual(e);
                             }
-
                         }
                     }
                 ]

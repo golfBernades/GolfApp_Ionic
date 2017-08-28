@@ -1,20 +1,26 @@
 <div>
     <div class="list" ng-if="dosJugadores">
         <label class="item item-input item-select" style="padding-top: 25px;">
-            <select  ng-model="listaUno.opcion" ng-options="opt as opt.nombre for opt in listJN1" ng-change="selectedListaUno()">
+            <select ng-model="listaUno.opcion"
+                    ng-options="opt as opt.nombre for opt in listJN1"
+                    ng-change="selectedListaUno()">
             </select>
         </label>
     </div>
     <div class="list">
         <label class="item item-input item-select" style="padding-top: 25px;">
-            <select  ng-model="listaDos.opcion" ng-options="opt as opt.nombre  for opt in listJN2" ng-change="selectedListaDos()">
+            <select ng-model="listaDos.opcion"
+                    ng-options="opt as opt.nombre  for opt in listJN2"
+                    ng-change="selectedListaDos()">
             </select>
         </label>
     </div>
     <div class="list" ng-if="handicapIgual">
         Preferencia Hanidcap:
         <label class="item item-input item-select" style="padding-top: 25px;">
-            <select  ng-model="listaCinco.opcion" ng-options="opt as opt.nombre  for opt in listJN5" ng-change="selectedListaCinco()">
+            <select ng-model="listaCinco.opcion"
+                    ng-options="opt as opt.nombre  for opt in listJN5"
+                    ng-change="selectedListaCinco()">
             </select>
         </label>
     </div>
@@ -23,20 +29,26 @@
     </div>
     <div class="list">
         <label class="item item-input item-select" style="padding-top: 25px;">
-            <select  ng-model="listaTres.opcion" ng-options="opt as opt.nombre for opt in listJN3" ng-change="selectedListaTres()">
+            <select ng-model="listaTres.opcion"
+                    ng-options="opt as opt.nombre for opt in listJN3"
+                    ng-change="selectedListaTres()">
             </select>
         </label>
     </div>
     <div class="list" ng-if="dosJugadores">
         <label class="item item-input item-select" style="padding-top: 25px;">
-            <select  ng-model="listaCuatro.opcion" ng-options="opt as opt.nombre  for opt in listJN4" ng-change="selectedListaCuatro()">
+            <select ng-model="listaCuatro.opcion"
+                    ng-options="opt as opt.nombre  for opt in listJN4"
+                    ng-change="selectedListaCuatro()">
             </select>
         </label>
     </div>
     <div class="list" ng-if="handicapIgualDos">
         Preferencia Hanidcap:
         <label class="item item-input item-select" style="padding-top: 25px;">
-            <select  ng-model="listaSeis.opcion" ng-options="opt as opt.nombre  for opt in listJN6" ng-change="selectedListaSeis()">
+            <select ng-model="listaSeis.opcion"
+                    ng-options="opt as opt.nombre  for opt in listJN6"
+                    ng-change="selectedListaSeis()">
             </select>
         </label>
     </div>

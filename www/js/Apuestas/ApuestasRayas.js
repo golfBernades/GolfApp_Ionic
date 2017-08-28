@@ -39,6 +39,8 @@ function ApuestaRayas(partido) {
     this.actualizarHoyo = function (hIndex, playersNumber) {
         var playersNumber = this.partido.scoreBoard.length;
 
+        console.log(playersNumber + ' PLAYERS')
+
         for (var i = 0; i < playersNumber; i++) {
             for (var j = 0; j < playersNumber; j++) {
                 // Validación para que un Jugador solo se compare con
@@ -130,7 +132,6 @@ function ApuestaRayas(partido) {
                 this.scoreRayas[i].puntos.push(0);
             }
         }
-        // console.log('GolfApp', 'ApuestaRayas.createScoreboard');
     };
 
     this.createScoreboard();

@@ -277,9 +277,8 @@ angular.module('starter.inicio', ['ionic'])
             var defered = $q.defer();
             var promise = defered.promise;
 
-            var insertConfigFoursome = 'INSERT INTO config_foursome '
-                + '(modo_jugadores, modo_presiones, pareja_idx) '
-                + 'VALUES (?, ?, ?)';
+            var updateConfigFoursome = 'UPDATE config_foursome SET ' +
+                'modo_jugadores=?, modo_presiones=?, pareja_idx=?';
 
             var configFoursomeData = ['pareja', 'normal', 0];
 
@@ -300,11 +299,11 @@ angular.module('starter.inicio', ['ionic'])
 
             $q.when()
                 .then(function () {
-                    return $cordovaSQLite.execute(db, insertConfigFoursome,
+                    return $cordovaSQLite.execute(db, updateConfigFoursome,
                         configFoursomeData);
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> insertConfigFoursome');
+                    console.log('GolfApp', '[OK] -> updateConfigFoursome');
                     return $cordovaSQLite.execute(db, insertFoursome,
                         four1Data);
                 })
@@ -333,9 +332,8 @@ angular.module('starter.inicio', ['ionic'])
             var defered = $q.defer();
             var promise = defered.promise;
 
-            var insertConfigFoursome = 'INSERT INTO config_foursome '
-                + '(modo_jugadores, modo_presiones, pareja_idx) '
-                + 'VALUES (?, ?, ?)';
+            var updateConfigFoursome = 'UPDATE config_foursome SET ' +
+                'modo_jugadores=?, modo_presiones=?, pareja_idx=?';
 
             var configFoursomeData = ['individual', 'california ', 0];
 
@@ -351,11 +349,11 @@ angular.module('starter.inicio', ['ionic'])
 
             $q.when()
                 .then(function () {
-                    return $cordovaSQLite.execute(db, insertConfigFoursome,
+                    return $cordovaSQLite.execute(db, updateConfigFoursome,
                         configFoursomeData);
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> insertConfigFoursome');
+                    console.log('GolfApp', '[OK] -> updateConfigFoursome');
                     return $cordovaSQLite.execute(db, insertFoursome,
                         four1Data);
                 })
@@ -393,7 +391,7 @@ angular.module('starter.inicio', ['ionic'])
             var emptyApuesta = 'UPDATE apuesta SET seleccionada = 0';
             var emptyCampo = 'DELETE FROM campo';
             var emptyClave = 'DELETE FROM clave';
-            var emptyConfigFoursome = 'DELETE FROM config_foursome';
+            var emptyConfigFoursome = 'UPDATE config_foursome SET pareja_idx=0';
             var emptyFoursome = 'DELETE FROM foursome';
             var emptyJugador = 'DELETE FROM jugador';
             var emptyPantalla = 'DELETE FROM pantalla';

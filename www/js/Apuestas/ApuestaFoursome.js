@@ -3,20 +3,11 @@
  * el gestor de las puntuaciones para un partido donde se está jugando esta
  * modalidad.
  *
- * @param partido Es la instancia del Partido donde se está implementando
- * esta Apuesta.
- * @param modalidad Determina si la apuesta se llevara en parejas o de forma
- * individual. Las modalidades pueden ser:
- *
- * individual_normal
- * individual_california
- * pareja_normal
- * pareja_california
- *
  * @author Porfirio Ángel Díaz Sánchez
  */
 function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
     this.partido = partido;
+
     this.competiciones = [];
 
     var staticThis = this;
@@ -60,6 +51,22 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
      */
     this.agregarCompeticionPareja = function (p1Jugador1, p1Jugador2, p1Ventaja,
                                               p2Jugador1, p2Jugador2, p2Ventaja) {
+        if (p1Jugador1.nombre == "Mudo") {
+            console.log('ApuestaFoursome', 'Idx_mudo -> ' + p1Jugador1.idx);
+            this.addMudoGolpes(p1Jugador1.idx);
+        } else if (p1Jugador2.nombre == "Mudo") {
+            console.log('ApuestaFoursome', 'Idx_mudo -> ' + p1Jugador2.idx);
+            this.addMudoGolpes(p1Jugador2.idx);
+        } else if (p2Jugador1.nombre == "Mudo") {
+            console.log('ApuestaFoursome', 'Idx_mudo -> ' + p2Jugador1.idx);
+            this.addMudoGolpes(p2Jugador1.idx);
+        } else if (p2Jugador2.nombre == "Mudo") {
+            console.log('ApuestaFoursome', 'Idx_mudo -> ' + p2Jugador2.idx);
+            this.addMudoGolpes(p2Jugador2.idx);
+        } else {
+            console.log('ApuestaFoursome', 'No está jugando el mudo');
+        }
+
         this.competiciones.push({
             p1_j1: p1Jugador1,
             p1_j2: p1Jugador2,
@@ -72,6 +79,17 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
                 [], []
             ]
         });
+    };
+
+    this.addMudoGolpes = function (idx) {
+        staticThis.partido.scoreBoard.push({
+            golpes: []
+        });
+
+        for (var i = 0; i < 18; i++) {
+            var par = staticThis.partido.campo.pares[i].value;
+            staticThis.partido.scoreBoard[idx].golpes.push(par)
+        }
     };
 
     this.resetScoreboard = function () {
@@ -92,6 +110,9 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
                 staticThis.actualizarParejas(competicion);
             } else if (modoJugadores == 'individual') {
                 staticThis.actualizarIndividual(competicion);
+            } else {
+                console.log('ApuestaFoursome.actualizar',
+                    'No pareja ni individual')
             }
         });
     };
@@ -104,8 +125,12 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
 
         for (var hIndex = 0; hIndex < 18; hIndex++) {
             if (verificarHoyoTerminadoParejas(competicion, hIndex)) {
+                console.log('HOYO ' + (hIndex + 1) + ' TERMINADO');
                 var jugsGolpes = obtenerGolpesParejas(competicion, hIndex);
                 calcularFoursomeParejas(competicion, jugsGolpes, hIndex);
+            } else {
+                console.log('HOYO ' + (hIndex + 1) + ' NO TERMINADO');
+                break;
             }
         }
     };
@@ -113,8 +138,6 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
     function verificarHoyoTerminadoParejas(competicion, hIndex) {
         // console.log('ApuestaFoursome.verificarHoyoTerminadoParejas',
         //     competicion + ', ' + (hIndex + 1));
-
-        console.log('IdxMudo ' + indexP2J2 );
 
         var indexP1J1 = competicion.p1_j1.idx;
         var golpesP1J1 = staticThis.partido.scoreBoard[indexP1J1].golpes[hIndex];
@@ -125,14 +148,12 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
         var indexP2J2 = competicion.p2_j2.idx;
         var golpesP2J2 = staticThis.partido.scoreBoard[indexP2J2].golpes[hIndex];
 
-
-
         return golpesP1J1 && golpesP1J2 && golpesP2J1 && golpesP2J2;
     }
 
     function obtenerGolpesParejas(competicion, hIndex) {
-        // console.log('ApuestaFoursome.obtenerGolpesParejas', competicion + ', '
-        //     + (hIndex + 1));
+        console.log('ApuestaFoursome.obtenerGolpesParejas', competicion + ', '
+            + (hIndex + 1));
 
         var p1_j1_idx = competicion.p1_j1.idx;
         var p1_j2_idx = competicion.p1_j2.idx;
@@ -154,6 +175,8 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
 
         console.log('P1_handicap', p1_handicap);
         console.log('P2_handicap', p2_handicap);
+        console.log('P1_ventaja', p1_ventaja);
+        console.log('P2_ventaja', p2_ventaja);
 
         var diferenciaP1P2 = p1_handicap - p2_handicap;
         var diferenciaP2P1 = p2_handicap - p1_handicap;
@@ -247,9 +270,10 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
     }
 
     function compararGolpesPareja(competicion, p1_golpes, p2_golpes, hIndex, isPrimerJugador) {
-        // console.log('ApuestaFoursome.compararGolpesPareja',
-        //     'P1_golpes: ' + p1_golpes + ', P2_golpes: ' + p2_golpes + ', Hoyo: '
-        //     + (hIndex + 1) + ', PrimerJugador: ' + isPrimerJugador);
+        console.log('ApuestaFoursome.compararGolpesPareja',
+            'P1_golpes: ' + p1_golpes + ', P2_golpes: ' + p2_golpes + ', Hoyo: '
+            + (hIndex + 1) + ', PrimerJugador: ' + isPrimerJugador);
+
         var compAnterior = hIndex > 0 ? competicion.puntuaciones[hIndex - 1] : undefined;
         var compActual = competicion.puntuaciones[hIndex];
         var ultimaPuntuacion;
@@ -268,7 +292,7 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
                     ultimaPuntuacion = compActual[compActual.length - 1];
 
                     if (ultimaPuntuacion >= presionFlag || ultimaPuntuacion <= -presionFlag) {
-                        console.log('Se agregará otra presión en hoyo ' + (hIndex + 1));
+                        // console.log('Se agregará otra presión en hoyo ' + (hIndex + 1));
                         compActual.push(0);
                     }
                 }
@@ -317,10 +341,15 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
     }
 
     this.actualizarIndividual = function (competicion) {
+        console.log('ApuestaFoursome.actualizarParejas',
+            competicion.p1_j1.nombre + ' VS ' + competicion.p1_j2.nombre);
         for (var hIndex = 0; hIndex < 18; hIndex++) {
             if (verificarHoyoTerminadoIndividual(competicion, hIndex)) {
+                console.log('HOYO ' + (hIndex + 1) + ' NO TERMINADO');
                 var jugsGolpes = obtenerGolpesIndividual(competicion, hIndex);
                 calcularFoursomeIndividual(competicion, jugsGolpes, hIndex);
+            } else {
+                console.log('HOYO ' + (hIndex + 1) + ' NO TERMINADO');
             }
         }
     };
@@ -402,7 +431,7 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
                 ultimaPuntuacion = compActual[compActual.length - 1];
 
                 if (ultimaPuntuacion >= presionFlag || ultimaPuntuacion <= -presionFlag) {
-                    console.log('Se agregará otra presión en hoyo ' + (hIndex + 1));
+                    // console.log('Se agregará otra presión en hoyo ' + (hIndex + 1));
                     compActual.push(0);
                 }
             } else {
@@ -418,7 +447,7 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
                 ultimaPuntuacion = compActual[compActual.length - 1];
 
                 if (ultimaPuntuacion >= presionFlag || ultimaPuntuacion <= -presionFlag) {
-                    console.log('Se agregará otra presión en hoyo ' + (hIndex + 1));
+                    // console.log('Se agregará otra presión en hoyo ' + (hIndex + 1));
                     compActual.push(0);
                 }
             } else {
