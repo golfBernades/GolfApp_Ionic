@@ -4,7 +4,8 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 var db = null;
-var dir = 'http://148.233.65.228:8080/';
+// var dir = 'http://148.233.65.228:8080/';
+var dir = 'http://148.233.65.228/GolfApp_Backend/public/';
 var id_user_app = "";
 var user_app = "";
 var password_app = "";

@@ -1011,10 +1011,10 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             var sincroPromises = [];
 
             if (!$scope.partidoExistente.idServidor) {
-                // console.log('GolfApp', 'compartirScoreboard [Offline]');
+                console.log('GolfApp', 'compartirScoreboard [Offline]');
                 sincroPromises.push(sincronizarPartidos());
             } else {
-                // console.log('GolfApp', 'compartirScoreboard [Online]');
+                console.log('GolfApp', 'compartirScoreboard [Online]');
             }
 
             $q.all(sincroPromises).then(function () {
@@ -1032,21 +1032,19 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 $http(httpRequest)
                     .then(function successCallback(response) {
                         if (response.data.ok) {
+                            console.log('$scope.partidoSincronizado = true;')
                             $scope.partidoSincronizado = true;
                         } else {
-                            // console.log('GolfApp', response.config.url + '['
-                            //     + response.config.method + ']: '
-                            //     + response.data.error_message);
+                            console.log('ERROR', response.config.url + '['
+                                + response.data.error_message + ']');
                         }
                     }, function errorCallback(response) {
-                        if (response.status == -1) {
-                            // console.log('GolfApp', response.config.url + '['
-                            //     + response.config.method + ']: '
-                            //     + 'Error de Conexión');
+                        if (response.status === -1) {
+                            console.log('ERROR', response.config.url +
+                                '[Error de Conexión]');
                         } else {
-                            // console.log('GolfApp', response.config.url + '['
-                            //     + response.config.method + ']: '
-                            //     + response.data.error_message);
+                            console.log('ERROR', response.config.url + '['
+                                + response.data.error_message + ']');
                         }
                     });
             });
