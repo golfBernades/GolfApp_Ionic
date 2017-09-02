@@ -12,7 +12,7 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
 
     var staticThis = this;
 
-    var presionFlag = modoPresiones == 'california' ? 2 : 3;
+    var presionFlag = modoPresiones === 'california' ? 2 : 3;
 
     /**
      * Agrega dos jugadores que están compitiendo individualmente uno contra
@@ -341,15 +341,16 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
     }
 
     this.actualizarIndividual = function (competicion) {
-        console.log('ApuestaFoursome.actualizarParejas',
-            competicion.p1_j1.nombre + ' VS ' + competicion.p1_j2.nombre);
+        console.log('actualizarIndividual', competicion);
+
         for (var hIndex = 0; hIndex < 18; hIndex++) {
             if (verificarHoyoTerminadoIndividual(competicion, hIndex)) {
-                console.log('HOYO ' + (hIndex + 1) + ' NO TERMINADO');
+                console.log('HOYO ' + (hIndex + 1) + ' TERMINADO');
                 var jugsGolpes = obtenerGolpesIndividual(competicion, hIndex);
                 calcularFoursomeIndividual(competicion, jugsGolpes, hIndex);
             } else {
                 console.log('HOYO ' + (hIndex + 1) + ' NO TERMINADO');
+                break;
             }
         }
     };

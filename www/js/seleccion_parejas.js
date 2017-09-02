@@ -141,12 +141,14 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
             switch ($scope.presionesLista.opcion) {
                 case "2 Golpes":
-                    dataQuery[1] = 'normal';
-                    break;
-                case "3 Golpes":
                     dataQuery[1] = 'california';
                     break;
+                case "3 Golpes":
+                    dataQuery[1] = 'normal';
+                    break;
             }
+
+            console.log('PresionesOpcion', $scope.presionesLista.opcion);
 
             var query = "UPDATE config_foursome SET modo_jugadores = ?, " +
                 "modo_presiones = ?, pareja_idx=0";
@@ -439,25 +441,25 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 if (($scope.parejas[i].p1_j1_id == jug_1.id) && ($scope.parejas[i].p1_j2_id == jug_2.id) && ($scope.parejas[i].p2_j1_id == jug_3.id) && ($scope.parejas[i].p2_j2_id == jug_4.id)) {
                     flagParejas = false;
                     break;
-                }else if (($scope.parejas[i].p1_j1_id == jug_2.id) && ($scope.parejas[i].p1_j2_id == jug_1.id) && ($scope.parejas[i].p2_j1_id == jug_3.id) && ($scope.parejas[i].p2_j2_id == jug_4.id)) {
+                } else if (($scope.parejas[i].p1_j1_id == jug_2.id) && ($scope.parejas[i].p1_j2_id == jug_1.id) && ($scope.parejas[i].p2_j1_id == jug_3.id) && ($scope.parejas[i].p2_j2_id == jug_4.id)) {
                     flagParejas = false;
                     break;
-                }else if (($scope.parejas[i].p1_j1_id == jug_1.id) && ($scope.parejas[i].p1_j2_id == jug_2.id) && ($scope.parejas[i].p2_j1_id == jug_4.id) && ($scope.parejas[i].p2_j2_id == jug_3.id)) {
+                } else if (($scope.parejas[i].p1_j1_id == jug_1.id) && ($scope.parejas[i].p1_j2_id == jug_2.id) && ($scope.parejas[i].p2_j1_id == jug_4.id) && ($scope.parejas[i].p2_j2_id == jug_3.id)) {
                     flagParejas = false;
                     break;
-                }else if (($scope.parejas[i].p1_j1_id == jug_2.id) && ($scope.parejas[i].p1_j2_id == jug_1.id) && ($scope.parejas[i].p2_j1_id == jug_4.id) && ($scope.parejas[i].p2_j2_id == jug_3.id)) {
+                } else if (($scope.parejas[i].p1_j1_id == jug_2.id) && ($scope.parejas[i].p1_j2_id == jug_1.id) && ($scope.parejas[i].p2_j1_id == jug_4.id) && ($scope.parejas[i].p2_j2_id == jug_3.id)) {
                     flagParejas = false;
                     break;
-                }else if (($scope.parejas[i].p1_j1_id == jug_3.id) && ($scope.parejas[i].p1_j2_id == jug_4.id) && ($scope.parejas[i].p2_j1_id == jug_1.id) && ($scope.parejas[i].p2_j2_id == jug_2.id)) {
+                } else if (($scope.parejas[i].p1_j1_id == jug_3.id) && ($scope.parejas[i].p1_j2_id == jug_4.id) && ($scope.parejas[i].p2_j1_id == jug_1.id) && ($scope.parejas[i].p2_j2_id == jug_2.id)) {
                     flagParejas = false;
                     break;
-                }else if (($scope.parejas[i].p1_j1_id == jug_4.id) && ($scope.parejas[i].p1_j2_id == jug_3.id) && ($scope.parejas[i].p2_j1_id == jug_1.id) && ($scope.parejas[i].p2_j2_id == jug_2.id)) {
+                } else if (($scope.parejas[i].p1_j1_id == jug_4.id) && ($scope.parejas[i].p1_j2_id == jug_3.id) && ($scope.parejas[i].p2_j1_id == jug_1.id) && ($scope.parejas[i].p2_j2_id == jug_2.id)) {
                     flagParejas = false;
                     break;
-                }else if (($scope.parejas[i].p1_j1_id == jug_3.id) && ($scope.parejas[i].p1_j2_id == jug_4.id) && ($scope.parejas[i].p2_j1_id == jug_2.id) && ($scope.parejas[i].p2_j2_id == jug_1.id)) {
+                } else if (($scope.parejas[i].p1_j1_id == jug_3.id) && ($scope.parejas[i].p1_j2_id == jug_4.id) && ($scope.parejas[i].p2_j1_id == jug_2.id) && ($scope.parejas[i].p2_j2_id == jug_1.id)) {
                     flagParejas = false;
                     break;
-                }else if (($scope.parejas[i].p1_j1_id == jug_4.id) && ($scope.parejas[i].p1_j2_id == jug_3.id) && ($scope.parejas[i].p2_j1_id == jug_2.id) && ($scope.parejas[i].p2_j2_id == jug_1.id)) {
+                } else if (($scope.parejas[i].p1_j1_id == jug_4.id) && ($scope.parejas[i].p1_j2_id == jug_3.id) && ($scope.parejas[i].p2_j1_id == jug_2.id) && ($scope.parejas[i].p2_j2_id == jug_1.id)) {
                     flagParejas = false;
                     break;
                 }
@@ -491,9 +493,9 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
             var temp = true;
 
-            if($scope.listaUno.opcion.id == $scope.listaTres.opcion.id && $scope.listaDos.opcion.id == $scope.listaCuatro.opcion.id){
+            if ($scope.listaUno.opcion.id == $scope.listaTres.opcion.id && $scope.listaDos.opcion.id == $scope.listaCuatro.opcion.id) {
                 temp = false;
-            }else if($scope.listaUno.opcion.id == $scope.listaCuatro.opcion.id && $scope.listaDos.opcion.id == $scope.listaTres.opcion.id){
+            } else if ($scope.listaUno.opcion.id == $scope.listaCuatro.opcion.id && $scope.listaDos.opcion.id == $scope.listaTres.opcion.id) {
                 temp = false
             }
 
