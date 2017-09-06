@@ -54,7 +54,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
 
         function configureDatabase() {
             db = window.sqlitePlugin.openDatabase({
-                name: 'appgaaaoalafiaaaatos.db',
+                name: 'appgaaaoalaaarAfiaaaatos.db',
                 location: 'default'
             }, function successCallback() {
                 console.log("La DB se abrió correctamente");
@@ -218,17 +218,19 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
 
             $cordovaSQLite.execute(db, configFoursome);
 
-            var truncateConfigFoursome = 'DELETE FROM config_foursome';
 
-            $cordovaSQLite.execute(db, truncateConfigFoursome);
-
-            var insertConfigFoursome = 'INSERT INTO config_foursome ' +
-                '(modo_jugadores, modo_presiones, pareja_idx) VALUES ' +
-                '(?, ?, ?)';
-
-            var configFoursomeData = ['pareja', 'normal', 0];
-
-            $cordovaSQLite.execute(db, insertConfigFoursome, configFoursomeData);
+            $cordovaSQLite.execute(db, "SELECT * FROM config_foursome")
+                .then(function (res) {
+                    if(res.rows.length==0){
+                        var query = 'INSERT INTO config_foursome ' +
+                        '(modo_jugadores, modo_presiones, pareja_idx) VALUES ' +
+                        '(?, ?, ?)';
+                        var qureyData = ['pareja', 'normal', 0];
+                        $cordovaSQLite.execute(db, query, qureyData);
+                    }
+                }, function (err) {
+                    console.log(JSON.stringify(err))
+                });
 
             var idx_partido_partido_jugador_id_fk = 'CREATE INDEX ' +
                 'IF NOT EXISTS idx_partido_partido_jugador_id_fk ' +

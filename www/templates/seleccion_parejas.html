@@ -80,6 +80,7 @@
                     <tbody>
                     <tr ng-repeat="pareja in parejasIndividual"
                         class="{'fadeOut' : skill.done}"
+                        on-hold="popupOpcionesParejas(pareja.id, $index)"
                         style="text-align: center; height: 50px;">
                         <td>{{pareja.p1_j1_nombre}}
                             ({{pareja.p1_j1_handicap}})
