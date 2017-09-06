@@ -23,6 +23,12 @@ path, o bien, especificar la ruta de la variable en cada ejecución de comandos
 
 > Ejecutar el comando ```sudo chmod -R 777 my_project_folder```
 
+#### No se muestra el splash
+```
+ionic plugin remove cordova-plugin-splashscreen
+ionic plugin add cordova-plugin-splashscreen
+```
+
 ## Plugins a instalar
 
 > ```ionic plugin add https://github.com/apache/cordova-plugin-whitelist.git```
@@ -31,7 +37,9 @@ path, o bien, especificar la ruta de la variable en cada ejecución de comandos
 
 > ```cordova plugin add https://github.com/litehelpers/Cordova-sqlite-storage#storage-master```
 
-> ```sudo ANDROID_HOME="/home/porfirio/android_sdk_tools" PATH=$PATH:"/opt/gradle/gradle-4.0.1/bin" cordova plugin add cordova-plugin-screen-orientation```
+> ```cordova plugin add cordova-plugin-screen-orientation```
+
+> ```ionic plugin add cordova-plugin-splashscreen```
 
 ## Inspeccionar aplicación con Chrome
 
