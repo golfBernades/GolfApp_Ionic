@@ -282,7 +282,7 @@ angular.module('starter.inicio', ['ionic'])
 
             var configFoursomeData = ['pareja', 'normal', 0];
 
-            var insertFoursome = 'INSERT INTO foursome ('
+            var insertFoursome = 'INSERT INTO nassau ('
                 + 'p1_j1_id, p1_j1_nombre, p1_j1_handicap, p1_j1_idx, '
                 + 'p1_j2_id, p1_j2_nombre, p1_j2_handicap, p1_j2_idx, '
                 + 'p2_j1_id, p2_j1_nombre, p2_j1_handicap, p2_j1_idx, '
@@ -337,7 +337,7 @@ angular.module('starter.inicio', ['ionic'])
 
             var configFoursomeData = ['individual', 'california ', 0];
 
-            var insertFoursome = 'INSERT INTO foursome ('
+            var insertFoursome = 'INSERT INTO nassau ('
                 + 'p1_j1_id, p1_j1_nombre, p1_j1_handicap, p1_j1_idx, '
                 + 'p1_j2_id, p1_j2_nombre, p1_j2_handicap, p1_j2_idx'
                 + ') VALUES (?,?,?,?,?,?,?,?)';
@@ -392,7 +392,7 @@ angular.module('starter.inicio', ['ionic'])
             var emptyCampo = 'DELETE FROM campo';
             var emptyClave = 'DELETE FROM clave';
             var emptyConfigFoursome = 'UPDATE config_foursome SET pareja_idx=0';
-            var emptyFoursome = 'DELETE FROM foursome';
+            var emptyFoursome = 'DELETE FROM nassau';
             var emptyJugador = 'DELETE FROM jugador';
             var emptyPantalla = 'DELETE FROM pantalla';
             var emptyPartido = 'DELETE FROM partido';

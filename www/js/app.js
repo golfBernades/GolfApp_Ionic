@@ -15,7 +15,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
     'starter.campos-dispositivo', 'starter.juego', 'starter.nuevo-campo',
     'starter.seleccion-apuestas', 'starter.inicio', 'starter.login',
     'starter.registro', 'starter.campos-cuenta', 'starter.juego_consulta',
-    'starter.seleccion-parejas', 'starter.juego-foursome'])
+    'starter.seleccion-parejas', 'starter.juego-nassau'])
 
     .run(function ($ionicPlatform, $cordovaSQLite, $state) {
         $ionicPlatform.ready(function () {
@@ -185,7 +185,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                     console.log(JSON.stringify(err))
                 });
 
-            var foursome = 'CREATE TABLE IF NOT EXISTS foursome ('
+            var nassau = 'CREATE TABLE IF NOT EXISTS nassau ('
                 + 'id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,'
                 + 'p1_j1_id INTEGER NULL,'
                 + 'p1_j1_nombre TEXT NULL,'
@@ -207,7 +207,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 + 'p2_jug_ventaja INTEGER NULL'
                 + ')';
 
-            $cordovaSQLite.execute(db, foursome);
+            $cordovaSQLite.execute(db, nassau);
 
             var configFoursome = 'CREATE TABLE IF NOT EXISTS config_foursome '
                 + '(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, '

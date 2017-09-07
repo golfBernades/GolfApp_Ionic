@@ -98,7 +98,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 .then(function () {
                     if ($scope.foursomeSeleccionada) {
                         setTimeout(function () {
-                            $scope.partido.apuestas.find('foursome').apuesta.actualizar();
+                            $scope.partido.apuestas.find('nassau').apuesta.actualizar();
                         }, 5000);
                     }
 
@@ -175,15 +175,15 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 .then(function (res) {
                     for (var i = 0; i < res.rows.length; i++) {
                         if (res.rows.item(i).nombre.toLowerCase()
-                            == 'rayas') {
+                            == 'units') {
                             $scope.rayasSeleccionada = true;
                             $scope.tablero.rayasSeleccionada = true;
                         } else if (res.rows.item(i).nombre.toLowerCase()
-                            == 'coneja') {
+                            == 'rabbits') {
                             $scope.conejaSeleccionada = true;
                             $scope.tablero.conejaSeleccionada = true;
                         } else if (res.rows.item(i).nombre.toLowerCase()
-                            == 'foursome') {
+                            == 'nassau') {
                             $scope.foursomeSeleccionada = true;
                             $scope.tablero.foursomeSeleccionada = true;
                         }
@@ -208,14 +208,14 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
         function agregarApuestaRayas() {
             console.log('GolfApp', 'juego.agregarApuestaRayas()');
 
-            $scope.partido.agregarApuesta('rayas',
+            $scope.partido.agregarApuesta('units',
                 new ApuestaRayas($scope.partido));
 
             $.each($scope.tablero.datos_juego, function (index, dato) {
                 dato.apuestaRayas = {
                     unidades: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0],
-                    rayas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    units: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0],
                     style_rayas: []
                 }
@@ -225,7 +225,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
         function agregarApuestaConeja() {
             console.log('GolfApp', 'juego.agregarApuestaConeja()');
 
-            $scope.partido.agregarApuesta('coneja',
+            $scope.partido.agregarApuesta('rabbits',
                 new ApuestaConeja($scope.partido));
 
             $.each($scope.tablero.datos_juego, function (index, dato) {
@@ -257,7 +257,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                         apuestaFoursome = new ApuestaFoursome($scope.partido,
                             modoJugadores, modoPresiones);
-                        $scope.partido.agregarApuesta('foursome',
+                        $scope.partido.agregarApuesta('nassau',
                             apuestaFoursome);
                     }
                     return getFoursomeParejas();
@@ -295,7 +295,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                         };
                         defered.resolve(configuracion);
                     } else {
-                        defered.reject('No hay configuración Foursome');
+                        defered.reject('No hay configuración Nassau');
                     }
                 })
                 .catch(function (error) {
@@ -309,14 +309,14 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             var defered = $q.defer();
             var promise = defered.promise;
 
-            var query = "SELECT * FROM foursome";
+            var query = "SELECT * FROM nassau";
 
             sql.sqlQuery(db, query, [])
                 .then(function (res) {
                     if (res.rows.length > 0) {
                         defered.resolve(res.rows);
                     } else {
-                        defered.reject('No hay parejas Foursome');
+                        defered.reject('No hay parejas Nassau');
                     }
                 })
                 .catch(function (error) {
@@ -1069,19 +1069,19 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 for (var j = 0; j < 18; j++) {
                     if ($scope.rayasSeleccionada) {
                         var apuestaRayas = $scope.partido.apuestas
-                            .find('rayas');
+                            .find('units');
 
-                        var rayas =
+                        var units =
                             apuestaRayas.apuesta.scoreRayas[i].puntos[j];
 
-                        rayas = rayas ? rayas : 0;
-                        $scope.tablero.datos_juego[i].apuestaRayas.rayas[j]
-                            = rayas;
+                        units = units ? units : 0;
+                        $scope.tablero.datos_juego[i].apuestaRayas.units[j]
+                            = units;
 
-                        if (rayas < 0)
+                        if (units < 0)
                             $scope.tablero.datos_juego[i].apuestaRayas
                                 .style_rayas[j] = 'color: red;';
-                        else if (rayas > 0)
+                        else if (units > 0)
                             $scope.tablero.datos_juego[i].apuestaRayas
                                 .style_rayas[j] = 'color: green';
                         else
@@ -1091,7 +1091,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                     if ($scope.conejaSeleccionada) {
                         var apuestaConeja = $scope.partido.apuestas
-                            .find('coneja');
+                            .find('rabbits');
 
                         var status = apuestaConeja.apuesta.scoreConeja[i].status[j];
 
@@ -1101,7 +1101,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                     if ($scope.foursomeSeleccionada) {
                         var apuestaFoursome = $scope.partido.apuestas
-                            .find('foursome').apuesta;
+                            .find('nassau').apuesta;
 
                         $.each(apuestaFoursome.competiciones,
                             function (index, competi) {
