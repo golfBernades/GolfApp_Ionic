@@ -141,10 +141,10 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
             switch ($scope.presionesLista.opcion) {
                 case "2 Golpes":
-                    dataQuery[1] = 'california';
+                    dataQuery[1] = 'normal';
                     break;
                 case "3 Golpes":
-                    dataQuery[1] = 'normal';
+                    dataQuery[1] = 'california';
                     break;
             }
 
@@ -235,7 +235,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         }
 
         function actualizarParejasDoble() {
-            var querey = 'UPDATE nassau SET '
+            var querey = 'UPDATE foursome SET '
                 + 'p1_j1_id = ?, p1_j1_nombre = ?, p1_j1_handicap = ?, p1_j1_idx = ?,'
                 + 'p1_j2_id = ?, p1_j2_nombre = ?, p1_j2_handicap = ?, p1_j2_idx = ?, p1_jug_ventaja = ?, '
                 + 'p2_j1_id = ?, p2_j1_nombre = ?, p2_j1_handicap = ?, p2_j1_idx = ?,'
@@ -282,7 +282,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         }
 
         function insertarParejaDoble() {
-            var insertQuery = 'INSERT INTO nassau('
+            var insertQuery = 'INSERT INTO foursome('
                 + 'p1_j1_id, p1_j1_nombre, p1_j1_handicap, p1_j1_idx,'
                 + 'p1_j2_id, p1_j2_nombre, p1_j2_handicap, p1_j2_idx, p1_jug_ventaja,'
                 + 'p2_j1_id, p2_j1_nombre, p2_j1_handicap, p2_j1_idx,'
@@ -339,7 +339,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
         function actualizarParejaIndividual() {
 
-            var updateQuery = 'UPDATE nassau SET '
+            var updateQuery = 'UPDATE foursome SET '
                 + 'p1_j1_id = ?, p1_j1_nombre = ?, p1_j1_handicap = ?, p1_j1_idx = ?, '
                 + 'p1_j2_id = ?, p1_j2_nombre = ?, p1_j2_handicap = ?, p1_j2_idx = ?'
                 + 'WHERE id = ?';
@@ -364,7 +364,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         }
 
         function insertarParejaIndividual() {
-            var insertQuery = 'INSERT INTO nassau('
+            var insertQuery = 'INSERT INTO foursome('
                 + 'p1_j1_id, p1_j1_nombre, p1_j1_handicap, p1_j1_idx,'
                 + 'p1_j2_id, p1_j2_nombre, p1_j2_handicap, p1_j2_idx)'
                 + 'VALUES (?,?,?,?,?,?,?,?)';
@@ -590,7 +590,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 if (res) {
                     configFoursome();
                     eliminarParejas();
-                    agregarMudo();
+                    agregarMudo(!$scope.pareja_doble);
                     anadirDefaultJugadores(!$scope.pareja_doble)
                 } else {
 
@@ -624,7 +624,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 if (res) {
                     alertPopupOpcionesCampo.close();
 
-                    var query = 'DELETE FROM nassau WHERE id = ?';
+                    var query = 'DELETE FROM foursome WHERE id = ?';
                     $cordovaSQLite.execute(db, query, [idPareja])
                         .then(function (res) {
                             if($scope.pareja_doble){
@@ -666,16 +666,15 @@ angular.module('starter.seleccion-parejas', ['ionic'])
             alertCrearParejas('crear_parejas_popup.html', 'Actualizar');
         };
 
-        function agregarMudo() {
-            if(!$scope.pareja_doble){
-                if(jugadoresList.length%2 !=0 ){
-                    jugadoresList.push(mudo)
+        function agregarMudo(parejaDoble) {
 
-                    $scope.listJN1.push(mudo);
-                    $scope.listJN2.push(mudo);
-                    $scope.listJN3.push(mudo);
-                    $scope.listJN4.push(mudo);
-                }
+            if(parejaDoble){
+                jugadoresList.push(mudo)
+
+                $scope.listJN1.push(mudo);
+                $scope.listJN2.push(mudo);
+                $scope.listJN3.push(mudo);
+                $scope.listJN4.push(mudo);
             }
         }
 
@@ -694,7 +693,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
         function eliminarParejas() {
 
-            var query = "DELETE FROM nassau";
+            var query = "DELETE FROM foursome";
 
             sql.sqlQuery(db, query, [])
                 .then(function (res) {
@@ -774,8 +773,9 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 $scope.jugList.splice(1,1);
                 $scope.pareja_individual = true;
                 $scope.pareja_doble = false;
-            }else if(numJugadores%2 != 0){
-                agregarMudo()
+            }
+            if(numJugadores%2 != 0){
+                agregarMudo(true)
             }
         }
 
@@ -807,6 +807,8 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
                     }
 
+                    cantidad_Jugadores(jugadoresList.length);
+
                     defered.resolve("OK");
                 })
                 .catch(function (error) {
@@ -818,7 +820,6 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
         function anadirDefaultJugadores(parejaDoble) {
 
-            cantidad_Jugadores(jugadoresList.length);
             if (parejaDoble) {
 
                 $scope.dosJugadores = true;
@@ -898,7 +899,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
             var defered = $q.defer();
             var promise = defered.promise;
 
-            var query = "SELECT * FROM nassau";
+            var query = "SELECT * FROM foursome";
 
             sql.sqlQuery(db, query, [])
                 .then(function (res) {
@@ -949,7 +950,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
             var defered = $q.defer();
             var promise = defered.promise;
 
-            var query = "SELECT * FROM nassau";
+            var query = "SELECT * FROM foursome";
 
             sql.sqlQuery(db, query, [])
                 .then(function (res) {
