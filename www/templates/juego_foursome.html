@@ -7,7 +7,7 @@
                             menu-toggle="left"
                             ng-click="goJuegoGeneral()"></button>
                 </ion-nav-buttons>
-                <ion-nav-title>Juego Foursome</ion-nav-title>
+                <ion-nav-title>Juego Nassau</ion-nav-title>
                 <ion-nav-buttons side="right">
                     <button class="button button-icon button-clear ion-navicon"
                             menu-toggle="right"></button>
@@ -64,10 +64,11 @@
                                     </td>
                                     <td ng-repeat="hoyo in hoyos"
                                         class="td-golpes">
-                                        <div class="golpes-foursome">
+                                        <div class="golpes-nassau">
                                             <div class="{{puntuacion.circulos[hoyo - 1][0]}} l1">
                                                 <div class="{{puntuacion.circulos[hoyo - 1][1]}} l2">
-                                                    <div class="{{puntuacion.circulos[hoyo - 1][2]}} l3">
+                                                    <div
+                                                        class="{{puntuacion.circulos[hoyo - 1][2]}} l3">
                                                         <div class="{{puntuacion.circulos[hoyo - 1][3]}} l4">
                                                             <span>{{puntuacion.golpes[hoyo
                                                             - 1]}}</span>
@@ -78,7 +79,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr class="row-foursome">
+                                <tr class="row-nassau">
                                     <td class="vertical-centered-cell">
                                         Puntos
                                     </td>

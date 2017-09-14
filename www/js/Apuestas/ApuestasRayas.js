@@ -100,7 +100,7 @@ function ApuestaRayas(partido) {
                     }
 
                     // Se suma un punto al Jugador que le corresponda de
-                    // acuerdo al oponente actual en esta ronda de rayas.
+                    // acuerdo al oponente actual en esta ronda de units.
                     if (golpesI < golpesJ) {
                         this.scoreRayas[i].puntos[hIndex]++;
                     } else if (golpesI > golpesJ) {

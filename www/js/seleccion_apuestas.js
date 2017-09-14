@@ -76,9 +76,9 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
                     }
                 } else {
                     var apuesta = "INSERT INTO apuesta (nombre, seleccionada) VALUES (?,?)";
-                    $cordovaSQLite.execute(db, apuesta, ["Rayas", 0]);
-                    $cordovaSQLite.execute(db, apuesta, ["Coneja", 0]);
-                    $cordovaSQLite.execute(db, apuesta, ["Foursome", 0]);
+                    $cordovaSQLite.execute(db, apuesta, ["Units", 0]);
+                    $cordovaSQLite.execute(db, apuesta, ["Rabbits", 0]);
+                    $cordovaSQLite.execute(db, apuesta, ["Nassau", 0]);
 
                     getApuestas();
                 }

@@ -35,7 +35,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                         if (control) {
                             // TODO Corregir esta madre
                             if (modificar) {
-                                var del_four = "DELETE FROM foursome";
+                                var del_four = "DELETE FROM nassau";
                                 $cordovaSQLite.execute(db, del_four);
                             }
 
@@ -271,11 +271,11 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         function getApuesta() {
             var query = "SELECT * FROM apuesta WHERE nombre = (?) AND seleccionada = 1";
 
-            $cordovaSQLite.execute(db, query, ["Foursome"])
+            $cordovaSQLite.execute(db, query, ["Nassau"])
                 .then(function (result) {
                     if (result.rows.length > 0) {
-                        utils.popup("Apuesta Foursome",
-                            "Se está llevando a cabo la apuesta 'Foursome', si"
+                        utils.popup("Apuesta Nassau",
+                            "Se está llevando a cabo la apuesta 'Nassau', si"
                             + " se realiza alguna modificación en los jugadores"
                             + " los datos de esta apuesta se perderán");
                     }

@@ -13,33 +13,33 @@
     padding: 0 !important;
 }
 
-.golpes-foursome {
+.golpes-nassau {
     width: 100%;
     height: 100%;
 }
 
-.golpes-foursome, .golpes-foursome div {
+.golpes-nassau, .golpes-nassau div {
     display: inline-block !important;
     vertical-align: middle !important;
     text-align: center !important;
 }
 
-.golpes-foursome .l1 {
+.golpes-nassau .l1 {
     width: 48px;
     height: 48px;
 }
 
-.golpes-foursome .l2, div .golpes-foursome .l3, .golpes-foursome .l4 {
+.golpes-nassau .l2, div .golpes-nassau .l3, .golpes-nassau .l4 {
     width: 100%;
     height: 100%;
 }
 
-.golpes-foursome .l4 {
+.golpes-nassau .l4 {
     font-size: 20px;
     line-height: 100%;
 }
 
-.golpes-foursome .l4 span{
+.golpes-nassau .l4 span{
     height: 100%;
     display: inline-flex;
     align-items: center;

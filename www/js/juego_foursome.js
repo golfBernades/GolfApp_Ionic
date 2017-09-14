@@ -1,4 +1,4 @@
-angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'])
+angular.module('starter.juego-nassau', ['ionic', 'starter.seleccion-jugadores'])
 
     .controller('juegoFoursomeController', function ($scope, $ionicPopup, $cordovaSQLite,
                                                      $state, $ionicLoading, $timeout,
@@ -116,7 +116,7 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                                 });
                         }
                     } else {
-                        defered.reject('No hay tablero foursome local');
+                        defered.reject('No hay tablero nassau local');
                     }
                 })
                 .catch(function (error) {
@@ -266,7 +266,7 @@ angular.module('starter.juego-foursome', ['ionic', 'starter.seleccion-jugadores'
                                 .modoJugadores == 'pareja';
                         defered.resolve(res);
                     } else {
-                        defered.reject('No hay tablero foursome local');
+                        defered.reject('No hay tablero nassau local');
                     }
                 })
                 .catch(function (error) {
