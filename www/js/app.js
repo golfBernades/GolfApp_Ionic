@@ -393,7 +393,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                     return str.join("&");
                 },
                 data: data,
-                timeout: 3000
+                timeout: 7000
             };
 
             return httpRequest;

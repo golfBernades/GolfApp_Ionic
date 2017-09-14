@@ -590,6 +590,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 if (res) {
                     configFoursome();
                     eliminarParejas();
+                    agregarMudo();
                     anadirDefaultJugadores(!$scope.pareja_doble)
                 } else {
 
@@ -665,6 +666,32 @@ angular.module('starter.seleccion-parejas', ['ionic'])
             alertCrearParejas('crear_parejas_popup.html', 'Actualizar');
         };
 
+        function agregarMudo() {
+            if(!$scope.pareja_doble){
+                if(jugadoresList.length%2 !=0 ){
+                    jugadoresList.push(mudo)
+
+                    $scope.listJN1.push(mudo);
+                    $scope.listJN2.push(mudo);
+                    $scope.listJN3.push(mudo);
+                    $scope.listJN4.push(mudo);
+                }
+            }
+        }
+
+        function eliminarMudo() {
+            for(var i=0; i<jugadoresList.length; i++){
+                if(jugadoresList[i].nombre == "Mudo"){
+
+                    jugadoresList.splice(i,1);
+                    $scope.listJN1.splice(i,1);
+                    $scope.listJN2.splice(i,1);
+                    $scope.listJN3.splice(i,1);
+                    $scope.listJN4.splice(i,1);
+                }
+            }
+        }
+
         function eliminarParejas() {
 
             var query = "DELETE FROM foursome";
@@ -680,6 +707,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
                     switch ($scope.jugadoresLista.opcion) {
                         case "1 VS 1":
+
                             $scope.pareja_individual = true;
                             $scope.pareja_doble = false;
                             $scope.dosJugadores = false;
@@ -689,6 +717,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
                             $scope.listaCinco.opcion = null;
                             $scope.listaSeis.opcion = null;
+                            eliminarMudo();
 
                             break;
                         case "2 VS 2":
@@ -738,6 +767,18 @@ angular.module('starter.seleccion-parejas', ['ionic'])
             });
         }
 
+        function cantidad_Jugadores(numJugadores) {
+
+            if(numJugadores == 2){
+                $scope.jugadoresLista.opcion = $scope.jugList[0];
+                $scope.jugList.splice(1,1);
+                $scope.pareja_individual = true;
+                $scope.pareja_doble = false;
+            }else if(numJugadores%2 != 0){
+                agregarMudo()
+            }
+        }
+
         function getJugadores() {
 
             var defered = $q.defer();
@@ -777,9 +818,9 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
         function anadirDefaultJugadores(parejaDoble) {
 
+            cantidad_Jugadores(jugadoresList.length);
             if (parejaDoble) {
-                $scope.pareja_individual = false;
-                $scope.pareja_doble = true;
+
                 $scope.dosJugadores = true;
 
                 $scope.listaUno.opcion = jugadoresList[0];
@@ -799,14 +840,11 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 indexJug.jug_4 = buscadorIndex($scope.listaCuatro.opcion);
 
             } else {
-                $scope.pareja_individual = true;
-                $scope.pareja_doble = false;
                 $scope.dosJugadores = false;
 
-                $scope.listaDos.opcion = jugadoresList[0]
-                $scope.listaTres.opcion = jugadoresList[1]
+                $scope.listaDos.opcion = jugadoresList[0];
+                $scope.listaTres.opcion = jugadoresList[1];
             }
-
         }
 
         function getConfiguracionFoursome() {
@@ -823,9 +861,15 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                         switch (res.rows.item(0).modo_jugadores) {
                             case "individual":
                                 $scope.jugadoresLista.opcion = $scope.jugList[0];
+                                $scope.pareja_individual = true;
+                                $scope.pareja_doble = false;
+                                anadirDefaultJugadores(false);
                                 break;
                             case "pareja":
                                 $scope.jugadoresLista.opcion = $scope.jugList[1];
+                                $scope.pareja_doble = true;
+                                $scope.pareja_individual = false;
+                                anadirDefaultJugadores(true);
                                 break;
                         }
 
@@ -942,6 +986,10 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
             $q.when()
                 .then(function () {
+                    console.log('5', '6');
+                    return getJugadores();
+                })
+                .then(function () {
                     console.log('1', '2');
                     return getConfiguracionFoursome();
                 })
@@ -952,19 +1000,6 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 .then(function () {
                     console.log('3', '4');
                     return getParejaIndividual();
-                })
-                .then(function () {
-                    console.log('5', '6');
-                    return getJugadores();
-                })
-                .then(function () {
-                    console.log('1', '2');
-
-                    if (lengthParejas.doble >= lengthParejas.individual) {
-                        anadirDefaultJugadores(true)
-                    } else {
-                        anadirDefaultJugadores(false)
-                    }
                 })
                 .catch(function (error) {
                     console.log('JuegoFoursome', error);
