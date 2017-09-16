@@ -4,8 +4,6 @@ angular.module('starter.juego_consulta', ['ionic'])
                                                      $state, $ionicLoading, $timeout,
                                                      $ionicPlatform, $q, $http, $ionicPopover,
                                                      serviceHttpRequest, utils, sql) {
-
-
         var modulePromises = [];
         var opcionesPopover;
 
@@ -13,12 +11,10 @@ angular.module('starter.juego_consulta', ['ionic'])
             claveConsulta:""
         };
 
-
         $scope.hoyos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
         $scope.hoyos1a9 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         $scope.hoyos10a18 = [10, 11, 12, 13, 14, 15, 16, 17, 18];
         $scope.foursomeSeleccionada = false;
-
 
         $ionicPlatform.ready(function () {
             // console.log('GolfApp>> juego.$ionicPlatform.ready');
@@ -87,6 +83,7 @@ angular.module('starter.juego_consulta', ['ionic'])
                         utils.popup('Error',
                             'Aún no hay actualizaciones disponibles,' +
                             ' intenta más tarde');
+                        $state.go('inicio');
                     }
                     setTimeout(function () {
                         $ionicLoading.hide();

@@ -335,7 +335,7 @@ angular.module('starter.inicio', ['ionic'])
             var updateConfigFoursome = 'UPDATE config_foursome SET ' +
                 'modo_jugadores=?, modo_presiones=?, pareja_idx=?';
 
-            var configFoursomeData = ['individual', 'california ', 0];
+            var configFoursomeData = ['individual', 'california', 0];
 
             var insertFoursome = 'INSERT INTO nassau ('
                 + 'p1_j1_id, p1_j1_nombre, p1_j1_handicap, p1_j1_idx, '

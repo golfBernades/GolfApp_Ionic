@@ -170,7 +170,6 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
             var query = "UPDATE config_foursome SET modo_jugadores = ?, modo_presiones = ?";
 
-
             $cordovaSQLite.execute(db, query, dataQuery);
         }
 
@@ -882,15 +881,18 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 .then(function (res) {
 
                     if (res.rows.length > 0) {
+                        console.log('JUGADORES', res.rows.item(0).modo_jugadores)
 
                         switch (res.rows.item(0).modo_jugadores) {
                             case "individual":
+                                console.log('CASE individual')
                                 $scope.jugadoresLista.opcion = $scope.jugList[0];
                                 $scope.pareja_individual = true;
                                 $scope.pareja_doble = false;
                                 anadirDefaultJugadores(false);
                                 break;
                             case "pareja":
+                                console.log('CASE pareja')
                                 $scope.jugadoresLista.opcion = $scope.jugList[1];
                                 $scope.pareja_doble = true;
                                 $scope.pareja_individual = false;
@@ -899,11 +901,18 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                                 break;
                         }
 
+                        console.log('PRESIONES', res.rows.item(0).modo_presiones)
+
+                        console.log(res.rows.item(0).modo_presiones.length)
+                        console.log("california".length)
+
                         switch (res.rows.item(0).modo_presiones) {
                             case "california":
+                                console.log('CASE california')
                                 $scope.presionesLista.opcion = $scope.preList[0];
                                 break;
                             case "normal":
+                                console.log('CASE normal')
                                 $scope.presionesLista.opcion = $scope.preList[1];
                                 break;
                         }
