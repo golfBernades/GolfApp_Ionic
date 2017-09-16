@@ -116,11 +116,21 @@ angular.module('starter.seleccion-parejas', ['ionic'])
             sql.sqlQuery(db, query, [])
                 .then(function (res) {
 
-                    if (res.rows.length > 0) {
-                        $state.go('juego');
-                    }else{
-                        utils.popup('Parejas', 'Para poder avanzar debes haber formado minimo 1 pareja');
-                    }
+                    var query2 = "SELECT * FROM config_foursome";
+
+                    sql.sqlQuery(db, query2, [])
+                        .then(function (res2) {
+                            console.log(JSON.stringify(res2.rows.item(0)))
+
+                            if(res.rows.length>0){
+
+                                $state.go('juego')
+                            }else{
+                                utils.popup("e","e")
+                            }
+
+
+                        })
 
                 })
                 .catch(function (error) {
@@ -158,7 +168,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                     break;
             }
 
-            var query = "UPDATE config_foursome SET modo_jugadores = ?, modo_presiones = ? WHERE pareja_idx = 0";
+            var query = "UPDATE config_foursome SET modo_jugadores = ?, modo_presiones = ?";
 
 
             $cordovaSQLite.execute(db, query, dataQuery);
@@ -431,12 +441,15 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
         function buscadorIndex(jugador) {
 
+            var index=0;
             for (var i = 0; i < jugadoresList.length; i++) {
                 if (jugador.id == jugadoresList[i].id) {
-                    return i;
+                    index = i;
                     break;
                 }
             }
+            return index;
+
         }
 
         function handicapIgual(jug_1, jug_2, list, pareja) {
@@ -787,9 +800,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 $scope.pareja_individual = true;
                 $scope.pareja_doble = false;
             }
-            if(numJugadores%2 != 0){
-                agregarMudo(true)
-            }
+
         }
 
         function getJugadores() {
@@ -883,7 +894,8 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                                 $scope.jugadoresLista.opcion = $scope.jugList[1];
                                 $scope.pareja_doble = true;
                                 $scope.pareja_individual = false;
-                                anadirDefaultJugadores(true);
+                                anadirDefaultJugadores(true)
+                                agregarMudo(true)
                                 break;
                         }
 
@@ -1000,20 +1012,20 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
             $q.when()
                 .then(function () {
-                    console.log('5', '6');
-                    return getJugadores();
-                })
-                .then(function () {
-                    console.log('1', '2');
-                    return getConfiguracionFoursome();
-                })
-                .then(function () {
                     console.log('1', '2');
                     return getParejasDobles();
                 })
                 .then(function () {
                     console.log('3', '4');
                     return getParejaIndividual();
+                })
+                .then(function () {
+                    console.log('5', '6');
+                    return getJugadores();
+                })
+                .then(function () {
+                    console.log('1', '2');
+                    return getConfiguracionFoursome();
                 })
                 .catch(function (error) {
                     console.log('JuegoFoursome', JSON.stringify(error));
