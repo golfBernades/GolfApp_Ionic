@@ -111,11 +111,21 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
         $scope.comenzarJuego = function () {
 
-            if ($scope.parejas.length > 0 || $scope.parejasIndividual.length > 0) {
-                $state.go('juego');
-            } else {
-                utils.popup('Parejas', 'Para poder avanzar debes haber formado minimo 1 pareja');
-            }
+            var query = "SELECT * FROM nassau";
+
+            sql.sqlQuery(db, query, [])
+                .then(function (res) {
+
+                    if (res.rows.length > 0) {
+                        $state.go('juego');
+                    }else{
+                        utils.popup('Parejas', 'Para poder avanzar debes haber formado minimo 1 pareja');
+                    }
+
+                })
+                .catch(function (error) {
+                    console.log(error)
+                });
         };
 
         $scope.seleccionarApuesta = function () {
@@ -155,12 +165,11 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         }
 
         function parejasDobles(e) {
-
+            var parejaExistente = parejaExistenteDoble($scope.listaUno.opcion, $scope.listaDos.opcion, $scope.listaTres.opcion, $scope.listaCuatro.opcion);
             if (!isCrearPareja && !parejaExistente) {
                 alertPopupOpcionesCampo.close();
             } else {
                 if (validarParejas()) {
-                    var parejaExistente = parejaExistenteDoble($scope.listaUno.opcion, $scope.listaDos.opcion, $scope.listaTres.opcion, $scope.listaCuatro.opcion);
                     if (parejaExistente) {
                         if ($scope.handicapIgual) {
                             if ($scope.listaCinco.opcion.id == null) {
@@ -197,6 +206,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                         if (isCrearPareja) {
                             insertarParejaDoble();
                         } else {
+                            console.log("Actualizar pareja")
                             actualizarParejasDoble();
                         }
                     } else {
@@ -275,9 +285,11 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                     $scope.parejas[index].p2_j2_idx = indexJug.jug_4;
                     $scope.parejas[index].p2_jug_ventaja = ventaja.p_2;
                     alertPopupOpcionesCampo.close();
+
+                    console.log(JSON.stringify(res))
                 })
                 .catch(function (error) {
-
+                    console.log(JSON.stringify(error))
                 });
         }
 
@@ -697,6 +709,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
             sql.sqlQuery(db, query, [])
                 .then(function (res) {
+
                     for (var i = 0; i < $scope.parejas.length; i++) {
                         $scope.parejas.splice(i, 1);
                     }

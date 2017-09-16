@@ -1,4 +1,4 @@
-<ion-nav-view>
+<ion-nav-view cache-view="false">
     <ion-side-menus>
         <ion-side-menu-content drag-content="false">
             <ion-nav-bar class="bar-balanced" align-title="center">
@@ -103,30 +103,32 @@
             <ion-header-bar class="bar-balanced">
                 <h1 class="title">Parejas</h1>
             </ion-header-bar>
-            <ion-content class="list">
+            <ion-content>
                 <br>
-                <div ng-repeat="competicion in tablero.apuestaFoursome"
-                     ng-if="parejasDobles">
-                    <a class="item" style="font-size: small"
-                       ng-click="verFoursomePareja($index)">
-                        [{{competicion.p1_j1.nombre}}
-                        -
-                        {{competicion.p1_j2.nombre}}]
-                        VS
-                        [{{competicion.p2_j1.nombre}}
-                        -
-                        {{competicion.p2_j2.nombre}}]
-                    </a>
-                </div>
-                <div ng-repeat="competicion in tablero.apuestaFoursome"
-                     ng-if="!parejasDobles">
-                    <a class="item" style="font-size: small"
-                       ng-click="verFoursomePareja($index)">
-                        [{{competicion.j1.nombre}}]
-                        VS
-                        [{{competicion.j2.nombre}}]
-                    </a>
-                </div>
+                <ion-list>
+                    <div ng-repeat="competicion in tablero.apuestaFoursome"
+                         ng-if="parejasDobles">
+                        <a class="item" style="font-size: small"
+                           ng-click="verFoursomePareja($index)">
+                            [{{competicion.p1_j1.nombre}}
+                            -
+                            {{competicion.p1_j2.nombre}}]
+                            VS
+                            [{{competicion.p2_j1.nombre}}
+                            -
+                            {{competicion.p2_j2.nombre}}]
+                        </a>
+                    </div>
+                    <div ng-repeat="competicion in tablero.apuestaFoursome"
+                         ng-if="!parejasDobles">
+                        <a class="item" style="font-size: small"
+                           ng-click="verFoursomePareja($index)">
+                            [{{competicion.j1.nombre}}]
+                            VS
+                            [{{competicion.j2.nombre}}]
+                        </a>
+                    </div>
+                </ion-list>
             </ion-content>
         </ion-side-menu>
     </ion-side-menus>
