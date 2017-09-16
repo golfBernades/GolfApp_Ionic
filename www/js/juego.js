@@ -116,6 +116,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     return $q.all(modulePromises);
                 })
                 .then(function () {
+
                     actualizarScoreUi();
 
                     fixRowsAndColumns();
@@ -123,11 +124,13 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     setTimeout(function () {
                         $ionicLoading.hide();
                         if ($scope.partidoExistente.idServidor) {
-                            utils.popup('Clave de consulta', '<h1>'
+                            utils.popup('Clave de consulta',
+                                '<h1 class="monospaced">'
                                 + $scope.partidoExistente.claveConsulta
                                 + '</h1>');
                         }
                     }, 1000);
+
                 });
 
             $ionicPopover.fromTemplateUrl(

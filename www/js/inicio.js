@@ -246,14 +246,14 @@ angular.module('starter.inicio', ['ionic'])
                     console.log('GolfApp', '[OK] -> insertJugador');
                     return $cordovaSQLite.execute(db, selectApuesta);
                 })
-                .then(function () {
-                    console.log('GolfApp', '[OK] -> selectApuesta');
-                    return insertFoursomeParejasData();
-                })
                 // .then(function () {
                 //     console.log('GolfApp', '[OK] -> selectApuesta');
-                //     return insertFoursomeIndividualData();
+                //     return insertFoursomeParejasData();
                 // })
+                .then(function () {
+                    console.log('GolfApp', '[OK] -> selectApuesta');
+                    return insertFoursomeIndividualData();
+                })
                 .then(function () {
                     console.log('GolfApp', '[OK] -> insertFoursomeData');
                     return $cordovaSQLite.execute(db, insertPuntuaciones);
@@ -391,7 +391,9 @@ angular.module('starter.inicio', ['ionic'])
             var emptyApuesta = 'UPDATE apuesta SET seleccionada = 0';
             var emptyCampo = 'DELETE FROM campo';
             var emptyClave = 'DELETE FROM clave';
-            var emptyConfigFoursome = 'UPDATE config_foursome SET pareja_idx=0';
+            var emptyConfigFoursome = "UPDATE config_foursome SET" +
+                " pareja_idx=0, modo_jugadores='pareja'," +
+                " modo_presiones='normal'";
             var emptyFoursome = 'DELETE FROM nassau';
             var emptyJugador = 'DELETE FROM jugador';
             var emptyPantalla = 'DELETE FROM pantalla';
