@@ -235,7 +235,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         }
 
         function actualizarParejasDoble() {
-            var querey = 'UPDATE foursome SET '
+            var querey = 'UPDATE nassau SET '
                 + 'p1_j1_id = ?, p1_j1_nombre = ?, p1_j1_handicap = ?, p1_j1_idx = ?,'
                 + 'p1_j2_id = ?, p1_j2_nombre = ?, p1_j2_handicap = ?, p1_j2_idx = ?, p1_jug_ventaja = ?, '
                 + 'p2_j1_id = ?, p2_j1_nombre = ?, p2_j1_handicap = ?, p2_j1_idx = ?,'
@@ -282,7 +282,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         }
 
         function insertarParejaDoble() {
-            var insertQuery = 'INSERT INTO foursome('
+            var insertQuery = 'INSERT INTO nassau('
                 + 'p1_j1_id, p1_j1_nombre, p1_j1_handicap, p1_j1_idx,'
                 + 'p1_j2_id, p1_j2_nombre, p1_j2_handicap, p1_j2_idx, p1_jug_ventaja,'
                 + 'p2_j1_id, p2_j1_nombre, p2_j1_handicap, p2_j1_idx,'
@@ -339,7 +339,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
         function actualizarParejaIndividual() {
 
-            var updateQuery = 'UPDATE foursome SET '
+            var updateQuery = 'UPDATE nassau SET '
                 + 'p1_j1_id = ?, p1_j1_nombre = ?, p1_j1_handicap = ?, p1_j1_idx = ?, '
                 + 'p1_j2_id = ?, p1_j2_nombre = ?, p1_j2_handicap = ?, p1_j2_idx = ?'
                 + 'WHERE id = ?';
@@ -364,7 +364,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         }
 
         function insertarParejaIndividual() {
-            var insertQuery = 'INSERT INTO foursome('
+            var insertQuery = 'INSERT INTO nassau('
                 + 'p1_j1_id, p1_j1_nombre, p1_j1_handicap, p1_j1_idx,'
                 + 'p1_j2_id, p1_j2_nombre, p1_j2_handicap, p1_j2_idx)'
                 + 'VALUES (?,?,?,?,?,?,?,?)';
@@ -624,7 +624,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 if (res) {
                     alertPopupOpcionesCampo.close();
 
-                    var query = 'DELETE FROM foursome WHERE id = ?';
+                    var query = 'DELETE FROM nassau WHERE id = ?';
                     $cordovaSQLite.execute(db, query, [idPareja])
                         .then(function (res) {
                             if($scope.pareja_doble){
@@ -693,7 +693,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
         function eliminarParejas() {
 
-            var query = "DELETE FROM foursome";
+            var query = "DELETE FROM nassau";
 
             sql.sqlQuery(db, query, [])
                 .then(function (res) {
@@ -875,10 +875,10 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                         }
 
                         switch (res.rows.item(0).modo_presiones) {
-                            case "normal":
+                            case "california":
                                 $scope.presionesLista.opcion = $scope.preList[0];
                                 break;
-                            case "california":
+                            case "normal":
                                 $scope.presionesLista.opcion = $scope.preList[1];
                                 break;
                         }
@@ -899,7 +899,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
             var defered = $q.defer();
             var promise = defered.promise;
 
-            var query = "SELECT * FROM foursome";
+            var query = "SELECT * FROM nassau";
 
             sql.sqlQuery(db, query, [])
                 .then(function (res) {
@@ -950,7 +950,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
             var defered = $q.defer();
             var promise = defered.promise;
 
-            var query = "SELECT * FROM foursome";
+            var query = "SELECT * FROM nassau";
 
             sql.sqlQuery(db, query, [])
                 .then(function (res) {
@@ -1003,8 +1003,8 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                     return getParejaIndividual();
                 })
                 .catch(function (error) {
-                    console.log('JuegoFoursome', error);
-                    utils.popup('Error', error);
+                    console.log('JuegoFoursome', JSON.stringify(error));
+                    utils.popup('Error', JSON.stringify(error));
                 })
                 .finally(function () {
 
