@@ -54,7 +54,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
 
         function configureDatabase() {
             db = window.sqlitePlugin.openDatabase({
-                name: 'ap23aataos.db',
+                name: 'ap23aata23os.db',
                 location: 'default'
             }, function successCallback() {
                 console.log("La DB se abrió correctamente");

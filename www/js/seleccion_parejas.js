@@ -103,14 +103,13 @@ angular.module('starter.seleccion-parejas', ['ionic'])
             sql.sqlQuery(db, query, [])
                 .then(function (res) {
 
-                    var query2 = "SELECT * FROM config_foursome";
 
+                    var query2 = "SELECT * FROM config_foursome";
                     sql.sqlQuery(db, query2, [])
                         .then(function (res2) {
                             console.log(JSON.stringify(res2.rows.item(0)))
 
                             if(res.rows.length>0){
-
                                 $state.go('juego')
                             }else{
                                 utils.popup("Seleccion Parejas","Para poder avanzar debes tener parejas formadas.")
@@ -155,7 +154,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                     break;
             }
 
-            var query = "UPDATE config_foursome SET modo_jugadores = ?, modo_presiones = ?";
+            var query = "UPDATE config_foursome SET modo_jugadores = ?, modo_presiones = ?, pareja_idx=0";
 
             $cordovaSQLite.execute(db, query, dataQuery);
         }
@@ -325,6 +324,8 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 $scope.listaCuatro.opcion.handicap,
                 $scope.listaCuatro.opcion.indice,
                 ventaja.p_2];
+
+            console.log(JSON.stringify(queryData))
 
             $cordovaSQLite.execute(db, insertQuery, queryData)
                 .then(function (res) {
