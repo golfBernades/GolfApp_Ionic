@@ -41,6 +41,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             fin: null
         };
 
+        $scope.popover
+
         $ionicPlatform.ready(function () {
             console.log('GolfApp', 'juego.$ionicPlatform.ready()');
 
@@ -559,6 +561,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
         };
 
         $scope.finalizarPartido = function () {
+            opcionesPopover.hide();
+
             $scope.finPartido = moment().format("YYYY-MM-DD h:mm:ss");
 
             var confirmPopup = $ionicPopup.confirm({
@@ -1190,11 +1194,17 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
         }
 
         $scope.actualizarJuego = function () {
+            opcionesPopover.hide();
             console.log('juego.$scope.actualizarJuego');
             actualizarScoreUi();
             setTimeout(function () {
                 compartirScoreboard();
             }, 1000);
-        }
+        };
+
+        $scope.recargarJuego = function () {
+            opcionesPopover.hide();
+            $state.reload();
+        };
 
     });

@@ -16,6 +16,8 @@ angular.module('starter.juego_consulta', ['ionic'])
         $scope.hoyos10a18 = [10, 11, 12, 13, 14, 15, 16, 17, 18];
         $scope.foursomeSeleccionada = false;
 
+        $scope.solo_vista = true;
+
         $ionicPlatform.ready(function () {
             // console.log('GolfApp>> juego.$ionicPlatform.ready');
 
@@ -40,6 +42,7 @@ angular.module('starter.juego_consulta', ['ionic'])
 
         $scope.actualizarJuego = function () {
             getMarcador();
+            // $state.reload();
         };
 
         $scope.showOpcionesPartido = function ($event) {
@@ -89,6 +92,7 @@ angular.module('starter.juego_consulta', ['ionic'])
                         $ionicLoading.hide();
                     }, 1000);
                 }, function errorCallback(response) {
+                    utils.popup('Error', JSON.stringify(response));
                     if (response.status == -1) {
                         utils.popup('Error', 'Error de conexión');
                     } else {

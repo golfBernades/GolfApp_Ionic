@@ -59,7 +59,7 @@ angular.module('starter.login', ['ionic'])
                         utils.popup('Error de datos', 'El correo o' +
                             ' contraseña son incorrectos');
                     }
-
+                    $ionicLoading.hide();
                 }, function errorCallback(response) {
                     sesionActual = false;
                     if (response.status == -1) {
@@ -72,8 +72,9 @@ angular.module('starter.login', ['ionic'])
                         }
                     } else {
                         $ionicLoading.hide();
-                        utils.popup("Error de Parámetros", "Revisar los" +
-                            " parámetros de la petición HTTP");
+                        // utils.popup("Error de Parámetros", "Revisar los" +
+                        //     " parámetros de la petición HTTP");
+                        utils.popup("ERROR", JSON.stringify(response));
                     }
                 });
         }

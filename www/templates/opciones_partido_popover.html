@@ -25,6 +25,12 @@
                     Actualizar
                 </button>
             </li>
+            <li class="item" ng-if="!solo_vista">
+                <button class="button button-full button-dark"
+                        name="btnRecargar" ng-click="recargarJuego()">
+                    Recargar
+                </button>
+            </li>
             <li class="item">
                 <button class="button button-full button-assertive"
                         name="btnFinalizar" ng-click="finalizarPartido()">
