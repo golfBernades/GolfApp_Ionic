@@ -1194,7 +1194,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
         }
 
         $scope.actualizarJuego = function () {
-            opcionesPopover.hide();
+            // opcionesPopover.hide();
             console.log('juego.$scope.actualizarJuego');
             actualizarScoreUi();
             setTimeout(function () {
