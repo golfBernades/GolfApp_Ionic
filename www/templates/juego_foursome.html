@@ -7,7 +7,22 @@
                             menu-toggle="left"
                             ng-click="goJuegoGeneral()"></button>
                 </ion-nav-buttons>
-                <ion-nav-title>Juego Nassau</ion-nav-title>
+                <ion-nav-title>
+                    <div ng-if="parejasDobles">
+                        {{nombreJugadoresPareja.p1_j1}}
+                        -
+                        {{nombreJugadoresPareja.p1_j2}}
+                        VS
+                        {{nombreJugadoresPareja.p2_j1}}
+                        -
+                        {{nombreJugadoresPareja.p2_j2}}
+                    </div>
+                    <div ng-if="!parejasDobles">
+                        {{nombreJugadoresIndividual.p1_j1}}
+                        VS
+                        {{nombreJugadoresIndividual.p2_j1}}
+                    </div>
+                </ion-nav-title>
                 <ion-nav-buttons side="right">
                     <button class="button button-icon button-clear ion-navicon"
                             menu-toggle="right"></button>
@@ -56,7 +71,7 @@
                                 </thead>
                                 <tbody>
                                 <tr
-                                        ng-repeat="puntuacion in tableroPareja.datos_juego">
+                                    ng-repeat="puntuacion in tableroPareja.datos_juego">
                                     <td class="vertical-centered-cell">
                                         {{puntuacion.nombre}}
                                         <br>

@@ -197,6 +197,11 @@ angular.module('starter.juego-nassau', ['ionic', 'starter.seleccion-jugadores'])
                 }
             ];
 
+            $scope.nombreJugadoresIndividual={
+                p1_j1: $scope.tablero.datos_juego[j1_idx].nombre,
+                p2_j1: $scope.tablero.datos_juego[j2_idx].nombre,
+            }
+
             $scope.tableroPareja.puntosFoursome
                 = $scope.tablero.apuestaFoursome[index].p1_puntos;
 
@@ -243,6 +248,12 @@ angular.module('starter.juego-nassau', ['ionic', 'starter.seleccion-jugadores'])
                 }
             ];
 
+            $scope.nombreJugadoresPareja={
+                p1_j1: $scope.tablero.datos_juego[p1_j1_idx].nombre,
+                p1_j2: $scope.tablero.datos_juego[p1_j2_idx].nombre,
+                p2_j1: $scope.tablero.datos_juego[p2_j1_idx].nombre,
+                p2_j2: $scope.tablero.datos_juego[p2_j2_idx].nombre,
+            }
             $scope.tableroPareja.puntosFoursome
                 = $scope.tablero.apuestaFoursome[index].p1_puntos;
 
