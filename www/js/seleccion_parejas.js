@@ -120,7 +120,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
                 })
                 .catch(function (error) {
-                    console.log(error)
+                    console.log(JSON.stringify(error));
                 });
         };
 
@@ -201,7 +201,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                         if (isCrearPareja) {
                             insertarParejaDoble();
                         } else {
-                            console.log("Actualizar pareja")
+                            // console.log("Actualizar pareja")
                             actualizarParejasDoble();
                         }
                     } else {
@@ -416,26 +416,26 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
         function handicapMayor(jug_1, jug_2, par) {
             if (jug_1.handicap > jug_2.handicap) {
-                console.log('Pareja [' + par + '] -> Ventaja para jugador 1');
+                // console.log('Pareja [' + par + '] -> Ventaja para jugador 1');
                 return 1
             } else if (jug_1.handicap < jug_2.handicap) {
-                console.log('Pareja [' + par + '] -> Ventaja para jugador 2');
+                // console.log('Pareja [' + par + '] -> Ventaja para jugador 2');
                 return 2;
             } else {
                 if (par == 1) {
                     if ($scope.listaCinco.opcion.id == jug_1.id) {
-                        console.log('Pareja [' + par + '] -> Ventaja para jugador 1');
+                        // console.log('Pareja [' + par + '] -> Ventaja para jugador 1');
                         return 1;
                     } else {
-                        console.log('Pareja [' + par + '] -> Ventaja para jugador 2');
+                        // console.log('Pareja [' + par + '] -> Ventaja para jugador 2');
                         return 2;
                     }
                 } else {
                     if ($scope.listaSeis.opcion.id == jug_1.id) {
-                        console.log('Pareja [' + par + '] -> Ventaja para jugador 1');
+                        // console.log('Pareja [' + par + '] -> Ventaja para jugador 1');
                         return 1;
                     } else {
-                        console.log('Pareja [' + par + '] -> Ventaja para jugador 2');
+                        // console.log('Pareja [' + par + '] -> Ventaja para jugador 2');
                         return 2;
                     }
                 }
@@ -855,14 +855,14 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                     if (res.rows.length > 0) {
                         switch (res.rows.item(0).modo_jugadores) {
                             case "individual":
-                                console.log('CASE individual')
+                                // console.log('CASE individual')
                                 $scope.jugadoresLista.opcion = $scope.jugList[0];
                                 $scope.pareja_individual = true;
                                 $scope.pareja_doble = false;
                                 anadirDefaultJugadores(false);
                                 break;
                             case "pareja":
-                                console.log('CASE pareja')
+                                // console.log('CASE pareja')
                                 $scope.jugadoresLista.opcion = $scope.jugList[1];
                                 $scope.pareja_doble = true;
                                 $scope.pareja_individual = false;
@@ -872,11 +872,11 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                         }
                         switch (res.rows.item(0).modo_presiones) {
                             case "california":
-                                console.log('CASE california')
+                                // console.log('CASE california')
                                 $scope.presionesLista.opcion = $scope.preList[0];
                                 break;
                             case "normal":
-                                console.log('CASE normal')
+                                // console.log('CASE normal')
                                 $scope.presionesLista.opcion = $scope.preList[1];
                                 break;
                         }
@@ -983,23 +983,23 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
             $q.when()
                 .then(function () {
-                    console.log('1', '2');
+                    // console.log('1', '2');
                     return getParejasDobles();
                 })
                 .then(function () {
-                    console.log('3', '4');
+                    // console.log('3', '4');
                     return getParejaIndividual();
                 })
                 .then(function () {
-                    console.log('5', '6');
+                    // console.log('5', '6');
                     return getJugadores();
                 })
                 .then(function () {
-                    console.log('1', '2');
+                    // console.log('1', '2');
                     return getConfiguracionFoursome();
                 })
                 .catch(function (error) {
-                    console.log('JuegoFoursome', JSON.stringify(error));
+                    // console.log('JuegoFoursome', JSON.stringify(error));
                     utils.popup('Error', JSON.stringify(error));
                 })
                 .finally(function () {

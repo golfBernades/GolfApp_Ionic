@@ -21,7 +21,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
             $cordovaSQLite.execute(db, query)
                 .then(function (res) {
 
-                    console.log("res.rows.length: " + res.rows.length)
+                    // console.log("res.rows.length: " + res.rows.length)
                     if (res.rows.length >= 2) {
 
                         var control = false;
@@ -63,7 +63,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                             " para poder avanzar");
                     }
                 }, function (err) {
-                    console.log(JSON.stringify(err))
+                    console.log(err)
                 });
         };
 

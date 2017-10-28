@@ -174,7 +174,7 @@ angular.module('starter.inicio', ['ionic'])
         }
 
         $(document).ready(function () {
-            console.log('inicio.$ionicPlatform.ready()');
+            // console.log('inicio.$ionicPlatform.ready()');
             isUser();
         });
 
@@ -227,23 +227,23 @@ angular.module('starter.inicio', ['ionic'])
                     return $cordovaSQLite.execute(db, insertJugador, jug1Data);
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> insertJugador');
+                    // console.log('GolfApp', '[OK] -> insertJugador');
                     return $cordovaSQLite.execute(db, insertJugador, jug2Data);
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> insertJugador');
+                    // console.log('GolfApp', '[OK] -> insertJugador');
                     return $cordovaSQLite.execute(db, insertJugador, jug3Data);
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> insertJugador');
+                    // console.log('GolfApp', '[OK] -> insertJugador');
                     return $cordovaSQLite.execute(db, insertJugador, jug4Data);
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> insertJugador');
+                    // console.log('GolfApp', '[OK] -> insertJugador');
                     return $cordovaSQLite.execute(db, insertJugador, jug5Data);
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> insertJugador');
+                    // console.log('GolfApp', '[OK] -> insertJugador');
                     return $cordovaSQLite.execute(db, selectApuesta);
                 })
                 // .then(function () {
@@ -251,21 +251,21 @@ angular.module('starter.inicio', ['ionic'])
                 //     return insertFoursomeParejasData();
                 // })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> selectApuesta');
+                    // console.log('GolfApp', '[OK] -> selectApuesta');
                     return insertFoursomeIndividualData();
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> insertFoursomeData');
+                    // console.log('GolfApp', '[OK] -> insertFoursomeData');
                     return $cordovaSQLite.execute(db, insertPuntuaciones);
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> insertPuntuaciones');
-                    console.log('Database llenada');
+                    // console.log('GolfApp', '[OK] -> insertPuntuaciones');
+                    // console.log('Database llenada');
                     defered.resolve('Database llenada');
                     utils.popup('INFO', 'Database llenada');
                 })
                 .catch(function (error) {
-                    console.log('GolfApp', error);
+                    console.log(JSON.stringify(error));
                     defered.reject(error);
                     utils.popup('ERROR', JSON.stringify(error));
                 });
@@ -303,22 +303,22 @@ angular.module('starter.inicio', ['ionic'])
                         configFoursomeData);
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> updateConfigFoursome');
+                    // console.log('GolfApp', '[OK] -> updateConfigFoursome');
                     return $cordovaSQLite.execute(db, insertFoursome,
                         four1Data);
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> insertFoursome');
+                    // console.log('GolfApp', '[OK] -> insertFoursome');
                     return $cordovaSQLite.execute(db, insertFoursome,
                         four2Data);
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> insertFoursome');
+                    // console.log('GolfApp', '[OK] -> insertFoursome');
                     return $cordovaSQLite.execute(db, insertFoursome,
                         four3Data);
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> insertFoursomeParejasData');
+                    // console.log('GolfApp', '[OK] -> insertFoursomeParejasData');
                     defered.resolve('OK');
                 })
                 .catch(function (error) {
@@ -353,27 +353,27 @@ angular.module('starter.inicio', ['ionic'])
                         configFoursomeData);
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> updateConfigFoursome');
+                    // console.log('GolfApp', '[OK] -> updateConfigFoursome');
                     return $cordovaSQLite.execute(db, insertFoursome,
                         four1Data);
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> insertFoursome');
+                    // console.log('GolfApp', '[OK] -> insertFoursome');
                     return $cordovaSQLite.execute(db, insertFoursome,
                         four2Data);
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> insertFoursome');
+                    // console.log('GolfApp', '[OK] -> insertFoursome');
                     return $cordovaSQLite.execute(db, insertFoursome,
                         four3Data);
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> insertFoursome');
+                    // console.log('GolfApp', '[OK] -> insertFoursome');
                     return $cordovaSQLite.execute(db, insertFoursome,
                         four4Data);
                 })
                 .then(function () {
-                    console.log('GolfApp', '[OK] -> insertFoursomeParejasData');
+                    // console.log('GolfApp', '[OK] -> insertFoursomeParejasData');
                     defered.resolve('OK');
                 })
                 .catch(function (error) {
@@ -436,14 +436,14 @@ angular.module('starter.inicio', ['ionic'])
                     return $cordovaSQLite.execute(db, emptyUsuario);
                 })
                 .then(function () {
-                    console.log('Database vaciada');
+                    // console.log('Database vaciada');
                     sesionActual = false;
                     $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
                     defered.resolve('Database vaciada');
                     utils.popup('INFO', 'Database vaciada');
                 })
                 .catch(function (error) {
-                    console.log('GolfApp', error);
+                    console.log(JSON.stringify(error));
                     defered.reject(error);
                     utils.popup('ERROR', JSON.stringify(error));
                 });

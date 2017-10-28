@@ -39,7 +39,7 @@ function ApuestaRayas(partido) {
     this.actualizarHoyo = function (hIndex, playersNumber) {
         var playersNumber = this.partido.scoreBoard.length;
 
-        console.log(playersNumber + ' PLAYERS')
+        // console.log(playersNumber + ' PLAYERS')
 
         for (var i = 0; i < playersNumber; i++) {
             for (var j = 0; j < playersNumber; j++) {

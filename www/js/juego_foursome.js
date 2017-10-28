@@ -36,7 +36,7 @@ angular.module('starter.juego-nassau', ['ionic', 'starter.seleccion-jugadores'])
                     $state.reload();
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    console.log(JSON.stringify(error));
                 });
         };
 
@@ -45,33 +45,33 @@ angular.module('starter.juego-nassau', ['ionic', 'starter.seleccion-jugadores'])
 
             $q.when()
                 .then(function () {
-                    console.log('JuegoFoursome', 'Inicio Correcto');
+                    // console.log('JuegoFoursome', 'Inicio Correcto');
                     return obtenerJson();
                 })
                 .then(function () {
-                    console.log('JuegoFoursome', 'obtenerJson() Correcto');
+                    // console.log('JuegoFoursome', 'obtenerJson() Correcto');
                     return cargarParejaIndex();
                 })
                 .then(function (index) {
-                    console.log('JuegoFoursome', 'cargarParejaIndex()' +
-                        ' Correcto');
+                    // console.log('JuegoFoursome', 'cargarParejaIndex()' +
+                    //     ' Correcto');
                     return verFoursomeCompeticion(index);
                 })
                 .then(function () {
-                    console.log('JuegoFoursome', 'verFoursomeCompeticion()' +
-                        ' Correcto');
+                    // console.log('JuegoFoursome', 'verFoursomeCompeticion()' +
+                    //     ' Correcto');
                     return fixRowsAndColumns();
                 })
                 .then(function () {
-                    console.log('JuegoFoursome', 'fixRowsAndColumns()' +
-                        ' Correcto');
+                    // console.log('JuegoFoursome', 'fixRowsAndColumns()' +
+                    //     ' Correcto');
                     return $q.when();
                 })
                 .then(function () {
-                    console.log('JuegoFoursome', 'All Correcto');
+                    // console.log('JuegoFoursome', 'All Correcto');
                 })
                 .catch(function (error) {
-                    console.log('JuegoFoursome', error);
+                    // console.log('JuegoFoursome', error);
                     utils.popup('Error', error);
                 })
                 .finally(function () {
@@ -176,8 +176,8 @@ angular.module('starter.juego-nassau', ['ionic', 'starter.seleccion-jugadores'])
             var defered = $q.defer();
             var promise = defered.promise;
 
-            console.log('verFoursomeIndividual(' + index + ')',
-                $scope.tablero.apuestaFoursome[index]);
+            // console.log('verFoursomeIndividual(' + index + ')',
+            //     $scope.tablero.apuestaFoursome[index]);
 
             var j1_idx = $scope.tablero.apuestaFoursome[index].j1.idx;
             var j2_idx = $scope.tablero.apuestaFoursome[index].j2.idx;
@@ -312,7 +312,7 @@ angular.module('starter.juego-nassau', ['ionic', 'starter.seleccion-jugadores'])
                         });
 
                 }, function (err) {
-                    console.log(JSON.stringify(err))
+                    console.log(JSON.stringify(err));
                 });
 
             return promise;
