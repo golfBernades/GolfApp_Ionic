@@ -675,9 +675,9 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
         function agregarMudo(parejaDoble) {
 
-            if(parejaDoble){
-                jugadoresList.push(mudo)
+            if(parejaDoble && (jugadoresList.length%2!=0)){
 
+                jugadoresList.push(mudo)
                 $scope.listJN1.push(mudo);
                 $scope.listJN2.push(mudo);
                 $scope.listJN3.push(mudo);
