@@ -23,9 +23,15 @@ function ApuestaRayas(partido) {
         for (var hIndex = 0; hIndex < 18; hIndex++) {
             var turnoTerminado = true;
             for (var jIndex = 0; jIndex < playersNumber; jIndex++) {
-                if (this.partido.scoreBoard[jIndex].golpes[hIndex] == 0) {
-                    turnoTerminado = false;
-                    break;
+                // if(this.partido.jugadores[jIndex].nombre)
+
+                var name = this.partido.jugadores[jIndex].nombre.toLowerCase();
+
+                if (name !== 'muda') {
+                    if (this.partido.scoreBoard[jIndex].golpes[hIndex] == 0) {
+                        turnoTerminado = false;
+                        break;
+                    }
                 }
             }
             if (turnoTerminado) {
@@ -42,9 +48,22 @@ function ApuestaRayas(partido) {
         // console.log(playersNumber + ' PLAYERS')
 
         for (var i = 0; i < playersNumber; i++) {
+            var nameI = this.partido.jugadores[i].nombre.toLowerCase();
+
+            if(nameI === 'muda') {
+                continue;
+            }
+
             for (var j = 0; j < playersNumber; j++) {
                 // Validación para que un Jugador solo se compare con
                 // los demás y no con el mismo
+
+                var nameJ = this.partido.jugadores[j].nombre.toLowerCase();
+
+                if (nameJ === 'muda') {
+                    continue;
+                }
+
                 if (i != j) {
                     var golpesI = this.partido.scoreBoard[i].golpes[hIndex];
                     var golpesJ = this.partido.scoreBoard[j].golpes[hIndex];

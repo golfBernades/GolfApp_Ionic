@@ -55,3 +55,8 @@ ionic plugin add cordova-plugin-splashscreen
 ## Instalar versiones específicas de Ionic y Cordova
 > ```sudo npm install -g ionic@2.2.1```
 > ```sudo npm install -g cordova@6.5.0```
+
+## Después de hacer actualizaciones al config.xml
+```
+ionic cordova plugin save
+```
