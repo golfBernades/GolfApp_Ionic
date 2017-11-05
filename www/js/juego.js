@@ -41,8 +41,6 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             fin: null
         };
 
-        $scope.popover
-
         $ionicPlatform.ready(function () {
             // console.log('GolfApp', 'juego.$ionicPlatform.ready()');
 
@@ -375,14 +373,14 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     ]
                 });
 
-                if($scope.hayMudo) {
-                    if(p1j1.nombre === "Mudo") {
+                if ($scope.hayMudo) {
+                    if (p1j1.nombre === "Mudo") {
                         console.log(JSON.stringify(p1j1));
-                    } else if(p1j2.nombre === "Mudo") {
+                    } else if (p1j2.nombre === "Mudo") {
                         console.log(JSON.stringify(p1j2));
-                    } else if(p2j1.nombre === "Mudo") {
+                    } else if (p2j1.nombre === "Mudo") {
                         console.log(JSON.stringify(p2j1));
-                    } else if(p2j2.nombre === "Mudo") {
+                    } else if (p2j2.nombre === "Mudo") {
                         console.log(JSON.stringify(p2j2));
                     }
                 }
@@ -782,6 +780,24 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 });
 
             modulePromises.push(selectPuntosPromise);
+
+
+            for (var l = 0; l < $scope.partido.jugadores.length; l++) {
+                var name = $scope.partido.jugadores[l].nombre;
+
+                if (name.toLowerCase() === 'muda') {
+                    for (var m = 0; m < 18; m++) {
+                        $scope.partido.scoreBoard[l].golpes[m] =
+                            $scope.partido.campo.pares[m];
+
+                        $scope.tablero.datos_juego[l].golpes[m]
+                            = $scope.partido.campo.pares[m].value;
+                    }
+                    break;
+                }
+            }
+
+
         }
 
         function loadCampo() {

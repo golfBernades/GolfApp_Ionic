@@ -17,9 +17,14 @@ function ApuestaConeja(partido) {
             var turnoTerminado = true;
 
             for (var jIndex = 0; jIndex < playersNumber; jIndex++) {
-                if (this.partido.scoreBoard[jIndex].golpes[hIndex] == 0) {
-                    turnoTerminado = false;
-                    break;
+
+                var name = this.partido.jugadores[jIndex].nombre.toLowerCase();
+
+                if (name !== 'muda') {
+                    if (this.partido.scoreBoard[jIndex].golpes[hIndex] == 0) {
+                        turnoTerminado = false;
+                        break;
+                    }
                 }
             }
 
@@ -44,7 +49,20 @@ function ApuestaConeja(partido) {
         for (var i = 0; i < playersNumber; i++) {
             var llevaPataJugadorI = true;
 
+            var nameI = this.partido.jugadores[i].nombre.toLowerCase();
+
+            if (nameI === 'muda') {
+                continue;
+            }
+
             for (var j = 0; j < playersNumber; j++) {
+
+                var nameJ = this.partido.jugadores[j].nombre.toLowerCase();
+
+                if (nameJ === 'muda') {
+                    continue;
+                }
+
                 if (i != j) {
                     var golpesI = this.partido.scoreBoard[i].golpes[hIndex];
                     var golpesJ = this.partido.scoreBoard[j].golpes[hIndex];
