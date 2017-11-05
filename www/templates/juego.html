@@ -75,7 +75,7 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="puntuacion in tablero.datos_juego"
-                        ng-if="puntuacion.nombre != 'Mudo'">
+                        ng-if="puntuacion.nombre.toLowerCase() != 'muda'">
                         <td class="vertical-centered-cell">
                             {{puntuacion.nombre}}
                             <br>
