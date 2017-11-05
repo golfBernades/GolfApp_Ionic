@@ -1,12 +1,12 @@
 
 .editar-nuevo-jugador {
+    background-color: #27437F !important;
     color: white !important;
-    background-color: #0c60ee;
 }
 
 .eliminar-nuevo-jugador {
+    background-color: #BE2F2B !important;
     color: white !important;
-    background-color: red;
 }
 
 .tab-jug {

@@ -26,15 +26,7 @@
     margin: auto 5% auto 5%;
 }
 
-.my-btn-red {
-    background-color: #F53D3D !important;
-}
-
-.my-btn-red:hover{
-    background-color: #E01111 !important;
-}
-
-.table td > *, table th > *{
+.table td > *, table th > * {
     width: 100%;
 }
 
@@ -42,7 +34,37 @@ th {
     font-weight: bold;
 }
 
-.table-text-vertical-centered td, .table-text-vertical-centered th{
+.table-text-vertical-centered td, .table-text-vertical-centered th {
     line-height: 100% !important;
     vertical-align: middle !important;
+}
+
+.toggle input:checked + .track {
+    background-color: #1E8454 !important;
+    border-color: #1E8454 !important;
+}
+
+.bar-balanced {
+    background-color: #1E8454 !important;
+    color: white !important;
+}
+
+.button-balanced {
+    background-color: #1E8454 !important;
+    color: white !important;
+}
+
+.button-assertive {
+    background-color: #BE2F2B !important;
+    color: white !important;
+}
+
+.button-positive {
+    background-color: #27437F !important;
+    color: white !important;
+}
+
+.tabs, .tabs a:hover{
+    background-color: #1E8454 !important;
+    color: white !important;
 }
