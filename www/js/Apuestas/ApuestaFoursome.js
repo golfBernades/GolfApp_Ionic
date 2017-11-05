@@ -14,6 +14,19 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
 
     var presionFlag = modoPresiones === 'california' ? 2 : 3;
 
+    var golpesMudo = generarGolpesMudo();
+
+    function generarGolpesMudo() {
+        var golpesMudo = [];
+
+        for (var i = 0; i < 18; i++) {
+            var par = staticThis.partido.campo.pares[i].value;
+            golpesMudo.push(par)
+        }
+
+        return golpesMudo;
+    }
+
     /**
      * Agrega dos jugadores que están compitiendo individualmente uno contra
      * el otro en esta apuesta.
@@ -51,20 +64,13 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
      */
     this.agregarCompeticionPareja = function (p1Jugador1, p1Jugador2, p1Ventaja,
                                               p2Jugador1, p2Jugador2, p2Ventaja) {
-        if (p1Jugador1.nombre == "Mudo") {
-            // console.log('ApuestaFoursome', 'Idx_mudo -> ' + p1Jugador1.idx);
-            this.addMudoGolpes(p1Jugador1.idx);
-        } else if (p1Jugador2.nombre == "Mudo") {
-            // console.log('ApuestaFoursome', 'Idx_mudo -> ' + p1Jugador2.idx);
-            this.addMudoGolpes(p1Jugador2.idx);
-        } else if (p2Jugador1.nombre == "Mudo") {
-            // console.log('ApuestaFoursome', 'Idx_mudo -> ' + p2Jugador1.idx);
-            this.addMudoGolpes(p2Jugador1.idx);
-        } else if (p2Jugador2.nombre == "Mudo") {
-            // console.log('ApuestaFoursome', 'Idx_mudo -> ' + p2Jugador2.idx);
-            this.addMudoGolpes(p2Jugador2.idx);
+        var mudoIdx = staticThis.partido.scoreBoard.length;
+
+        if (p1Jugador1.nombre === "Mudo" || p1Jugador2.nombre === "Mudo" ||
+            p2Jugador1.nombre === "Mudo" || p2Jugador2.nombre === "Mudo") {
+            console.log('Nassau', 'Está jugando el mudo');
         } else {
-            // console.log('ApuestaFoursome', 'No está jugando el mudo');
+            console.log('Nassau', 'No está jugando el mudo');
         }
 
         this.competiciones.push({
@@ -81,17 +87,6 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
         });
     };
 
-    this.addMudoGolpes = function (idx) {
-        staticThis.partido.scoreBoard.push({
-            golpes: []
-        });
-
-        for (var i = 0; i < 18; i++) {
-            var par = staticThis.partido.campo.pares[i].value;
-            staticThis.partido.scoreBoard[idx].golpes.push(par)
-        }
-    };
-
     this.resetScoreboard = function () {
         $.each(this.competiciones, function (index, value) {
             value.puntuaciones = [
@@ -106,6 +101,12 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
         this.resetScoreboard();
 
         $.each(this.competiciones, function (index, competicion) {
+            console.log('Actualizar', JSON.stringify(competicion.p1_j1));
+            console.log('Actualizar', JSON.stringify(competicion.p1_j2));
+            console.log('Actualizar', JSON.stringify(competicion.p2_j1));
+            console.log('Actualizar', JSON.stringify(competicion.p2_j2));
+            console.log('-----------------');
+
             if (modoJugadores == 'pareja') {
                 staticThis.actualizarParejas(competicion);
             } else if (modoJugadores == 'individual') {

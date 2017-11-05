@@ -375,6 +375,18 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     ]
                 });
 
+                if($scope.hayMudo) {
+                    if(p1j1.nombre === "Mudo") {
+                        console.log(JSON.stringify(p1j1));
+                    } else if(p1j2.nombre === "Mudo") {
+                        console.log(JSON.stringify(p1j2));
+                    } else if(p2j1.nombre === "Mudo") {
+                        console.log(JSON.stringify(p2j1));
+                    } else if(p2j2.nombre === "Mudo") {
+                        console.log(JSON.stringify(p2j2));
+                    }
+                }
+
                 modulePromises.push(apuestaFoursome.agregarCompeticionPareja(
                     p1j1, p1j2, parejas.item(idx).p1_jug_ventaja, p2j1, p2j2,
                     parejas.item(idx).p2_jug_ventaja
@@ -966,45 +978,46 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
         }
 
         function getTableroToShare() {
-            var tableroToShare = {};
+            // var tableroToShare = {};
+            //
+            // if ($scope.hayMudo) {
+            //     console.log('Se agregará el mudo al tablero para compartir');
+            //     tableroToShare = jQuery.extend(true, {}, $scope.tablero);
+            //
+            //     tableroToShare.datos_juego.push({
+            //         index: tableroToShare.length,
+            //         nombre: "Mudo",
+            //         handicap: 0,
+            //         jugador_id: 9999,
+            //         golpes: getParesArray(),
+            //         totales_golpes: [0, 0, 0, 0],
+            //         circulos: [
+            //             [nCirc, nCirc, nCirc, nCirc],
+            //             [nCirc, nCirc, nCirc, nCirc],
+            //             [nCirc, nCirc, nCirc, nCirc],
+            //             [nCirc, nCirc, nCirc, nCirc],
+            //             [nCirc, nCirc, nCirc, nCirc],
+            //             [nCirc, nCirc, nCirc, nCirc],
+            //             [nCirc, nCirc, nCirc, nCirc],
+            //             [nCirc, nCirc, nCirc, nCirc],
+            //             [nCirc, nCirc, nCirc, nCirc],
+            //             [nCirc, nCirc, nCirc, nCirc],
+            //             [nCirc, nCirc, nCirc, nCirc],
+            //             [nCirc, nCirc, nCirc, nCirc],
+            //             [nCirc, nCirc, nCirc, nCirc],
+            //             [nCirc, nCirc, nCirc, nCirc],
+            //             [nCirc, nCirc, nCirc, nCirc],
+            //             [nCirc, nCirc, nCirc, nCirc],
+            //             [nCirc, nCirc, nCirc, nCirc],
+            //             [nCirc, nCirc, nCirc, nCirc]
+            //         ]
+            //     });
+            // } else {
+            //     console.log('No se agregará el mudo al tablero para compartir');
+            //     tableroToShare = $scope.tablero;
+            // }
 
-            if ($scope.hayMudo) {
-                console.log('Se agregará el mudo al tablero para compartir');
-                tableroToShare = jQuery.extend(true, {}, $scope.tablero);
-
-                tableroToShare.datos_juego.push({
-                    index: tableroToShare.length,
-                    nombre: "Mudo",
-                    handicap: 0,
-                    jugador_id: 9999,
-                    golpes: getParesArray(),
-                    totales_golpes: [0, 0, 0, 0],
-                    circulos: [
-                        [nCirc, nCirc, nCirc, nCirc],
-                        [nCirc, nCirc, nCirc, nCirc],
-                        [nCirc, nCirc, nCirc, nCirc],
-                        [nCirc, nCirc, nCirc, nCirc],
-                        [nCirc, nCirc, nCirc, nCirc],
-                        [nCirc, nCirc, nCirc, nCirc],
-                        [nCirc, nCirc, nCirc, nCirc],
-                        [nCirc, nCirc, nCirc, nCirc],
-                        [nCirc, nCirc, nCirc, nCirc],
-                        [nCirc, nCirc, nCirc, nCirc],
-                        [nCirc, nCirc, nCirc, nCirc],
-                        [nCirc, nCirc, nCirc, nCirc],
-                        [nCirc, nCirc, nCirc, nCirc],
-                        [nCirc, nCirc, nCirc, nCirc],
-                        [nCirc, nCirc, nCirc, nCirc],
-                        [nCirc, nCirc, nCirc, nCirc],
-                        [nCirc, nCirc, nCirc, nCirc],
-                        [nCirc, nCirc, nCirc, nCirc]
-                    ]
-                });
-            } else {
-                console.log('No se agregará el mudo al tablero para compartir');
-                tableroToShare = $scope.tablero;
-            }
-
+            tableroToShare = $scope.tablero;
             return tableroToShare;
         }
 

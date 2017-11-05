@@ -246,14 +246,14 @@ angular.module('starter.inicio', ['ionic'])
                     // console.log('GolfApp', '[OK] -> insertJugador');
                     return $cordovaSQLite.execute(db, selectApuesta);
                 })
-                // .then(function () {
-                //     console.log('GolfApp', '[OK] -> selectApuesta');
-                //     return insertFoursomeParejasData();
-                // })
                 .then(function () {
                     // console.log('GolfApp', '[OK] -> selectApuesta');
-                    return insertFoursomeIndividualData();
+                    return insertFoursomeParejasData();
                 })
+                // .then(function () {
+                //     console.log('GolfApp', '[OK] -> selectApuesta');
+                    // return insertFoursomeIndividualData();
+                // })
                 .then(function () {
                     // console.log('GolfApp', '[OK] -> insertFoursomeData');
                     return $cordovaSQLite.execute(db, insertPuntuaciones);
