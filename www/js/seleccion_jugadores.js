@@ -3,8 +3,8 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
     .controller('jugadoresController', function ($scope, $ionicPopup,
                                                  $cordovaSQLite, $state,
                                                  $ionicPlatform, $ionicLoading,
-                                                 $rootScope, servicePantallas,
-                                                 utils) {
+                                                 $q, servicePantallas,
+                                                 sql, utils) {
         $scope.jugadores = [];
 
         $scope.data = {
@@ -17,55 +17,96 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         var modificar = false;
 
         $scope.seleccionarCampo = function () {
+
+            $q.when()
+                .then(function () {
+                    return cantidadJugadores();
+                })
+                .then(function () {
+                    return elimiarFousrome();
+                })
+                .then(function () {
+                    return campoSeleccionado();
+                })
+                .catch(function (error) {
+                    utils.popup('Seleccion Parejas', JSON.stringify(error));
+                })
+                .finally(function () {
+
+                });
+        }
+
+        function cantidadJugadores() {
+            var defered = $q.defer();
+            var promise = defered.promise;
             var query = "SELECT jugar FROM jugador WHERE jugar = 1";
-            $cordovaSQLite.execute(db, query)
+
+            sql.sqlQuery(db, query, [])
                 .then(function (res) {
-
-                    // console.log("res.rows.length: " + res.rows.length)
                     if (res.rows.length >= 2) {
-
-                        var control = false;
-
-                        for (var i = 0; i < $scope.jugadores.length; i++) {
-                            if ($scope.jugadores[i].jugar == 1) {
-                                control = true;
-                                break;
-                            }
-                        }
-                        if (control) {
-                            // TODO Corregir esta madre
-                            if (modificar) {
-                                var del_four = "DELETE FROM nassau";
-                                $cordovaSQLite.execute(db, del_four);
-                            }
-
-                            switch ($rootScope.campos) {
-                                case 1:
-                                    $state.go('tabs.camp-dis');
-                                    break;
-                                case 2:
-                                    $state.go('tabs.camp-cue');
-                                    break;
-                                default:
-                                    $state.go('tabs.camp-dis');
-                                    break;
-                            }
-
-                        } else {
-                            utils.popup("Selección de jugadores",
-                                "Debes seleccionar al menos dos de los jugadores que" +
-                                " participarán en el partido para poder" +
-                                " avanzar");
-                        }
+                        defered.resolve("OK");
                     } else {
-                        utils.popup("Creación de jugadores", "Debes crear al menos 2" +
+                        defered.reject("Debes crear o seleccionar al menos 2" +
                             " los jugadores que participarán en el partido" +
                             " para poder avanzar");
                     }
-                }, function (err) {
-                    console.log(err)
+                })
+                .catch(function (err) {
+                    defered.reject(err);
                 });
-        };
+
+            return promise;
+        }
+
+        function campoSeleccionado() {
+
+            var defered = $q.defer();
+            var promise = defered.promise;
+            var query = "SELECT seleccionado FROM campo WHERE seleccionado = (?) OR seleccionado = (?)";
+
+            sql.sqlQuery(db, query, [1, 2])
+                .then(function (res) {
+                    if (res.rows.length > 0) {
+                        switch (res.rows.item(0).seleccionado) {
+                            case 1:
+                                $state.go('tabs.camp-dis');
+                                break;
+                            case 2:
+                                $state.go('tabs.camp-cue');
+                                break;
+                        }
+                    } else {
+                        $state.go('tabs.camp-dis');
+                    }
+                    defered.resolve("OK");
+                })
+                .catch(function (err) {
+                    defered.reject(err);
+                });
+
+            return promise;
+        }
+
+        function elimiarFousrome() {
+
+            var defered = $q.defer();
+            var promise = defered.promise;
+            var query = "DELETE FROM nassau";
+
+            if (modificar) {
+                sql.sqlQuery(db, query, [])
+                    .then(function (res) {
+                        defered.resolve("OK");
+                    })
+                    .catch(function (err) {
+                        defered.reject(err);
+                    });
+            } else {
+                defered.resolve("OK");
+            }
+
+            return promise;
+        }
 
         $scope.inicio = function () {
             $state.go('inicio');

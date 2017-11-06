@@ -1,7 +1,7 @@
 angular.module('starter.seleccion-apuestas', ['ionic'])
 
     .controller('apuestasController', function ($scope, $cordovaSQLite, $state,
-                                                $ionicPlatform, $ionicPopup, $rootScope,
+                                                $ionicPlatform, $ionicPopup, sql,
                                                 servicePantallas) {
         $scope.apuestas = [];
 
@@ -22,11 +22,25 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
 
         $scope.seleccionarCampo = function () {
 
-            if ($rootScope.campos == 1) {
-                $state.go('tabs.camp-dis')
-            } else {
-                $state.go('tabs.camp-cue')
-            }
+            var query = "SELECT seleccionado FROM campo WHERE seleccionado = (?) OR seleccionado = (?)";
+
+            sql.sqlQuery(db,query, [1,2])
+                .then(function (res) {
+                    switch (res.rows.item(0).seleccionado){
+                        case 1:
+                            $state.go('tabs.camp-dis');
+                            break;
+                        case 2:
+                            $state.go('tabs.camp-cue');
+                            break;
+                        default:
+                            $state.go('tabs.camp-dis');
+                            break
+                    }
+
+                }, function (err) {
+
+                });
         };
 
         $scope.apuestaSeleccionada = function (apuesta) {

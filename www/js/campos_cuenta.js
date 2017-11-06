@@ -28,7 +28,7 @@ angular.module('starter.campos-cuenta', ['ionic'])
 
         $scope.seleccionaApuestas = function () {
             var selAllCampos = "SELECT id FROM campo";
-            var selOneCampo = "SELECT id FROM campo WHERE seleccionado = 1";
+            var selOneCampo = "SELECT id FROM campo WHERE seleccionado = 2 OR seleccionado = 1";
             $cordovaSQLite.execute(db, selAllCampos).then(function (res) {
                 if (res.rows.length > 0) {
 
@@ -53,7 +53,7 @@ angular.module('starter.campos-cuenta', ['ionic'])
             var updateAll = "UPDATE campo SET seleccionado = 0";
             $cordovaSQLite.execute(db, updateAll);
 
-            var actualizaCampoSel = "UPDATE campo SET seleccionado = 1 WHERE id = ?";
+            var actualizaCampoSel = "UPDATE campo SET seleccionado = 2 WHERE id = ?";
             $cordovaSQLite.execute(db, actualizaCampoSel, [campo.id]);
 
             campoSeleccionado = true;

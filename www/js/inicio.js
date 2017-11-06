@@ -28,6 +28,10 @@ angular.module('starter.inicio', ['ionic'])
             }
         };
 
+        $scope.acercaDe = function () {
+            $state.go('acercaDe')
+        }
+
         function verificarClave(intento) {
 
             var httpRequest = serviceHttpRequest.createPostHttpRequest(
