@@ -113,4 +113,5 @@
     <plugin name="cordova-plugin-whitelist" spec="https://github.com/apache/cordova-plugin-whitelist.git" />
     <plugin name="cordova-sqlite-storage" spec="https://github.com/litehelpers/Cordova-sqlite-storage" />
     <plugin name="cordova-plugin-splashscreen" spec="~4.0.3" />
+    <allow-navigation href="http://192.168.0.21:8100" />
 </widget>

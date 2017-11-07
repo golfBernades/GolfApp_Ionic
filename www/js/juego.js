@@ -801,7 +801,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
         }
 
         function loadCampo() {
-            var queryCampo = "SELECT * FROM campo WHERE seleccionado = 1";
+            var queryCampo = "SELECT * FROM campo WHERE seleccionado = 2 OR seleccionado = 1";
 
             var selectCampoPromise = $cordovaSQLite.execute(db, queryCampo)
                 .then(function (res) {
