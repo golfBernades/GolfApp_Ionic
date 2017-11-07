@@ -37,7 +37,7 @@ angular.module('starter.campos-dispositivo', ['ionic'])
 
         $scope.seleccionarApuestas = function () {
             var selAllCampos = "SELECT id FROM campo";
-            var selOneCampo = "SELECT id FROM campo WHERE seleccionado = 1";
+            var selOneCampo = "SELECT id FROM campo WHERE seleccionado = 2 OR seleccionado = 1";
             $cordovaSQLite.execute(db, selAllCampos).then(function (res) {
                 if (res.rows.length > 0) {
 
