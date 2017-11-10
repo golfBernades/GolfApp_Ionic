@@ -164,14 +164,6 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                             var handicap = $scope.data.handicap;
 
                             if (nombre && handicap) {
-                                if (nombre.toLowerCase() == 'mudo') {
-                                    utils.popup("Jugador Reservado",
-                                        "No se puede asignar un jugador con"
-                                        + " el nombre Mudo");
-
-                                    e.preventDefault();
-                                    return;
-                                }
 
                                 var control = true;
 
@@ -248,15 +240,6 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                             var handicap = $scope.data.handicap;
 
                             if (nombre && handicap) {
-                                if (nombre.toLowerCase() == 'mudo') {
-                                    utils.popup("Jugador Reservado",
-                                        "No se puede asignar un jugador con"
-                                        + " el nombre Mudo");
-
-                                    e.preventDefault();
-                                    return;
-                                }
-
                                 var control = true;
 
                                 for (var i = 0; i < $scope.jugadores.length; i++) {

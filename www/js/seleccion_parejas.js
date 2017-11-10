@@ -79,13 +79,6 @@ angular.module('starter.seleccion-parejas', ['ionic'])
             p_2: 0
         };
 
-        var mudo = {
-            id: 9999,
-            nombre: "Mudo",
-            handicap: 0,
-            jugar: true
-        };
-
         $scope.jugList = [
             "1 VS 1",
             "2 VS 2"
@@ -597,7 +590,6 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                 if (res) {
                     configFoursome();
                     eliminarParejas();
-                    agregarMudo(!$scope.pareja_doble);
                     anadirDefaultJugadores(!$scope.pareja_doble)
                 } else {
 
@@ -673,31 +665,6 @@ angular.module('starter.seleccion-parejas', ['ionic'])
             alertCrearParejas('crear_parejas_popup.html', 'Actualizar');
         };
 
-        function agregarMudo(parejaDoble) {
-
-            if(parejaDoble && (jugadoresList.length%2!=0)){
-
-                jugadoresList.push(mudo)
-                $scope.listJN1.push(mudo);
-                $scope.listJN2.push(mudo);
-                $scope.listJN3.push(mudo);
-                $scope.listJN4.push(mudo);
-            }
-        }
-
-        function eliminarMudo() {
-            for(var i=0; i<jugadoresList.length; i++){
-                if(jugadoresList[i].nombre == "Mudo"){
-
-                    jugadoresList.splice(i,1);
-                    $scope.listJN1.splice(i,1);
-                    $scope.listJN2.splice(i,1);
-                    $scope.listJN3.splice(i,1);
-                    $scope.listJN4.splice(i,1);
-                }
-            }
-        }
-
         function eliminarParejas() {
 
             var query = "DELETE FROM nassau";
@@ -724,7 +691,6 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
                             $scope.listaCinco.opcion = null;
                             $scope.listaSeis.opcion = null;
-                            eliminarMudo();
 
                             break;
                         case "2 VS 2":
@@ -867,7 +833,6 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                                 $scope.pareja_doble = true;
                                 $scope.pareja_individual = false;
                                 anadirDefaultJugadores(true)
-                                agregarMudo(true)
                                 break;
                         }
                         switch (res.rows.item(0).modo_presiones) {
