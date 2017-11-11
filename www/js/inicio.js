@@ -2,7 +2,7 @@ angular.module('starter.inicio', ['ionic'])
 
     .controller('inicioController', function ($scope, $cordovaSQLite, $state,
                                               $ionicPlatform, $ionicPopup, $ionicLoading,
-                                              $http, servicePantallas, serviceHttpRequest, utils,
+                                              $http, sql, serviceHttpRequest, utils,
                                               $q) {
 
         $scope.data = {
@@ -117,14 +117,6 @@ angular.module('starter.inicio', ['ionic'])
             $cordovaSQLite.execute(db, query);
         }
 
-        function isUser() {
-            if (sesionActual) {
-                $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-out";
-            } else {
-                $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
-            }
-        }
-
         function insertClave(clave) {
             var query = "INSERT INTO clave (clave) VALUES (?)";
             $cordovaSQLite.execute(db, query, [clave])
@@ -176,15 +168,6 @@ angular.module('starter.inicio', ['ionic'])
                 ]
             });
         }
-
-        $(document).ready(function () {
-            // console.log('inicio.$ionicPlatform.ready()');
-            isUser();
-        });
-
-        // $ionicPlatform.ready(function () {
-        //
-        // });
 
         $scope.insertTestData = function () {
             var defered = $q.defer();
@@ -256,7 +239,7 @@ angular.module('starter.inicio', ['ionic'])
                 })
                 // .then(function () {
                 //     console.log('GolfApp', '[OK] -> selectApuesta');
-                    // return insertFoursomeIndividualData();
+                // return insertFoursomeIndividualData();
                 // })
                 .then(function () {
                     // console.log('GolfApp', '[OK] -> insertFoursomeData');
@@ -454,5 +437,88 @@ angular.module('starter.inicio', ['ionic'])
 
             return promise;
         };
+
+        function isUser() {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            if (sesionActual) {
+                $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-out";
+            } else {
+                $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
+            }
+            defered.resolve("OK");
+
+            return promise
+        }
+
+        function isJugando() {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            if (jugando) {
+                $scope.mensajeJuego = "Continuar juego"
+            } else {
+                $scope.mensajeJuego = "Inciar nuevo juego"
+            }
+            defered.resolve("OK");
+
+            return promise
+        }
+
+        function loadUser() {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            var query = "SELECT * FROM usuario";
+            sql.sqlQuery(db, query, [])
+                .then(function (res) {
+                    if (res.rows.length > 0) {
+                        id_user_app = res.rows.item(0).id;
+                        user_app = res.rows.item(0).email;
+                        password_app = res.rows.item(0).password;
+
+                        sesionActual = true;
+                        if (res.rows.item(0).jugando == 0) {
+                            jugando = false
+                        } else {
+                            jugando = true;
+                        }
+                    } else {
+                        sesionActual = false;
+                    }
+
+                    defered.resolve("OK");
+                })
+                .catch(function (error) {
+                    defered.reject(error);
+                })
+
+            return promise
+        }
+
+        function loadInicio() {
+
+            $q.when()
+                .then(function () {
+                    return loadUser();
+                })
+                .then(function () {
+                    return isUser();
+                })
+                .then(function () {
+                    return isJugando();
+                })
+                .catch(function (error) {
+                    utils.popup('Error', JSON.stringify(error));
+                })
+                .finally(function () {
+
+                });
+        }
+
+        $ionicPlatform.ready(function () {
+            loadInicio()
+        });
 
     });

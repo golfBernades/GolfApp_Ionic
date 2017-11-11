@@ -90,32 +90,62 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         ];
 
         $scope.comenzarJuego = function () {
+            seleccionarJuego();
+        };
+
+        function parejasFormadas() {
+
+            var defered = $q.defer();
+            var promise = defered.promise;
 
             var query = "SELECT * FROM nassau";
-
             sql.sqlQuery(db, query, [])
                 .then(function (res) {
-
-
-                    var query2 = "SELECT * FROM config_foursome";
-                    sql.sqlQuery(db, query2, [])
-                        .then(function (res2) {
-                            console.log(JSON.stringify(res2.rows.item(0)))
-
-                            if(res.rows.length>0){
-                                $state.go('juego')
-                            }else{
-                                utils.popup("Seleccion Parejas","Para poder avanzar debes tener parejas formadas.")
-                            }
-
-
-                        })
-
+                    if(res.rows.length>0){
+                        defered.resolve("OK");
+                    }else{
+                        defered.reject('Para poder avanzar debes tener parejas formadas.');
+                    }
                 })
                 .catch(function (error) {
-                    console.log(JSON.stringify(error));
+                    defered.reject(error);
                 });
-        };
+
+            return promise;
+        }
+
+        function usuarioJugando() {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            var query = "UPDATE usuario SET jugando = 1";
+            sql.sqlQuery(db, query, [])
+                .then(function () {
+                    $state.go('juego')
+                })
+                .catch(function (error) {
+                    defered.reject(error);
+                });
+
+            return promise
+        }
+
+        function seleccionarJuego() {
+
+            $q.when()
+                .then(function () {
+                    return parejasFormadas();
+                })
+                .then(function () {
+                    return usuarioJugando();
+                })
+                .catch(function (error) {
+                    utils.popup('Seleccion Parejas', JSON.stringify(error));
+                })
+                .finally(function () {
+
+                });
+        }
 
         $scope.seleccionarApuesta = function () {
             $state.go("seleccion_apuestas")

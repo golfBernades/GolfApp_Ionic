@@ -2,7 +2,10 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
 
     .controller('apuestasController', function ($scope, $cordovaSQLite, $state,
                                                 $ionicPlatform, $ionicPopup, sql,
-                                                servicePantallas) {
+                                                $q, utils) {
+
+        var apuestas = false;
+
         $scope.apuestas = [];
 
         $scope.seleccionParejas = function () {
@@ -10,14 +13,7 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
         };
 
         $scope.seleccionarJuego = function () {
-            var selOneCampo = "SELECT id FROM apuesta WHERE seleccionada = 1";
-            $cordovaSQLite.execute(db, selOneCampo).then(function (res) {
-                if (res.rows.length > 0) {
-                    $state.go('juego');
-                } else {
-                    noSeleccionApuesta();
-                }
-            });
+            seleccionarJuego()
         };
 
         $scope.seleccionarCampo = function () {
@@ -67,6 +63,81 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
             });
         };
 
+        function apuestasSeleccionadas() {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            var query = "SELECT id FROM apuesta WHERE seleccionada = 1";
+            sql.sqlQuery(db, query, [])
+                .then(function (res) {
+                    if (res.rows.length > 0) {
+                        apuestas = true;
+                        defered.resolve("OK");
+                    } else {
+                        apuestas = false;
+                        defered.resolve("OK");
+                    }
+                })
+                .catch(function (error) {
+                    defered.reject(error);
+                });
+
+            return promise
+        }
+
+        function usuarioJugando() {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            var query = "UPDATE usuario SET jugando = 1";
+            sql.sqlQuery(db, query, [])
+                .then(function () {
+                    defered.resolve("OK");
+                })
+                .catch(function (error) {
+                    defered.reject(error);
+                });
+
+            return promise
+        }
+
+        function noSeleccionApuesta() {
+
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Apuesta no seleccionada',
+                template: 'No has seleccionado niguna apuesta. Deseas avanzar?'
+            });
+
+            confirmPopup.then(function (res) {
+                if (res) {
+                    $state.go('juego');
+                }
+            });
+        };
+
+        function seleccionarJuego() {
+            $q.when()
+                .then(function () {
+                    return apuestasSeleccionadas();
+                })
+                .then(function () {
+                    return usuarioJugando();
+                })
+                .then(function () {
+                    if(apuestas){
+                        $state.go('juego')
+                    }else{
+                        noSeleccionApuesta()
+                    }
+                })
+                .catch(function (error) {
+                    utils.popup('Error', JSON.stringify(error));
+                })
+                .finally(function () {
+
+                });
+        }
+
         function getApuestas() {
 
             var query = "SELECT * FROM apuesta ORDER BY nombre ASC";
@@ -102,18 +173,6 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
 
         }
 
-        function noSeleccionApuesta() {
-            var confirmPopup = $ionicPopup.confirm({
-                title: 'Apuesta no seleccionada',
-                template: 'No has seleccionado niguna apuesta. Deseas avanzar?'
-            });
-
-            confirmPopup.then(function (res) {
-                if (res) {
-                    $state.go('juego');
-                }
-            });
-        };
 
         $ionicPlatform.ready(function () {
             getApuestas();

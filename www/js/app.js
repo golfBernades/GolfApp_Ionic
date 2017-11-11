@@ -10,6 +10,7 @@ var id_user_app = "";
 var user_app = "";
 var password_app = "";
 var sesionActual = false;
+var jugando;
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
     'starter.campos-dispositivo', 'starter.juego', 'starter.nuevo-campo',
@@ -35,26 +36,11 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
 
             configureDatabase();
 
-            function isUser() {
-                var query = "SELECT * FROM usuario";
-                $cordovaSQLite.execute(db, query).then(function (res) {
-                    if (res.rows.length > 0) {
-                        id_user_app = res.rows.item(0).id;
-                        user_app = res.rows.item(0).email;
-                        password_app = res.rows.item(0).password;
-                        sesionActual = true;
-                    } else {
-                        sesionActual = false;
-                    }
-                });
-            }
-
-            isUser();
         });
 
         function configureDatabase() {
             db = window.sqlitePlugin.openDatabase({
-                name: 'ap23aata23os.db',
+                name: 'ap23aata2aa3os.db',
                 location: 'default'
             }, function successCallback() {
                 console.log("La DB se abrió correctamente");
@@ -76,7 +62,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
             var usuario = 'CREATE TABLE IF NOT EXISTS usuario'
                 + '(id integer PRIMARY KEY'
                 + ',email text'
-                + ',password text)';
+                + ',password text'
+                + ',jugando integer DEFAULT 0)';
 
             $cordovaSQLite.execute(db, usuario);
 

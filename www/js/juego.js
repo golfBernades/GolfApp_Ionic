@@ -587,6 +587,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             confirmPopup.then(function (res) {
                 if (res) {
                     modulePromises.push(finalizarPartidoLocal());
+                    modulePromises.push(usuarioJugando());
                     finalizarPartidoServer();
                     $state.go('inicio');
 
@@ -619,6 +620,16 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 });
 
             modulePromises.push(deletePuntos);
+        }
+
+        function usuarioJugando() {
+
+            var query = "UPDATE usuario SET jugando = 0";
+            var jugando = sql.sqlQuery(db, query, [])
+                .then(function () {
+                    modulePromises.push(jugando);
+                })
+            modulePromises.push(jugando);
         }
 
         function finalizarPartidoServer() {
