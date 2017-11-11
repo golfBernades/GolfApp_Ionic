@@ -27,7 +27,7 @@ function ApuestaRayas(partido) {
 
                 var name = this.partido.jugadores[jIndex].nombre.toLowerCase();
 
-                if (name !== 'muda') {
+                if (name !== 'mudo') {
                     if (this.partido.scoreBoard[jIndex].golpes[hIndex] == 0) {
                         turnoTerminado = false;
                         break;
@@ -50,7 +50,7 @@ function ApuestaRayas(partido) {
         for (var i = 0; i < playersNumber; i++) {
             var nameI = this.partido.jugadores[i].nombre.toLowerCase();
 
-            if(nameI === 'muda') {
+            if(nameI === 'mudo') {
                 continue;
             }
 
@@ -60,7 +60,7 @@ function ApuestaRayas(partido) {
 
                 var nameJ = this.partido.jugadores[j].nombre.toLowerCase();
 
-                if (nameJ === 'muda') {
+                if (nameJ === 'mudo') {
                     continue;
                 }
 

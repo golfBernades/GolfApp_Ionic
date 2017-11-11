@@ -373,17 +373,17 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     ]
                 });
 
-                if ($scope.hayMudo) {
-                    if (p1j1.nombre === "Mudo") {
-                        console.log(JSON.stringify(p1j1));
-                    } else if (p1j2.nombre === "Mudo") {
-                        console.log(JSON.stringify(p1j2));
-                    } else if (p2j1.nombre === "Mudo") {
-                        console.log(JSON.stringify(p2j1));
-                    } else if (p2j2.nombre === "Mudo") {
-                        console.log(JSON.stringify(p2j2));
-                    }
-                }
+                // if ($scope.hayMudo) {
+                //     if (p1j1.nombre === "Mudo") {
+                //         console.log(JSON.stringify(p1j1));
+                //     } else if (p1j2.nombre === "Mudo") {
+                //         console.log(JSON.stringify(p1j2));
+                //     } else if (p2j1.nombre === "Mudo") {
+                //         console.log(JSON.stringify(p2j1));
+                //     } else if (p2j2.nombre === "Mudo") {
+                //         console.log(JSON.stringify(p2j2));
+                //     }
+                // }
 
                 modulePromises.push(apuestaFoursome.agregarCompeticionPareja(
                     p1j1, p1j2, parejas.item(idx).p1_jug_ventaja, p2j1, p2j2,
@@ -785,7 +785,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             for (var l = 0; l < $scope.partido.jugadores.length; l++) {
                 var name = $scope.partido.jugadores[l].nombre;
 
-                if (name.toLowerCase() === 'muda') {
+                if (name.toLowerCase() === 'mudo') {
                     for (var m = 0; m < 18; m++) {
                         $scope.partido.scoreBoard[l].golpes[m] =
                             $scope.partido.campo.pares[m];
