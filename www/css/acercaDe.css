@@ -1,0 +1,27 @@
+.acercaDe{
+    background-color:#1E8454 !important ;
+    color: white;
+}
+
+.titulo-acercaDe{
+    font-size: 30px;
+    padding-top: 5%;
+    font-weight:bold;
+}
+
+.contactos-acercaDe{
+    font-size: 20px;
+    font-weight:bold;
+    padding: 5% 10% 0% 10%;
+}
+
+.informacion-acercaDe{
+    padding: 5% 5% 0% 10%;
+}
+
+.imagen-acercaDe{
+    max-width:50%;
+    max-height: 50%;
+    display:block;
+    margin:auto;
+}

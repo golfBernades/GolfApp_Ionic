@@ -366,6 +366,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.seleccion-jugadores',
                 url: '/juego_foursome',
                 templateUrl: 'templates/juego_foursome.html',
                 controller: 'juegoFoursomeController'
+            })
+
+            .state('acercaDe', {
+                cache: false,
+                url: '/acercaDe',
+                templateUrl: 'templates/acercaDe.html'
             });
 
         // $urlRouterProvider.otherwise('/juego_foursome');

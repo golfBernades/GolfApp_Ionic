@@ -1,6 +1,11 @@
 <ion-nav-view>
     <ion-nav-bar class="bar-balanced" align-title="center">
         </ion-nav-buttons>
+        <ion-nav-buttons side="left">
+            <button menu-toggle="right" class="button button-icon icon-right button-clear glyphicon glyphicon-info-sign"
+                    ng-click="acercaDe()"> </button>
+
+        </ion-nav-buttons>
         <ion-nav-title>Bienvenido a Green Bet</ion-nav-title>
         <ion-nav-buttons side="right">
             <button class="{{iconStatus}}"
@@ -29,10 +34,6 @@
             <button class="button button-assertive button-block btn-full"
                     ng-click="insertTestData()">
                 Insertar datos de prueba
-            </button>
-            <button class="button button-balanced button-block btn-full"
-                    ng-click="acercaDe()">
-                Acerca De
             </button>
         </div>
     </ion-content>
