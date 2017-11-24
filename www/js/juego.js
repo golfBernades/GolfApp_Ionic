@@ -799,7 +799,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 if (name.toLowerCase() === 'mudo') {
                     for (var m = 0; m < 18; m++) {
                         $scope.partido.scoreBoard[l].golpes[m] =
-                            $scope.partido.campo.pares[m];
+                            $scope.partido.campo.pares[m].value;
 
                         $scope.tablero.datos_juego[l].golpes[m]
                             = $scope.partido.campo.pares[m].value;

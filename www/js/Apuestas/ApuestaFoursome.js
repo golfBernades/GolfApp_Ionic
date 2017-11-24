@@ -259,10 +259,10 @@ function ApuestaFoursome(partido, modoJugadores, modoPresiones) {
             p2_bola_baja = p2_j1_golpes;
         }
 
-        // console.log('Comparación hoyo ' + (hIndex + 1), 'p1_bola_alta: '
-        //     + p1_bola_alta + ', p2_bola_alta: ' + p2_bola_alta);
-        // console.log('Comparación hoyo ' + (hIndex + 1), 'p1_bola_baja: '
-        //     + p1_bola_baja + ', p2_bola_baja: ' + p2_bola_baja);
+        console.log('Comparación hoyo ' + (hIndex + 1), 'p1_bola_alta: '
+            + p1_bola_alta + ', p2_bola_alta: ' + JSON.stringify(p2_bola_alta));
+        console.log('Comparación hoyo ' + (hIndex + 1), 'p1_bola_baja: '
+            + p1_bola_baja + ', p2_bola_baja: ' + JSON.stringify(p2_bola_baja));
 
         compararGolpesPareja(competicion, p1_bola_baja, p2_bola_baja, hIndex, true);
         compararGolpesPareja(competicion, p1_bola_alta, p2_bola_alta, hIndex, false);
