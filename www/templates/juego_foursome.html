@@ -76,6 +76,10 @@
                                         {{puntuacion.nombre}}
                                         <br>
                                         {{puntuacion.handicap}}
+
+                                        <span ng-if="puntuacion.has_ventaja">
+                                            *
+                                        </span>
                                     </td>
                                     <td ng-repeat="hoyo in hoyos"
                                         class="td-golpes">

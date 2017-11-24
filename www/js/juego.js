@@ -331,33 +331,45 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
         function agregarCompeticionesFoursome(parejas, tipoCompeti, idx) {
             if (tipoCompeti == 'pareja') {
+                console.log('ventaja p1', parejas.item(idx).p1_jug_ventaja);
+                console.log('ventaja p2', parejas.item(idx).p2_jug_ventaja);
+
                 var p1j1 = {
                     id: parejas.item(idx).p1_j1_id,
                     nombre: parejas.item(idx).p1_j1_nombre,
                     idx: parejas.item(idx).p1_j1_idx,
-                    handicap: parejas.item(idx).p1_j1_handicap
+                    handicap: parejas.item(idx).p1_j1_handicap,
+                    has_ventaja: parejas.item(idx).p1_jug_ventaja == 1
                 };
 
                 var p1j2 = {
                     id: parejas.item(idx).p1_j2_id,
                     nombre: parejas.item(idx).p1_j2_nombre,
                     idx: parejas.item(idx).p1_j2_idx,
-                    handicap: parejas.item(idx).p1_j2_handicap
+                    handicap: parejas.item(idx).p1_j2_handicap,
+                    has_ventaja: parejas.item(idx).p1_jug_ventaja == 2
                 };
 
                 var p2j1 = {
                     id: parejas.item(idx).p2_j1_id,
                     nombre: parejas.item(idx).p2_j1_nombre,
                     idx: parejas.item(idx).p2_j1_idx,
-                    handicap: parejas.item(idx).p2_j1_handicap
+                    handicap: parejas.item(idx).p2_j1_handicap,
+                    has_ventaja: parejas.item(idx).p2_jug_ventaja == 1
                 };
 
                 var p2j2 = {
                     id: parejas.item(idx).p2_j2_id,
                     nombre: parejas.item(idx).p2_j2_nombre,
                     idx: parejas.item(idx).p2_j2_idx,
-                    handicap: parejas.item(idx).p2_j2_handicap
+                    handicap: parejas.item(idx).p2_j2_handicap,
+                    has_ventaja: parejas.item(idx).p2_jug_ventaja == 2
                 };
+
+                console.log('p1j1 ventaja', p1j1.has_ventaja);
+                console.log('p1j2 ventaja', p1j2.has_ventaja);
+                console.log('p2j1 ventaja', p2j1.has_ventaja);
+                console.log('p2j2 ventaja', p2j2.has_ventaja);
 
                 $scope.hayMudo = p1j1.nombre == "Mudo" || p1j2.nombre == "Mudo"
                     || p2j1.nombre == "Mudo" || p2j2.nombre == "Mudo";

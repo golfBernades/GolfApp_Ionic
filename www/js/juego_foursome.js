@@ -216,35 +216,43 @@ angular.module('starter.juego-nassau', ['ionic', 'starter.seleccion-jugadores'])
             var defered = $q.defer();
             var promise = defered.promise;
 
-            var p1_j1_idx = $scope.tablero.apuestaFoursome[index].p1_j1.idx;
-            var p1_j2_idx = $scope.tablero.apuestaFoursome[index].p1_j2.idx;
-            var p2_j1_idx = $scope.tablero.apuestaFoursome[index].p2_j1.idx;
-            var p2_j2_idx = $scope.tablero.apuestaFoursome[index].p2_j2.idx;
+            var p1_j1 = $scope.tablero.apuestaFoursome[index].p1_j1;
+            var p1_j2 = $scope.tablero.apuestaFoursome[index].p1_j2;
+            var p2_j1 = $scope.tablero.apuestaFoursome[index].p2_j1;
+            var p2_j2 = $scope.tablero.apuestaFoursome[index].p2_j2;
+            var p1_j1_idx = p1_j1.idx;
+            var p1_j2_idx = p1_j2.idx;
+            var p2_j1_idx = p2_j1.idx;
+            var p2_j2_idx = p2_j2.idx;
 
             $scope.tableroPareja.datos_juego = [
                 {
                     nombre: $scope.tablero.datos_juego[p1_j1_idx].nombre,
                     handicap: $scope.tablero.datos_juego[p1_j1_idx].handicap,
                     golpes: $scope.tablero.datos_juego[p1_j1_idx].golpes,
-                    circulos: $scope.tablero.datos_juego[p1_j1_idx].circulos
+                    circulos: $scope.tablero.datos_juego[p1_j1_idx].circulos,
+                    has_ventaja: p1_j1.has_ventaja
                 },
                 {
                     nombre: $scope.tablero.datos_juego[p1_j2_idx].nombre,
                     handicap: $scope.tablero.datos_juego[p1_j2_idx].handicap,
                     golpes: $scope.tablero.datos_juego[p1_j2_idx].golpes,
-                    circulos: $scope.tablero.datos_juego[p1_j2_idx].circulos
+                    circulos: $scope.tablero.datos_juego[p1_j2_idx].circulos,
+                    has_ventaja: p1_j2.has_ventaja
                 },
                 {
                     nombre: $scope.tablero.datos_juego[p2_j1_idx].nombre,
                     handicap: $scope.tablero.datos_juego[p2_j1_idx].handicap,
                     golpes: $scope.tablero.datos_juego[p2_j1_idx].golpes,
-                    circulos: $scope.tablero.datos_juego[p2_j1_idx].circulos
+                    circulos: $scope.tablero.datos_juego[p2_j1_idx].circulos,
+                    has_ventaja: p2_j1.has_ventaja
                 },
                 {
                     nombre: $scope.tablero.datos_juego[p2_j2_idx].nombre,
                     handicap: $scope.tablero.datos_juego[p2_j2_idx].handicap,
                     golpes: $scope.tablero.datos_juego[p2_j2_idx].golpes,
-                    circulos: $scope.tablero.datos_juego[p2_j2_idx].circulos
+                    circulos: $scope.tablero.datos_juego[p2_j2_idx].circulos,
+                    has_ventaja: p2_j2.has_ventaja
                 }
             ];
 
