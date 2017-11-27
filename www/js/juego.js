@@ -119,6 +119,8 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                     actualizarScoreUi();
 
+                    calcularPosiciones()
+
                     fixRowsAndColumns();
 
                     setTimeout(function () {
@@ -738,6 +740,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                             golpes: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                 0, 0, 0, 0, 0],
                             totales_golpes: [0, 0, 0, 0],
+                            lugar: '0',
                             circulos: [
                                 [nCirc, nCirc, nCirc, nCirc],
                                 [nCirc, nCirc, nCirc, nCirc],
@@ -901,6 +904,57 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             modulePromises.push(selectCampoPromise);
         }
 
+        function compare(a, b) {
+            if (a.golpes < b.golpes)
+                return -1;
+            if (a.golpes > b.golpes)
+                return 1;
+            return 0;
+        }
+
+        function ordinal_suffix_of(i) {
+            var j = i % 10,
+                k = i % 100;
+            if (j == 1 && k != 11) {
+                return i + "st";
+            }
+            if (j == 2 && k != 12) {
+                return i + "nd";
+            }
+            if (j == 3 && k != 13) {
+                return i + "rd";
+            }
+            return i + "th";
+        }
+
+        function calcularPosiciones() {
+            var array = [];
+            for (var i = 0; i < $scope.tablero.datos_juego.length; i++) {
+
+                if ($scope.tablero.datos_juego[i].nombre.toLowerCase() != "mudo") {
+                    array.push({
+                        idx: $scope.tablero.datos_juego[i].index,
+                        golpes: $scope.tablero.datos_juego[i].totales_golpes[3]
+                    })
+                }
+            }
+
+            array = array.sort(compare)
+            var posiciones = 1;
+            var ordinalNumber=0;
+
+            $scope.tablero.datos_juego[array[0].idx].lugar = ordinal_suffix_of(posiciones);
+
+            for(var i=0; i<array.length-1;i++){
+                if(array[i].golpes != array[i+1].golpes){
+                    posiciones++
+                }
+                ordinalNumber = ordinal_suffix_of(posiciones);
+                $scope.tablero.datos_juego[array[i+1].idx].lugar =  ordinalNumber;
+
+            }
+        }
+
         $scope.guardarPuntos = function (jugador_idx, jugador_id, hoyo) {
             $scope.juego = {};
 
@@ -954,6 +1008,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                                         var promises = [];
 
+
                                         promises.push(guardarPuntosDb(jugador_id,
                                             hoyo, golpesRealizaos, unidades));
 
@@ -962,12 +1017,14 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                                 (hoyo - 1), golpesRealizaos,
                                                 unidades));
 
-                                        $q.all(promises).then(function () {
-                                            actualizarScoreUi();
-                                            setTimeout(function () {
-                                                compartirScoreboard();
+                                        $q.all(promises)
+                                            .then(function () {
+                                                actualizarScoreUi();
+                                                calcularPosiciones()
+                                                setTimeout(function () {
+                                                    compartirScoreboard();
+                                                });
                                             });
-                                        });
                                     }
                                 } else {
                                     $scope.juego.style_golpes = 'background-color: red';
