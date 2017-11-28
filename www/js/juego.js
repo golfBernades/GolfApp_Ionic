@@ -945,12 +945,12 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
             $scope.tablero.datos_juego[array[0].idx].lugar = ordinal_suffix_of(posiciones);
 
-            for(var i=0; i<array.length-1;i++){
-                if(array[i].golpes != array[i+1].golpes){
-                    posiciones++
+            for(var i=1; i<array.length;i++){
+                if(array[i].golpes != array[i-1].golpes){
+                    posiciones = i+1
                 }
                 ordinalNumber = ordinal_suffix_of(posiciones);
-                $scope.tablero.datos_juego[array[i+1].idx].lugar =  ordinalNumber;
+                $scope.tablero.datos_juego[array[i].idx].lugar =  ordinalNumber;
 
             }
         }
