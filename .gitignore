@@ -8,6 +8,7 @@ plugins/
 /resources/**
 !/resources/icon.png
 !/resources/splash.png
+*.apk
 
 ################################################################################
 # Jetbrains
