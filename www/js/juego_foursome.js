@@ -85,17 +85,28 @@ angular.module('starter.juego-nassau', ['ionic', 'starter.seleccion-jugadores'])
         function errorLoadingNassau() {
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Error al cargar Nassau',
-                template: 'Deseas volver a reintentar cargar Nassau?'
+                template: '¿Deseas volver a reintentar cargar Nassau?'
             });
 
             confirmPopup.then(function(res) {
                 if(res) {
-                    $state.reload();
+                    actualizarFoursomePareja(0)
                 } else {
                     $state.go('juego_consulta')
                 }
             });
         }
+
+        function actualizarFoursomePareja(index) {
+            var query = 'UPDATE config_foursome SET pareja_idx=? ';
+            sql.sqlQuery(db, query, [index])
+                .then(function (res) {
+                    $state.reload();
+                })
+                .catch(function (error) {
+                    console.log(JSON.stringify(error));
+                });
+        };
 
         function obtenerJson() {
 
