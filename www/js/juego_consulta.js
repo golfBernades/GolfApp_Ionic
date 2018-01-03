@@ -57,10 +57,22 @@ angular.module('starter.juego_consulta', ['ionic'])
             var query = "UPDATE consulta_json SET clave = ?";
             sql.sqlQuery(db, query, [1])
                 .then(function (res) {
-                    $state.go('juego_foursome');
+                    actualizarFoursomePareja(0)
                 })
                 .catch(function (error) {
                     console.log(JSON.stringify(error))
+                });
+        };
+
+        function actualizarFoursomePareja(index) {
+            var query = 'UPDATE config_foursome SET pareja_idx=? ';
+            sql.sqlQuery(db, query, [index])
+                .then(function (res) {
+                    opcionesPopover.hide();
+                    $state.go('juego_foursome');
+                })
+                .catch(function (error) {
+                    console.log(JSON.stringify(error));
                 });
         };
 
@@ -93,16 +105,34 @@ angular.module('starter.juego_consulta', ['ionic'])
                         $ionicLoading.hide();
                     }, 1000);
                 }, function errorCallback(response) {
+                    /*
                     utils.popup('Error', JSON.stringify(response));
                     if (response.status == -1) {
                         utils.popup('Error', 'Error de conexión');
                     } else {
                         utils.popup('Error', response.data.error_message);
                     }
-                    $ionicLoading.hide();
+                    */
+                    errorLoadingTablero()
                 });
 
             modulePromises.push(getTableroPromise);
+        }
+
+        function errorLoadingTablero() {
+            $ionicLoading.hide();
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Error al cargar el Tablero',
+                template: 'Deseas volver a reintentar cargar el Tablero?'
+            });
+
+            confirmPopup.then(function(res) {
+                if(res) {
+                    $state.reload();
+                } else {
+                    $state.go('inicio')
+                }
+            });
         }
 
         function fixRowsAndColumns() {

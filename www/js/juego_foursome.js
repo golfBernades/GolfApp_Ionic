@@ -30,7 +30,6 @@ angular.module('starter.juego-nassau', ['ionic', 'starter.seleccion-jugadores'])
 
         $scope.verFoursomePareja = function (index) {
             var query = 'UPDATE config_foursome SET pareja_idx=? ';
-
             sql.sqlQuery(db, query, [index])
                 .then(function (res) {
                     $state.reload();
@@ -71,8 +70,8 @@ angular.module('starter.juego-nassau', ['ionic', 'starter.seleccion-jugadores'])
                     // console.log('JuegoFoursome', 'All Correcto');
                 })
                 .catch(function (error) {
-                    // console.log('JuegoFoursome', error);
-                    utils.popup('Error', error);
+                    //utils.popup('Error', error);
+                    errorLoadingNassau()
                 })
                 .finally(function () {
                     $ionicLoading.hide();
@@ -82,6 +81,21 @@ angular.module('starter.juego-nassau', ['ionic', 'starter.seleccion-jugadores'])
                 $state.reload();
             });
         });
+
+        function errorLoadingNassau() {
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Error al cargar Nassau',
+                template: 'Deseas volver a reintentar cargar Nassau?'
+            });
+
+            confirmPopup.then(function(res) {
+                if(res) {
+                    $state.reload();
+                } else {
+                    $state.go('juego_consulta')
+                }
+            });
+        }
 
         function obtenerJson() {
 
