@@ -96,10 +96,7 @@ angular.module('starter.juego_consulta', ['ionic'])
                             calcularPosiciones();
                         }, 1000);
                     } else {
-                        utils.popup('Error',
-                            'Aún no hay actualizaciones disponibles,' +
-                            ' intenta más tarde');
-                        $state.go('inicio');
+                        noActualizacionesCampo();
                     }
                     setTimeout(function () {
                         $ionicLoading.hide();
@@ -117,6 +114,25 @@ angular.module('starter.juego_consulta', ['ionic'])
                 });
 
             modulePromises.push(getTableroPromise);
+        }
+
+        function noActualizacionesCampo() {
+            $ionicLoading.hide();
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Error al cargar el Tablero',
+                template: 'Aún no hay actualizaciones disponibles,' +
+                    ' intenta más tarde',
+                cancelText: 'Cancelar',
+                cancelType: 'button-assertive'
+            });
+
+            confirmPopup.then(function(res) {
+                if(res) {
+                    $state.reload();
+                } else {
+                    deleteClave();
+                }
+            });
         }
 
         function errorLoadingTablero() {
