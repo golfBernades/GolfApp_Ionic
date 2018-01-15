@@ -123,7 +123,9 @@ angular.module('starter.juego_consulta', ['ionic'])
             $ionicLoading.hide();
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Error al cargar el Tablero',
-                template: '¿Deseas volver a reintentar cargar el Tablero?'
+                template: '¿Deseas volver a reintentar cargar el Tablero?',
+                cancelText: 'Cancelar',
+                cancelType: 'button-assertive'
             });
 
             confirmPopup.then(function(res) {

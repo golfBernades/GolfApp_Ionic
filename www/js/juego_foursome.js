@@ -85,7 +85,9 @@ angular.module('starter.juego-nassau', ['ionic', 'starter.seleccion-jugadores'])
         function errorLoadingNassau() {
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Error al cargar Nassau',
-                template: '¿Deseas volver a reintentar cargar Nassau?'
+                template: '¿Deseas volver a reintentar cargar Nassau?',
+                cancelText: 'Cancelar',
+                cancelType: 'button-assertive'
             });
 
             confirmPopup.then(function(res) {
