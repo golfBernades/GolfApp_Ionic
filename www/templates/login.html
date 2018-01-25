@@ -12,15 +12,20 @@
         <div class="contenedor">
             <div>
                 <label class="item" style="text-align: center">
-                    <i class="glyphicon glyphicon-log-in" style="font-size: 150px; color: #d8d8d8"></i>
+                    <i class="glyphicon glyphicon-log-in"
+                       style="font-size: 150px; color: #d8d8d8"></i>
                 </label>
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Correo Electrónico:</span>
-                    <input type="text" ng-model="loginData.correo" placeholder="victor@hotmail.com">
+                    <input type="email" ng-model="loginData.correo"
+                           placeholder="example@mail.com"
+                           autocomplete='off' autocorrect='off'
+                           autocapitalize='off'>
                 </label>
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Contraseña:</span>
-                    <input type="password" ng-model="loginData.password" placeholder="Suhr">
+                    <input type="password" ng-model="loginData.password"
+                           placeholder="password">
                 </label>
                 <label class="item" style="text-align: center">
                     <input type="button"
