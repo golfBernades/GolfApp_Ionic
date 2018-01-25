@@ -11,8 +11,8 @@ angular.module('starter.login', ['ionic'])
         var idUsuario;
 
         $scope.loginData = {
-            correo: 'porfirioads@gmail.com',
-            password: 'holamundo'
+            correo: '',
+            password: ''
         };
 
         $scope.goInicio = function () {
@@ -74,7 +74,7 @@ angular.module('starter.login', ['ionic'])
                         $ionicLoading.hide();
                         // utils.popup("Error de Parámetros", "Revisar los" +
                         //     " parámetros de la petición HTTP");
-                        utils.popup("ERROR", JSON.stringify(response));
+                        // utils.popup("ERROR", JSON.stringify(response));
                     }
                 });
         }
@@ -130,7 +130,7 @@ angular.module('starter.login', ['ionic'])
                         }
 
                         $ionicLoading.hide();
-                        utils.popup('Bienvenido a GolfApp',
+                        utils.popup('Bienvenido a GreenBet',
                             'Ahora puedes crear y compartir partidos');
 
                         $state.go('inicio');
@@ -151,8 +151,8 @@ angular.module('starter.login', ['ionic'])
                         }
                     } else {
                         $ionicLoading.hide();
-                        utils.popup("Error de Parámetros", "Revisar los" +
-                            " parámetros de la petición HTTP");
+                        // utils.popup("Error de Parámetros", "Revisar los" +
+                        //     " parámetros de la petición HTTP");
                     }
                 });
         }

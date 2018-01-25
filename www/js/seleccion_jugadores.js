@@ -29,7 +29,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
                     return campoSeleccionado();
                 })
                 .catch(function (error) {
-                    utils.popup('Seleccion Parejas', JSON.stringify(error));
+                    // utils.popup('Seleccion Parejas', JSON.stringify(error));
                 })
                 .finally(function () {
 

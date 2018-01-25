@@ -131,7 +131,7 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
                     }
                 })
                 .catch(function (error) {
-                    utils.popup('Error', JSON.stringify(error));
+                    // utils.popup('Error', JSON.stringify(error));
                 })
                 .finally(function () {
 

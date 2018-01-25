@@ -15,9 +15,9 @@ angular.module('starter.registro', ['ionic'])
         var usuarioID;
 
         $scope.registroData = {
-            correo: 'porfirioads@gmail.com',
-            password: 'holamundo',
-            passwordConf: 'holamundo'
+            correo: '',
+            password: '',
+            passwordConf: ''
         };
 
         $scope.goInicio = function () {
@@ -63,7 +63,7 @@ angular.module('starter.registro', ['ionic'])
                                 deleteAllDatosCuenta();
 
                                 $ionicLoading.hide();
-                                utils.popup('Bienvenido a GolfApp', 'Disfruta todos los privilegios como usuario del sistema.');
+                                utils.popup('Bienvenido a GreenBet', 'Disfruta todos los privilegios como usuario del sistema.');
                                 $state.go('inicio');
                             }
                         });
@@ -99,12 +99,12 @@ angular.module('starter.registro', ['ionic'])
                         } else {
                             correoDisponible = false;
                             $ionicLoading.hide();
-                            utils.popup('Error de conexion', 'Error de Conexión. Volver a intentar más tarde.');
+                            utils.popup('Error de conexión', 'Error de Conexión. Volver a intentar más tarde.');
                         }
                     }else{
                         correoDisponible = false;
                         $ionicLoading.hide();
-                        utils.popup('Error de Parámetros', 'Error de Parámetros incorrectos. Volver a intentar más tarde.');
+                        // utils.popup('Error de Parámetros', 'Error de Parámetros incorrectos. Volver a intentar más tarde.');
                     }
                 });
 
@@ -137,12 +137,12 @@ angular.module('starter.registro', ['ionic'])
                         } else {
                             registroCorrecto = false;
                             $ionicLoading.hide();
-                            utils.popup('Error de conexion', 'Error de Conexión. Volver a intentar más tarde.');
+                            utils.popup('Error de conexión', 'Error de Conexión. Volver a intentar más tarde.');
                         }
                     }else{
                         registroCorrecto = false;
                         $ionicLoading.hide();
-                        utils.popup('Error de Parámetros', 'Error de Parámetros incorrectos. Volver a intentar más tarde.');
+                        // utils.popup('Error de Parámetros', 'Error de Parámetros incorrectos. Volver a intentar más tarde.');
                     }
                 });
 

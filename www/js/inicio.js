@@ -48,10 +48,12 @@ angular.module('starter.inicio', ['ionic'])
                         if (response.data.exists) {
                             insertClave($scope.data.clave)
                         } else {
-                            utils.popup('Error de clave', 'No se pudo encontrar esa clave. Volver a intentar');
+                            utils.popup('Error de clave', 'No se pudo' +
+                                ' encontrar esa clave. Volver a intentar');
                         }
                     } else {
-                        utils.popup('Error de clave', 'No se pudo encontrar esa clave. Intentar más tarde.');
+                        utils.popup('Error de clave', 'No se pudo encontrar' +
+                            ' esa clave. Volver a intentar más tarde.');
                     }
 
                 }, function errorCallback(response) {
@@ -66,8 +68,8 @@ angular.module('starter.inicio', ['ionic'])
                         }
                     } else {
                         $ionicLoading.hide();
-                        utils.popup("Error de Parámetros", "Revisar los" +
-                            " parámetros de la petición HTTP");
+                        // utils.popup("Error de Parámetros", "Revisar los" +
+                        //     " parámetros de la petición HTTP");
                     }
                 });
         }
@@ -254,7 +256,7 @@ angular.module('starter.inicio', ['ionic'])
                 .catch(function (error) {
                     console.log(JSON.stringify(error));
                     defered.reject(error);
-                    utils.popup('ERROR', JSON.stringify(error));
+                    // utils.popup('ERROR', JSON.stringify(error));
                 });
 
             return promise;
@@ -432,7 +434,7 @@ angular.module('starter.inicio', ['ionic'])
                 .catch(function (error) {
                     console.log(JSON.stringify(error));
                     defered.reject(error);
-                    utils.popup('ERROR', JSON.stringify(error));
+                    // utils.popup('ERROR', JSON.stringify(error));
                 });
 
             return promise;
@@ -510,7 +512,7 @@ angular.module('starter.inicio', ['ionic'])
                     return isJugando();
                 })
                 .catch(function (error) {
-                    utils.popup('Error', JSON.stringify(error));
+                    // utils.popup('Error', JSON.stringify(error));
                 })
                 .finally(function () {
 

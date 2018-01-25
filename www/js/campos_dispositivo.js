@@ -265,9 +265,9 @@ angular.module('starter.campos-dispositivo', ['ionic'])
                         }
                     }else{
                         $ionicLoading.hide();
-                        utils.popup("Error de Parámetros", "Revisar los" +
-                            " parámetros de la petición -- HTTP");
-                        utils.popup("Error de Parámetros", JSON.stringify(response));
+                        // utils.popup("Error de Parámetros", "Revisar los" +
+                        //     " parámetros de la petición -- HTTP");
+                        // utils.popup("Error de Parámetros", JSON.stringify(response));
                         responseCountCampos = false
                     }
                 });
@@ -315,7 +315,7 @@ angular.module('starter.campos-dispositivo', ['ionic'])
                         $ionicLoading.hide();
                         // utils.popup("Error de Parámetros", "Revisar los" +
                         //     " parámetros de la petición HTTP");
-                        utils.popup("ERROR", JSON.stringify(response));
+                        // utils.popup("ERROR", JSON.stringify(response));
                     }
                 });
         }
