@@ -140,7 +140,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                     return usuarioJugando();
                 })
                 .catch(function (error) {
-                    // utils.popup('Seleccion Parejas', JSON.stringify(error));
+                    utils.popup('Seleccion Parejas', JSON.stringify(error));
                 })
                 .finally(function () {
 

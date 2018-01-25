@@ -56,6 +56,11 @@
     font-size: 40px;
 }
 
+.med-text-cell {
+    font-size: 20px;
+}
+
+
 .no-spacing-list .item {
     padding: 0;
 }
