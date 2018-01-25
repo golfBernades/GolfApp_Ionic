@@ -290,10 +290,10 @@ function ApuestaConeja(partido) {
         if (!patas && !conejas) {
             this.scoreConeja[jugadorIndex].status[hoyoIndex] = '.';
         } else if (conejas == 1) {
-            this.scoreConeja[jugadorIndex].status[hoyoIndex] = 'C'
+            this.scoreConeja[jugadorIndex].status[hoyoIndex] = 'R'
         } else if (conejas > 1) {
             this.scoreConeja[jugadorIndex].status[hoyoIndex]
-                = conejas.toString() + 'C';
+                = conejas.toString() + 'R';
         } else {
             this.scoreConeja[jugadorIndex].status[hoyoIndex] = patas.toString();
         }
