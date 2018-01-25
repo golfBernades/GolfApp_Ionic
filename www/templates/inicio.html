@@ -2,11 +2,12 @@
     <ion-nav-bar class="bar-balanced" align-title="center">
         </ion-nav-buttons>
         <ion-nav-buttons side="left">
-            <button menu-toggle="right" class="button button-icon icon-right button-clear glyphicon glyphicon-info-sign"
-                    ng-click="acercaDe()"> </button>
+            <button menu-toggle="right"
+                    class="button button-icon icon-right button-clear glyphicon glyphicon-info-sign"
+                    ng-click="acercaDe()"></button>
 
         </ion-nav-buttons>
-        <ion-nav-title>Bienvenido a Green Bet</ion-nav-title>
+        <ion-nav-title>Green Bet</ion-nav-title>
         <ion-nav-buttons side="right">
             <button class="{{iconStatus}}"
                     menu-toggle="right" ng-click="verificarSesion()">
@@ -28,11 +29,13 @@
                 Ver juego existente
             </button>
             <button class="button button-assertive button-block btn-full"
-                    ng-click="emptyDatabase()">
+                    ng-click="emptyDatabase()"
+                    ng-if="false">
                 Vaciar base de datos
             </button>
             <button class="button button-assertive button-block btn-full"
-                    ng-click="insertTestData()">
+                    ng-click="insertTestData()"
+                    ng-if="false">
                 Insertar datos de prueba
             </button>
         </div>
