@@ -6,7 +6,7 @@
 var db = null;
  // var dir = 'http://webgreenbets.com/public/';
 // var dir = 'http://www.oruss.com.mx/greenbet/public/';
-var dir = 'https://18.218.101.127/greenbet/public/';
+var dir = 'https://gps.oruss.com.mx/greenbet/public/';
 var id_user_app = "";
 var user_app = "";
 var password_app = "";
