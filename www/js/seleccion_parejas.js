@@ -8,7 +8,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                                                $ionicPlatform, $q, utils, sql) {
         var jugadoresList = [];
 
-        $scope.ejemplo = "Holaa Mundo"
+        $scope.ejemplo = "Holaa Mundo";
         $scope.listJN1 = [];
         $scope.listJN2 = [];
         $scope.listJN3 = [];
@@ -170,16 +170,21 @@ angular.module('starter.seleccion-parejas', ['ionic'])
 
             switch ($scope.presionesLista.opcion) {
                 case "2 Golpes":
-                    dataQuery[1] = 'normal';
+                    dataQuery[1] = 'california';
+                    console.log('presiones ' + $scope.presionesLista.opcion);
                     break;
                 case "3 Golpes":
-                    dataQuery[1] = 'california';
+                    dataQuery[1] = 'normal';
+                    console.log('presiones ' + $scope.presionesLista.opcion);
                     break;
             }
 
-            var query = "UPDATE config_foursome SET modo_jugadores = ?, modo_presiones = ?, pareja_idx=0";
+            var query = "UPDATE config_foursome SET modo_jugadores = ?, " +
+                "modo_presiones = ?, pareja_idx=0";
 
-            $cordovaSQLite.execute(db, query, dataQuery);
+            $cordovaSQLite.execute(db, query, dataQuery).then(function (data) {
+                console.log('Config foursome guardada', dataQuery);
+            });
         }
 
         function parejasDobles(e) {
@@ -867,11 +872,11 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                         }
                         switch (res.rows.item(0).modo_presiones) {
                             case "california":
-                                // console.log('CASE california')
+                                console.log('CASE california')
                                 $scope.presionesLista.opcion = $scope.preList[0];
                                 break;
                             case "normal":
-                                // console.log('CASE normal')
+                                console.log('CASE normal')
                                 $scope.presionesLista.opcion = $scope.preList[1];
                                 break;
                         }
@@ -975,7 +980,6 @@ angular.module('starter.seleccion-parejas', ['ionic'])
         }
 
         function getParejas() {
-
             $q.when()
                 .then(function () {
                     // console.log('1', '2');
