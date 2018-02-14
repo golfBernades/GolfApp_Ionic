@@ -131,7 +131,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                 + $scope.partidoExistente.claveConsulta
                                 + '</h1>');
                         }
-                    }, 1000);
+                    }, 2000);
 
                 });
 
@@ -569,7 +569,9 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     var query = "UPDATE consulta_json SET clave = ?";
                     sql.sqlQuery(db, query, [0])
                         .then(function (res) {
-                            $state.go('juego_foursome');
+                            // setTimeout(function () {
+                                $state.go('juego_foursome');
+                            // }, 500);
                         })
                         .catch(function (error) {
                             console.log(JSON.stringify(error))
@@ -577,7 +579,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                 }).catch(function (error) {
                     console.log(JSON.stringify(error));
                 });
-            }, 300);
+            }, 500);
         };
 
         $scope.showOpcionesPartido = function ($event) {
@@ -941,16 +943,16 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
             array = array.sort(compare)
             var posiciones = 1;
-            var ordinalNumber=0;
+            var ordinalNumber = 0;
 
             $scope.tablero.datos_juego[array[0].idx].lugar = ordinal_suffix_of(posiciones);
 
-            for(var i=1; i<array.length;i++){
-                if(array[i].golpes != array[i-1].golpes){
-                    posiciones = i+1
+            for (var i = 1; i < array.length; i++) {
+                if (array[i].golpes != array[i - 1].golpes) {
+                    posiciones = i + 1
                 }
                 ordinalNumber = ordinal_suffix_of(posiciones);
-                $scope.tablero.datos_juego[array[i].idx].lugar =  ordinalNumber;
+                $scope.tablero.datos_juego[array[i].idx].lugar = ordinalNumber;
 
             }
         }
