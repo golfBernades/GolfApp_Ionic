@@ -41,6 +41,15 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             fin: null
         };
 
+        function setJuegoIniciado(iniciado) {
+            var value = iniciado ? 1 : 0;
+            var query = "UPDATE usuario SET jugando = ?";
+            var prom = sql.sqlQuery(db, query, [value]);
+            modulePromises.push(prom);
+            jugando = iniciado;
+            console.log('El juego está iniciado: ' + iniciado);
+        }
+
         $ionicPlatform.ready(function () {
             // console.log('GolfApp', 'juego.$ionicPlatform.ready()');
 
@@ -82,6 +91,10 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
              });
              });
              */
+
+            $scope.sesionActual = sesionActual;
+
+            setJuegoIniciado(true);
 
             showLoading();
 
@@ -125,12 +138,17 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
                     setTimeout(function () {
                         $ionicLoading.hide();
-                        if ($scope.partidoExistente.idServidor) {
-                            utils.popup('Clave de consulta',
-                                '<h1 class="monospaced">'
-                                + $scope.partidoExistente.claveConsulta
-                                + '</h1>');
+
+
+                        if (sesionActual) {
+                            if ($scope.partidoExistente.idServidor) {
+                                utils.popup('Clave de consulta',
+                                    '<h1 class="monospaced">'
+                                    + $scope.partidoExistente.claveConsulta
+                                    + '</h1>');
+                            }
                         }
+
                     }, 2000);
 
                 });
@@ -439,17 +457,20 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
         function sincronizarPartidos() {
             // console.log('GolfApp', 'sincronizarPartidos');
 
-            if (!$scope.partidoExistente.idServidor) {
-                // console.log('GolfApp', 'Partido aún no sincronizado');
+            if (sesionActual) {
+                if (!$scope.partidoExistente.idServidor) {
+                    // console.log('GolfApp', 'Partido aún no sincronizado');
 
-                modulePromises.push(subirPartido());
+                    modulePromises.push(subirPartido());
 
-                $q.all(modulePromises).then(function () {
-                    updatePartidoLocal();
-                });
-            } else {
-                // console.log('GolfApp', 'Partido ya sincronizado');
+                    $q.all(modulePromises).then(function () {
+                        updatePartidoLocal();
+                    });
+                } else {
+                    // console.log('GolfApp', 'Partido ya sincronizado');
+                }
             }
+
         }
 
         function updatePartidoLocal() {
@@ -570,7 +591,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                     sql.sqlQuery(db, query, [0])
                         .then(function (res) {
                             // setTimeout(function () {
-                                $state.go('juego_foursome');
+                            $state.go('juego_foursome');
                             // }, 500);
                         })
                         .catch(function (error) {
@@ -603,7 +624,7 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             confirmPopup.then(function (res) {
                 if (res) {
                     modulePromises.push(finalizarPartidoLocal());
-                    modulePromises.push(usuarioJugando());
+                    modulePromises.push(setJuegoIniciado(false));
                     finalizarPartidoServer();
                     $state.go('inicio');
 
@@ -622,6 +643,9 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
 
             var deletePuntosQuery = 'DELETE FROM puntuaciones';
             var deletePartidoQuery = 'DELETE FROM partido';
+            var deselectCampo = 'UPDATE campo SET seleccionado = 0';
+
+            $cordovaSQLite.execute(db, deselectCampo);
 
             var deletePuntos = $cordovaSQLite.execute(db, deletePuntosQuery)
                 .then(function (res) {
@@ -638,46 +662,39 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             modulePromises.push(deletePuntos);
         }
 
-        function usuarioJugando() {
-
-            var query = "UPDATE usuario SET jugando = 0";
-            var jugando = sql.sqlQuery(db, query, [])
-                .then(function () {
-                    modulePromises.push(jugando);
-                })
-            modulePromises.push(jugando);
-        }
-
         function finalizarPartidoServer() {
             // console.log('GolfApp', 'finalizarPartidoServer');
 
-            var httpRequest = serviceHttpRequest.createPutHttpRequest(
-                dir + 'partido_finalizar',
-                {
-                    fin: $scope.finPartido,
-                    clave_edicion: $scope.partidoExistente.claveEdicion,
-                    partido_id: $scope.partidoExistente.idServidor
-                }
-            );
+            if (sesionActual) {
+                var httpRequest = serviceHttpRequest.createPutHttpRequest(
+                    dir + 'partido_finalizar',
+                    {
+                        fin: $scope.finPartido,
+                        clave_edicion: $scope.partidoExistente.claveEdicion,
+                        partido_id: $scope.partidoExistente.idServidor
+                    }
+                );
 
-            $http(httpRequest)
-                .then(function successCallback(response) {
-                    if (!response.data.ok) {
-                        // console.log('GolfApp', response.config.url + '['
-                        //     + response.config.method + ']: '
-                        //     + response.data.error_message);
-                    }
-                }, function errorCallback(response) {
-                    if (response.status == -1) {
-                        // console.log('GolfApp', response.config.url + '['
-                        //     + response.config.method + ']: '
-                        //     + 'Error de conexión');
-                    } else {
-                        // console.log('GolfApp', response.config.url + '['
-                        //     + response.config.method + ']: '
-                        //     + response.data.error_message);
-                    }
-                });
+                $http(httpRequest)
+                    .then(function successCallback(response) {
+                        if (!response.data.ok) {
+                            // console.log('GolfApp', response.config.url + '['
+                            //     + response.config.method + ']: '
+                            //     + response.data.error_message);
+                        }
+                    }, function errorCallback(response) {
+                        if (response.status == -1) {
+                            // console.log('GolfApp', response.config.url + '['
+                            //     + response.config.method + ']: '
+                            //     + 'Error de conexión');
+                        } else {
+                            // console.log('GolfApp', response.config.url + '['
+                            //     + response.config.method + ']: '
+                            //     + response.data.error_message);
+                        }
+                    });
+            }
+
         }
 
         function showLoading() {
@@ -1024,8 +1041,10 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
                                                 actualizarScoreUi();
                                                 calcularPosiciones()
                                                 setTimeout(function () {
-                                                    compartirScoreboard();
-                                                });
+                                                    if (sesionActual) {
+                                                        compartirScoreboard();
+                                                    }
+                                                }, 200);
                                             });
                                     }
                                 } else {
@@ -1309,7 +1328,9 @@ angular.module('starter.juego', ['ionic', 'starter.seleccion-jugadores'])
             // console.log('juego.$scope.actualizarJuego');
             actualizarScoreUi();
             setTimeout(function () {
-                compartirScoreboard();
+                if (sesionActual) {
+                    compartirScoreboard();
+                }
             }, 1000);
         };
 

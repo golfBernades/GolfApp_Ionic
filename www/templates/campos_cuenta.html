@@ -18,7 +18,8 @@
     <ion-content class="has-header">
         <div class="contenedor content-after-top-tabs">
             <div class="lista-campos-cuenta">
-                <ion-list ng-repeat="campo in campos" ng-model="campos">
+                <ion-list ng-if="sesionActual" ng-repeat="campo in campos"
+                          ng-model="campos">
                     <ion-radio class="item item-avatar" ng-model="select" ng-value="campo.seleccionado"
                                on-hold="popupOpcionesCampo(campo.id, campo.nombre, $index)"
                                ng-change="campoSeleccionado(campo)">
@@ -27,6 +28,9 @@
                     </ion-radio>
 
                 </ion-list>
+                <p ng-if="!sesionActual" style="padding: 10px;">
+                    Debes iniciar sesión para seleccionar campos de la cuenta.
+                </p>
             </div>
         </div>
     </ion-content>

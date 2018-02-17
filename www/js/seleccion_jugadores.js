@@ -59,30 +59,35 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         }
 
         function campoSeleccionado() {
-
             var defered = $q.defer();
             var promise = defered.promise;
-            var query = "SELECT seleccionado FROM campo WHERE seleccionado = (?) OR seleccionado = (?)";
 
-            sql.sqlQuery(db, query, [1, 2])
-                .then(function (res) {
-                    if (res.rows.length > 0) {
-                        switch (res.rows.item(0).seleccionado) {
-                            case 1:
-                                $state.go('tabs.camp-dis');
-                                break;
-                            case 2:
-                                $state.go('tabs.camp-cue');
-                                break;
+            if(sesionActual) {
+                var query = "SELECT seleccionado FROM campo WHERE seleccionado = (?) OR seleccionado = (?)";
+
+                sql.sqlQuery(db, query, [1, 2])
+                    .then(function (res) {
+                        if (res.rows.length > 0) {
+                            switch (res.rows.item(0).seleccionado) {
+                                case 1:
+                                    $state.go('tabs.camp-dis');
+                                    break;
+                                case 2:
+                                    $state.go('tabs.camp-cue');
+                                    break;
+                            }
+                        } else {
+                            $state.go('tabs.camp-dis');
                         }
-                    } else {
-                        $state.go('tabs.camp-dis');
-                    }
-                    defered.resolve("OK");
-                })
-                .catch(function (err) {
-                    defered.reject(err);
-                });
+                        defered.resolve("OK");
+                    })
+                    .catch(function (err) {
+                        defered.reject(err);
+                    });
+            } else {
+                $state.go('tabs.camp-dis');
+                defered.resolve("OK");
+            }
 
             return promise;
         }
@@ -340,6 +345,7 @@ angular.module('starter.seleccion-jugadores', ['ionic'])
         }
 
         $ionicPlatform.ready(function () {
+            $scope.sesionActual = sesionActual;
             getJugadores();
         });
 

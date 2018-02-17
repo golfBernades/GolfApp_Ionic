@@ -114,22 +114,6 @@ angular.module('starter.seleccion-parejas', ['ionic'])
             return promise;
         }
 
-        function usuarioJugando() {
-            var defered = $q.defer();
-            var promise = defered.promise;
-
-            var query = "UPDATE usuario SET jugando = 1";
-            sql.sqlQuery(db, query, [])
-                .then(function () {
-                    $state.go('juego')
-                })
-                .catch(function (error) {
-                    defered.reject(error);
-                });
-
-            return promise
-        }
-
         function seleccionarJuego() {
 
             $q.when()
@@ -137,7 +121,7 @@ angular.module('starter.seleccion-parejas', ['ionic'])
                     return parejasFormadas();
                 })
                 .then(function () {
-                    return usuarioJugando();
+                    $state.go('juego')
                 })
                 .catch(function (error) {
                     utils.popup('Seleccion Parejas', JSON.stringify(error));

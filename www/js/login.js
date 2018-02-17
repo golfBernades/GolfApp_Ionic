@@ -81,7 +81,8 @@ angular.module('starter.login', ['ionic'])
 
         function guardarUsuarioPhone(idUser) {
             var query = "INSERT INTO usuario (id, email, password) VALUES (?,?,?)";
-            $cordovaSQLite.execute(db, query, [idUser, $scope.loginData.correo, $scope.loginData.password]);
+            $cordovaSQLite.execute(db, query, [idUser, $scope.loginData.correo,
+                $scope.loginData.password]);
 
             id_user_app = idUser;
             user_app = $scope.loginData.correo;
@@ -114,7 +115,7 @@ angular.module('starter.login', ['ionic'])
                 .then(function successCallback(response) {
                     if (response.data.ok) {
 
-                        deleteAllDatosCuenta();
+                        deleteCamposCuenta();
 
                         var campos = response.data.campos
 
@@ -157,7 +158,7 @@ angular.module('starter.login', ['ionic'])
                 });
         }
 
-        function deleteAllDatosCuenta() {
+        function deleteCamposCuenta() {
             var query = 'DELETE FROM campo WHERE cuenta = 1';
             $cordovaSQLite.execute(db, query);
         }

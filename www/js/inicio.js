@@ -13,11 +13,12 @@ angular.module('starter.inicio', ['ionic'])
         $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
 
         $scope.seleccionarJugadores = function () {
-            if (sesionActual) {
-                $state.go('seleccion_jugadores');
-            } else {
-                confirmSesion()
-            }
+            $state.go('seleccion_jugadores');
+            // if (sesionActual) {
+            //     $state.go('seleccion_jugadores');
+            // } else {
+            //     confirmSesion()
+            // }
         };
 
         $scope.verificarSesion = function () {
@@ -108,6 +109,7 @@ angular.module('starter.inicio', ['ionic'])
             confirmPopup.then(function (res) {
                 if (res) {
                     deleteUser();
+                    deselectCampo();
                     sesionActual = false;
                     $scope.iconStatus = "button button-icon icon-right button-clear glyphicon glyphicon-log-in";
                 }
@@ -116,6 +118,11 @@ angular.module('starter.inicio', ['ionic'])
 
         function deleteUser() {
             var query = 'DELETE FROM usuario';
+            $cordovaSQLite.execute(db, query);
+        }
+
+        function deselectCampo() {
+            var query = 'UPDATE campo SET seleccionado = 0';
             $cordovaSQLite.execute(db, query);
         }
 
@@ -458,10 +465,12 @@ angular.module('starter.inicio', ['ionic'])
             var defered = $q.defer();
             var promise = defered.promise;
 
+            console.log('Jugando: ' + jugando);
+
             if (jugando) {
                 $scope.mensajeJuego = "Continuar juego"
             } else {
-                $scope.mensajeJuego = "Inciar nuevo juego"
+                $scope.mensajeJuego = "Iniciar nuevo juego"
             }
             defered.resolve("OK");
 
@@ -479,13 +488,9 @@ angular.module('starter.inicio', ['ionic'])
                         id_user_app = res.rows.item(0).id;
                         user_app = res.rows.item(0).email;
                         password_app = res.rows.item(0).password;
-
                         sesionActual = true;
-                        if (res.rows.item(0).jugando == 0) {
-                            jugando = false
-                        } else {
-                            jugando = true;
-                        }
+                        jugando = res.rows.item(0).jugando != 0;
+                        console.log('jugando database: ' + jugando);
                     } else {
                         sesionActual = false;
                     }

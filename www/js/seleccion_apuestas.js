@@ -85,22 +85,6 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
             return promise
         }
 
-        function usuarioJugando() {
-            var defered = $q.defer();
-            var promise = defered.promise;
-
-            var query = "UPDATE usuario SET jugando = 1";
-            sql.sqlQuery(db, query, [])
-                .then(function () {
-                    defered.resolve("OK");
-                })
-                .catch(function (error) {
-                    defered.reject(error);
-                });
-
-            return promise
-        }
-
         function noSeleccionApuesta() {
 
             var confirmPopup = $ionicPopup.confirm({
@@ -119,9 +103,6 @@ angular.module('starter.seleccion-apuestas', ['ionic'])
             $q.when()
                 .then(function () {
                     return apuestasSeleccionadas();
-                })
-                .then(function () {
-                    return usuarioJugando();
                 })
                 .then(function () {
                     if(apuestas){

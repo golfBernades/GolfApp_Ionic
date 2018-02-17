@@ -336,6 +336,7 @@ angular.module('starter.campos-dispositivo', ['ionic'])
         }
 
         $ionicPlatform.ready(function () {
+            $scope.sesionActual = sesionActual;
             servicePantallas.savePantalla(3);
             getCampos();
         });

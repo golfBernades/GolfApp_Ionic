@@ -189,6 +189,7 @@ angular.module('starter.campos-cuenta', ['ionic'])
         }
 
         $ionicPlatform.ready(function () {
+            $scope.sesionActual = sesionActual;
             getCampos();
         });
 
