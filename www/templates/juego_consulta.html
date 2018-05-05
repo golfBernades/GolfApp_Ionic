@@ -125,7 +125,13 @@
                             </button>
                         </td>
                         <td class="vertical-centered-cell big-text-cell">
-                            {{puntuacion.totales_golpes[0]}}
+                            <span class="big-text-cell">
+                                {{puntuacion.totales_golpes[0]}}
+                            </span>
+                            <span style="font-size: 20px; bottom: 0;"
+                                  ng-if="tablero.rayasSeleccionada">
+                                {{puntuacion.apuestaRayas.units[8]}}
+                            </span>
                         </td>
                         <td ng-repeat="hoyo in hoyos10a18">
                             <button class="button btn-celda-juego"
@@ -171,10 +177,23 @@
                             </button>
                         </td>
                         <td class="vertical-centered-cell big-text-cell">
-                            {{puntuacion.totales_golpes[1]}}
+                            <span class="big-text-cell">
+                                {{puntuacion.totales_golpes[1]}}
+                            </span>
+                            <span style="font-size: 20px; bottom: 0;"
+                                  ng-if="tablero.rayasSeleccionada">
+                                {{puntuacion.apuestaRayas.units[17]}}
+                            </span>
                         </td>
                         <td class="vertical-centered-cell big-text-cell">
-                            {{puntuacion.totales_golpes[2]}}
+                            <span class="big-text-cell">
+                                {{puntuacion.totales_golpes[2]}}
+                            </span>
+                            <span style="font-size: 20px; bottom: 0;"
+                                  ng-if="tablero.rayasSeleccionada">
+                                {{puntuacion.apuestaRayas.units[8] +
+                                puntuacion.apuestaRayas.units[17]}}
+                            </span>
                         </td>
                         <td class="vertical-centered-cell big-text-cell">
                             {{puntuacion.handicap}}
