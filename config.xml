@@ -96,7 +96,6 @@
     <allow-navigation href="http://192.168.0.10:8100" />
     <allow-navigation href="http://192.168.0.21:8100" />
     <allow-navigation href="http://192.168.56.1:8101" />
-    <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
     <plugin name="cordova-plugin-screen-orientation" spec="^2.0.1" />
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
     <plugin name="cordova-plugin-whitelist" spec="https://github.com/apache/cordova-plugin-whitelist.git" />
